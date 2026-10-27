@@ -4,7 +4,5 @@
 [environments.development]
 store = "german-products-baltics-6f7htux7.myshopify.com"
 
-# Add once the staging theme exists (Online Store → Themes → theme ID):
-# [environments.staging]
-# store = "german-products-baltics-6f7htux7.myshopify.com"
-# theme = "<staging theme ID>"
+# The `main` and `develop` git branches sync to their own themes through Shopify's
+# GitHub integration, so deploy by pushing to git, not with `shopify theme push`.
