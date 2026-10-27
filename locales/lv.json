@@ -1296,6 +1296,154 @@
       "prefecture": "Prefektūra",
       "province": "Province",
       "state": "Valsts"
+    },
+    "notices": {
+      "address": {
+        "error_deleting": "Kļūda, dzēšot adresi."
+      },
+      "line_item": {
+        "item_status": {
+          "add_variant": "Pievienots %{delta}",
+          "increment_item": "Pievienots %{delta}",
+          "decrement_item": "Noņemti %{delta} no %{total}",
+          "decrement_fulfilled_line_item": "Atgriezti %{delta} no %{total}",
+          "decrement_return_line_item": "Izņemts %{delta} no atgriešanas"
+        }
+      },
+      "order": {
+        "not_available": "Šis pasūtījums nav pieejams",
+        "financial_status": {
+          "authorized": "Autorizēts",
+          "pending": "Gaida apstrādi",
+          "paid": "Apmaksāts",
+          "unpaid": "Neapmaksāts",
+          "voided": "Anulēts",
+          "partially_paid": "Daļēji apmaksāts",
+          "partially_refunded": "Daļēji atmaksāts",
+          "refunded": "Atmaksāts",
+          "expired": "Beidzies derīguma termiņš"
+        },
+        "fulfillment_status": {
+          "fulfilled": "Izpildīts",
+          "complete": "Pabeigt",
+          "partial": "Daļējs",
+          "unfulfilled": "Neapmierināts",
+          "restocked": "Atkārtoti noliktavā"
+        },
+        "transaction_status": {
+          "success": "Panākumi",
+          "pending": "Gaida apstrādi",
+          "failure": "Neveiksme",
+          "error": "Kļūda"
+        },
+        "cancel_reason": {
+          "declined": "Maksājums noraidīts",
+          "inventory": "Preces nav pieejamas",
+          "fraud": "Krāpniecisks pasūtījums",
+          "customer": "Klients mainīja/atcēla pasūtījumu",
+          "staff": "Personāla kļūda",
+          "other": "Cits"
+        },
+        "cash_on_delivery": "Pēcapmaksa (skaidrā naudā piegādes brīdī)"
+      },
+      "cart": {
+        "not_found": "Grozs nav atrasts",
+        "only_n_items_available": "Grozā varat pievienot tikai %{count} %{name}.",
+        "too_many_items_in_cart": "Jūs vairs nevarat pievienot grozam vairāk %{name}.",
+        "only_one_added_to_cart": "Preču pieejamības dēļ jūsu grozam tika pievienota tikai 1 prece.",
+        "only_n_added_to_cart": "Pieejamības dēļ grozam tika pievienotas tikai %{quantity} preces.",
+        "maximum_available_quantity_reached": "Šīs preces maksimālais daudzums jau ir jūsu grozā.",
+        "less_than_minimum": "Šai precei ir noteikts vismaz %{min} daudzums.",
+        "more_than_maximum": "Šai precei ir noteikts maksimums %{max}.",
+        "not_respect_step": "Šo vienumu varat pievienot tikai pa %{step}.",
+        "all_items_in_cart": "Visi %{count} %{name} ir jūsu grozā.",
+        "empty_update": "nevar atjaunināt tukšu grozu",
+        "missing_parameters": "nav derīga ID vai rindas parametra",
+        "generic_error": "Kļūda grozā",
+        "invalid_input": "%{parameter} parametrs nav derīgs.",
+        "product_not_available": "Produkts nav pieejams",
+        "too_many_line_items_error": "Jūsu grozā nevar būt vairāk par %{max} precēm.",
+        "link_expired": "Saite vairs nav derīga",
+        "link_no_longer_exists": "Saite vairs nepastāv.",
+        "stock_problems_html": "Viens vai vairāki vienumi vairs nav pieejami. Mēs esam sagatavojuši <a href=\"%{link}\">atjauninātu grozu</a>.",
+        "changed": "Grozs mainīts",
+        "items_changed": "Viens vai vairāki vienumi ir mainīti.",
+        "product_sold_out": "Prece '%{name}' jau ir izpārdota.",
+        "variant_not_found": "Neizdevās atrast variantu",
+        "variant_requires_selling_plan": "Variantu var iegādāties tikai ar pārdošanas plānu.",
+        "selling_plan_not_available_for_company_locations": "B2B pasūtījumiem ir pieejams tikai vienreizējs pirkums.",
+        "digital_product_not_available_for_company_locations": "Šo preci nevar pievienot B2B pasūtījumam",
+        "buyer_cannot_purchase_for_company_locations": "Šajā atrašanās vietā iegādāties nevar",
+        "selling_plan_not_applicable": "Pārdošanas plānu nevar piemērot variantam",
+        "shipping_address_not_required": "Šim grozam piegāde nav nepieciešama",
+        "shipping_address_invalid": "Radās problēma, aprēķinot jūsu piegādes izmaksas. Turpiniet noformēt pasūtījumu, lai izvēlētos piegādes veidu pirms pasūtījuma pabeigšanas.",
+        "bundle_requires_components": "Komplektpreci \"%{name}\" nevar pievienot grozam.",
+        "gift_card_with_components_not_supported": "Komplektpreci \"%{name}\" nevar pievienot grozam.",
+        "gift_card_price_must_be_greater_than_zero": "Komplektpreci \"%{name}\" nevar pievienot grozam.",
+        "gift_card_recipient_validation_error": "Norādītais dāvanu kartes saņēmējs nav derīgs",
+        "view_lines_limit_reached": "Rindiņu skaits nedrīkst pārsniegt %{limit}",
+        "cart_too_large": "Grozs ir pārāk liels.",
+        "cart_attributes_error": "Groza atribūti satur nederīgus datus.",
+        "merchandise_line_transformers": {
+          "run_error": "Radās kļūda jūsu grozā."
+        },
+        "merchandise_not_applicable": "Preci nav iespējams iegādāties šādā komplektācijā."
+      },
+      "storefront": {
+        "invalid_password": "Nepareiza parole, lūdzu, mēģiniet vēlreiz."
+      },
+      "tags": {
+        "add_articles": "Sašaurināt meklēšanu līdz rakstiem, kuriem ir arī tags %{tag}",
+        "add_products": "Sašaurināt atlasi līdz produktiem, kas atbilst tagam %{tag}",
+        "remove_articles": "Paplašināt meklēšanu uz rakstiem, kas nav atzīmēti ar %{tag}",
+        "remove_products": "Noņemt tagu %{tag}"
+      }
+    },
+    "email_marketing": {
+      "subscribed": {
+        "confirmation": "Paldies, ka abonējāt mūsu adresātu sarakstu.",
+        "disclaimer": "Jūs varat anulēt abonementu jebkurā laikā.",
+        "unsubscribe": "Abonēt atcelt"
+      },
+      "unsubscribed": {
+        "confirmation": "Jūs esat atteicies no mūsu adresātu saraksta.",
+        "disclaimer": "Jūs vairs nesaņemsiet no mums mārketinga jaunumus. Jūs jebkurā laikā varat pieteikties to saņemšanai atkārtoti.",
+        "preview": "Jūs priekšskatāt to, ko klienti redzēs, kad atteiksies no abonementa."
+      },
+      "unsubscribe_confirm": {
+        "title": "Atteikties no e-pasta ziņojumiem?",
+        "description": "Jūs vairs nesaņemsiet mārketinga e-pasta ziņojumus no %{shop_name}",
+        "button": "Abonēt atcelt"
+      },
+      "sms_unsubscribe_confirm": {
+        "message": "Vai esat pārliecināts, ka vēlaties atteikties no SMS mārketinga?",
+        "button": "Abonēt atcelt"
+      },
+      "open_tracking": {
+        "opt_in": {
+          "opted_in_html": "<b>Jūs esat piekritis e-pasta atvēršanas izsekošanai.</b>",
+          "visibility": "E-pasta atvēršanas rādītāji tiks atspoguļoti anonīmi. Mēs redzēsim tikai to, vai esat atvēris e-pastu kā daļu no kopējā e-pasta atvēršanas rādītāja.",
+          "opt_out_html": "Varat <a style=\"text-decoration:underline;\" href=\"%{link}\">atteikties</a> no e-pasta atvēršanas izsekošanas, ja nevēlaties kopīgot šo informāciju.",
+          "preview_bar": "Jūs skatāt priekšskatījumu tam, ko klienti redzēs, kad piekritīs e-pasta atvēršanas izsekošanai."
+        },
+        "opt_out": {
+          "opted_out_html": "<b>Jūs esat atteicies no e-pasta atvēršanas izsekošanas.</b>",
+          "visibility": "Mēs neredzēsim, vai esat atvēris mūsu e-pastus.",
+          "opt_in_html": "<a style=\"text-decoration:underline;\" href=\"%{link}\">Piekrītiet</a> e-pasta atvēršanas izsekošanai.",
+          "preview_bar": "Jūs skatāt priekšskatījumu tam, ko klienti redzēs, kad atteiksies no e-pasta atvēršanas izsekošanas."
+        },
+        "no_longer_track": {
+          "status_html": "<b>Mēs vairs neizsekojam e-pasta atvēršanas gadījumus.</b>",
+          "privacy_policy": "Pēc šī e-pasta nosūtīšanas mēs atjauninājām savu privātuma politiku un vairs neuzskaitām e-pasta atvēršanas reizes."
+        },
+        "track": {
+          "status_html": "<b>Tiek ziņots par e-pasta atvēršanas izsekošanu.</b>",
+          "visibility": "Mēs redzēsim tikai to, vai esat atvēris e-pastu, kā daļu no kopējā e-pasta atvēršanas rādītāja."
+        },
+        "updated_policy": {
+          "status_html": "<b>Tiek ziņots par e-pasta atvēršanas izsekošanu.</b>"
+        }
+      }
     }
   },
   "customer_accounts": {
@@ -1690,142 +1838,8 @@
             "returning_to_sender": "Atgriešana sūtītājam"
           },
           "delivery_progress_for_shipment_accessibility_label": "Piegādes gaita sūtījumam {{position}}"
-        },
-        "arrives_today": "Pienāk šodien",
-        "arrives_tomorrow": "Ieradīsies rīt",
-        "delivery_estimate_backed_by": "Finansēts no",
-        "delivery_estimate_delayed_description": "Piegādes uz jūsu reģionu ir lēnākas nekā parasti. Jūsu pasūtījums var aizkavēties.",
-        "delivery_estimate_delayed_title": "Aizkavēts",
-        "delivery_exception_shop_promise_delivered_late_description": "Jūsu pasūtījumam ir Shop Promise garantija. Tā kā tas tika piegādāts ar nokavēšanos, pieprasiet {{amount}} apmērā Shop Cash.",
-        "pickup_address_map_link_accessibility_label": "Skatīt paņemšanas vietu {{address}} kartē (atveras jaunā logā)",
-        "pickup_location_label": "Saņemšanas vieta:",
-        "predicted_by_shop": "Prognozēts, izmantojot Shop"
-      },
-      "status_mark_as_delivered": "Atzīmēt kā piegādātu",
-      "fulfillment_status_title": "Izpildes statuss: {{status}}",
-      "buy_again": "Pirkt vēlreiz",
-      "buy_again_accessibility_label": "Pirkt vēlreiz pasūtījumam {{orderId}}",
-      "manage": "Pārvaldīt",
-      "manage_accessiblity_label": "Pārvaldīt pasūtījumu {{orderId}}",
-      "group_title_label": "Daļa no: {{groupTitle}}",
-      "group_title_label_with_parent": "Par: {{groupTitle}}"
-    },
-    "order_details": {
-      "addresses_section_title": "Norēķinu un piegādes informācija",
-      "order_details": "Pasūtījuma informācija",
-      "order_details_skeleton_accessibility_label": "Pierakstieties, lai skatītu visu pasūtījuma informāciju.",
-      "billing_address": "Norēķinu adrese",
-      "card_ending_with": "beidzas ar {{lastDigits}}",
-      "contact": "Kontakti",
-      "company": "Uzņēmums",
-      "fully_refunded_label": "ATLĪDZINĀTS",
-      "fulfillment_images": {
-        "one_products_accessibility_label": "Izpilde ietver {{lineItemName1}} daudzums {{lineItemQuantity1}}",
-        "two_products_accessibility_label": "Izpilde ietver: {{lineItemName1}} daudzums {{lineItemQuantity1}}, {{lineItemName2}} daudzums {{lineItemQuantity2}}",
-        "three_products_accessibility_label": "Izpildē iekļauts: {{lineItemName1}} daudzums {{lineItemQuantity1}}, {{lineItemName2}} daudzums {{lineItemQuantity2}}, {{lineItemName3}} daudzums {{lineItemQuantity3}}",
-        "four_products_accessibility_label": "Izpilde ietver {{lineItemName1}} daudzums {{lineItemQuantity1}}, {{lineItemName2}} daudzums {{lineItemQuantity2}}, {{lineItemName3}} daudzums {{lineItemQuantity3}}, {{lineItemName4}} daudzums {{lineItemQuantity4}}",
-        "five_products_accessibility_label": "Izpildē iekļauts: {{lineItemName1}} daudzums {{lineItemQuantity1}}, {{lineItemName2}} daudzums {{lineItemQuantity2}}, {{lineItemName3}} daudzums {{lineItemQuantity3}}, {{lineItemName4}} daudzums {{lineItemQuantity4}}, {{lineItemName5}} daudzums {{lineItemQuantity5}}",
-        "six_products_accessibility_label": "Izpilde ietver {{lineItemName1}} daudzums {{lineItemQuantity1}}, {{lineItemName2}} daudzums {{lineItemQuantity2}}, {{lineItemName3}} daudzums {{lineItemQuantity3}}, {{lineItemName4}} daudzums {{lineItemQuantity4}}, {{lineItemName5}} daudzums {{lineItemQuantity5}}, {{lineItemName6}} daudzums {{lineItemQuantity6}}",
-        "six_and_more_products_accessibility_label": "Pasūtījums ietver: {{lineItemName1}} daudzums {{lineItemQuantity1}}, {{lineItemName2}} daudzums <span>{{lineItemQuantity2}}</span>, {{lineItemName3}} daudzums {{lineItemQuantity3}}, {{lineItemName4}} daudzums {{lineItemQuantity4}}, {{lineItemName5}} daudzums {{lineItemQuantity5}}, {{lineItemName6}} daudzums {{lineItemQuantity6}} un citi."
-      },
-      "group_title_label": "Daļa no: {{groupTitle}}",
-      "group_title_label_with_parent": "Par: {{groupTitle}}",
-      "view_controls": {
-        "gallery": "Galerija",
-        "list": "Saraksts"
-      },
-      "grouped_view_components": {
-        "expand_line_items": "Rādīt {{count}} vienības",
-        "collapse_line_items": "Slēpt {{count}} vienības",
-        "line_item_summary_list_accessibility_label": "Preces komplektā {{productTitle}}"
-      },
-      "discount": "Atlaide",
-      "discount_order_stacking": {
-        "one": "Pasūtījuma atlaide",
-        "other": "Pasūtījumu atlaides"
-      },
-      "price_before_discount_accessibility_label": "Sākotnējā cena",
-      "price_after_discount_accessibility_label": "Atlaides cena",
-      "compare_at_sale": "Pārdošana ({{saleAmount}})",
-      "hide_items": "Paslēpt vienumus",
-      "loading": "Notiek pasūtījuma informācijas ielāde",
-      "loading_finished_accessibility_message": "Pasūtījuma informācija ir ielādēta",
-      "location": "Atrašanās vieta",
-      "image_gallery": {
-        "next": "Rādīt nākamos vienumus",
-        "previous": "Rādīt iepriekšējos vienumus",
-        "load_more_items": {
-          "one": "Rādīt vēl {{count}} vienumus",
-          "other": "Rādīt vēl {{count}} vienumus"
         }
-      },
-      "mobile_summary_toggle_button": {
-        "open": "Rādīt pasūtījuma kopsavilkumu",
-        "closed": "Paslēpt pasūtījuma kopsavilkumu"
-      },
-      "no_data": "Neviens",
-      "no_data_provided_accessibility_label": "{{fieldName}} ir tukšs",
-      "not_applicable": "N/P",
-      "paid_amount": "Apmaksāts",
-      "partially_refunded_label": "DAĻĒJI ATMAKSĀTS",
-      "payment_confirmation": {
-        "payment_received": "Paldies! Jūsu {{amount}} maksājums tika saņemts.",
-        "full_payment_received": "Paldies! Jūsu {{amount}} maksājums ir saņemts un šis pasūtījums ir pilnībā apmaksāts.",
-        "payment_authorized": "Paldies! Atlikums tiks atjaunināts pēc maksājuma saņemšanas.",
-        "dismiss_label": "Noraidīt maksājuma apstiprinājumu"
-      },
-      "payment": {
-        "status_in_review": "Maksājums jāveic pēc pārskatīšanas",
-        "status_unpaid": "Maksājuma termiņš: {{date}}",
-        "title": "Maksājums",
-        "payment_type": {
-          "gift_card": "Dāvanu karte",
-          "store_credit": "Veikala kredīts",
-          "money_order": "Naudas pārvedums",
-          "cash_on_delivery": "Pēcapmaksa (skaidrā naudā piegādes brīdī)",
-          "bank_deposit": "Bankas depozīts",
-          "manual": "Rokasgrāmata"
-        },
-        "shop_pay_installments": {
-          "summary": "Veikala nomaksa",
-          "view_schedule": "Skatīt grafiku"
-        },
-        "transactions": {
-          "show_all": "Rādīt visu",
-          "show_less": "Rādīt mazāk",
-          "details": "Sīkāka informācija",
-          "payment_details": "Maksājuma informācija"
-        },
-        "emv_details": {
-          "auth": "AUT.:",
-          "aid": "PALĪDZĪBA:",
-          "source": "AVOTS:"
-        }
-      },
-      "paid_with_shop_pay_installments_card": {
-        "title": "Maksājumu atgādinājumi par Shop Pay nomaksu",
-        "paid_with_shop_pay_installments": "Apmaksāts ar Shop Pay pa daļām",
-        "description": "Pārvaldi savu maksājumu grafiku, izmantojot atgādinājumus lietotnē Shop.",
-        "payment_reminders_button": "Saņemt atgādinājumus par maksājumiem",
-        "desktop_qr_code_content": {
-          "title": "Meklēt atgādinājumus",
-          "description": "Saņem atgādinājumus par saviem maksājumiem ar Shop."
-        }
-      },
-      "refunded_amount": "Atmaksāts",
-      "request_return_failed": "Radās problēma, apstrādājot jūsu pieprasījumu. Lūdzu, mēģiniet vēlreiz.",
-      "login_card": {
-        "title": "Piekļūt pasūtījuma informācijai",
-        "resend_link_and_login": "Lai skatītu pasūtījuma informāciju, pierakstieties vai nosūtiet jaunu saiti uz e-pasta adresi vai tālruņa numuru, kas tika izmantots pirkuma veikšanai.",
-        "resend_link_only": "Lai skatītu pasūtījuma informāciju, nosūtiet jaunu saiti uz e-pasta adresi vai tālruņa numuru, kas tika izmantots pirkuma noformēšanas brīdī.",
-        "log_in": "Pierakstīties",
-        "resend_link": "Nosūtīt jaunu saiti",
-        "link_expired": "Saite vairs nav derīga"
-      },
-      "remaining_amount": "Atlikušais",
-      "marketing_section_title": "Jaunumi un piedāvājumi",
-      "marketing_checkbox_label": "Sūtiet man jaunumus un piedāvājumus pa e-pastu",
-      "marketing_checkmark_label": "Jūs esat abonējis jaunumu un piedāvājumu saņemšanu e-pastā"
+      }
     }
   }
 }
