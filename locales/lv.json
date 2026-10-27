@@ -2147,6 +2147,176 @@
         "draft_order_payment_due_on_fulfillment": "Jūsu maksājums būs jāveic, tiklīdz pasūtījums būs apstiprināts un izpildīts.",
         "draft_order_deposit_due_later": "{{depositAmount}} būs jāmaksā pēc pasūtījuma apstiprināšanas. Atlikusī summa tiks maksāta saskaņā ar {{translatedName}} noteikumiem.",
         "draft_order_deposit_due_on_fulfillment": "{{depositAmount}} būs jāmaksā pēc pasūtījuma apstiprināšanas. Atlikusī summa būs jāmaksā pēc pasūtījuma izpildes."
+      },
+      "shop_policies": {
+        "select_policy_label": "Izvēlieties politiku",
+        "refund_policy": "Atmakšas politika",
+        "privacy_policy": "Privātuma politika",
+        "terms_of_service": "Pakalpojumu sniegšanas noteikumi",
+        "legal_notice": "Juridiskais paziņojums",
+        "shipping_policy": "Piegāde",
+        "terms_of_sale": "Pārdošanas noteikumi",
+        "subscription_policy": "Atcelšana",
+        "purchase_options_policy": "Pirkuma iespēju politika",
+        "contact_information": "Kontakti",
+        "purchase_options_cancellation_policy": "Atcelšana",
+        "cookie_preferences": "Sīkfaili",
+        "terms_and_policies": "Noteikumi un politika"
+      },
+      "remote_policies": {
+        "unavailable_policy": "Šim veikalam nav sniegti %{policy_name} noteikumi. Lai iegūtu papildinformāciju, sazinieties tieši ar %{shop_name}."
+      },
+      "mor_policies": {
+        "terms_and_conditions": "Tirdzniecības pārstāvja noteikumi un nosacījumi",
+        "privacy_policy": "Tirdzniecības pārstāvja privātuma politika"
+      },
+      "markets": {
+        "invalid_market_manager_error": "Pārbaudiet savu kontaktinformāciju pirms maksājuma veikšanas"
+      },
+      "notifications": {
+        "title": "Paziņojumi"
+      },
+      "order_payment_collection": {
+        "custom_line_item_description": "Maksājamā summa par pasūtījumu %{order_name}",
+        "changes_summary": {
+          "added": {
+            "one": "Pievienots",
+            "other": "Pievienots %{count}"
+          },
+          "removed": "Izņemts",
+          "subtracted": "Noņemts %{count}",
+          "returned": "Atgriezts %{count}",
+          "return_line_item_removed": "No atgriešanas izņemts %{count}"
+        },
+        "additional_payment_requested": "Ir nepieciešams veikt %{total_outstanding} maksājumu",
+        "checkout_review_and_pay": "Jūsu pasūtījums %{order_name} tika atjaunināts. Pārskatiet šīs izmaiņas un pēc tam veiciet apmaksu, lai apstiprinātu savu pasūtījumu.",
+        "order_updated_on": "Jūsu pasūtījums tika atjaunināts %{last_edited_at}.",
+        "order_review_and_pay": "Jūsu pasūtījums ir atjaunināts. Pārskatiet un apmaksājiet to, lai apstiprinātu pasūtījumu.",
+        "pay_now": "Maksāt tagad"
+      },
+      "change_currency": {
+        "currency_button_label": "%{currency} (%{currency_symbol})",
+        "credit_card_will_be_charged_html": "No jūsu kredītkartes tiks iekasēta summa %{amount}",
+        "payment_total_label": "Maksājuma kopsumma",
+        "conversion_rate": "1 %{from_currency_code} = %{rate} %{to_currency_code}",
+        "change_currency_link": "Mainīt uz %{currency_name}",
+        "card_provider_fx_charges_warning": "Jūsu kartes izdevējs var iekasēt maksu par %{currency_code} darījumiem.",
+        "currency_not_supported_by_shop": "Jūsu izvēlētā valūta vairs nav pieejama. Visas cenas tagad ir norādītas %{currency_code}."
+      },
+      "change_country": {
+        "cart_updated_based_on_country": "Jūsu grozs ir atjaunināts atbilstoši jūsu piegādes valstij.",
+        "cart_and_currency_updated_based_on_country": "Jūsu grozs un valūta ir atjaunināti atbilstoši jūsu piegādes valstij.",
+        "currency_updated_for_country": "Valūta atjaunināta valstij %{country}"
+      },
+      "change_cart_localization": {
+        "verify_shipping_address": "Jūsu valsts/reģions ir atjaunināts. Ievadiet savu piegādes adresi, lai turpinātu norēķināšanos."
+      },
+      "tips": {
+        "title": "Pievienot dzeramnaudu",
+        "description": "Izrādi savu atbalstu %{shop_name} komandai",
+        "presets_description": "Izvēlieties dzeramnaudas procentuālo likmi",
+        "custom_label": "Pielāgota dzeramnauda",
+        "add_tip": "Pievienot dzeramnaudu",
+        "update_tip": "Atjauninājuma padoms",
+        "message": "Paldies, mēs to novērtējam.",
+        "preset_label": "%{tip_percent}%",
+        "no_tip_label": "Neviens",
+        "not_available_with_spi": "Nav pieejams, izmantojot Shop Pay Installments"
+      },
+      "open_graph_meta_tag": {
+        "title_with_products": {
+          "zero": "Iegādāties %{product_name}",
+          "one": "Iegādājieties %{product_name} un vēl %{count} preci",
+          "other": "Iegādājieties %{product_name} un vēl %{count} preces"
+        }
+      },
+      "subscriptions": {
+        "recurring_total_intervals": {
+          "day": {
+            "one": "diena",
+            "other": "%{count} dienas"
+          },
+          "week": {
+            "one": "nedēļa",
+            "other": "%{count} nedēļas"
+          },
+          "month": {
+            "one": "mēnesis",
+            "other": "%{count} mēneši"
+          },
+          "year": {
+            "one": "gads",
+            "other": "%{count} gadi"
+          }
+        },
+        "recurring_totals": "%{total_price} ik pēc %{interval}",
+        "recurring_totals_with_initial_order_shipping_discount": "Pirmais maksājums %{total_price_with_discount}, pēc tam %{recurring_total}",
+        "recurring_totals_with_policies": {
+          "first_cycles": {
+            "one": "Pirmais maksājums %{total_price}",
+            "other": "Pirmie %{count} maksājumi pa %{total_price} katrs"
+          },
+          "following_cycles": ", tad %{total_price} ik pēc %{interval}"
+        },
+        "recurring_totals_with_initial_order_shipping_discount_with_policies": {
+          "first_cycles": {
+            "one": ", tad %{count} maksājums par %{total_price}",
+            "other": ", pēc tam %{count} maksājumi pa %{total_price} katrs"
+          }
+        }
+      },
+      "customer_payment_methods": {
+        "page_title": "Maksājuma veidi",
+        "title": "Maksājuma veidi",
+        "update_card_button_label": "Atjaunināt karti",
+        "delete_customer_mandate": {
+          "generic_error": "Radās problēma, apstrādājot jūsu pieprasījumu.",
+          "success_message": "Jūsu maksājuma veids ir veiksmīgi izdzēsts"
+        }
+      },
+      "throttle": {
+        "too_many_attempts": {
+          "message": "Pārāk daudz mēģinājumu",
+          "description": "Mēģiniet vēlreiz pēc dažām minūtēm"
+        },
+        "line_to_check_out": "Jūs stāvat rindā, lai norēķinātos",
+        "cart_summary_heading": "Jūsu grozs",
+        "merchandise": {
+          "available": "Pieejams",
+          "sold_out": "Izpārdots"
+        },
+        "inventory": {
+          "partial_inventory_banner": "Daļa no jūsu groza precēm ir izpārdotas, un tās nebūs iespējams iegādāties norēķināšanās brīdī.",
+          "sold_out": {
+            "heading": "Jūsu grozā esošās preces ir izpārdotas",
+            "storefront_body": "Atgriezieties veikalā, lai turpinātu iepirkties",
+            "no_storefront_body": "Diemžēl prece, kuru vēlaties iegādāties, vairs nav pieejama.",
+            "link": "Atpakaļ uz veikalu"
+          }
+        },
+        "title": "Rinda",
+        "time_to_checkout_title": "Laiks izrakstīties — {{shopName}}",
+        "estimated_wait_time": {
+          "calculating": "Tiek aprēķināts paredzamais gaidīšanas laiks",
+          "less_than_one": "Paredzamais gaidīšanas laiks: mazāk nekā minūte",
+          "one": "Paredzamais gaidīšanas laiks: {{count}} minūtes",
+          "other": "Paredzamais gaidīšanas laiks: {{count}} minūtes"
+        },
+        "last_checked": "(Pēdējoreiz pārbaudīts: {{time}})",
+        "footer": {
+          "heading": "Neatjauniniet šo lapu, tā atjaunināsies automātiski.",
+          "body": "Preces grozā netiek rezervētas, līdz pabeidzat pirkuma noformēšanu."
+        }
+      },
+      "cart_checkout_validation": {
+        "runtime_error": "Radās problēma, apstrādājot jūsu pieprasījumu. Sazinieties ar veikala īpašnieku."
+      },
+      "no_address_location": {
+        "title": "Atrašanās vieta bez adreses",
+        "header": "Šai vietai nav norādītas piegādes adreses.",
+        "alt_header": "Trūkst piegādes adreses",
+        "message": "Sazinieties ar mums, lai pievienotu adresi šai atrašanās vietai un pabeigtu pasūtījumu.",
+        "email_us_button_label": "Nosūtiet mums e-pastu"
       }
     },
     "pagination": {
