@@ -411,7 +411,29 @@
         "redirecting_to_bank": "Novirza uz {{bank}}",
         "complete_your_purchase_title": "Pabeidziet pirkumu",
         "continue_to_payment_gateway_notice": "Turpiniet uz maksājumu, lai ievadītu savu maksājuma informāciju.",
-        "continue_to_payment_gateway_button_label": "Turpināt maksājumu"
+        "continue_to_payment_gateway_button_label": "Turpināt maksājumu",
+        "complete_your_purchase_title_error": "Labojiet savu maksājuma informāciju",
+        "continue_to_payment_gateway_notice_error": "Jūsu maksājuma informāciju neizdevās verificēt.",
+        "continue_to_payment_gateway_button_label_error": "Atjaunināt maksājuma informāciju",
+        "page_title": "Pasūtījuma apstrāde",
+        "title": "Pasūtījuma apstrāde",
+        "your_order_has_been_received_title": "Paldies par jūsu pasūtījumu",
+        "you_will_receive_confirmation": "Šobrīd saņemam ļoti daudz pasūtījumu. Drīzumā saņemsiet apstiprinājumu pa e-pastu vai īsziņā. Ja nesaņemsiet to nākamās stundas laikā, lūdzu, informējiet mūs.",
+        "you_will_not_be_charged": "Maksa vēl netiks iekasēta",
+        "wait": {
+          "short": "Jūsu pasūtījums tiek apstrādāts.",
+          "medium": {
+            "one": "Jūsu pasūtījums tiek apstrādāts. Paredzamais gaidīšanas laiks ir %{count} minūte.",
+            "other": "Jūsu pasūtījums tiek apstrādāts. Paredzamais gaidīšanas laiks ir %{count} minūtes."
+          },
+          "long": "Jūs saņemsiet e-pastu, tiklīdz jūsu pasūtījums tiks apstrādāts. Šobrīd ir liels pasūtījumu apjoms.",
+          "no_auto_refresh_html": "Ja jūs netiekat automātiski novirzīts, %{link}.",
+          "refresh_this_page": "atsvaidziniet šo lapu"
+        },
+        "remote_shops_payments_processing": "Maksājumu apstrāde",
+        "action_required": "Nepieciešama rīcība",
+        "modal_notice": "Sazināmies ar {{paymentMethod}}",
+        "remote_checkout_count": "%{current} no %{total}"
       },
       "tooltip": {
         "accessibility_label_context": "Vairāk informācijas par %{context}",
@@ -1926,7 +1948,105 @@
         "qr_code": {
           "send_link_to_phone": "Vai arī nosūtiet saiti uz savu tālruni",
           "title": "Seko līdzi savā tālrunī"
-        }
+        },
+        "title": "Paldies par pirkumu!",
+        "confirmation_email_sent_text": "Apstiprinājuma e-pasts ir nosūtīts uz %{email}",
+        "return_to_store_link_label": "Turpināt iepirkšanos",
+        "print_link_label": "Izdrukāt čeku",
+        "payment_information_title": "Maksājuma informācija",
+        "shipping_information_title": "Piegādes informācija",
+        "page_title": "Paldies, %{display_name}!",
+        "page_title_no_name": "Paldies!",
+        "purchase_order_number_title": "Pasūtījuma numurs #%{purchase_order_number}",
+        "cancelled_page_title": "Pasūtījums atcelts",
+        "failed_pending_payment_page_title": "Radusies problēma ar jūsu maksājumu",
+        "customer_information_title": "Pasūtījuma informācija",
+        "contact_information_title": "Kontaktinformācija",
+        "billing_address_title": "Norēķinu adrese",
+        "cashback_notice": "Naudas atmaksu saņemsiet pēc 30 dienām",
+        "company_location_title": "Atrašanās vieta",
+        "shipping_address_title": "Piegādes adrese",
+        "pickup_address_title": "Saņemšana:",
+        "shipping_address_map_title": "Google kartē attēlots piegādes adreses punkts: %{address}",
+        "payment_method_title": "Maksājuma veids",
+        "payment_method_not_charged": "Nav iekasēts",
+        "shipping_method_title": "Piegādes veids",
+        "tracking_number": "Izsekošanas numurs:",
+        "company_tracking_number": "%{company} izsekošanas numurs:",
+        "estimated_arrival": "Paredzamais piegādes datums:",
+        "estimated_delivery": "Pašreizējais piegādes novērtējums:",
+        "re-order": "Sakārtot tos pašus vienumus no jauna",
+        "confirmed": "Apstiprināts",
+        "confirmed_items_count": "%{confirmed_count} no %{total_count} vienumiem ir apstiprināti",
+        "items_fulfilled_by_store": {
+          "one": "Jūsu iegādātās preces tiks nosūtītas no %{remote_shop_name}.",
+          "other": "Jūsu iegādātās preces tiks piegādātas no citiem veikaliem."
+        },
+        "gift_card_confirmation_by_text": "Ja nesaņēmāt to, nosūtiet īsziņu atkārtoti vai sazinieties ar mums.",
+        "gift_card_confirmation_by_email": "Ja to nesaņēmāt, nosūtiet e-pastu atkārtoti vai sazinieties ar mums.",
+        "gift_card_title": "Dāvanu kartes",
+        "resend_gift_cards": "Nosūtīt dāvanu kartes atkārtoti",
+        "thank_you_title": "Jūsu pasūtījums ir apstiprināts",
+        "thank_you_title_payment": "Jūsu maksājums ir apstiprināts"
+      },
+      "payment_challenge_modal": {
+        "instructions": "Pabeidziet pirkumu, izmantojot savu {{paymentMethod}} kodu",
+        "timer_message": "Jums ir atlikušas {{timeLeft}}, lai apmaksātu",
+        "copy_text": "Kopēt {{paymentMethod}} kodu",
+        "open_app_text": "Atvērt lietotni {{paymentMethod}}",
+        "header": "Maksājiet ar {{paymentMethod}}",
+        "qr_code": {
+          "instructions": "Pabeidziet pirkumu, izmantojot savu {{paymentMethod}} kodu",
+          "wechat_instructions": "Skenējiet šo QR kodu, izmantojot tālrunī lietotni WeChat, lai pabeigtu pirkumu.",
+          "wechat_instructions_mobile": "Skenējiet šo QR kodu, izmantojot lietotni WeChat citā ierīcē, lai pabeigtu pirkumu",
+          "paynow_instructions": "Skenējiet šo QR kodu ar bankas vai maksājumu lietotni, lai pabeigtu pirkumu.",
+          "paynow_instructions_mobile": "Saglabājiet šo QR kodu un pēc tam skenējiet to no fotoattēliem savā bankas vai maksājumu lietotnē, lai pabeigtu pirkumu."
+        },
+        "external": {
+          "instructions": "Apstipriniet maksājumu savā lietotnē, lai pabeigtu šo pirkumu"
+        },
+        "close": "Noslēgt izaicinājumu"
+      },
+      "failed_payment": {
+        "page_title": "Maksājumu neizdevās apstrādāt",
+        "title": "Maksājumu neizdevās apstrādāt",
+        "payment_not_processed_title": "Jūsu maksājumu neizdevās apstrādāt",
+        "payment_not_processed_text": "Maksa nav iekasēta. Atgriezieties grozā, lai pabeigtu pirkumu.",
+        "return_to_cart_button_label": "Atgriezties grozā"
+      },
+      "payment_gateway": {
+        "credit_card_label": "Kredītkarte",
+        "bogus_label": "Testēt maksājumu vārteju",
+        "bank_deposit_label": "Bankas depozīts",
+        "bank_account_label": "Bankas konts",
+        "cash_on_delivery_label": "Pēcapmaksa (skaidrā naudā piegādes brīdī)",
+        "money_order_label": "Naudas pārvedums",
+        "debit_card_label": "Debetkarte",
+        "credit_or_debit_card_label": "Kredītkarte/debetkarte",
+        "deferred_payment_label": "Izvēlēties maksājuma veidu vēlāk",
+        "fixed_payment_label": "Jūsu maksājuma termiņš ir {{dueDate}}.",
+        "generic_payment_terms": "Jums ir {{translatedName}} noteikumi. Jūsu maksājums būs jāveic {{dueDate}}.",
+        "login_prompt": {
+          "no_access": {
+            "message": "{{logIn}} kontā, kam ir piekļuve šai atrašanās vietai, lai pievienotu vai izmantotu saglabātās maksājumu metodes.",
+            "link": "Pieteikties"
+          }
+        },
+        "direct_payment_terms": "Jums ir spēkā {{translatedName}} noteikumi. Jūsu karte tiks debetēta {{dueDate}}.",
+        "fixed_direct_payment_terms": "Jūsu karte tiks apstrādāta {{dueDate}}.",
+        "order_due_on_fulfillment_choose_later": "Maksājums būs jāveic, tiklīdz jūsu pasūtījums tiks izpildīts.",
+        "order_due_on_fulfillment_payment": "Jūsu karte tiks debetēta, tiklīdz pasūtījums būs izpildīts.",
+        "order_due_on_receipt_choose_later": "Maksājums ir jāveic pēc rēķina saņemšanas.",
+        "order_deposit_due_now": "{{depositAmount}} apmaksas termiņš ir šodien. Atlikusī summa atbilstoši {{translatedName}} nosacījumiem ir jāapmaksā līdz {{dueDate}}.",
+        "order_deposit_due_on_fulfillment": "{{depositAmount}} apmaksa jāveic šodien. Atlikušā summa būs jāapmaksā, tiklīdz jūsu pasūtījums būs izpildīts.",
+        "order_deposit_due_on_receipt": "{{depositAmount}} jāapmaksā šodien. Atlikusī summa būs jāapmaksā vēlāk.",
+        "order_deposit_due_on_fixed_date": "{{depositAmount}} ir jāmaksā šodien. Atlikusī summa būs jāmaksā līdz {{dueDate}}.",
+        "draft_order_payment_due_later_no_terms": "Maksājums būs jāveic pēc pasūtījuma apstiprināšanas.",
+        "draft_order_payment_due_later_no_terms_payment_selected": "Jūsu karte tiks apmaksāta, tiklīdz pasūtījums būs apstiprināts.",
+        "draft_order_payment_due_later_terms": "Jūs saņemsit {{translatedName}} noteikumus, tiklīdz jūsu pasūtījums tiks apstiprināts.",
+        "draft_order_payment_due_on_fulfillment": "Jūsu maksājums būs jāveic, tiklīdz pasūtījums būs apstiprināts un izpildīts.",
+        "draft_order_deposit_due_later": "{{depositAmount}} būs jāmaksā pēc pasūtījuma apstiprināšanas. Atlikusī summa tiks maksāta saskaņā ar {{translatedName}} noteikumiem.",
+        "draft_order_deposit_due_on_fulfillment": "{{depositAmount}} būs jāmaksā pēc pasūtījuma apstiprināšanas. Atlikusī summa būs jāmaksā pēc pasūtījuma izpildes."
       }
     },
     "pagination": {
