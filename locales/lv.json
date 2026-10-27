@@ -34,7 +34,129 @@
         },
         "pay_merchant_label": "Maksāt %{merchant_name}",
         "discount_applies_to_subscription_items_only": "Šī atlaide attiecas tikai uz abonēšanas precēm",
-        "title": "Pasūtījuma kopsavilkums"
+        "title": "Pasūtījuma kopsavilkums",
+        "final_sale": "Gala izpārdošana",
+        "product_disclosures": {
+          "title": "Informācija par produktu"
+        },
+        "group_title_label": "Daļa no \"%{group_title}\"",
+        "for_add_on": "Paredzēts: %{group_title}",
+        "from_shop_heading": "No %{shop_name}",
+        "from_other_stores_heading": "No citiem veikaliem",
+        "from_multiple_stores_heading": "No vairākiem veikaliem",
+        "number_items": {
+          "one": "%{count} vienība",
+          "other": "%{count} vienumi"
+        },
+        "view_all_items": {
+          "one": "Skatīt %{count} vienumu",
+          "other": "Skatīt visus %{count} vienumus"
+        },
+        "more_items_modal": {
+          "search_item": "Meklēt",
+          "clear_search": "Notīrīt meklēšanu",
+          "empty_results": "Pēc pieprasījuma \"%{searchText}\" nekas netika atrasts. Pārbaudiet pareizrakstību vai izmantojiet citu vārdu vai frāzi.",
+          "number_items_shown": "%{shownNumber} no %{totalNumber} vienumiem"
+        },
+        "order_name_label": "Pasūtījums %{name}",
+        "shopping_cart_label": "Iepirkumu grozs",
+        "discount_title": "Atlaide",
+        "item_discounts_label": "Preču atlaides",
+        "discount_title_with_position": "Atlaide %{position}",
+        "discount_title_stacking": {
+          "one": "Atlaide",
+          "other": "Atlaides"
+        },
+        "discount_order_stacking": {
+          "one": "Pasūtījuma atlaide",
+          "other": "Pasūtījumu atlaides"
+        },
+        "discount_label": "Atlaides kods",
+        "discount_not_found": "Ievadītajam kodam atbilstošu derīgu atlaidi neizdevās atrast",
+        "discount_placeholder": "Atlaides kods",
+        "discount_code_applied": "Atlaižu kods ir piemērots",
+        "discount_code_applied_with_code": "Atlaides kods %{code} ir piemērots",
+        "discount_code_removed": "Atlaides kods %{code} ir noņemts",
+        "discount_code_replaced": "Atlaides kods %{old_code} ir noņemts, un ir lietots %{code}",
+        "discount_code_replaced_multiple": "Vairāki atlaižu kodi ir noņemti, un ir piemērots %{code}",
+        "discount_code_allocations_mismatch": "Jūsu <strong style=\"text-transform:uppercase\">%{code}</strong> atlaižu kods ir mainījies. Pārskatiet savu grozu un mēģiniet vēlreiz.",
+        "order_discounts_apply_to_local_shop": "Pasūtījuma atlaides attiecas tikai uz precēm no %{shop_name}",
+        "gift_card_applied": "Dāvanu karte piemērota",
+        "enter_shipping_address": "Ievadiet piegādes adresi",
+        "gift_card_title": "Dāvanu karte",
+        "gift_card_label": "Dāvanu karte",
+        "gift_card_placeholder": "Dāvanu karte",
+        "gift_card_and_discount_title": "Atlaižu kods vai dāvanu karte",
+        "gift_card_and_discount_label": "Atlaižu kods vai dāvanu karte",
+        "gift_card_and_discount_placeholder": "Atlaižu kods vai dāvanu karte",
+        "gift_cards_apply_to_local_shop": "Dāvanu kartes attiecas tikai uz %{shop_name} precēm",
+        "add_discount_or_gift_card": "Pievienojiet atlaižu kodu vai dāvanu karti",
+        "remove_gift_card_label": "Dāvanu karte \"Clear\"",
+        "remove_discount_label": "Noņemt atlaidi",
+        "return_restocking_fee_label": "Preces atgriešanas maksa",
+        "return_shipping_fee_label": "Atpakaļnosūtīšana",
+        "free_shipping_discount_label": "Bezmaksas piegāde",
+        "applied_free_shipping_discount_label": "Pieteikts",
+        "apply_discount_button_label": "Pieteikties",
+        "applied_discount_message": "%{amount} atlaide kopējai pasūtījuma summai",
+        "discount_has_been_applied": "Atlaide ir piemērota",
+        "discount_has_been_removed": "Atlaide ir noņemta",
+        "automatic_discount_tooltip": "Automātiski piemērotās atlaides nav iespējams noņemt",
+        "gift_card_has_been_applied": "Dāvanu karte ir piemērota",
+        "gift_card_has_been_removed": "Dāvanu karte ir noņemta",
+        "gift_card_subscriptions_notice": "Dāvanu kartes tiks piemērotas tikai jūsu pirmajam maksājumam",
+        "discount_already_applied": "Šim pasūtījumam jau ir piemērota atlaide. Jūs nevarat pievienot vēl vienu atlaidi.",
+        "cart_does_not_meet_discount_requirements_notice": "<strong style=\"text-transform:uppercase\">%{code}</strong> atlaižu kods nav derīgs precēm jūsu grozā",
+        "discount_requires_customer_notice": "Ievadiet savu piegādes informāciju, lai izmantotu <strong style=\"text-transform:uppercase\">%{code}</strong> atlaižu kodu",
+        "customer_does_not_meet_discount_requirements_notice": "<strong style=\"text-transform:uppercase\">%{code}</strong> atlaižu kods jums šobrīd nav pieejams",
+        "eligible_customer_missing_notice": "<strong style=\"text-transform:uppercase\">%{code}</strong> atlaižu kodam ir nepieciešams atbilstošs klients",
+        "shipping_information_does_not_meet_discount_requirements_notice": "<strong style=\"text-transform:uppercase\">%{code}</strong> atlaižu kods nav pieejams jūsu piegādes adresei",
+        "customer_already_used_once_per_customer_discount_notice": "<strong style=\"text-transform:uppercase\">%{code}</strong> atlaižu kods jau ir izmantots",
+        "subtotal_label": "Starpsumma",
+        "subtotal_label_with_quantity": {
+          "one": "Starpsumma · %{count} prece",
+          "other": "Starpsumma · %{count} vienības"
+        },
+        "shipping_label": "Piegāde",
+        "pickup_label": "Saņemšana veikalā",
+        "no_pickup_location": "Nav pieejamu saņemšanas punktu.",
+        "pickup_unavailable_banner_title": {
+          "one": "Neviens veikals nepiedāvā šo preci",
+          "other": "Nav veikalu, kuros būtu pieejamas jūsu preces"
+        },
+        "pickup_unavailable_banner_title_with_country": {
+          "one": "Veikalos valstī %{country} jūsu prece nav pieejama",
+          "other": "%{country} nav pieejami veikali ar jūsu precēm"
+        },
+        "pickup_unavailable_banner_body": {
+          "ship_to_address": "Piegādes adrese",
+          "ship_to_address_instead_html": "tā vietā %{link}"
+        },
+        "tip_label": "Dzeramnauda",
+        "unconfirmed_label": "Nepieapstiprināts",
+        "calculating_shipping": "Notiek aprēķins…",
+        "calculating": "Notiek aprēķins…",
+        "shipping_default_value": "Aprēķināts nākamajā solī",
+        "shipping_discount_title": "Piegādes atlaide",
+        "shipping_pending_message": "Vēl nav pieejams",
+        "shipping_policy_link": "Piegādes izmaksas",
+        "taxes_label": "Nodokļi",
+        "tax_label": "Nodoklis",
+        "tax_line": {
+          "hst": "HST",
+          "gst": "PVN",
+          "pst": "Klusā okeāna standarta laiks",
+          "rst": "RST",
+          "qst": "QST",
+          "vpt": "Iepirkumu uzraudzības birojs"
+        },
+        "estimated_taxes_label": "Paredzamie nodokļi",
+        "estimated_taxes_label_short": "Paredzamais",
+        "information_estimated_taxes_label": "Nodokļi (aplēstie)",
+        "estimated_taxes_finalization_tooltip_content": "Galīgais nodoklis un kopsumma tiks apstiprināti pa e-pastu vai īsziņā pēc pasūtījuma veikšanas.",
+        "estimated_taxes_finalization_tooltip_content_short": "Nodoklis apstiprināts pēc samaksas",
+        "order_total_label": "Pasūtījuma kopsumma",
+        "price_before_discount_aria_text": "Sākotnējā cena"
       },
       "shipping": {
         "title": "Piegāde",
@@ -1250,7 +1372,19 @@
           "continue_purchase_in_window": "Turpiniet pirkumu {{walletName}} logā",
           "and_return_to_checkout": "un atgriezties pie pasūtījuma noformēšanas",
           "cancel": "Atcelt"
-        }
+        },
+        "return_to_store": "Atgriezties veikalā",
+        "return_to_checkout": "Atgriezties pie norēķiniem",
+        "redirect_hint": "Jums tiks lūgts pierakstīties ar {{walletName}}.",
+        "logged_in": "Savienots ar {{email}}",
+        "shipping_line_label": "Piegāde",
+        "payment_in_progress_title": "Maksājums tiek apstrādāts",
+        "payment_in_progress_body": "Jūsu maksājums tiek apstrādāts. Jūsu pasūtījums drīz tiks izpildīts.",
+        "deceleration": {
+          "one_more_step_to_complete_order": "Vēl tikai viens solis līdz pasūtījuma pabeigšanai",
+          "one_more_step": "Vēl viens solis..."
+        },
+        "continue_with": "Turpināt ar {{walletName}}"
       },
       "note": {
         "length_exceeds_maximum": "Samaziniet piezīmes izmēru līdz 5000 vai mazāk rakstzīmēm."
@@ -1403,6 +1537,168 @@
         "address1_label": "Adrese",
         "street_name_label": "Iela",
         "optional_street_name_label": "Iela (neobligāti)"
+      },
+      "local_pickup": {
+        "all_stores_far_away": {
+          "title_with_location": "Tuvākā atrašanās vieta atrodas vairāk nekā %{distance} attālumā no %{location}",
+          "title_with_specific_location": "Tuvākā vieta, kur pieejama jūsu prece, atrodas vairāk nekā %{distance} attālumā no %{location}",
+          "description": "Izvēlieties atrašanās vietu vai %{ship_to_address_link}",
+          "description_with_location": "%{change_location_link} vai %{ship_to_address_link}",
+          "ship_to_address_link": "piegādes adrese",
+          "change_location_link": "Mainīt atrašanās vietu"
+        },
+        "selected_pickup_option_no_longer_available": {
+          "title": "Jūsu iepriekš izvēlētā atrašanās vieta vairs nav pieejama",
+          "description": "Esam izvēlējušies tuvāko atrašanās vietu, kurā jūsu preces ir noliktavā"
+        },
+        "could_not_resolve_address": "Jūsu adresi neizdevās atrast. Mēģiniet vēlreiz vai izmantojiet citu adresi.",
+        "paginator": {
+          "accessibility_label": "Vietējās saņemšanas lappušu pāršķiršana",
+          "previous": "Iepriekšējā lapa",
+          "next": "Nākamā lapa",
+          "label": {
+            "one": "%{first} — %{last} no %{count} veikala",
+            "other": "%{first} - %{last} no %{count} veikaliem"
+          }
+        },
+        "reveal_more_label": {
+          "one": "Rādīt vēl %{count} atrašanās vietu",
+          "other": "Rādīt vēl %{count} atrašanās vietas"
+        },
+        "no_pickup_locations_found": "Nav atrasta neviena saņemšanas vieta",
+        "pickup_unavailable_banner_title": {
+          "one": "Nav vietu ar jūsu vienumu",
+          "other": "Nav atrasta neviena vieta ar jūsu vienumiem"
+        },
+        "pickup_unavailable_banner_title_with_country": {
+          "one": "%{country} nav atrašanās vietu ar jūsu preci",
+          "other": "%{country} nav nevienas atrašanās vietas ar jūsu vienumiem"
+        },
+        "pickup_unavailable_banner_body": {
+          "try_different_location": "Mēģiniet citu atrašanās vietu",
+          "ship_to_address": "piegādes adrese",
+          "there_are_no_stores": "Jūsu adreses tuvumā nav veikalu vai jūsu preces nav pieejamas saņemšanai veikalā.",
+          "ship_items": "Nosūtiet savas preces",
+          "search_elsewhere": "meklēt citur",
+          "search_elsewhere_standalone": "Meklējiet citur.",
+          "ship_items_or_search_elsewhere": "%{ship_items} vai %{search_elsewhere}"
+        },
+        "geolocation": {
+          "permission_not_allowed": "Atļaut atrašanās vietas kopīgošanu vai meklēt citādi."
+        }
+      },
+      "split_delivery": {
+        "accessibility": {
+          "status": {
+            "ship_separately": "%{items} tiks nosūtīti atsevišķi.",
+            "pickup_in_store": "%{items} tiks saņemti veikalā.",
+            "remove_items": "%{items} izņemts no groza."
+          }
+        },
+        "all_items": "Visas preces",
+        "pickup_all_items": "Savāc visus priekšmetus",
+        "pickup_and_ship": "Saņemt un nosūtīt",
+        "ship_all_items": "Nosūtīt visas preces",
+        "separate_pickup_email_notice": "Jūs saņemsiet atsevišķu e-pasta ziņojumu, kad jūsu pasūtījums būs gatavs saņemšanai.",
+        "items_for_pickup": "Preces saņemšanai",
+        "items_for_shipping": "Sūtīšanai paredzētās preces",
+        "items_moved_to_shipping_toast": "Preces, kuras nevarēja paņemt, tika pārvietotas uz nosūtīšanas zonu.",
+        "delivery_updated_toast": {
+          "shipping_only": "Informācija par jūsu piegādi ir atjaunināta. {{shipping}}",
+          "removal_only": "Jūsu piegādes informācija ir atjaunināta. {{removal}}",
+          "shipping_and_removal": "Jūsu piegāde ir atjaunināta. {{shipping}} {{removal}}",
+          "shipping": {
+            "one": "{{count}} prece ir pārvietota uz piegādes sadaļu.",
+            "other": "{{count}} vienības pārvietotas uz piegādi."
+          },
+          "removal": {
+            "one": "{{count}} vienība ir noņemta.",
+            "other": "{{count}} vienumi ir noņemti."
+          }
+        },
+        "items_count": {
+          "one": "%{count} vienība",
+          "other": "%{count} vienumi"
+        },
+        "pickup_items_count": {
+          "one": "Paņemiet %{count} priekšmetu",
+          "other": "Saņemiet %{count} priekšmetus"
+        },
+        "ship_items_count": {
+          "one": "Nosūtīt %{count} preci",
+          "other": "Nosūtīt %{count} preces"
+        },
+        "delivery_method": "Sadalītās piegādes metode",
+        "delivery_method_menu": "Sadalītās piegādes metodes izvēlne",
+        "inventory_issue_banner": {
+          "heading": {
+            "cannot_be_picked_up": {
+              "one": "%{count} vienumu nevar paņemt",
+              "other": "%{count} vienumus nevar paņemt"
+            },
+            "cannot_be_shipped": {
+              "one": "%{count} prece nevar tikt piegādāta",
+              "other": "%{count} preces nevar tikt nosūtītas"
+            }
+          },
+          "remove_item": {
+            "one": "noņemt vienumu",
+            "other": "noņemt vienumus"
+          },
+          "remove_item_only": {
+            "one": "Noņemt vienumu",
+            "other": "Noņemt vienumus"
+          },
+          "ship_separately": {
+            "one": "Nosūtiet to atsevišķi",
+            "other": "Sūtiet tos atsevišķi"
+          },
+          "pick_them_up_in_store": {
+            "one": "Saņemt veikalā",
+            "other": "Saņemt veikalā"
+          },
+          "remove_items_or_ship": "%{ship_separately_link} vai %{remove_items_link}",
+          "remove_items_or_pickup": "%{pickup_in_store_link} vai %{remove_items_link}",
+          "merchandise_line_with_quantity": "%{title} (×%{quantity})"
+        },
+        "cross_border": {
+          "modal": {
+            "heading": "Mainīt valsti?",
+            "content": "Jūsu saņemšanas un piegādes vietām jāatrodas vienā valstī. Mainot valsti, visas preces tiks iestatītas piegādei.",
+            "country_changed_heading": "Valsts mainīta",
+            "change_country": "Mainīt valsti"
+          },
+          "banner": "Jūsu piegādes veids tika atjaunināts."
+        }
+      },
+      "captcha": {
+        "title": "Lai turpinātu, aizpildiet CAPTCHA.",
+        "errors": {
+          "not_solved": "Lai turpinātu, aizpildiet CAPTCHA."
+        }
+      },
+      "clipboard": {
+        "copied": "Kopēts",
+        "failed_to_copy": "Neizdevās kopēt"
+      },
+      "discount_errors": {
+        "generic_error": "Jūsu pasūtījumu neizdevās apstrādāt, jo jūsu atlaižu kods vairs nav derīgs. Pārskatiet pasūtījuma kopsummu un mēģiniet vēlreiz."
+      },
+      "b2b_errors": {
+        "lost_b2b_purchasing_permissions": "Jums vairs nav atļaujas veikt B2B pasūtījumus. %{logout_url}, lai tā vietā veiktu personisku pasūtījumu.",
+        "log_out_link_text": "Izrakstīties",
+        "lost_permissions_subtitle": "Jums vairs nav atļaujas veikt B2B pasūtījumus. Izrakstieties, lai veiktu personīgo pasūtījumu.",
+        "lost_permissions_title": "Nav atrašanās vietas atļauju"
+      },
+      "shop_pay_external": {
+        "title": "Shop Pay norēķins",
+        "errors": {
+          "problem_loading": "Radās problēma, ielādējot Shop Pay",
+          "try_again_later": "Pārbaudiet savienojumu vai aizveriet šo logu un mēģiniet vēlreiz pēc mirkļa.",
+          "checkout_has_expired": "Jūsu pasūtījuma noformēšanas sesija ir beigusies. Aizveriet šo logu un mēģiniet vēlreiz veikt pasūtījumu no {{shopName}}."
+        },
+        "return_to_store": "Atgriezties uz {{shopName}}",
+        "return_to_store_simple": "Atgriezties veikalā"
       }
     },
     "pagination": {
