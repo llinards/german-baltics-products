@@ -3329,7 +3329,36 @@
       "swish": "Švīkstiens",
       "twint": "TWINT",
       "vipps": "Vipps",
-      "usdc": "Kriptovalūta: USDC"
+      "usdc": "Kriptovalūta: USDC",
+      "visa": "Vīza",
+      "mastercard": "Mastercard",
+      "americanexpress": "American Express",
+      "discover": "Atklāj",
+      "dinersclub": "Diners Club",
+      "jcb": "JCB",
+      "elo": "Sveiki",
+      "visaelectron": "Visa Electron",
+      "maestro": "Maestro",
+      "forbrugsforeningen": "Forbrugsforeningen",
+      "dankort": "Dankort",
+      "hipercard": "Hipercard",
+      "unionpay": "UnionPay",
+      "laser": "Lāzers",
+      "shoppay": "Shop Pay",
+      "applepay": "Apple Pay",
+      "googlepay": "Google Pay",
+      "paypal": "PayPal",
+      "storecredit": "Veikala kredīts",
+      "bogus": "Viltots",
+      "klarna_pay_now": "Klarna",
+      "klarna_pay_later": "Klarna",
+      "klarna_slice_it": "Klarna",
+      "blik": "BLIK",
+      "ideal": "iDEAL",
+      "klarna": "Klarna",
+      "mobilepay": "MobilePay",
+      "paypay": "PayPay",
+      "przelewy24": "Przelewy24"
     },
     "privacy_banner": {
       "cookie_preferences_link": "Sīkfailu iestatījumi"
@@ -4397,6 +4426,111 @@
           "invalid_email": "Ievadiet derīgu e-pasta adresi",
           "invalid_code": "Ievadiet pareizo 6 ciparu kodu"
         }
+      }
+    },
+    "payment_methods": {
+      "add_success": {
+        "title": "Maksājuma veids pievienots",
+        "done_button": "Turpināt iepirkšanos"
+      },
+      "card_fields": {
+        "card_number_label": "Kartes numurs",
+        "card_number_placeholder": "Kartes numurs",
+        "name_on_card_label": "Vārds uz kartes",
+        "name_on_card_placeholder": "Vārds uz kartes",
+        "card_expiry_label": "Derīguma termiņš (MM / GG)",
+        "card_expiry_placeholder": "Derīguma termiņš (MM / GG)",
+        "card_verification_value_label": "Drošības kods",
+        "card_verification_value_placeholder": "Drošības kods",
+        "card_start_label": "Izdošanas datums (MM / GG)",
+        "card_start_placeholder": "Izdošanas datums (MM / GG)",
+        "tooltip": {
+          "tooltip_accessibility_label": "Vairāk informācijas",
+          "card_verification_value_explanation_amex": "4 ciparu drošības kods kartes priekšpusē",
+          "card_verification_value_explanation_other": "3 ciparu drošības kods kartes otrā pusē",
+          "card_verification_value_explanation": "3 ciparu drošības kods, kas parasti atrodams uz jūsu kartes aizmugures. American Express kartēm ir 4 ciparu kods, kas atrodas priekšpusē.",
+          "card_security_notice": "Visi darījumi ir droši un šifrēti."
+        },
+        "field_errors": {
+          "credit_card_name_invalid": "Ievadiet savu vārdu precīzi tā, kā tas ir rakstīts uz jūsu kartes",
+          "credit_card_number_invalid": "Ievadiet derīgu kartes numuru",
+          "credit_card_expiry_invalid": "Ievadiet derīgu kartes derīguma termiņu",
+          "credit_card_verification_value_blank": "Ievadiet CVV vai drošības kodu, kas norādīts uz jūsu kartes"
+        },
+        "unavailable": {
+          "text": "Maksājumi ar kredītkartēm un debetkartēm šobrīd nav pieejami.",
+          "link_text": "Atsvaidzināt šo lapu",
+          "suffix": "vai mēģiniet vēlāk."
+        }
+      },
+      "payment_delete": {
+        "title": "Dzēst maksājuma veidu",
+        "description_without_replacement": "Šī maksājuma metode turpmākajiem pirkumiem vairs nebūs pieejama.",
+        "description_with_replacement": "Šīs maksājumu metodes dzēšana ietekmēs priekšapstiprinātos maksājumus. Jūs varat to aizstāt ar citu maksājumu metodi, lai turpinātu saņemt gaidāmos pasūtījumus.",
+        "warning_message_with_replacement": {
+          "with_pending_orders_and_subscriptions": "Šī maksājuma veida dzēšana ietekmēs iepriekš autorizētos maksājumus. Ja neizvēlēsieties citu maksājuma veidu, no šī maksājuma veida joprojām tiks iekasēta maksa par jebkuriem atlikušajiem maksājumiem par esošajiem pasūtījumiem. Cita maksājuma veida izvēle ļaus jums saņemt gaidāmos abonementa pasūtījumus bez pārtraukuma.",
+          "with_pending_orders": "Dzēšot šo maksājuma metodi, tā tiks noņemta no jūsu konta un vairs nebūs pieejama turpmākiem pirkumiem. Ja vien neizvēlēsieties citu maksājuma metodi, no tās joprojām tiks ieturēta samaksa par jebkuriem esošo pasūtījumu neapmaksātajiem atlikumiem.",
+          "with_subscriptions": "Šī maksājuma veida dzēšana ietekmēs iepriekš autorizētos maksājumus. Aizstājiet to ar alternatīvu maksājuma veidu, lai turpinātu saņemt gaidāmos pasūtījumus."
+        },
+        "warning_message_without_replacement": {
+          "with_pending_orders_and_subscriptions": "Šī maksājuma veida dzēšana ietekmēs iepriekš autorizētos maksājumus. No šī maksājuma veida joprojām tiks iekasēta maksa par jebkādiem neapmaksātiem atlikumiem esošajos pasūtījumos, taču jūs nesaņemsiet turpmākos abonēšanas pasūtījumus. Pievienojiet alternatīvu maksājuma veidu, lai turpinātu saņemt abonēšanas pasūtījumus.",
+          "with_pending_orders": "Dzēšot šo maksājuma veidu, tas tiks noņemts no jūsu konta un vairs nebūs pieejams turpmākiem pirkumiem. No tā joprojām tiks ieturēta samaksa par jebkādiem nesegtiem atlikumiem esošajos pasūtījumos.",
+          "with_subscriptions": "Šīs maksājumu metodes dzēšana ietekmēs iepriekš autorizētos maksājumus. Pievienojiet alternatīvu maksājumu metodi, lai turpinātu saņemt gaidāmos pasūtījumus."
+        },
+        "payment_method_selector_placeholder": "Izvēlieties citu maksājuma veidu (neobligāti)",
+        "payment_method_selector_no_alternative_payment": "Bez aizstāšanas metodes",
+        "replace_method_with_new_method_description": "Jūsu {{currentPaymentMethodName}} tiks dzēsta un aizstāta ar {{newPaymentMethodName}}.",
+        "error_when_deleting": "Atvainojiet, kaut kas nogāja greizi, un mēs nevarējām dzēst šo maksājuma veidu. Lūdzu, mēģiniet vēlreiz vēlāk vai atsvaidziniet lapu.",
+        "delete_and_replace_button": "Dzēst un aizstāt",
+        "delete_and_replace_button_accessibility_label": "Dzēst {{currentPaymentMethodName}} un aizstāt ar {{newPaymentMethodName}}.",
+        "deleted_successfully": "Maksājuma metode ir veiksmīgi dzēsta.",
+        "loading_available_payment_methods_accessibility_label": "Notiek pieejamo maksājuma veidu ielāde"
+      },
+      "add_payment_method": {
+        "title": "Pievienot maksājuma veidu",
+        "button_title": "Pievienot",
+        "payment_method_added_confirmation": "Maksājuma veids pievienots",
+        "missing_customer_error": "Kaut kas nogāja greizi. Lūdzu, mēģiniet vēlreiz vai sazinieties ar atbalsta dienestu.",
+        "replace_mode_warning": "Šīs maksājumu metodes dzēšana ietekmēs abonementus vai iepriekšējus pasūtījumus. Lai turpinātu saņemt turpmākos pasūtījumus, aizstājiet to ar alternatīvu maksājumu metodi.",
+        "choose_from_list": "Izvēlēties no saraksta",
+        "add_new_button": "Pievienot jaunu",
+        "billing_address": {
+          "title": "Norēķinu adrese",
+          "add_billing_address_button": "Pievienot jaunu",
+          "add_billing_address_button_accessibility_label": "Pievienot jaunu rēķina adresi",
+          "choose_billing_address_from_list_button": "Izvēlēties no saraksta",
+          "choose_billing_address_from_list_button_accessibility_label": "Izvēlieties norēķinu adresi no saraksta",
+          "missing_billing_address_error_message": "Lūdzu, norādiet rēķina saņemšanas adresi",
+          "default_checkbox": "Iestatīt kā noklusējuma maksājuma veidu"
+        },
+        "subscription_contracts": {
+          "title": "Izmantot maksājuma metodi periodiskiem pasūtījumiem",
+          "more_items": {
+            "one": "{{count}} vēl viens produkts",
+            "other": "{{count}} citi produkti"
+          },
+          "product_count": {
+            "one": "{{count}} produkts",
+            "other": "{{count}} produkti"
+          },
+          "product_details": "Informācija par produktu",
+          "load_more": "Rādīt vairāk"
+        },
+        "updating_contracts": {
+          "one": "Atjaunina {{count}} abonēšanas līgumu...",
+          "other": "Notiek atjaunināšana {{count}} abonēšanas līgumiem..."
+        },
+        "contracts_updated": {
+          "one": "Veiksmīgi atjaunināts {{count}} abonēšanas līgums",
+          "other": "Veiksmīgi atjaunināti {{count}} abonēšanas līgumi"
+        },
+        "contracts_update_failed": "Neizdevās atjaunināt dažus abonēšanas līgumus",
+        "subscription_contracts_updated": "Atjauninātas {{succeeded}} no {{total}} abonementiem",
+        "invalid_wallet_type_error": "Nederīgs maka veids."
+      },
+      "three_d_secure": {
+        "title": "3D Secure",
+        "verification_failed": "Jūsu maksājumu neizdevās apstiprināt. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu."
       }
     }
   },
