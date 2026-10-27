@@ -1,0 +1,10 @@
+# Shopify CLI environments. Use with: shopify theme dev -e development
+# Don't put store passwords or tokens here — this file is committed.
+
+[environments.development]
+store = "german-products-baltics-6f7htux7.myshopify.com"
+
+# Add once the staging theme exists (Online Store → Themes → theme ID):
+# [environments.staging]
+# store = "german-products-baltics-6f7htux7.myshopify.com"
+# theme = "<staging theme ID>"
