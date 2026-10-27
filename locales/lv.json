@@ -13,8 +13,11 @@
       "order_summary": {
         "discount_discovery": {
           "merchandise_quantity_label": {
-            "other": "%{count} vienumi"
-          }
+            "other": "%{count} vienumi",
+            "one": "%{count} vienība"
+          },
+          "add_code": "Pievienot atlaidi",
+          "back_to_finalize_order": "Atgriezos pabeigt pasūtījumu"
         },
         "alternative_payment_currency_total": "Iekasēta summa: %{amount_due}",
         "alternative_payment_currency_chinese_yuan": "Apstipriniet galīgo ĶTR summu lietotnē %{wallet}.",
@@ -156,7 +159,122 @@
         "estimated_taxes_finalization_tooltip_content": "Galīgais nodoklis un kopsumma tiks apstiprināti pa e-pastu vai īsziņā pēc pasūtījuma veikšanas.",
         "estimated_taxes_finalization_tooltip_content_short": "Nodoklis apstiprināts pēc samaksas",
         "order_total_label": "Pasūtījuma kopsumma",
-        "price_before_discount_aria_text": "Sākotnējā cena"
+        "price_before_discount_aria_text": "Sākotnējā cena",
+        "price_after_discount_aria_text": "Atlaides cena",
+        "discount_code_aria_text": "Atlaides kods",
+        "total_savings": "Kopējie uzkrājumi",
+        "total_label": "Kopā",
+        "total_due_label": "Kopā apmaksai",
+        "total_paid_label": "Kopā samaksāts",
+        "total_price_label": "Kopējā cena",
+        "total_outstanding_label": "Maksājamā summa",
+        "deposit_label": "Noguldījums",
+        "total_due_today_label": "Kopā maksājams šodien",
+        "total_due_later_label": "Kopējā summa, kas jāsamaksā vēlāk",
+        "partial_total_label": "Kopā",
+        "free_total_label": "Bezmaksas",
+        "free_shipping_total_label": "Bezmaksas",
+        "paid_label": "Apmaksāts",
+        "payment_due_label": "Maksājuma termiņš",
+        "vat_label_html": "Ieskaitot %{amount} nodokļos",
+        "duties_included_label": "Kopsummā ir iekļauti nodokļi un nodevas. Piegādes brīdī papildu maksa netiek piemērota.",
+        "discount_and_gift_card_savings_notice": "Pēc %{discount_amount} atlaidēm un %{gift_card_amount} dāvanu kartēm",
+        "discount_savings_notice": "Pēc %{discount_amount} atlaidēm",
+        "gift_card_savings_notice": "Pēc %{gift_card_amount} dāvanu kartēs",
+        "cost_table_title": "Izmaksu kopsavilkums",
+        "cost_table_item_column_header": "Vienība",
+        "cost_table_value_column_header": "Vērtība",
+        "description_label": "Apraksts",
+        "price_label": "Cena",
+        "price_per_item": {
+          "accessibility_label": "%{price} par vienību",
+          "label": "%{price}/gab."
+        },
+        "quantity_label": "Daudzums",
+        "product_change_label": "Mainīt",
+        "product_image_label": "Produkta attēls",
+        "product_image_quantity_label": "Daudzums",
+        "scroll_order_summary": "Ritiniet, lai skatītu vairāk vienumu",
+        "expand_order_summary_short": "Rādīt",
+        "collapse_order_summary_short": "Paslēpt",
+        "original_price": "Sākotnējā cena",
+        "sale_price": "Pārdošanas cena",
+        "compare_at_sale": "Izpārdošana (%{sale_amount})",
+        "total_updated_label": "Atjauninātā kopējā cena:",
+        "order_total_updated_label": "Atjauninātā kopsumma",
+        "total_already_paid_label": "Apmaksāts",
+        "unit_price": {
+          "accessible_separator": "par",
+          "content_html": "%{price}%{accessible_separator}%{per_unit}",
+          "per_item": {
+            "single": "%{price} gab.",
+            "one": "%{price} par %{count} vienību",
+            "other": "%{price} par %{count} vienībām"
+          },
+          "per_unit": {
+            "single": "%{price}/%{unit}",
+            "plural": "%{price}/%{count}%{unit}"
+          }
+        },
+        "gift_card_ending": "Dāvanu karte, kas beidzas ar %{last_characters}",
+        "estimated_tax_label": "Paredzamais nodoklis",
+        "multiple_shipping_lines_label": "Piegādes kopsumma",
+        "recurring_subtotal_label": "Atkārtotā starpsumma",
+        "recurring_total_label": "Atkārtota kopsumma",
+        "recurring_total_tooltip": "Neietver piegādi, nodokļus, muitas nodokļus vai piemērojamās atlaides.",
+        "confirmation_number_label": "Apstiprinājums Nr. %{confirmation_number}",
+        "higher_value_discount_applied": "<strong style=\"text-transform:uppercase\">%{code}</strong> nevarēja izmantot kopā ar jūsu esošajām atlaidēm.",
+        "percent_off_shipping": "%{percent}% atlaide piegādei",
+        "amount_off_shipping": "%{amount} atlaide piegādei",
+        "deferred_payment_info": {
+          "title": "Maksājums %{amount_due} apmērā ir jāveic līdz %{due_at}",
+          "description_html": "Ja jums ir jautājumi par pasūtījumu, %{contact_us}.",
+          "paid_today": "Šodien samaksāts kopā",
+          "paid_today_next": "Samaksāts šodien",
+          "due_on_fulfillment_title": "%{amount_due} maksājums jāveic izpildes brīdī",
+          "due_on_receipt_title": "%{amount_due} ir jāsamaksā pēc saņemšanas"
+        },
+        "deferred_balance_info": {
+          "title": "Atlikusī summa {{amount_due}} ir jāapmaksā līdz {{due_at}}",
+          "due_on_fulfillment_title": "{{amount_due}} atlikums jāapmaksā pēc izpildes"
+        },
+        "payment_terms_totals": {
+          "due_today": "Kopā maksājams šodien",
+          "due_today_next": "Jāiesniedz šodien",
+          "due_later": "Kopā apmaksai %{due_at}",
+          "due_on_fulfillment": "Kopējā summa apmaksai izpildes brīdī",
+          "due_on_fulfillment_next": "Apmaksājams izpildes brīdī",
+          "due_on_receipt": "Jāapmaksā saņemot",
+          "due_later_checkout_to_draft": "Kopējā summa, kas jāsamaksā vēlāk",
+          "total_paid": "Kopā samaksāts"
+        },
+        "maximum_discount_code_limit_reached": "Esat sasniedzis maksimālo atlaižu kodu skaitu. Noņemiet esošu kodu, lai izmantotu <strong style=\"text-transform:uppercase\">%{code}</strong>.",
+        "discount_code_application_failed": "<strong style=\"text-transform:uppercase\">%{code}</strong> pašlaik nedarbojas. Sazinieties ar mums, lai saņemtu palīdzību.",
+        "due_on_fulfillment": "Apmaksājams izpildes brīdī",
+        "gift_card_masked": "•••• %{last_characters}",
+        "subscriptions": "Abonementi",
+        "duties_label": "Pienākumi",
+        "duty_label": "Pienākums",
+        "duties_and_taxes_label": "Muitas nodevas un nodokļi",
+        "error_duties_tooltip": "Šis pasūtījums tiek sūtīts no citas valsts, tāpēc piegādes brīdī var tikt piemēroti muitas nodokļi un nodevas.",
+        "may_be_charged_on_delivery": "Var tikt iekasēts piegādes brīdī",
+        "total_updated_label_with_price": "Atjauninātā kopējā cena: %{totalPrice}",
+        "updated_shipping_method": "Atjauninātā piegādes metode: %{shipping_method}",
+        "recurring_payments": "Regulārie maksājumi",
+        "recurring_total_multiple_label": "Šim pasūtījumam ir periodiska maksa par vairākām precēm.",
+        "deferred_total_due_date_label": "Maksājamā summa līdz {{date}}",
+        "deferred_total_due_date_label_next": "Līdz %{date}",
+        "full_price": "Pilna cena: %{price}",
+        "custom_discount": "Pielāgota atlaide",
+        "expand_component_information": {
+          "one": "Rādīt %{count} vienumu",
+          "other": "Rādīt %{count} vienumus"
+        },
+        "collapse_component_information": {
+          "one": "Paslēpt %{count} vienumu",
+          "other": "Paslēpt %{count} vienumus"
+        },
+        "component_quantity_title": "%{quantity} × %{product_title}"
       },
       "shipping": {
         "title": "Piegāde",
@@ -2727,9 +2845,87 @@
           "visibility": "Mēs redzēsim tikai to, vai esat atvēris e-pastu, kā daļu no kopējā e-pasta atvēršanas rādītāja."
         },
         "updated_policy": {
-          "status_html": "<b>Tiek ziņots par e-pasta atvēršanas izsekošanu.</b>"
+          "status_html": "<b>Tiek ziņots par e-pasta atvēršanas izsekošanu.</b>",
+          "visibility": "Mēs esam atjauninājuši savu politiku un tagad uzskaitām e-pasta atvēršanas gadījumus. E-pasta atvēršanas rādītāji tiks ziņoti anonīmi. Mēs redzēsim tikai to, vai esat atvēris e-pastu kā daļu no kopējā e-pasta atvēršanas rādītāja.",
+          "opt_out_html": "Ja nevēlaties kopīgot šo informāciju, varat <a style=\"text-decoration:underline;\" href=\"%{link}\">atteikties no abonēšanas.</a>"
         }
       }
+    },
+    "filters": {
+      "availability": {
+        "value": {
+          "in_stock": "Ir noliktavā",
+          "out_of_stock": "Nav noliktavā"
+        }
+      },
+      "boolean": {
+        "true_label": "Jā",
+        "false_label": "Nē"
+      }
+    },
+    "search": {
+      "error": "Radās problēma, ielādējot meklēšanas rezultātus. Lūdzu, atsvaidziniet lapu vai mēģiniet vēlreiz vēlāk.",
+      "sorting": {
+        "relevance": "Atbilstība",
+        "price_ascending": "Cena, no zemākās uz augstāko",
+        "price_descending": "Cena, no augstākās uz zemāko"
+      }
+    },
+    "page_titles": {
+      "blog_or_article_with_error": "Kļūda — %{title}",
+      "products": "Produkti",
+      "shopping_cart": "Jūsu iepirkumu grozs",
+      "account": "Konts",
+      "create_account": "Izveidot kontu",
+      "reset_account": "Atiestatīt kontu",
+      "addresses": "Adreses",
+      "order": "Pasūtījums %{name}",
+      "search": "Meklēt",
+      "search_results": {
+        "one": "Meklēšana: atrasts %{count} rezultāts pēc \"%{terms}\"",
+        "other": "Meklēšana: atrasti %{count} rezultāti pēc \"%{terms}\""
+      },
+      "collections": "Kolekcijas",
+      "not_found": "404 Nav atrasts",
+      "challenge": "Izaicinājums",
+      "checkpoint": "Kontrolpunkts"
+    },
+    "cart": {
+      "discounts_with_count": "Ir piemērotas %{count} atlaides"
+    },
+    "challenge": {
+      "message": "Lai turpinātu, lūdzu, apstipriniet, ka neesat robots.",
+      "error": "Jūsu atbilde nebija pareiza, lūdzu, mēģiniet vēlreiz.",
+      "submit_button_text": "Iesniegt"
+    },
+    "checkpoint": {
+      "message": "Atrisiniet CAPTCHA, lai turpinātu",
+      "error": "Neizdevās apstiprināt CAPTCHA",
+      "submit_button_text": "Iesniegt"
+    },
+    "store_availability": {
+      "pick_up_time": {
+        "one_hour": "Parasti gatavs 1 stundas laikā",
+        "two_hours": "Parasti gatavs 2 stundu laikā",
+        "four_hours": "Parasti gatavs 4 stundās",
+        "twenty_four_hours": "Parasti gatavs 24 stundās",
+        "two_to_four_days": "Parasti gatavs 2-4 dienās",
+        "five_or_more_days": "Parasti gatavs 5+ dienās",
+        "zero_to_two_hours": "Parasti gatavs 2 stundu laikā",
+        "two_to_four_hours": "Parasti gatavs 4 stundās",
+        "immediately": "Gatavs izņemšanai tagad",
+        "next_day": "Gatavs izņemšanai nākamajā dienā"
+      }
+    },
+    "subscriptions": {
+      "buyer_consent_product": "Šī prece ir atkārtots vai atlikts pirkums. Turpinot, es piekrītu %{cancellationPolicyLink} un pilnvaroju jūs iekasēt maksu no manas maksājumu metodes par šajā lapā norādītajām cenām, biežumu un datumiem, līdz mans pasūtījums ir izpildīts vai es to atceļu, ja tas ir atļauts.",
+      "buyer_consent_cart": "Viena vai vairākas preces jūsu grozā ir atkārtots vai atlikts pirkums. Turpinot, es piekrītu %{cancellationPolicyLink} un pilnvaroju jūs iekasēt maksu no mana maksājuma veida par šajā lapā norādītajām cenām, biežumu un datumiem, līdz mans pasūtījums ir izpildīts vai es to atceļu, ja tas ir atļauts.",
+      "cancellation_policy": "atteikuma politika"
+    },
+    "managed_markets": {
+      "buyer_consent": "Veicot pasūtījumu, jūs piekrītat iegādāties no Global-e kā reģistrētā tirgotāja saskaņā ar Global-e %{termsAndConditionsLink} un %{privacyPolicyLink} un kopīgot savu informāciju ar %{shopName}.",
+      "terms_and_conditions": "Noteikumi un nosacījumi",
+      "privacy_policy": "Privātuma politika"
     }
   },
   "customer_accounts": {
@@ -3305,7 +3501,55 @@
       "view_details": "Skatīt informāciju",
       "company_location": "Uzņēmuma atrašanās vieta",
       "search": "Meklēt",
-      "skip_to_content": "Pāriet uz saturu"
+      "skip_to_content": "Pāriet uz saturu",
+      "account_menu": {
+        "hide_accessibility_label": "Paslēpt konta izvēlni",
+        "show_accessibility_label": "Rādīt konta izvēlni",
+        "nav_accessibility_label": "Konta navigācija",
+        "open_menu_accessibility_label": "Atvērt konta navigāciju",
+        "close_menu_accessibility_label": "Aizvērt konta navigāciju",
+        "label": "Konts",
+        "loading_message": "Notiek konta navigācijas ielāde"
+      },
+      "action_menu_accessibility_label": "Vairāk darbību",
+      "back_button_accessibility_label": "Atpakaļ",
+      "go_to_store_link": "Ej uz veikalu",
+      "orders_link_label": "Pasūtījumi",
+      "subscriptions_link_label": "Abonementi",
+      "close_menu_accessibility_label": "Aizvērt galveno navigāciju",
+      "contact_email_subject": "Kontakts no {{shopName}} tiešsaistes veikala",
+      "contact_link": "Kontaktinformācija",
+      "delete_confirmation": {
+        "cancel": "Atcelt",
+        "delete": "Dzēst"
+      },
+      "dismiss_toast": "Noraidīt",
+      "document_title": "{{sectionName}} — {{shopName}} — Konts",
+      "loading_message": "Notiek ielāde",
+      "loading_policy_content_accessibility_label": "Notiek politikas satura ielāde",
+      "loading_section_accessibility_label": "Ielādē {{sectionName}}",
+      "policy_load_error": "Nevarēja ielādēt {{policyName}}",
+      "policy_try_again": "Mēģini vēlreiz",
+      "log_out_link": "Izrakstīties",
+      "logout_overlay_label": "Notiek izrakstīšanās...",
+      "nav_label_accessibility_label": "Galvenā navigācija",
+      "navigation_accessibility_message": "Jūs pārgājāt uz {{sectionName}}",
+      "open_menu_accessibility_label": "Atvērt galveno navigāciju",
+      "shop_logo_accessibility_label": "{{shopName}} logotips",
+      "store_credit_accessibility_label": "{{formattedBalance}} veikala kredīts",
+      "store_credit_balances_list_accessibility_label": "Veikala kredītu atlikumi",
+      "store_credit_multi_currency_accessibility_label": {
+        "one": "{{formattedBalance}} un vēl {{count}} valūtas veikala kredīta",
+        "other": "{{formattedBalance}} un {{count}} citām valūtām ir pieejams kredīts"
+      },
+      "settings_link": "Iestatījumi",
+      "country_switcher_toast_message": "Valsts nomainīta uz {{countryName}}",
+      "switch_country": "Mainīt valsti",
+      "no_countries_found": "Valstis nav atrastas",
+      "location_switcher_toast_message": "Atrašanās vieta nomainīta uz {{locationName}}",
+      "switch_location": "Mainīt atrašanās vietu",
+      "no_locations_found": "Atrašanās vietas nav atrastas",
+      "try_new_search": "Izmēģiniet jaunu meklēšanu"
     },
     "announcement_bar": {
       "expand_label": "Izvērst paziņojumu joslu",
@@ -3392,6 +3636,26 @@
         }
       },
       "add_button": "Pievienot"
+    },
+    "callback": {
+      "try_again": "Mēģini vēlreiz"
+    },
+    "date": {
+      "humanize": {
+        "lessThanOneHourAgo": {
+          "one": "{{count}} minūtes pirms",
+          "other": "Pirms {{count}} minūtēm"
+        },
+        "lessThanOneMinuteAgo": "Tikko",
+        "yesterday": "Vakar plkst. {{time}}",
+        "today": "Šodien plkst. {{time}}",
+        "tomorrow": "Rīt plkst. {{time}}"
+      }
+    },
+    "enable_javascript": "Lai skatītu savu kontu, savas pārlūkprogrammas iestatījumos iespējojiet JavaScript vai pierakstieties ar citu pārlūkprogrammu.",
+    "order_receipt_document": {
+      "placeholder_title": "Čeka vietturis",
+      "placeholder": "Vietturis: Pasūtījums %{name} par %{total} nav gatavs attēlošanai."
     }
   }
 }
