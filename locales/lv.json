@@ -1565,6 +1565,34 @@
           "text_html": "%{contact_us}, lai rediģētu adresi",
           "contact_us": "Sazinieties ar mums",
           "use_different_address": "Izmantot citu piegādes adresi"
+        },
+        "shipping_address_incomplete_title": "Piegādes adrese ir nepilnīga",
+        "calculating_shipping": "Piegādes maksa vēl tiek aprēķināta. Mēģiniet vēlreiz pēc dažām sekundēm. Maksa no jums nav iekasēta.",
+        "calculating_taxes": "Nodokļi vēl tiek aprēķināti. Mēģiniet vēlreiz pēc dažām sekundēm. Maksa no jums nav iekasēta.",
+        "generic_processing_error": {
+          "title": "Radās problēma, apstrādājot jūsu pasūtījumu",
+          "body": "Maksājums netika iekasēts. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu."
+        },
+        "payment_method_not_available_with_payment_terms": "Jūsu izvēlētais maksājuma veids vairs nav pieejams, jo šī pasūtījuma apmaksa tagad tiek veikta saskaņā ar {{paymentTerms}} noteikumiem.",
+        "payment_method_not_available_with_fulfillment_terms": "Jūsu izvēlētā maksājuma metode vairs nav pieejama, jo par šo pasūtījumu tagad jānorēķinās tā izpildes brīdī",
+        "payment_method_not_available_with_fixed_terms": "Jūsu izvēlētā maksājuma metode vairs nav pieejama, jo par šo pasūtījumu ir jānorēķinās vēlāk",
+        "payment_method_not_available_with_review_requirement": "Jūsu izvēlētā maksājuma metode vairs nav pieejama, jo par pasūtījumu būs jānorēķinās pēc tā apstiprināšanas.",
+        "contact_information": {
+          "title": "Kontaktinformācija ir nederīga",
+          "header": "Lai atjauninātu savu informāciju, {{emailLink}}.",
+          "email_link": "sazinieties ar mums"
+        },
+        "validation_errors_banner": {
+          "heading": {
+            "one": "Ir {{count}} kļūda:",
+            "other": "Ir {{count}} kļūdas:"
+          },
+          "section_label": {
+            "delivery": "Piegāde",
+            "contact": "Kontakti",
+            "payment": "Maksājums",
+            "billing": "Norēķini"
+          }
         }
       },
       "wallets": {
@@ -1990,7 +2018,12 @@
           "description": "Izvēlieties atrašanās vietu vai %{ship_to_address_link}",
           "description_with_location": "%{change_location_link} vai %{ship_to_address_link}",
           "ship_to_address_link": "piegādes adrese",
-          "change_location_link": "Mainīt atrašanās vietu"
+          "change_location_link": "Mainīt atrašanās vietu",
+          "title": "Tuvākās atrašanās vietas ir vairāk nekā %{distance} attālumā",
+          "title_with_item": {
+            "one": "Tuvākā vieta, kurā ir jūsu prece, atrodas vairāk nekā %{distance} attālumā no %{location}",
+            "other": "Tuvākā vieta ar jūsu precēm atrodas vairāk nekā %{distance} attālumā no %{location}"
+          }
         },
         "selected_pickup_option_no_longer_available": {
           "title": "Jūsu iepriekš izvēlētā atrašanās vieta vairs nav pieejama",
@@ -2030,7 +2063,125 @@
         },
         "geolocation": {
           "permission_not_allowed": "Atļaut atrašanās vietas kopīgošanu vai meklēt citādi."
-        }
+        },
+        "title": "Atrašanās vieta",
+        "unavailable_item_count": {
+          "one": "%{count} prece nav pieejama",
+          "other": "%{count} vienības nav pieejamas"
+        },
+        "ship_separately_notice": {
+          "one": "%{count} prece tiks nosūtīta atsevišķi",
+          "other": "%{count} preces tiks nosūtītas atsevišķi"
+        },
+        "stock_details": {
+          "out_of_stock": "Šajā vietā preces nav noliktavā",
+          "in_stock": "Ir noliktavā",
+          "ship_separately": {
+            "one": "Tiks nosūtīts atsevišķi",
+            "other": "Tiks nosūtīts atsevišķi"
+          },
+          "remove_items": {
+            "one": "Tiks izņemts no jūsu pasūtījuma",
+            "other": "Tiks izņemts no jūsu pasūtījuma"
+          }
+        },
+        "stock_details_modal": {
+          "unavailable_title": "Nav pieejams saņemšanai",
+          "location": "Vietnē %{location}",
+          "can_ship_description": {
+            "one": "Šī prece nav pieejama jūsu izvēlētajā saņemšanas vietā.",
+            "other": "Šīs preces nav pieejamas jūsu izvēlētajā saņemšanas vietā."
+          },
+          "cannot_ship_description": {
+            "one": "Šī prece nav pieejama jūsu izvēlētajā saņemšanas vietā, un to nevar piegādāt.",
+            "other": "Šīs preces nav pieejamas jūsu izvēlētajā saņemšanas vietā, un tās nevar nosūtīt."
+          },
+          "ship_separately": "Nosūtīt atsevišķi",
+          "choose_different_location": "Izvēlieties citu atrašanās vietu"
+        },
+        "stock_details_banner": {
+          "heading": {
+            "one": "%{count} prece nav pieejama saņemšanai vietā %{location}",
+            "other": "%{count} preces nav iespējams saņemt saņemšanas punktā %{location}"
+          },
+          "closest_location": "Tuvākā saņemšanas vieta, kurā ir pieejamas visas preces, atrodas %{distance} attālumā.",
+          "change_location_or_ship_separately": "%{change_location_link} vai %{ship_separately_link}",
+          "change_location_or_remove_items": "%{change_location_link} vai %{remove_items_link}",
+          "ship_separately": {
+            "one": "Nosūtiet to atsevišķi.",
+            "other": "nosūtīt tos atsevišķi"
+          }
+        },
+        "location_address_search_label": "Adrese",
+        "location_address_search_placeholder": "%{postal_code_label} vai adrese",
+        "location_closest": "Tuvākā vieta, kur pieejama jūsu prece",
+        "location_closest_one_item": "Tuvākā vieta, kur pieejama jūsu prece",
+        "location_closest_other_items": "Tuvākā atrašanās vieta ar jūsu precēm",
+        "location_selected": "Jūsu atlasītā atrašanās vieta",
+        "location_information": {
+          "one": "Netālu no jums ir %{count} vieta ar pieejamiem krājumiem",
+          "other": "Netālu no jums ir %{count} vietas ar pieejamiem krājumiem"
+        },
+        "location_information_far_away": {
+          "one": "Jūsu prece atrodas %{count} vietā",
+          "other": "Jūsu prece atrodas %{count} vietās"
+        },
+        "location_information_far_away_one_item": {
+          "one": "Jūsu prece atrodas %{count} vietā",
+          "other": "Jūsu prece atrodas %{count} vietās"
+        },
+        "location_information_far_away_other_items": {
+          "one": "Ir %{count} atrašanās vieta ar jūsu priekšmetiem",
+          "other": "Šajā vietā ir %{count} jūsu priekšmeti"
+        },
+        "location_nearby": {
+          "one": "Jūsu prece atrodas %{count} tuvumā esošajā vietā",
+          "other": "Jūsu vienums ir pieejams %{count} tuvumā esošās vietās"
+        },
+        "location_nearby_one_item": {
+          "one": "Jūsu prece atrodas %{count} tuvumā esošajā vietā",
+          "other": "Jūsu vienums ir pieejams %{count} tuvumā esošās vietās"
+        },
+        "location_nearby_other_items": {
+          "one": "Tuvumā atrodas %{count} atrašanās vieta ar jūsu precēm",
+          "other": "Tuvumā ir %{count} atrašanās vietas, kurās ir jūsu preces"
+        },
+        "location_nearby_short": {
+          "one": "%{count} tuvumā esoša vieta ar jūsu preci",
+          "other": "%{count} tuvumā esošas vietas ar jūsu preci"
+        },
+        "location_nearby_short_one_item": {
+          "one": "%{count} tuvumā esoša vieta ar jūsu preci",
+          "other": "%{count} tuvumā esošas vietas ar jūsu preci"
+        },
+        "location_nearby_short_other_items": {
+          "one": "%{count} tuvumā esoša atrašanās vieta ar jūsu precēm",
+          "other": "%{count} tuvumā esošās atrašanās vietas ar jūsu precēm"
+        },
+        "location_far_away": {
+          "one": "%{count} vieta ar jūsu vienumu",
+          "other": "%{count} vietas ar jūsu preci"
+        },
+        "location_far_away_one_item": {
+          "one": "%{count} vieta ar jūsu vienumu",
+          "other": "%{count} vietas ar jūsu preci"
+        },
+        "location_far_away_other_items": {
+          "one": "%{count} atrašanās vieta ar jūsu precēm",
+          "other": "%{count} atrašanās vietas ar jūsu precēm"
+        },
+        "toggle_location": "Mainīt atrašanās vietu",
+        "toggle_more_locations": {
+          "one": "Vēl %{count} atrašanās vieta",
+          "other": "vēl %{count} atrašanās vietas"
+        },
+        "toggle_multiple_locations": "vēl %{count} vietas",
+        "pick_up_location": "Saņemšanas vieta",
+        "or": "VAI",
+        "cancel": "Atcelt",
+        "your_location": "jūsu atrašanās vieta",
+        "search_button": "Atrast veikalus",
+        "no_stores_found": "Veikali nav atrasti"
       },
       "split_delivery": {
         "accessibility": {
@@ -2669,6 +2820,27 @@
         "ineligible": "Šis pasūtījums nav apmaksājams ar HSA/FSA līdzekļiem.",
         "processing_error": "Radās problēma, apstrādājot jūsu HSA/FSA pieprasījumu. Mēģiniet vēlreiz vai turpiniet pirkumu bez HSA/FSA.",
         "unsupported_checkout": "Šim pasūtījumam HSA/FSA nav pieejams."
+      },
+      "review_address_modal": {
+        "title": "Pārskatīt adresi",
+        "subtitle": {
+          "one": "Šis pasūtījums tiks nosūtīts uz adresi, ko norādījis {{merchant}}.",
+          "other": "Šis pasūtījums tiks nosūtīts uz adresi, kuru norādījis {{merchant}}. Atlasiet piegādes adresi."
+        },
+        "subtitle_no_match": "Šī adrese nesakrīt ne ar vienu no jūsu saglabātajām adresēm.",
+        "subtitle_must_use": "Jūsu pasūtījums tiks nosūtīts uz šo adresi.",
+        "continue": "Turpināt ar šo adresi",
+        "use_saved_address": "Izmantojiet citu adresi",
+        "return_to_cart": "Atgriezties grozā"
+      },
+      "marketplaces": {
+        "legal_notice": {
+          "legal_text": "Atsauksme",
+          "link_label": "{{partnerDisplayName}} Noteikumi un Nosacījumi"
+        }
+      },
+      "online_store_chat": {
+        "title": "Jautājumi? Sazinieties ar mums čatā"
       }
     },
     "pagination": {
