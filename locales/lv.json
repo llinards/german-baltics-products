@@ -33,7 +33,8 @@
           }
         },
         "pay_merchant_label": "Maksāt %{merchant_name}",
-        "discount_applies_to_subscription_items_only": "Šī atlaide attiecas tikai uz abonēšanas precēm"
+        "discount_applies_to_subscription_items_only": "Šī atlaide attiecas tikai uz abonēšanas precēm",
+        "title": "Pasūtījuma kopsavilkums"
       },
       "shipping": {
         "title": "Piegāde",
@@ -522,6 +523,321 @@
             "token_missing": "Lai pabeigtu šo pirkumu, ir jānorāda captcha žetons.",
             "job_enqueue_failed": "Kaptšas validācijas uzdevumu neizdevās ievietot rindā."
           }
+        }
+      },
+      "customer_account": {
+        "invalid_address": "Izvēlētā adrese nav derīga. %{update_address_link} vai izvēlieties citu adresi.",
+        "incomplete_address": "Izvēlētā adrese ir nepilnīga. %{update_address_link} vai izvēlieties citu adresi.",
+        "rollup_label": "Konts",
+        "rollup_accessibility_label": "Konta opcijas",
+        "invalid_shipping_method_summary": "Izvēlieties derīgu piegādes adresi, lai skatītu pieejamās piegādes metodes",
+        "saved_address_option_description": {
+          "one": "Jums ir {{count}} saglabāta adrese.",
+          "other": "Jums ir saglabātas {{count}} adreses."
+        },
+        "saved_address_option_link": "Izmantot saglabātu adresi",
+        "saved_address_modal_title": "Izmantot manu saglabāto adresi"
+      },
+      "remote_merchandise_only": {
+        "title": "Pabeidziet pirkumu",
+        "remote_only_notice": "Šīs preces pārdod un piegādā citi veikali. Lai pabeigtu pirkumu, veiciet norēķinu katrā veikalā atsevišķi.",
+        "return_to_store_label": "Atgriezties veikalā",
+        "detail_item_label": {
+          "one": "{{count}} vienums",
+          "other": "{{count}} vienumi"
+        },
+        "checkout_on_shop_label": "Veikt pasūtījumu vietnē %{shop_name}",
+        "single_shop_transition": "Novirzām jūs uz %{advertiser}, lai pabeigtu pirkumu."
+      },
+      "stock": {
+        "page_title": "Krājumu problēmas",
+        "title": "Nav noliktavā",
+        "items_unavailable_notice": "Dažas preces vairs nav pieejamas.",
+        "product_column_header": "Produkti",
+        "quantity_column_header": "Daudzums",
+        "price_column_header": "Cena",
+        "status_column_header": "Statuss",
+        "removed_from_cart_notice": "Izņemts no groza",
+        "sold_out_label": "Izpārdots",
+        "reduced_label": "Samazināts",
+        "reduced_with_quantity_label": "Atlikusi tikai %{quantity_available}",
+        "remove_from_cart_button_label": "Izņemt no groza",
+        "continue_shopping_button_label": "Turpināt",
+        "go_back_to_cart_button_label": "Atgriezties grozā",
+        "remove": "Noņemt",
+        "return_to_store_label": "Atgriezties veikalā",
+        "continue_cta_label": "Turpināt noformēt pasūtījumu",
+        "item_label": {
+          "one": "{{count}} vienums",
+          "other": "{{count}} vienumi"
+        },
+        "empty_cart_label": "Jūsu grozs ir tukšs",
+        "quantity_update": {
+          "page_title": "Daudzuma atjauninājums",
+          "title": "Daudzuma atjauninājums",
+          "description": "Šo preču pieejamais daudzums ir mainījies un ir atjaunināts jūsu grozā."
+        },
+        "unpurchasable_product": {
+          "title": "Nopērkama produkta nav",
+          "header": "Dažas preces tika izņemtas no jūsu groza",
+          "message": "Šīs preces nav pieejamas B2B pasūtījumiem.",
+          "status_column_header": "Nav pieejams"
+        },
+        "unpurchasable_product_generic": {
+          "title": "Nopērkama produkta nav",
+          "header": "Dažas preces tika izņemtas no jūsu groza",
+          "message": "Šīs preces nav pieejamas.",
+          "status_column_header": "Nav pieejams"
+        },
+        "unfulfillable_product": {
+          "title": "Piegāde nav pieejama",
+          "message": {
+            "one": "%{delivery_method} šai precei vairs nav pieejama.",
+            "other": "%{delivery_method} šīm precēm vairs nav pieejams."
+          },
+          "default_message": {
+            "one": "Izvēlētā piegādes metode šai precei vairs nav pieejama.",
+            "other": "Izvēlētā piegādes metode šīm precēm vairs nav pieejama."
+          }
+        },
+        "unshippable_product": {
+          "title": "Piegāde nav pieejama",
+          "header": {
+            "one": "Piegāde nav pieejama %{count} precei",
+            "other": "%{count} precēm piegāde nav pieejama"
+          },
+          "message": {
+            "one": "Šī prece tiks izņemta no jūsu groza, jo jūsu adresei nav pieejami piegādes veidi.",
+            "other": "Šīs preces tiks izņemtas no jūsu groza, jo jūsu adresei nav pieejami piegādes veidi."
+          },
+          "status_column_header": "Nav piegādes"
+        },
+        "price_update": {
+          "title": "Cenas atjauninājums",
+          "description": "Šo preču cenas ir mainījušās un ir atjauninātas jūsu grozā.",
+          "updated_price": "Atjauninātā cena"
+        },
+        "price_and_quantity_update": {
+          "title": "Cenas un daudzuma atjauninājums",
+          "description": "Šo preču cenas un pieejamie daudzumi ir mainījušies un atjaunināti jūsu grozā."
+        },
+        "out_of_stock": {
+          "description": "Šīs preces vairs nav pieejamas un tiks izņemtas no Jūsu groza.",
+          "items_unavailable": "Dažas preces vairs nav pieejamas, un tās tiks izņemtas no Jūsu groza.",
+          "missing_items": {
+            "title": {
+              "one": "{{count}} prece vairs nav pieejama",
+              "other": "{{count}} preces vairs nav pieejamas"
+            },
+            "some_available_notice": {
+              "one": "Pārējās preces joprojām ir pieejamas izrakstīšanai. Nepieejamā prece tiks izņemta no groza.",
+              "other": "Atlikušās preces joprojām ir pieejamas pirkumam. Nepieejamās preces tiks izņemtas no groza."
+            },
+            "none_available_notice": {
+              "one": "Šī prece vairs nav pieejama, un tā ir izņemta no jūsu groza.",
+              "other": "Šīs preces vairs nav pieejamas un ir izņemtas no jūsu groza."
+            },
+            "mixed_issues_title": "Dažas preces vairs nav pieejamas"
+          }
+        },
+        "out_of_stock_in_context_label": "Šis produkts nav pieejams jūsu valstī/reģionā.",
+        "unavailable_at_pickup_location_label": "Šo preci nav iespējams saņemt izvēlētajā vietā."
+      },
+      "contextual_availability": {
+        "title": {
+          "one": "Nepieejama prece",
+          "other": "Nepieejami produkti"
+        },
+        "products_not_available": {
+          "one": "Šī prece tiks izņemta no jūsu groza, jo tā nav pieejama jūsu valstī/reģionā.",
+          "other": "Šie produkti tiks izņemti no jūsu groza, jo tie nav pieejami jūsu valstī/reģionā."
+        },
+        "all_products_in_cart_unavailable": {
+          "one": "Šis produkts nav pieejams jūsu valstī/reģionā.",
+          "other": "Šie produkti nav pieejami jūsu valstī/reģionā."
+        },
+        "unavailable_label": "Nav pieejams"
+      },
+      "merchandise_unavailable_in_buyer_location": {
+        "banner_title": {
+          "some_products_one": "Šo produktu nav iespējams piegādāt uz %{location_name}.",
+          "some_products_other": "Šos produktus uz %{location_name} nevar piegādāt.",
+          "all_products_one": "Prece jūsu grozā nav pieejama piegādei uz %{location_name}.",
+          "all_products_other": "Jūsu grozā esošās preces nav pieejamas piegādei uz %{location_name}."
+        },
+        "missing_country_fallback": "jūsu valsts",
+        "indeterminate_location_fallback": "jūsu atrašanās vieta",
+        "cart_updated": "Jūsu grozs ir atjaunināts.",
+        "change_address_only": "Lai turpinātu, mainiet piegādes adresi.",
+        "change_address_or_remove": "Mainīt piegādes adresi vai %{remove_action}.",
+        "remove_items_action": {
+          "one": "noņemt nepieejamo vienumu",
+          "other": "noņemt nepieejamās preces"
+        },
+        "empty_cart_action": "Iztukšot grozu un atgriezties veikalā",
+        "unavailable_line_item": "%{product_name} / %{variant_label}"
+      },
+      "deliverability": {
+        "not_deliverable": {
+          "title": {
+            "one": "Piegāde nav pieejama %{count} precei",
+            "other": "%{count} precēm piegāde nav pieejama"
+          },
+          "message": {
+            "one": "Šī prece tiks izņemta no jūsu groza, jo jūsu adresei nav pieejami piegādes veidi.",
+            "other": "Šīs preces tiks izņemtas no jūsu groza, jo jūsu adresei nav pieejami piegādes veidi."
+          },
+          "label": "Nav piegādes"
+        }
+      },
+      "payment": {
+        "pending_payment": {
+          "multibanco": {
+            "pay": "Apmaksāt %{amount}",
+            "expiry_date_time": "%{date} plkst. %{time}",
+            "expires_at": "Beidz darboties: %{date}",
+            "expired": "Derīguma termiņš beidzies %{date}",
+            "expired_title": "Maksājuma atsauce ir zaudējusi spēku",
+            "labelled_code": "%{label}: %{code}"
+          },
+          "oxxo": {
+            "label": "OXXO",
+            "number": "Atsauces numurs",
+            "reference_number": "Atsauces numurs:",
+            "steps": {
+              "1": "Skenējiet svītrkodu tuvākajā OXXO veikalā.",
+              "2": "Maksājiet precīzu summu skaidrā naudā kasē."
+            },
+            "pay": "Apmaksāt %{amount}",
+            "expiry_date_time": "%{date} plkst. %{time}",
+            "expires_at": "Beidz darboties: %{date}",
+            "expires_when_unknown": "Izlietot, pirms beidzas kupona derīguma termiņš",
+            "days_left": {
+              "one": "%{count} diena",
+              "other": "%{count} dienas"
+            },
+            "print_voucher": "Drukāt kuponu",
+            "print": {
+              "instructions_title": "Instrukcijas OXXO apmaksai:",
+              "important_details_title": "Svarīga informācija:"
+            },
+            "important_details": {
+              "canceled_by_expiry": "Jūsu pasūtījums tiks atcelts, ja maksājums netiks saņemts līdz %{date}.",
+              "canceled_when_expired": "Jūsu pasūtījums tiks atcelts, ja maksājums netiks saņemts pirms kupona derīguma termiņa beigām.",
+              "non_refundable": "OXXO pasūtījumi netiek atgriezti.",
+              "tracking_after_payment": "Sūtījuma izsekošanas informāciju saņemsiet vienas darbdienas laikā pēc maksājuma veikšanas."
+            },
+            "barcode_alt": "OXXO kupona svītrkods atsauces numuram %{reference_number}"
+          }
+        },
+        "update_payment_method": "Atjaunināt maksājuma veidu",
+        "order_covered_by_store_credit_notice": "Jūsu pasūtījums ir segts ar veikala kredītu.",
+        "order_covered_by_redeemables_notice": "Jūsu pasūtījums ir apdrošināts.",
+        "store_credit": {
+          "label": "Veikala kredīts",
+          "apply_label": "Izmantot veikala kredītu",
+          "add_label": "Pievienot veikala kredītu",
+          "manage_label": "Pārvaldīt veikala kredītu",
+          "buying_gift_card": "Veikala kredītu nevar izmantot dāvanu kartes iegādei.",
+          "no_fixed_selling_plans": "Veikala kredītu nevar izmantot, izvēloties atliktā maksājuma iespējas."
+        },
+        "clear": "Skaidrs",
+        "billing_must_match_shipping_notice": "Maksājuma veida rēķina saņemšanas adresei ir jāsakrīt ar piegādes adresi.",
+        "same_billing_address_checkbox_label": "Izmantot piegādes adresi kā rēķina adresi",
+        "location_billing_address_label": "Norēķinu adrese",
+        "fact_billing_address_label": "Norēķinu adrese",
+        "location_shipping_address_label": "Piegādes adrese",
+        "use_order_billing_address_label": "Izmantot pasūtījuma rēķina adresi",
+        "use_location_billing_address_label": "Izmantot atrašanās vietas norēķinu adresi",
+        "use_location_shipping_address_label": "Izmantot atrašanās vietas piegādes adresi",
+        "no_working_method_error": "Šis veikals pašlaik nevar pieņemt maksājumus. Atsvaidziniet šo lapu vai atgriezieties vēlāk.",
+        "brand_not_available": "Šis veikals nepieņem {{brand}}. Lūdzu, izmantojiet citu karti maksājuma veikšanai.",
+        "shipping_rate_updated": "Pieejamās piegādes metodes ir atjauninātas. Apstipriniet savu izvēli pirms pasūtījuma noformēšanas.",
+        "billing_address_invalid_phone": "Atjauniniet tālruņa numuru savā norēķinu adresē kontam {{label}} {{last_digits}}, lai turpinātu.",
+        "billing_address_invalid_phone_no_card": "Lai turpinātu, atjauniniet tālruņa numuru savā norēķinu adresē.",
+        "preview_not_available": {
+          "title": "Priekšskatījums nav pieejams",
+          "content": "Neuztraucieties, šī ātrā norēķināšanās sistēma darbojas jūsu klientiem.",
+          "button": "Labi"
+        },
+        "card_fields": {
+          "errors": {
+            "required": {
+              "issue_date": "Ievadiet derīgu izdošanas datumu",
+              "issue_number": "Ievadiet derīgu problēmas numuru"
+            },
+            "invalid": {
+              "verification_value": "Ievadiet derīgu CVV vai drošības kodu"
+            }
+          }
+        },
+        "simulated_checkout": "Priekšskatījums drīzumā",
+        "simulated_express_checkout": "Maki redaktora priekšskatījumā nav pieejami jūsu reģiona vai pārlūkprogrammas dēļ",
+        "vaulting_agreement_label": "Saglabāt manu maksājumu informāciju uzņēmumā %{company}, lai norēķinātos ātrāk",
+        "business_customer_vaulting_payment_label": "Saglabājiet šo maksājuma veidu norēķinu procesā un pilnvarojiet %{company} veikt maksājumus par turpmākajiem pirkumiem šajā atrašanās vietā. Visas šai atrašanās vietai piesaistītās kontaktpersonas var izmantot šo maksājuma veidu.",
+        "business_customer_with_bank_account_vaulting_payment_label": "Saglabājiet šo maksājuma veidu norēķinu brīdī un pilnvarojiet %{company} norakstīt līdzekļus no jūsu konta turpmākiem pirkumiem, kurus apstiprināsiet šajā atrašanās vietā, līdz brīdim, kad atcelsiet šo atļauju. Visas šai atrašanās vietai piesaistītās kontaktpersonas var izmantot šo maksājuma veidu.",
+        "purchase_options_and_vaulting_agreement_label": "Viena vai vairākas preces jūsu grozā ir atliktā maksājuma vai abonēšanas preces. Turpinot maksājumu, jūs piekrītat, ka no jūsu maksājuma metodes tiks automātiski ieturēta maksa par šajā lapā norādīto cenu un biežumu, līdz termiņa beigām vai līdz brīdim, kad atcelsiet abonementu. Uz visām atteikšanās reizēm attiecas %{cancellation_policy_label}.",
+        "purchase_options_cancellation_policy_label": "atteikuma politika",
+        "use_different_credit_card_label": "Izmantojiet citu karti",
+        "saved_credit_card": "Jūsu saglabātā kredītkarte",
+        "saved_credit_card_info": "Pēdējie četri cipari",
+        "saved_credit_card_cvv_verification": "Verifikācijas nolūkos ievadiet savas kartes drošības kodu.",
+        "saved_credit_card_actions": {
+          "edit": "Rediģēt",
+          "delete": "Dzēst"
+        },
+        "saved_credit_cards_modal": {
+          "view_all_label": "Skatīt visas saglabātās kartes",
+          "done": "Izpildīts",
+          "cancel": "Atcelt"
+        },
+        "add_credit_card_modal": {
+          "title": "Pievienot karti",
+          "save": "Saglabāt",
+          "cancel": "Atcelt"
+        },
+        "delete_credit_card_modal": {
+          "title": "Dzēst karti",
+          "confirmation": "Vai tiešām vēlaties dzēst {{brandName}}, kas beidzas ar {{lastDigits}}?",
+          "cancel": "Atcelt",
+          "delete": "Dzēst"
+        },
+        "edit_credit_card_modal": {
+          "title": "Rediģēt karti",
+          "done": "Izpildīts",
+          "cancel": "Atcelt",
+          "description": "Jūs varat mainīt tikai savas kartes norēķinu adresi.",
+          "fields": {
+            "default": "Iestatīt kā noklusējuma",
+            "card_number": "Kartes numurs",
+            "expiry": "Derīguma termiņš",
+            "security_code": "Drošības kods",
+            "name": "Vārds uz kartes",
+            "billing": "Rēķinu izrakstīt"
+          }
+        },
+        "expired_cards_info": {
+          "one": "Ir %{count} derīguma termiņu beigusī karte, kuru varat apskatīt un rediģēt savā kontā.",
+          "other": "Ir %{count} beigušās kartes, kuras varat skatīt un rediģēt savā kontā."
+        },
+        "local_payment_method_receiver_notice": "Pēc pasūtījuma veikšanas, Jums tiks nosūtīta informācija par apmaksu. Lūdzam veikt apmaksu bankomātā vai internetbankā {{dueDays}} dienu laikā.",
+        "order_edit_banner_title": "{{amount_owed}} apmaksa ir nepieciešama",
+        "order_edit_banner_subtitle": "Jūsu pasūtījums {{order_number}} tika atjaunināts. Pārskatiet šīs izmaiņas, pēc tam samaksājiet, lai apstiprinātu savu pasūtījumu.",
+        "order_edit_banner_items_added": {
+          "one": "Pievienots",
+          "other": "Pievienots %{count}"
+        },
+        "order_edit_banner_items_removed": {
+          "in_full": "Izņemts",
+          "with_quantities": "Noņemts {{delta}} no {{quantity}}"
+        },
+        "order_edit_banner_items_returned": {
+          "in_full": "Atgrieza {{quantity}}",
+          "with_quantities": "Atgriezts {{delta}} no {{quantity}}"
+        },
+        "order_edit_banner_items_return_line_item_removed": {
+          "in_full": "Izņemts no atgriešanas",
+          "with_quantities": "No atgriešanas atskaitīts {{delta}}"
         }
       }
     },
