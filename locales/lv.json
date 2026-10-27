@@ -1,0 +1,431 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "shopify": {
+    "checkout": {
+      "order_summary": {
+        "discount_discovery": {
+          "merchandise_quantity_label": {
+            "other": "%{count} vienumi"
+          }
+        },
+        "alternative_payment_currency_total": "Iekasēta summa: %{amount_due}",
+        "alternative_payment_currency_chinese_yuan": "Apstipriniet galīgo ĶTR summu lietotnē %{wallet}.",
+        "lpm": {
+          "wechat_pay": {
+            "checkout_disclosure": "Apstipriniet galīgo CNY summu lietotnē WeChat",
+            "checkout_disclosure_with_alternative_payment_currency": "Veikals %{shop_name} apstrādās šo maksājumu kā %{amount_due} %{processing_currency}, ko WeChat konvertēs uz CNY.",
+            "checkout_disclosure_charged_in_cny": "Veikals %{shop_name} apstrādās šo maksājumu kā %{amount_due} %{processing_currency}",
+            "post_purchase_disclosure": "Skatiet kopējo CNY summu pakalpojumā WeChat"
+          },
+          "alipay": {
+            "checkout_disclosure": "Apstipriniet galīgo CNY kopsummu Alipay lietotnē",
+            "checkout_disclosure_with_alternative_payment_currency": "%{shop_name} apstrādās šo maksājumu kā %{amount_due} %{processing_currency}, ko Alipay pārvērš uz CNY",
+            "checkout_disclosure_charged_in_cny": "Veikals %{shop_name} apstrādās šo maksājumu kā %{amount_due} %{processing_currency}",
+            "post_purchase_disclosure": "Skatīt kopējo CNY summu Alipay makā"
+          }
+        },
+        "pay_merchant_label": "Maksāt %{merchant_name}",
+        "discount_applies_to_subscription_items_only": "Šī atlaide attiecas tikai uz abonēšanas precēm"
+      },
+      "shipping": {
+        "title": "Piegāde",
+        "delivery_title": "Piegāde",
+        "shipping_method_title": "Piegādes veids",
+        "shipping_method_rollup_accessibility_label": "Piegādes veidu opcijas",
+        "shipping_method_one_time_purchase_group_title": "Vienreizējs pirkums",
+        "shipping_method_first_shipment_group_title": {
+          "one": "Pirmā krava",
+          "other": "Pirmās kravas"
+        },
+        "shipping_method_subscription_group_title": "Abonements",
+        "shipping_method_recurring_shipments_group_title": {
+          "one": "Regulāra piegāde",
+          "other": "Regulārie sūtījumi"
+        },
+        "subscription_shipping": "Abonēta piegāde",
+        "subscription_local_delivery": "Abonementa vietējā piegāde",
+        "subscription_pickup": "Abonementa saņemšana",
+        "waiting_on_rate_notice": "Notiek pieejamo piegādes tarifu iegūšana...",
+        "waiting_on_pickup_location_notice": "Notiek pieejamo saņemšanas vietu iegūšana…",
+        "no_rates_for_cart_or_destination_notice": "Jūsu grozam vai adresei nav pieejami piegādes veidi",
+        "no_pickup_location_notice": "Vismaz viens no jūsu produktiem nav pieejams saņemšanai uz vietas",
+        "no_rates_for_country_notice": "Šai adresei netika atrasti piegādes tarifi.",
+        "no_rates_contact_notice": "Sazinieties ar mums, lai iegūtu vairāk informācijas",
+        "free_rate_label": "Bezmaksas",
+        "cheapest_rate_label": "Lētākais",
+        "estimated_delivery_date": {
+          "one": "%{count} darbdiena",
+          "other": "%{count} darba dienas"
+        },
+        "estimated_delivery_date_range": "no %{minimum} līdz %{maximum} darbdienām",
+        "delivery_date_range": "%{min_time}–%{max_time}",
+        "estimated_delivery_time": "Paredzamais piegādes laiks %{time}",
+        "estimated_delivery_time_range": "Paredzamais piegādes laiks: %{min_time}–%{max_time}",
+        "delivery_today": "Piegāde tajā pašā dienā %{time}",
+        "delivery_tomorrow": "Piegāde nākamajā dienā %{time}",
+        "two_day_delivery": "Piegāde 2 dienās %{time}",
+        "delivery": "Piegāde %{time}",
+        "delivery_to": "Piegāde uz",
+        "arrives_time": "Pienāk %{time}",
+        "arrives_time_range": "Pienāk %{min_time}–%{max_time}",
+        "estimated_time": "Paredzamais %{time}",
+        "estimated_time_range": "Paredzamais laiks: %{min_time}–%{max_time}",
+        "default_description": "Izsūtām 1 darba dienas laikā",
+        "unbranded_default_description": "Gatavs nosūtīšanai",
+        "unbranded_description_same_day": "Nosūtām tajā pašā darba dienā",
+        "unbranded_description_with_fulfillment_days": {
+          "one": "Izsūta nākamajā darba dienā",
+          "other": "Izsūta %{count} darba dienās"
+        },
+        "unbranded_description_with_fulfillment_weeks": {
+          "one": "Izsūtīšana %{count} nedēļas laikā",
+          "other": "Izsūta %{count} nedēļās"
+        },
+        "shipping_line_phone_label": "Mobilā tālruņa numurs (obligāts)",
+        "shipping_line_phone": "Kurjers var izmantot šo numuru, lai ar jums sazinātos.",
+        "shipping_line_delivery_phone_label": "Mobilā tālruņa numurs",
+        "shipping_line_delivery_phone": "Jūs varat tikt informēts par piegādes statusa izmaiņām.",
+        "optional_shipping_line_delivery_instructions_label": "Piegādes norādījumi (neobligāti)",
+        "shipping_line_delivery_instructions": "Ievadiet nepieciešamo informāciju, piemēram, durvju kodus vai norādījumus par preces atstāšanu.",
+        "other_method": {
+          "zero": "Nav pieejamas citas metodes",
+          "one": "%{count} cita pieejamā metode vietnē",
+          "other": "Pieejamas vēl %{count} metodes, sākot no"
+        },
+        "shipping_rate_discounted_amount": "Bija: %{original_amount}. Tagad: %{amount}",
+        "local_delivery": "Vietējā piegāde",
+        "prime_not_available": {
+          "default": "Jūsu pasūtījumam nav pieejama \"Prime\" piegāde. Jūsu piegādes iespējas ir atjauninātas."
+        },
+        "subscription_delivery_description": {
+          "free_shipping_cycles": {
+            "one": "Bezmaksas piegāde vēl %{count} pasūtījumam",
+            "other": "Bezmaksas piegāde vēl %{count} pasūtījumiem"
+          },
+          "free_shipping_cycles_delivery_not_included": {
+            "one": "Bezmaksas piegāde %{count} pasūtījumam",
+            "other": "Bezmaksas piegāde %{count} sūtījumiem"
+          },
+          "first_n_order_free_with_cycle": {
+            "one": "Bezmaksas piegāde vēl %{count} sūtījumam, pēc tam %{recurring_order_shipping_price}",
+            "other": "Bezmaksas piegāde vēl %{count} pasūtījumiem, pēc tam %{recurring_order_shipping_price}"
+          },
+          "first_n_order_free_with_cycle_delivery_not_included": {
+            "one": "Bezmaksas piegāde %{count} pasūtījumam, pēc tam %{recurring_order_shipping_price}",
+            "other": "Bezmaksas piegāde %{count} sūtījumiem, pēc tam %{recurring_order_shipping_price}"
+          },
+          "max_cycles_base_shipping": {
+            "one": "Vēl %{count} piegāde par %{shipping_price}",
+            "other": "Vēl %{count} piegādes par %{shipping_price} katra"
+          },
+          "max_cycles_base_shipping_delivery_not_included": {
+            "one": "%{count} piegāde par %{shipping_price}",
+            "other": "Vēl %{count} piegādes par %{shipping_price} katra"
+          },
+          "prepaid_free_shipping_with_cycles": {
+            "one": "Bezmaksas piegāde pirmajam %{cycle}, turpmāk %{recurring_order_shipping_price}",
+            "other": "Bezmaksas piegāde pirmajam %{cycle}, turpmāk %{recurring_order_shipping_price}"
+          },
+          "prepaid_order_one_cycle": {
+            "one": "%{shipping_price} par vēl %{count} piegādi",
+            "other": "%{shipping_price} par vēl %{count} piegādēm (%{per_delivery_cost})"
+          },
+          "prepaid_order_one_cycle_delivery_not_included": {
+            "one": "%{shipping_price} par %{count} piegādi",
+            "other": "%{shipping_price} par %{count} piegādēm (%{per_delivery_cost})"
+          },
+          "prepaid_order_no_cycle": {
+            "one": "%{shipping_price} par %{count} nākamo piegādi, kam sekos %{recurring_order_shipping_price}",
+            "other": "%{shipping_price} par %{count} turpmākajām piegādēm (%{per_delivery_cost}), kam seko %{recurring_order_shipping_price}"
+          },
+          "prepaid_order_no_cycle_delivery_not_included": {
+            "one": "%{shipping_price} par %{count} piegādi, kam seko %{recurring_order_shipping_price}",
+            "other": "%{shipping_price} par %{count} piegādēm (%{per_delivery_cost}), kam seko %{recurring_order_shipping_price}"
+          },
+          "subscription_free_with_frequency_label": "Bezmaksas piegāde %{delivery_frequency}",
+          "prepaid_delivery_frequency": {
+            "one": "par %{count} piegādi",
+            "other": "par %{count} piegādēm"
+          },
+          "subscription_delivery_frequency": {
+            "day": {
+              "one": "katru dienu",
+              "other": "ik pēc %{count} dienām"
+            },
+            "week": {
+              "one": "katru nedēļu",
+              "other": "ik pēc %{count} nedēļām"
+            },
+            "month": {
+              "one": "katru mēnesi",
+              "other": "ik pēc %{count} mēnešiem"
+            },
+            "year": {
+              "one": "katru gadu"
+            }
+          }
+        }
+      },
+      "payment_errors": {
+        "credit_card_processing": "Tehnisku iemeslu dēļ jūsu maksājumu nevar apstrādāt. Mēģiniet vēlreiz pēc dažām minūtēm vai izmantojiet citu maksājuma veidu.",
+        "checkout_amount_changed": "Maksājumu neizdevās apstrādāt, jo norēķinu brīdī mainījās maksājamā summa. Pārbaudiet savu pasūtījumu un mēģiniet vēlreiz.",
+        "deferred_payment_not_allowed": "Atliktie maksājumi nav atļauti. Pārbaudiet savu pasūtījumu un mēģiniet vēlreiz.",
+        "deferred_payment_required": "Šim pasūtījumam ir nepieciešams atliktais maksājums. Pārbaudiet savu pasūtījumu un mēģiniet vēlreiz.",
+        "deferred_amount_changed": "Maksājumu neizdevās apstrādāt, jo atliktā maksājuma summa ir mainījusies. Pārbaudiet savu pasūtījumu un mēģiniet vēlreiz.",
+        "deferred_date_changed": "Maksājumu neizdevās apstrādāt, jo ir mainīts atliktā maksājuma datums. Pārbaudiet savu pasūtījumu un mēģiniet vēlreiz.",
+        "order_total_changed": "Jūsu pasūtījuma kopsumma ir mainījusies. Pārskatiet un mēģiniet vēlreiz.",
+        "payment_processing": "Tehnisku iemeslu dēļ jūsu maksājumu nevar apstrādāt. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu.",
+        "payment_processing_no_retry": "Tehnisku iemeslu dēļ jūsu maksājumu nav iespējams apstrādāt. Lūdzu, izmantojiet citu maksājuma veidu.",
+        "paypal_zero_amount": "Jūs nevarat izmantot PayPal %{amount} pasūtījumiem. Pārliecinieties, vai pasūtījums ir pareizs, un veiciet norēķinus bez PayPal.",
+        "paypal_invalid_token": "PayPal nebija pieejams. Mēģiniet vēlreiz vai izmantojiet citu norēķinu iespēju.",
+        "pay_later_failed": "Radās kļūda, apstrādājot jūsu maksājumu ar \"Maksāt vēlāk\". Izvēlieties citu maksājuma veidu un mēģiniet vēlreiz.",
+        "three_d_secure_failed": "Maksājumu neizdevās verificēt. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu.",
+        "three_d_secure_failed_duplicate": "Kredītkartes 3D Secure autentifikācija neizdevās, jo jau notiek cita autentifikācija.",
+        "three_d_secure_failed_payment_method": "Jūsu karti neizdevās verificēt. Mēģiniet vēlreiz vai pievienojiet citu karti.",
+        "three_d_secure_throttled": "Pārāk daudz mēģinājumu; uzgaidiet, pirms mēģināt vēlreiz",
+        "subscription_agreement_blank": "Lai iegādātos abonementu, ir jāsaglabā jūsu maksājumu dati. Lai turpinātu, apstipriniet, ka piekrītat, vai izņemiet abonementa preces no sava pasūtījuma.",
+        "installments_payment_method_incompatible": "Izvēlēto maksājuma veidu nevar izmantot nomaksai. Izvēlieties citu maksājuma veidu.",
+        "insufficient_funds": "Jūsu maksājums tika noraidīts nepietiekamu līdzekļu dēļ. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu.",
+        "multiple_deferred_payment_not_allowed": "Vienam pieprasījumam ir atļauts tikai viens atliktais maksājums. Pārbaudiet savu pieprasījumu un mēģiniet vēlreiz.",
+        "shipping_must_match_billing": "Norēķinu adresei ir jāsakrīt ar piegādes adresi. Izmantojiet citu maksājuma veidu.",
+        "shipping_company_required_error": "{{shopName}} piegādes adresei ir nepieciešams uzņēmuma nosaukums.",
+        "cancelled_payment": "Jūsu maksājums tika atcelts. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu.",
+        "pick_up_card": "Jūsu karte tika noraidīta. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu.",
+        "cannot_verify": "Maksājuma datus neizdevās verificēt. Pārbaudiet kartes datus un mēģiniet vēlreiz.",
+        "invalid_customer_account": "Neizdevās no jūsu konta iekasēt maksājumu. Varat mēģināt vēlreiz, kad būsiet novērsis konta problēmu, vai izmantot citu maksājuma veidu.",
+        "code_expired": "Jūsu maksājuma kodam ir beidzies derīguma termiņš, vai arī tas jau ir izmantots. Iegūstiet jaunu kodu savā bankas lietotnē un mēģiniet vēlreiz.",
+        "code_invalid": "Jūsu maksājuma kods nav derīgs. Pārbaudiet kodu un mēģiniet vēlreiz vai iegūstiet jaunu kodu savā bankas lietotnē.",
+        "invalid_number": "Ievadiet derīgu kartes numuru",
+        "invalid_expiry_date": "Ievadiet derīgu derīguma termiņu",
+        "invalid_cvc": "Ievadiet derīgu drošības kodu",
+        "missing_cvc": "Ievadiet drošības kodu",
+        "expired_card": "Jūsu karte ir zaudējusi derīguma termiņu. Izmantojiet citu maksājuma veidu.",
+        "payment_method_not_applicable": "Šis maksājuma veids nav piemērojams. Izmantojiet citu maksājuma veidu.",
+        "card_declined": "Jūsu karte tika noraidīta. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu.",
+        "processing_error": "Radās problēma, apstrādājot jūsu maksājumu. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu.",
+        "processing_error_checkout_as_guest": "Maksājuma apstrādes laikā radās problēma. Mēģiniet vēlreiz, izmantojot citu maksājuma veidu, vai {{checkout_as_guest_link}}.",
+        "selected_payment_method": "Radās problēma ar jūsu izvēlēto maksājuma veidu, un maksa netika iekasēta. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu.",
+        "payment_method_billing_address": "Radās problēma ar jūsu izvēlētā maksājuma veida norēķinu adresi. Pārbaudiet adresi un mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu.",
+        "duplicate_autopay_card": "Šī karte ir piesaistīta gaidāmajiem maksājumiem. Maksājiet citā veidā vai {{update_payment_details_link}}",
+        "duplicate_autopay_card_link": "atjaunināt maksājuma datus",
+        "duplicate_autopay_card_without_link": "Šī karte ir piesaistīta gaidāmajiem maksājumiem. Maksājiet citā veidā.",
+        "call_issuer": "Jūsu karte tika noraidīta. Izmantojiet citu maksājuma veidu vai sazinieties ar savu banku, lai iegūtu papildinformāciju.",
+        "test_mode_live_card": "Šis veikals nevar pieņemt reālus pasūtījumus vai reālus maksājumus.",
+        "test_mode_enabled_only_test_cards": "Testa režīms ir iespējots, var pievienot tikai testa kredītkartes.",
+        "transient_error": "Radās problēma, apstrādājot jūsu maksājumu. Mēģiniet atsvaidzināt šo lapu vai pārbaudiet savu interneta savienojumu.",
+        "missing_shipping_address": "Maksājumu neizdevās apstrādāt, jo trūkst jūsu piegādes adreses. Pievienojiet piegādes adresi un mēģiniet vēlreiz.",
+        "invalid_shipping_address": "Maksājumu neizdevās apstrādāt, jo nevarējām atrast jūsu piegādes adresi. Pārbaudiet savu piegādes adresi un mēģiniet vēlreiz.",
+        "successful_offsite_with_gift_card_error": "Radās problēma, apstrādājot jūsu dāvanu kartes maksājumu. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu.",
+        "development_store_order_limit_reached": "Esat sasniedzis izstrādes veikala pasūtījumu limitu šim maksājumu apstrādātājam. Lai veiktu vēl vienu pasūtījumu, jums būs jāizmanto testa maksājumu vārteja. Uzziniet vairāk šeit: %{development_store_order_testing_docs_link}.",
+        "development_store_with_order_limit": "Lai veiktu testa pasūtījumu, jums būs jāizmanto testa maksājumu vārteja. Uzziniet vairāk šeit: %{development_store_order_testing_docs_link}.",
+        "development_store_order_testing_docs_link": "testa pasūtījumi izstrādes veikalos",
+        "payment_above_threshold": "Maksājuma summa pārsniedz šim reģionam noteikto naudas limitu. Samaziniet kopējo summu un mēģiniet vēlreiz.",
+        "risky": "Radās problēma, apstrādājot jūsu maksājumu. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu.",
+        "expired_buyer_action": "Maksājuma veida sesijas laiks ir beidzies. Mēģiniet vēlreiz.",
+        "name_mismatch": "Pārbaudiet savas kartes datus. Vārds uz kartes un norēķinu adrese nesakrīt.",
+        "shop_pay_wallet_not_available": "Shop Pay nav pieejams šim pirkumam.",
+        "market_manager_blocks_wallet_payments": "Maksājuma veids jūsu valstī netiek atbalstīts.",
+        "paypal_over_capture": "Jūsu pasūtījuma kopsumma tika atjaunināta. Apmaksājiet ar {{walletName}}, lai pabeigtu pasūtījumu.",
+        "captcha_required": "Ievadiet maksājuma informāciju un atrisiniet atpazīšanas kodu, lai pabeigtu pirkumu.",
+        "captcha_required_without_payment_information": "Lai pabeigtu pirkumu, atrisiniet kapču.",
+        "payment_credential_delegation_error": "Radās problēma ar maksājuma apstrādi. Izvēlieties jaunu maksājuma veidu."
+      },
+      "shipping_errors": {
+        "shipping_method": "Piegādes iespējas jūsu pasūtījumam ir mainījušās. Pārskatiet savu izvēli.",
+        "shipping_method_not_available": "Jūsu grozs ir atjaunināts, un pievienotās preces nevar nosūtīt uz jūsu adresi. Lai pabeigtu pasūtījumu, izņemiet šīs preces.",
+        "shipping_method_not_available_generic": {
+          "one": "Jūsu pasūtījumu nav iespējams nosūtīt uz norādīto adresi. Pārbaudiet, vai adrese ir pareiza, un mēģiniet vēlreiz, vai arī izvēlieties citu adresi.",
+          "other": "Dažas preces jūsu grozā nevar tikt nosūtītas uz jūsu norādīto adresi. Pārbaudiet savu adresi, lai pārliecinātos, ka tā ir pareiza, un mēģiniet vēlreiz, vai arī izvēlieties citu adresi."
+        },
+        "shipping_method_not_available_due_to_unsatisfied_conditions": "Groza saturs neatbilst cenas vai svara prasībām, lai saņemtu piegādi. Atjauniniet grozu un mēģiniet vēlreiz.",
+        "shipping_method_not_available_updated": {
+          "one": "Prece, kuru pievienojāt, netiek piegādāta uz jūsu atrašanās vietu. Izņemiet to, lai veiktu pasūtījumu, vai sazinieties ar veikalu.",
+          "other": "Viena vai vairākas jūsu pievienotās preces netiek piegādātas uz jūsu atrašanās vietu. Lai veiktu pasūtījumu, izņemiet tās no groza vai sazinieties ar veikalu."
+        },
+        "payment_method_not_supported": "Jūs nevarat izmantot šo maksājuma veidu valstij %{country}. Izmantojiet citu maksājuma veidu, lai veiktu piegādi uz šo valsti.",
+        "empty_state": "Ievadiet savu piegādes adresi, lai skatītu pieejamos piegādes veidus.",
+        "title": "Piegāde nav pieejama",
+        "invalid_selected_address": "Izvēlētā piegādes adrese nav derīga",
+        "invalid_selected_address_with_update_link": "Izvēlētā piegādes adrese nav derīga. %{update_address_link} vai atlasiet citu adresi",
+        "unavailable_addresses_only_countries": "Jūsu pasūtījumu var nosūtīt tikai uz {{countriesList}}. Lai turpinātu, pievienojiet jaunu adresi.",
+        "unavailable_address_country": "Uz jūsu izvēlēto valsti piegāde netiek veikta. Lai turpinātu, lūdzu, norādiet citu adresi.",
+        "unavailable_selected_address": "Izvēlētajai adresei piegāde nav pieejama",
+        "unavailable_selected_address_for_region": "Piegāde uz {{region}} nav pieejama. Lai turpinātu, atlasiet citu adresi."
+      },
+      "alternative_payment_method_banner": {
+        "express_checkout": "Ātrā norēķināšanās",
+        "or": "VAI",
+        "or_pay_another_way": "Vai arī maksājiet citā veidā",
+        "or_check_out_another_way": "Vai arī apskati citu veidu",
+        "or_pay_with_credit_card": "Vai maksājiet ar kredītkarti",
+        "show_more_options": "Rādīt vairāk iespēju",
+        "hide_more_options": "Paslēpt vairāk opciju"
+      },
+      "post_purchase": {
+        "page_title": "Pēc pirkuma veikšanas",
+        "title": "Pēc pirkuma veikšanas",
+        "escape_confirmation": "Jūs esat samaksājis par savu pasūtījumu.",
+        "escape_action": "Skatīt pasūtījuma apstiprinājumu ›",
+        "components": {
+          "close": "Aizvērt",
+          "expand": "Skatīt vairāk",
+          "processing": "Apstrādā…",
+          "submit": "Iesniegt"
+        }
+      },
+      "processing": {
+        "redirecting_page_title": "Notiek pāradresācija…",
+        "redirecting_title": "Notiek pāradresācija…",
+        "redirecting_notice": "Lūdzu, uzgaidiet, kamēr mēs jūs novirzām.",
+        "redirecting_to_bank": "Novirza uz {{bank}}",
+        "complete_your_purchase_title": "Pabeidziet pirkumu",
+        "continue_to_payment_gateway_notice": "Turpiniet uz maksājumu, lai ievadītu savu maksājuma informāciju.",
+        "continue_to_payment_gateway_button_label": "Turpināt maksājumu"
+      },
+      "tooltip": {
+        "accessibility_label_context": "Vairāk informācijas par %{context}",
+        "additional_payment_methods": "Papildu maksājumu metodes"
+      },
+      "too_many_requests": {
+        "title": "Pārāk daudz mēģinājumu veikt norēķinu",
+        "body": "Lūdzu, uzgaidiet dažas minūtes un mēģiniet vēlreiz no sava groza.",
+        "body_no_cart": "Lūdzu, uzgaidiet dažas minūtes un mēģiniet vēlreiz.",
+        "return_to_cart": "Atgriezties grozā"
+      },
+      "required_extensions": {
+        "errors": {
+          "interaction_required": "Lai pabeigtu norēķināšanos, ir nepieciešama paplašinājuma mijiedarbība."
+        }
+      },
+      "taxes": {
+        "tax_details": "Papildu informācija par nodokļiem",
+        "vat_number": {
+          "field": {
+            "label": "PVN numurs (nav obligāts)",
+            "tooltip": "Apstiprina PVN numuru un automātiski piemēro apgriezto PVN maksāšanas kārtību pasūtījumiem, ja tas ir attiecināms."
+          },
+          "add": "Pievienot PVN numuru",
+          "vaulted": "PVN numurs: %{number}",
+          "badge": "PVN numurs: %{number}",
+          "domestic_order": "Apgrieztās maksāšanas kārtības atbrīvojums attiecas tikai uz pārrobežu pasūtījumiem ES ietvaros. Vietējiem pasūtījumiem tiek piemērots standarta PVN.",
+          "status": {
+            "invalid_format": {
+              "at": "Austrijas PVN numuri sastāv no AT un 9 rakstzīmēm",
+              "be": "Beļģijas PVN numuri sastāv no BE un 10 rakstzīmēm",
+              "bg": "Bulgārijas PVN numuri sastāv no BG un 9-10 rakstzīmēm",
+              "hr": "Horvātijas PVN numuri sastāv no HR un 11 rakstzīmēm",
+              "cy": "Kipras PVN numuri sastāv no CY un 9 rakstzīmēm",
+              "cz": "Čehijas PVN maksātāja numuri sastāv no CZ un 8–10 zīmēm.",
+              "dk": "Dānijas PVN numuri sastāv no DK un 8 rakstzīmēm",
+              "ee": "Igaunijas PVN numuri sastāv no EE un 9 rakstzīmēm",
+              "fi": "Somijas PVN numuri sastāv no FI un 8 rakstzīmēm",
+              "fr": "Francijas PVN numuri sastāv no FR un 11 rakstzīmēm",
+              "de": "Vācijas PVN numuri sastāv no DE un 9 rakstzīmēm",
+              "gr": "Grieķijas PVN numuri sastāv no EL un 9 rakstzīmēm",
+              "hu": "Ungārijas PVN numuri sastāv no HU un 8 rakstzīmēm",
+              "ie": "Īrijas PVN numuri sastāv no IE un 8–9 rakstzīmēm",
+              "it": "Itālijas PVN numuri sastāv no IT un 11 rakstzīmēm",
+              "lv": "Latvijas PVN numuri sastāv no LV un 11 rakstzīmēm",
+              "lt": "Lietuvas PVN numuri sastāv no LT un 9-12 rakstzīmēm",
+              "lu": "Luksemburgas PVN numuri sastāv no LU un 8 rakstzīmēm",
+              "mt": "Maltas PVN numuri sastāv no MT un 8 rakstzīmēm",
+              "nl": "Nīderlandes PVN numuri sastāv no NL un 12 rakstzīmēm",
+              "pl": "Polijas PVN numuri sastāv no PL un 10 rakstzīmēm",
+              "pt": "Portugāles PVN numuri sastāv no PT un 9 rakstzīmēm",
+              "ro": "Rumānijas PVN numuri sastāv no RO un 10 rakstzīmēm",
+              "sk": "Slovākijas PVN numuri sastāv no SK un 10 rakstzīmēm",
+              "si": "Slovēnijas PVN numuri sastāv no SI un 8 rakstzīmēm",
+              "es": "Spānijas PVN numuri sastāv no ES un 9 rakstzīmēm",
+              "se": "Zviedrijas PVN numuri sastāv no SE un 12 rakstzīmēm",
+              "gb": "Apvienotās Karalistes PVN numuri satur GB vai XI un 5–12 rakstzīmes"
+            },
+            "invalid_number": {
+              "at": "Ievadiet derīgu Austrijas PVN numuru",
+              "be": "Ievadiet derīgu Beļģijas PVN numuru",
+              "bg": "Ievadiet derīgu Bulgārijas PVN numuru",
+              "hr": "Ievadiet derīgu Horvātijas PVN numuru",
+              "cy": "Ievadiet derīgu Kipras PVN numuru",
+              "cz": "Ievadiet derīgu Čehijas PVN numuru",
+              "dk": "Ievadiet derīgu Dānijas PVN numuru",
+              "ee": "Ievadiet derīgu Igaunijas PVN numuru",
+              "fi": "Ievadiet derīgu Somijas PVN numuru",
+              "fr": "Ievadiet derīgu Francijas PVN numuru",
+              "de": "Ievadiet derīgu Vācijas PVN numuru",
+              "gr": "Ievadiet derīgu Grieķijas PVN numuru",
+              "hu": "Ievadiet derīgu Ungārijas PVN maksātāja numuru",
+              "ie": "Ievadiet derīgu Īrijas PVN numuru",
+              "it": "Ievadiet derīgu Itālijas PVN numuru",
+              "lv": "Ievadiet derīgu Latvijas PVN numuru",
+              "lt": "Ievadiet derīgu Lietuvas PVN numuru",
+              "lu": "Ievadiet derīgu Luksemburgas PVN numuru",
+              "mt": "Ievadiet derīgu Maltas PVN maksātāja numuru",
+              "nl": "Ievadiet derīgu Nīderlandes PVN numuru",
+              "pl": "Ievadiet derīgu Polijas PVN numuru",
+              "pt": "Ievadiet derīgu Portugāles PVN numuru",
+              "ro": "Ievadiet derīgu Rumānijas PVN numuru",
+              "sk": "Ievadiet derīgu Slovākijas PVN numuru",
+              "si": "Ievadiet derīgu Slovēnijas PVN numuru",
+              "es": "Ievadiet derīgu Spānijas PVN numuru",
+              "se": "Ievadiet derīgu Zviedrijas PVN numuru",
+              "gb": "Ievadiet derīgu Apvienotās Karalistes PVN numuru"
+            },
+            "service_unavailable": "Validācijas pakalpojums nav pieejams",
+            "service_error": "Validācijas pakalpojums nav pieejams"
+          },
+          "accessibility": {
+            "status": {
+              "validating": "PVN numura validācija norit šobrīd",
+              "valid": "PVN numurs ir derīgs",
+              "applied": "Pievienotā vērtības nodokļa atbrīvojums ir piemērots",
+              "domestic": "PVN atbrīvojums nav piemērots",
+              "invalid_number": "PVN atbrīvojums nav izdevies",
+              "service_unavailable": "Nav iespējams pārbaudīt PVN atbrīvojumu",
+              "service_error": "Nav iespējams pārbaudīt PVN atbrīvojumu"
+            }
+          }
+        }
+      },
+      "address_management": {
+        "saved_with_store": "Saglabāts šajā veikalā"
+      }
+    },
+    "pagination": {
+      "previous": "Iepriekšējais",
+      "next": "Nākamais"
+    },
+    "links": {
+      "powered_by_shopify": "Nodrošina Shopify",
+      "learn_more": "Uzzināt vairāk"
+    },
+    "feed": {
+      "more": "Vairāk"
+    },
+    "attributes": {
+      "email": "e-pasts",
+      "password": "parole",
+      "password_confirmation": "Paroles apstiprinājums",
+      "first_name": "vārds",
+      "last_name": "uzvārds",
+      "body": "ķermenis",
+      "signature": "Adrese"
+    },
+    "addresses": {
+      "zip_code": "Pasta indekss",
+      "postal_code": "Pasta indekss",
+      "postcode": "Pasta indekss",
+      "pincode": "PIN kods",
+      "region": "Reģions",
+      "prefecture": "Prefektūra",
+      "province": "Province",
+      "state": "Valsts"
+    }
+  }
+}
