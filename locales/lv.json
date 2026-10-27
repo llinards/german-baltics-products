@@ -838,6 +838,83 @@
         "order_edit_banner_items_return_line_item_removed": {
           "in_full": "Izņemts no atgriešanas",
           "with_quantities": "No atgriešanas atskaitīts {{delta}}"
+        },
+        "order_edit_banner_single_item_added": "Pievienots",
+        "order_edit_banner_multiple_items_added": "Pievienots {{amount}}",
+        "order_edit_banner_single_item_removed": "Izņemts",
+        "order_edit_banner_multiple_items_removed": "Noņemts {{amount}}",
+        "order_edit_banner_single_item_returned": "Atgriezts",
+        "order_edit_banner_multiple_items_returned": "Atgriezta {{amount}}",
+        "order_edit_banner_single_item_return_line_item_removed": "Izņemts no atgriešanas",
+        "order_edit_banner_multiple_items_return_line_item_removed": "No atgriešanas summas izņemti {{amount}}",
+        "order_edit_banner_single_item_updated": "Atjaunināts",
+        "order_edit_banner_updated_order_label": "Atjaunināts pasūtījums",
+        "order_edit_banner_previous_taxes_label": "Iepriekšējie nodokļi:",
+        "order_edit_banner_new_taxes_label": "Jauni nodokļi:",
+        "order_edit_banner_no_taxes_label": "Neviens",
+        "gift_card_wrapper": {
+          "heading": "Dāvanu karte",
+          "apply_gift_card_label": "Izmantot dāvanu karti",
+          "apply_another_gift_card_label": "Izmantot citu dāvanu karti",
+          "gift_card_label": "Dāvanu karte %{identifier}",
+          "payment_tag": "Dāvanu karte",
+          "add_label": "Pievienot dāvanu karti",
+          "manage_label": "Pārvaldīt dāvanu kartes"
+        },
+        "gift_card_store_credit": {
+          "add_label": "Pievienojiet dāvanu karti vai veikala kredītu",
+          "manage_label": "Pārvaldīt dāvanu kartes vai veikala kredītu"
+        },
+        "gift_card_checkbox_label": "Pielietot dāvanu karti",
+        "custom_onsite_payment_method_modal": {
+          "title": "Individuāla maksājuma apstiprinājums uz vietas"
+        },
+        "markets_pro_disclaimer_label": "Veicot pasūtījumu, jūs piekrītat veikt pirkumu no Global-e kā oficiālā tirgotāja, ievērojot Global-e %{markets_pro_terms} un %{privacy_policy}, kā arī piekrītat kopīgot savu informāciju ar %{shop_name}.",
+        "markets_pro_disclaimer_terms_and_conditions": "Noteikumi un nosacījumi",
+        "markets_pro_disclaimer_privacy_policy": "Privātuma politika",
+        "markets_pro_disclaimer_terms_and_conditions_title": "Tirdzniecības pārstāvja noteikumi un nosacījumi",
+        "markets_pro_disclaimer_privacy_policy_title": "Tirdzniecības pārstāvja privātuma politika",
+        "purchase_order_number": {
+          "title": "Pasūtījuma numurs",
+          "label": "Pasūtījuma numurs (nav obligāts)"
+        },
+        "alternative_payment_currency_total_notice": "Piezīme: no jums tiks iekasēti %{amount_due}.",
+        "alternative_payment_currency_total_manual_payment_notice": "Piezīme: konvertētā kopsumma ir %{amount_due}.",
+        "waiting_on_taxes_message": "Ja jūsu nodokļi netiek aprēķināti dažu nākamo sekunžu laikā, atsvaidziniet lapu.",
+        "waiting_on_taxes_notice": "Nodokļu aprēķināšana",
+        "payment_method": "Maksājuma veids",
+        "payment_method_rollup_accessibility_label": "Maksājuma veidu opcijas",
+        "expired_payment_method": "Izvēlētā maksājuma metode ir anulēta",
+        "payment_method_update_failed": "Maksājuma metodes atjaunināšana neizdevās.",
+        "payment_method_incompatible_with_payment_terms": "Maksājuma veids nav savietojams ar maksājuma noteikumiem.",
+        "proposed_gateway_unavailable": "Piedāvātais maksājumu vārtejas risinājums nav pieejams",
+        "pay_in_installments_split_pay_short": "4 maksājumi pa %{amount}",
+        "gift_cards_unavailable": "Jūsu dāvanu karte vairs nav piemērojama šim pasūtījumam un ir tikusi noņemta.",
+        "payment_flexibility_terms_id_mismatch": "Maksājumu elastības nosacījumu ID neatbilstība",
+        "payment_option": {
+          "accessibility_label": "Izvēlieties maksājuma veidu"
+        },
+        "bank_account_type": {
+          "checking": "Pārbaude",
+          "savings": "Ietaupījumi"
+        },
+        "new_bank_account_disclaimer": "Veicot pasūtījumu, jūs pilnvarojat %{shop_name} iekasēt norādīto summu no zemāk minētā konta, izmantojot ACH pārskaitījumu norādītajā laikā.",
+        "bank_account_disclaimer": "ACH maksājumu apstrāde var aizņemt līdz pat 4 darba dienām.",
+        "bank_account_choose": "Izvēlieties kontu, lai droši pabeigtu pirkumu",
+        "bank_account_connect_another": "Pievienot citu bankas kontu",
+        "bank_account_connect": "Pievienot bankas kontu",
+        "bank_account_missing": "Bankas kontam ir jābūt piesaistītam",
+        "bank_account_generic_error": "Neizdevās pievienot bankas kontu. Mēģiniet vēlreiz vēlāk.",
+        "separate_payments_label": "Jūsu preces ir no vairākiem veikaliem. Maksa tiks iekasēta atsevišķi, kā norādīts %{separate_payments_link}.",
+        "separate_payments_text": "atsevišķi maksājumi",
+        "payments": "Maksājumi",
+        "add_payment_method": "Pievienot maksājuma veidu",
+        "add_new_payment_method": "Pievienot jaunu maksājuma veidu",
+        "choose_new_payment_method": "Izvēlieties jaunu maksājuma veidu",
+        "multiple_primary_payment_not_allowed": "Nederīgi maksājuma veidi",
+        "vault_for_payment_later": {
+          "pay_button_label": "Veikt pasūtījumu",
+          "notice": "Šobrīd maksa netiks iekasēta. Turpinot apmaksāt, jūs piekrītat, ka maksājuma metode tiks izmantota, kad jūsu pasūtījums tiks apstrādāts."
         }
       },
       "shop_wallet": {
@@ -1141,6 +1218,53 @@
         "navigation": {
           "store_logo_accessibility_label": "Doties uz interneta veikalu"
         }
+      },
+      "billing": {
+        "billing_address_title": "Rēķinu izrakstīt",
+        "billing_address_rollup_accessibility_label": "Norēķinu iespējas",
+        "same_as_shipping": "Tas pats, kas piegādes adrese",
+        "add_address": "Izmantojiet citu adresi",
+        "edit": "Rediģēt",
+        "delete": "Dzēst",
+        "address_more": "Citas darbības šai adresei",
+        "address_edit": "Rediģēt adresi",
+        "address_delete": "Dzēst adresi",
+        "address_confirm": "Vai tiešām vēlaties izdzēst šo adresi no sava konta?",
+        "address_form": {
+          "add_address": "Pievienot adresi",
+          "save": "Saglabāt",
+          "cancel": "Atcelt"
+        }
+      },
+      "company_location": {
+        "location_title": "Uzņēmuma atrašanās vieta",
+        "location_rollup_accessibility_label": "Uzņēmuma atrašanās vietas varianti"
+      },
+      "payment_summary": {
+        "gift_card_current_balance_notice": "Pašreizējais atlikums %{amount}",
+        "credit_card_expires_on_notice": "Derīguma termiņš: %{month}/%{year}",
+        "express_payment_gateway_label": "Izteikt",
+        "manual_payment_gateway_label": "Rokasgrāmata",
+        "billing_address_title": "Norēķinu adrese",
+        "free_label": "Bezmaksas"
+      },
+      "field_errors": {
+        "handle_phone_invalid": "Ievadiet derīgu tālruņa numuru",
+        "handle_email_invalid": "Ievadiet derīgu e-pasta adresi",
+        "email_invalid": "Ievadiet derīgu e-pasta adresi",
+        "email_or_phone_blank": "Ievadiet e-pasta adresi vai tālruņa numuru",
+        "email_or_phone_invalid": "Ievadiet derīgu e-pasta adresi vai mobilā tālruņa numuru",
+        "address_first_name_blank": "Ievadiet vārdu",
+        "address_first_name_too_long": "Vārds ir pārāk garš (maksimālais garums ir 255 rakstzīmes)",
+        "address_first_name_contains_emojis": "Vārds nedrīkst saturēt emocijzīmes",
+        "address_first_name_contains_html_tags": "Vārds nedrīkst saturēt HTML tagus",
+        "address_first_name_contains_url": "Vārds nedrīkst saturēt URL",
+        "address_first_name_contains_mathematical_symbols": "Vārdā nedrīkst būt matemātiskas zīmes",
+        "address_last_name_blank": "Ievadiet uzvārdu",
+        "address_last_name_too_long": "Uzvārds ir pārāk garš (maksimālais garums ir 255 rakstzīmes)",
+        "address_last_name_contains_emojis": "Uzvārds nedrīkst saturēt emocijzīmes",
+        "address_last_name_contains_html_tags": "Uzvārds nedrīkst saturēt HTML tagus",
+        "address_last_name_contains_url": "Uzvārds nedrīkst saturēt vietrādi (URL)"
       }
     },
     "pagination": {
@@ -1294,6 +1418,134 @@
     "settings": {
       "title": "Iestatījumi",
       "loading_accessibility_message": "Notiek iestatījumu lapas ielāde"
+    },
+    "addresses": {
+      "back_button_accessibility_label": "Atpakaļ uz adreses {{address}} rediģēšanu",
+      "add_address_banner": "Pievienojiet adreses, ko izmantot norēķinoties",
+      "no_addresses_banner": "Adreses nav pievienotas",
+      "address_deleted_notification": "Adrese izdzēsta",
+      "cancel_adding_address_accessibility_label": "Atcelt adreses pievienošanu",
+      "cancel_deletion_button": "Atcelt",
+      "cancel_deletion_button_accessibility_label": "Atcelt {{address}} dzēšanu",
+      "default_address": {
+        "badge_label": "Noklusējuma",
+        "title": "Noklusējuma adrese",
+        "title_accessibility_label": "Noklusējuma adrese: {{address}}"
+      },
+      "delete_button": "Dzēst",
+      "delete_button_accessibility_label": "Dzēst {{address}}",
+      "delete_confirmation_button": "Dzēst adresi",
+      "delete_confirmation_button_accessibility_label": "Dzēst {{address}}",
+      "delete_confirmation_message": "Dzēst adresi? Esošie pasūtījumi netiks ietekmēti.",
+      "delete_confirmation_title": "Dzēst adresi?",
+      "delete_confirmation_description": "Esošie pasūtījumi netiek ietekmēti.",
+      "edit_button": "Rediģēt",
+      "edit_button_accessibility_label": "Rediģēt {{address}}",
+      "edit_section_accessibility_label": "Rediģēt {{address}}",
+      "edit_modal_title": {
+        "default": "Rediģēt adresi",
+        "billing": "Rediģēt rēķina adresi",
+        "shipping": "Rediģēt piegādes adresi"
+      },
+      "loading_accessibility_message": "Adreses ielāde",
+      "loading_addresses_accessibility_message": "Adrešu ielāde",
+      "loading_billing_accessibility_message": "Notiek norēķinu adreses ielāde",
+      "loading_finished_accessibility_message": "Ielādēta jauna adrešu lapa",
+      "loading_shipping_accessibility_message": "Notiek piegādes adreses ielāde",
+      "pagination": {
+        "load_more": "Rādīt vairāk",
+        "load_more_accessibility_label": "Rādīt citas adreses"
+      },
+      "save_new_address_accessibility_label": "Saglabāt adresi",
+      "title": "Adreses",
+      "billing_address_dropdown_placeholder": "Norēķinu adrese"
+    },
+    "address_form": {
+      "attention": "Uzmanību",
+      "attention_company": "Uzņēmums/uzmanībai",
+      "attention_help_text": "Personas vai nodaļas nosaukums",
+      "auto_complete_close_accessibility_label": "Aizvērt ieteikumus",
+      "auto_complete_title": "Ieteikumi",
+      "billing_address": "Izmantot kā norēķinu adresi",
+      "cancel": "Atcelt",
+      "cancel_accessibility_label": "Atcelt adreses {{address}} rediģēšanu",
+      "creation_success_notification": "Adrese pievienota",
+      "default_address": "Šī ir mana noklusējuma adrese",
+      "default_address_creation_success_notification": "Noklusējuma adrese pievienota",
+      "default_address_update_success_notification": "Noklusējuma adrese ir atjaunināta",
+      "loading_add_form_accessibility_message": "Notiek jaunas adreses veidlapas ielāde",
+      "loading_edit_form_accessibility_message": "Notiek adreses rediģēšanas formas ielāde",
+      "loading_form_accessibility_message": "Adreses veidlapas ielāde",
+      "loading_finished_accessibility_message": "Adreses forma ir ielādēta",
+      "save": "Saglabāt",
+      "save_accessibility_label": "Saglabāt adresi {{address}}",
+      "section_title_accessibility_label": "Pievienot adresi",
+      "update_success_notification": "Adrese atjaunināta"
+    },
+    "account_menu": {
+      "signed_out_state": {
+        "sheet_title": "Pierakstīties vai izveidot kontu",
+        "section_divider": "Vairāk veidu, kā pierakstīties",
+        "alternate_divider": "VAI",
+        "use_email_button": "Lūdzu, izmantojiet e-pastu",
+        "email_field_label": "E-pasts",
+        "orders_button": "Pasūtījumi",
+        "profile_button": "Profils",
+        "shop_login_button": "Pierakstīties ar Shop",
+        "continue_with_google": "Turpināt ar Google",
+        "continue_with_facebook": "Turpināt ar Facebook"
+      },
+      "signed_in_state": {
+        "greeting_with_name": "Sveiki, {{first_name}}",
+        "greeting_without_name": "Konts",
+        "orders_button": "Pasūtījumi",
+        "profile_button": "Profils"
+      },
+      "location_picker": {
+        "sheet_title": "Vietas",
+        "search_field_placeholder": "Meklēt"
+      },
+      "aria_labels": {
+        "close_menu": "Aizvērt izvēlni",
+        "back_to_main_menu": "Atpakaļ uz galveno izvēlni no {{title}}",
+        "open_submenu": "{{title}}, atver apakšizvēlni",
+        "loading_menu": "Ielādē izvēlni",
+        "loading": "Notiek ielāde",
+        "account": "Konts",
+        "sign_in_with_email": "Pierakstīties ar e-pastu",
+        "sign_in": "Pierakstīties"
+      }
+    },
+    "B2B": {
+      "account_information": {
+        "company_card_name_label": "Uzņēmuma nosaukums",
+        "company_card_section_accessibility_label": "Uzņēmums"
+      },
+      "locations": {
+        "contact_contact": "Kontakti",
+        "contact_email": "E-pasts",
+        "contact_list_title": "Cilvēki",
+        "contact_name": "Vārds",
+        "contact_permissions": "Atļaujas",
+        "contact_phone_number": "Tālruņa numurs",
+        "location_picker_label": "Atrašanās vietas nosaukums",
+        "location_picker_accessibility_label": "Atrašanās vietas nosaukums: {{locationName}}",
+        "net_payment_terms_description": "{{name}}: maksājumi jāveic {{numberOfDays}} dienu laikā",
+        "deposit_percentage": "{{percentage}} depozīts",
+        "own_role_contact_name": "Tu",
+        "pagination": {
+          "load_more": "Rādīt vairāk",
+          "load_more_accessibility_label": "Rādīt vairāk atrašanās vietu"
+        },
+        "payment_details_title": "Maksājuma informācija",
+        "payment_terms": "Apmaksas nosacījumi",
+        "permissions_label": "Jūsu atļaujas",
+        "permissions_title": "Atļaujas",
+        "section_title": "Atrašanās vieta",
+        "shipping_address_required": "Lai sāktu veikt pasūtījumus, pievienojiet piegādes adresi šai atrašanās vietai.",
+        "staff_and_permissions_title": "Personāls un atļaujas",
+        "tax_details_title": "Nodokļu informācija"
+      }
     }
   }
 }
