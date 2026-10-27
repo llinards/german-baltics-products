@@ -395,6 +395,134 @@
       },
       "address_management": {
         "saved_with_store": "Saglabāts šajā veikalā"
+      },
+      "general": {
+        "errors": {
+          "buyer_identity": {
+            "checkout_completion_target_is_missing": "Nav norādīts norēķinu pabeigšanas mērķis.",
+            "invalid_customer_profile": "Tika sniegts nederīgs klienta profils.",
+            "customer_profile_access_restricted": "Norēķinu sistēmai nav atļaujas piekļūt klienta profilam.",
+            "checkout_completion_target_is_invalid_proc": "Nederīgs norēķinu pabeigšanas mērķis.",
+            "buyer_identity_presentment_currency_does_not_match": "Radās problēma, apstrādājot jūsu pasūtījumu. Mēģiniet vēlreiz pēc dažām minūtēm."
+          },
+          "delivery": {
+            "only_one_delivery_line_allowed": "Grozā drīkst būt tikai viena piegādes rinda.",
+            "wrong_number_of_delivery_lines": "Katrai preču grupai ir jānorāda piegādes līnija.",
+            "external_delivery_promise_error": "Kļūda, iegūstot ārējās piegādes solījumu.",
+            "options_instructions_invalid": "Norādītās instrukcijas neatbilst paredzētajam šablonam.",
+            "destination_address_required": "Lai turpinātu, ir nepieciešama mērķa adrese.",
+            "pickup_points_unavailable": "Saņemšanas punkti pašlaik nav pieejami.",
+            "local_pickup_delivery_line_detail_changed": "Lai turpinātu darbu, ir jāmaina pašreizējā vietējās saņemšanas piegādes stratēģija.",
+            "selected_pickup_option_no_longer_available": "Iepriekš izvēlētā saņemšanas opcija vairs nav pieejama.",
+            "local_pickup_no_delivery_strategy_available": "Nav atrasta neviena pieejama saņemšanas uz vietas piegādes stratēģija.",
+            "origin_location_id_required": "Sākotnējās atrašanās vietas ID ir nepieciešams, ja ir pieprasīta RETAIL piegādes metode.",
+            "invalid_origin_location_id": "Neizdevās atrast atrašanās vietu, kas atbilst sākumpunkta atrašanās vietas ID.",
+            "origin_location_id_not_allowed": "Pieprasītās piegādes metodes neatbalsta izcelsmes vietas ID.",
+            "auto_fulfill_not_allowed": "Šai sesijai nav atļauts ignorēt izpildes darbību.",
+            "auto_fulfill_required": "Automātiska izpilde ir nepieciešama, ja tiek pieprasīta RETAIL piegādes metode.",
+            "prefetch_shipping_rates_used": "Iepriekš ielādētās piegādes cenas nekad nedrīkst atgriezt cenas.",
+            "fulfillment_constraints_not_satisfied": "Viena vai vairākas izpildes prasības netika izpildītas.",
+            "must_fulfill_from_constraint_not_satisfied": "Izpildes nosacījumi nav izpildīti, jo preces nevar tikt piegādātas no pieprasītajām atrašanās vietām.",
+            "must_fulfill_from_same_location_constraint_not_satisfied": "Izpildes nosacījumi nav izpildīti, jo preces nevar tikt izsūtītas no vienas un tās pašas atrašanās vietas.",
+            "delivery_strategy_conditions_not_satisfied": "Šai vietai ir pieejamas piegādes stratēģijas, taču to nosacījumi nav izpildīti.",
+            "out_of_stock_at_origin_location": "Izcelsmes vietā krājumu nav.",
+            "invalid_signature": "Nederīgs atlaides paraksts.",
+            "mixed_destination_countries": "Piegāde nav pieejama, jo piegādes līnijas šķērso vairākas valstis."
+          },
+          "discount": {
+            "discounts_not_allowed_for_b2b": "B2B veikalos atlaides nav atļautas.",
+            "mixed_destination_countries": "Atlaides nav pieejamas, jo piegādes līnijas aptver vairākas valstis.",
+            "custom_discount_not_honoured": "Piedāvātā pielāgotā atlaide netika piemērota.",
+            "unsupported_expectation": "Iesniegtā atlaižu rinda saturēja nosacījumu, kuru polise nespēja interpretēt.",
+            "additional_requested_discount_code_discarded": "{{code}} ir derīgs, bet nav piemērojams. Pārbaudiet atlaides noteikumus.",
+            "additional_requested_discount_discarded": "Jūsu atlaide ir derīga, taču nav piemērojama. Pārbaudiet atlaides nosacījumus.",
+            "allocations_mismatch": "Jūsu atlaižu kods ir mainījies. Pārskatiet savu grozu un mēģiniet vēlreiz.",
+            "discount_code_not_honoured": "%{discount_rejection_message}",
+            "discount_title_too_long": "Atlaides nosaukums nevar būt garāks par 255 rakstzīmēm."
+          },
+          "tax": {
+            "new_tax_must_be_accepted": "Jūsu pasūtījumam piemērojamie nodokļi ir mainījušies. Pārskatiet un mēģiniet vēlreiz.",
+            "unresolvable_tax_terms": "Piedāvātie noteikumi nav atrisināmi, ņemot vērā pašreizējo sarunu kontekstu.",
+            "delivery_price_is_abstract": "Saistītā piegādes cena ir abstrakta.",
+            "tax_inclusivity_mismatch": "Veiciet pārrunas, izmantojot konkrētu totalTaxAndDutyAmount vai totalAmountIncludedInTarget vērtību.",
+            "mixed_tax_inclusivity_not_supported": "Nodokļu rindām jābūt vai nu visām ar nodokļiem iekļautām, vai visām ar nodokļiem neiekļautām.",
+            "tax_exemption_not_supported": "Nodokļu atbrīvojumi pašreizējā sarunu sesijā netiek piemēroti.",
+            "delivery_tax_exemption_not_supported": "Nodokļu atvieglojumi piegādes pozīcijām šobrīd netiek atbalstīti.",
+            "proposed_allocations_required": "Trūkst lauka \"piedāvātie sadalījumi\".",
+            "merchandise_terms_must_be_defined": "Preču nosacījumi ir jādefinē.",
+            "delivery_terms_must_be_defined": "Piegādes noteikumi ir jādefinē.",
+            "merchandise_discount_terms_must_be_defined": "Preču atlaižu noteikumi ir jādefinē.",
+            "delivery_discount_terms_must_be_defined": "Piegādes atlaides nosacījumi ir jādefinē.",
+            "allocated_required": "Trūkst lauka \"allocated\".",
+            "value_required": "Trūkst lauka \"value\".",
+            "line_splits_not_supported": "Lauks \"preču līnijas\" ir jāsadala tā, lai katrai no tām pārdevēja piedāvājumā būtu viena līnijas sastāvdaļa."
+          },
+          "payment": {
+            "manual_payments_not_allowed_for_b2b": "Manuālie maksājumi B2B veikalos nav atļauti.",
+            "positive_amount_expected": "Maksājamajai summai jābūt lielākai par 0.",
+            "total_amount_mismatch": "Maksājamā kopsumma nesakrīt ar maksājumu summu.",
+            "subscription_terms_not_accepted": "Abonēšanas noteikumi nav pieņemti.",
+            "missing_session_id": "Trūkst kredītkartes sesijas informācijas.",
+            "gateway_not_supported": "Maksājumu vārteja neatbalsta maksājuma metodes saglabāšanu.",
+            "credit_card_last_name_required": "'uzvārds' nevar būt tukšs.",
+            "credit_card_update_failed": "Kredītkartes atjaunināšana neizdevās.",
+            "invalid_address_type": "Norādītais adreses veids nav derīgs šim maksājuma veidam.",
+            "missing_retail_attributions": "Mazumtirdzniecības atribūti ir nepieciešami manuāli ievadītiem kredītkaršu maksājumiem.",
+            "unexpected_retail_attributions": "Par kredītkartes maksājumu negaidīti tika piemēroti mazumtirdzniecības attiecinājumi.",
+            "invalid_card_source": "Šai sesijai nav atļaujas izmantot šo kartes avotu.",
+            "wallet_content_missing": "Maka saturs ir pazudis.",
+            "payment_instrument_not_found": "Maksājuma veidu neizdevās atrast",
+            "unauthorized_capture_method": "Maksājuma saņemšanas metodes konfigurēšana nav atļauta.",
+            "saved_payment_methods_not_allowed": "Saglabāto maksājumu metožu izmantošana nav atļauta.",
+            "saved_payment_methods_not_enabled": "Saglabātās maksājumu metodes šajā veikalā nav iespējotas.",
+            "saved_payment_methods_cvv_verification_disabled": "Izvēlētajam maksājuma veidam ir nepieciešama CVV verifikācija, kas šajā veikalā nav aktivizēta. Izvēlieties citu maksājuma veidu.",
+            "store_credit_not_enabled": "Šajā veikalā veikala kredīts nav iespējots.",
+            "store_credit_account_not_found": "Veikala kredītkonta ieraksts nav atrasts.",
+            "store_credit_account_mismatch": "Veikala kredīta konts neatbilst pircēja identitātei.",
+            "store_credit_mismatched_currency": "Veikala kredīta konta valūta neatbilst norēķinu valūtai.",
+            "store_credit_insufficient_funds": "Veikalā piešķirto kredītlīdzekļu kontā nav pietiekami daudz līdzekļu.",
+            "store_credit_buying_gift_card": "Veikala kredītu nevar izmantot dāvanu kartes iegādei.",
+            "gift_cards_not_allowed_for_b2b": "Dāvanu kartes B2B veikalos nav atļautas.",
+            "method_required": "Ir jāpiedāvā maksājuma metode.",
+            "paypal_express_address_invalid": "PayPal atgrieza nederīgu adresi."
+          },
+          "tip": {
+            "not_accepted_by_shop": "Veikals dzeramnaudu nepieņem.",
+            "only_one_tip_line_allowed": "Vairākas padomu rindas netiek atbalstītas.",
+            "tips_not_allowed_for_b2b": "Padomi B2B veikalos nav atļauti.",
+            "currency_change_reset": "Dzeramnauda ir atiestatīta valūtas maiņas dēļ.",
+            "tips_not_allowed_for_deferred_purchase_options": "Dzeramnaudas vēl netiek atbalstītas atliktā pirkuma opcijām."
+          },
+          "sale_attribution": {
+            "draft_order_not_exist": "Šis neapstiprinātais pasūtījums pašreizējā veikalā neeksistē.",
+            "staff_member_not_exist": "Šī prece pašreizējā veikalā neeksistē.",
+            "location_not_exist": "Šī vieta pašreizējā veikalā neeksistē.",
+            "point_of_sale_device_not_exist": "Šī tirdzniecības vietas ierīce šajā veikalā neeksistē.",
+            "unresolvable_target_merchandise_lines": "Piedāvātie pārdošanas nosacījumi nav atrisināmi pašreizējā sarunu kontekstā."
+          },
+          "non_negotiable": {
+            "missing_non_negotiable_terms": "Pircēja piedāvājumam jāsatur neapspriežami noteikumi.",
+            "invalid_signature": "Paraksts attiecībā uz {{target_terms}} nav derīgs."
+          },
+          "inventory": {
+            "missing_quantity_value": "Pircēja krājumu pozīcijās trūkst daudzuma lauka.",
+            "changing_behavior_not_allowed": "Šim klientam nav atļaujas mainīt krājumu darbību.",
+            "only_one_inventory_behavior_allowed": "Pašlaik katram pasūtījumam ir atļauta tikai viena krājumu uzvedība."
+          },
+          "optional_duties": {
+            "optional_duties_not_permitted": "Pienākumu nepildīšana šajā kasē nav atļauta."
+          },
+          "attribution": {
+            "retail_attribution_not_allowed": "Mazumtirdzniecības atribūcija šim norēķinam nav atļauta.",
+            "retail_attribution_required": "Šim pirkumam ir nepieciešams norādīt mazumtirdzniecības piesaisti."
+          },
+          "captcha": {
+            "metadata_missing": "Lai veiktu šo pirkumu, ir jāizpilda drošības pārbaude (CAPTCHA).",
+            "metadata_mismatch": "Nodrošinātais CAPTCHA sniedzējs un veids neatbilst paredzētajām vērtībām.",
+            "token_missing": "Lai pabeigtu šo pirkumu, ir jānorāda captcha žetons.",
+            "job_enqueue_failed": "Kaptšas validācijas uzdevumu neizdevās ievietot rindā."
+          }
+        }
       }
     },
     "pagination": {
@@ -426,6 +554,128 @@
       "prefecture": "Prefektūra",
       "province": "Province",
       "state": "Valsts"
+    }
+  },
+  "customer_accounts": {
+    "payment_method_brands": {
+      "swish": "Švīkstiens",
+      "twint": "TWINT",
+      "vipps": "Vipps",
+      "usdc": "Kriptovalūta: USDC"
+    },
+    "privacy_banner": {
+      "cookie_preferences_link": "Sīkfailu iestatījumi"
+    },
+    "ui_components": {
+      "clear": "Skaidrs",
+      "clipboardCopied": "Kopēts",
+      "clipboardFailedToCopy": "Neizdevās kopēt",
+      "closeNotification": "Aizvērt",
+      "expandNotification": "Skatīt vairāk",
+      "closeModal": "Aizvērt",
+      "submit": "Iesniegt",
+      "processing": "Apstrādā…",
+      "increase": "Palielināt {{type}}",
+      "decrease": "Samazināt {{type}}",
+      "minimumReached": "Sasniedzis minimumu: {{value}}",
+      "maximumReached": "Maksimālais skaits: {{value}} ir sasniegts",
+      "january": "Janvāris",
+      "february": "Februāris",
+      "march": "Marts",
+      "april": "Aprīlis",
+      "may": "Maijs",
+      "june": "Jūnijs",
+      "july": "Jūlijs",
+      "august": "Augusts",
+      "september": "Septembris",
+      "october": "Oktobris",
+      "november": "Novembris",
+      "december": "Decembris",
+      "monday": "Pirmdiena",
+      "tuesday": "Otrdiena",
+      "wednesday": "Trešdiena",
+      "thursday": "Ceturtdiena",
+      "friday": "Piektdiena",
+      "saturday": "Sestdiena",
+      "sunday": "Svētdiena",
+      "mondayAbbreviation": "Mo",
+      "tuesdayAbbreviation": "Tu",
+      "wednesdayAbbreviation": "Mēs",
+      "thursdayAbbreviation": "Tas",
+      "fridayAbbreviation": "Tiešām",
+      "saturdayAbbreviation": "Sa",
+      "sundayAbbreviation": "Su",
+      "showNextMonth": "Rādīt nākamo mēnesi, {{month}} {{year}}",
+      "showPreviousMonth": "Rādīt iepriekšējo mēnesi, {{month}} {{year}}",
+      "rangeStart": "Diapazona sākums",
+      "inRange": "Sasniedzamības robežās",
+      "rangeEnd": "Diapazona beigas",
+      "autocompleteOptionsAvailable": {
+        "one": "Ir pieejama {{count}} prece",
+        "other": "{{count}} vienības pieejamas"
+      },
+      "removeItem": "Noņemt {{label}}",
+      "removeTag": "Noņemt tagu",
+      "mapClusterTitle": {
+        "one": "{{number}} atzīmju kopa",
+        "other": "Klasteris ar {{number}} marķieriem"
+      },
+      "expandSheet": "Izvērst",
+      "qrCode": "QR kods",
+      "addFile": "Pievienot failu",
+      "dropzoneInvalidFileType": "Faila tips netiek atbalstīts",
+      "dropzoneDraggedOver": "Lai augšupielādētu, nometiet failu šeit",
+      "external": "Atver ārējo vietni.",
+      "externalNewWindow": "Atver ārēju vietni jaunā logā.",
+      "loading": "Notiek ielāde…",
+      "moneyLinesHeaderItem": "Vienība",
+      "moneyLinesHeaderValue": "Vērtība",
+      "newWindow": "Atveras jaunā logā.",
+      "productThumbnailQuantityLabel": "Daudzums",
+      "removeChip": "Noņemt vienumu",
+      "reviewItemHeaderChangeValue": "Mainīt vērtību",
+      "reviewItemHeaderSection": "Sadaļa",
+      "reviewItemHeaderValue": "Vērtība"
+    },
+    "profile_preview_bar": {
+      "badge_active": "Aktīvs",
+      "badge_draft": "Melnraksts",
+      "badge_launches": "Tiek palaists {{date}}",
+      "badge_paused": "Apturēts",
+      "badge_scheduled": "Ieplānota",
+      "badge_traffic": "{{percentage}} no trafika",
+      "edit": "Rediģēt",
+      "exit_preview": "Iziet no priekšskatījuma",
+      "hide_bar_action": "Slēpt joslu",
+      "rollout_label": "Ieviešana",
+      "customize_button": "Pielāgot",
+      "hide_bar": "Paslēpt joslu",
+      "navigate_to_admin": "Pāriet uz administrēšanu",
+      "close_preview": "Aizvērt priekšskatījumu",
+      "previewing": "Jūs skatāt priekšskatījumu:",
+      "saved_at": "Saglabāts: {{date}} plkst. {{time}}",
+      "viewing": "Jūs skatāties:",
+      "not_available": "Profila dati nav pieejami",
+      "actions_button": "Darbības"
+    },
+    "active_inspector": {
+      "extension": {
+        "select": "Atlasiet paplašinājumu ar nosaukumu {{extensionName}}",
+        "unselect": "Noņemiet atzīmi no paplašinājuma ar nosaukumu {{extensionName}}",
+        "move_down": "Pārvietot paplašinājumu uz nākamo pozīciju",
+        "move_up": "Pārvietot paplašinājumu uz iepriekšējo pozīciju",
+        "remove": "Noņemt paplašinājumu",
+        "move_down_tooltip": "Pāriet uz nākamo pozīciju",
+        "move_up_tooltip": "Pārvietoties uz iepriekšējo pozīciju",
+        "remove_tooltip": "Noņemt"
+      }
+    },
+    "editor": {
+      "link_new_tab_confirmation": "Šo saiti nevar atvērt redaktorā. Tā tiks atvērta jaunā logā ({{resolved_to_link}}). Noklikšķiniet uz Labi, lai turpinātu."
+    },
+    "settings": {
+      "title": "Iestatījumi",
+      "loading_accessibility_message": "Notiek iestatījumu lapas ielāde"
     }
   }
 }
