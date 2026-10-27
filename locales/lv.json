@@ -839,6 +839,308 @@
           "in_full": "Izņemts no atgriešanas",
           "with_quantities": "No atgriešanas atskaitīts {{delta}}"
         }
+      },
+      "shop_wallet": {
+        "title": "Shop Pay maks",
+        "description": "Izvēlies, ko vēlies izmantot šim pirkumam.",
+        "loading": "Notiek jūsu Shop Pay maka ielāde…",
+        "ready_status": "Jūsu Shop Pay maks ir gatavs. Izvēlieties maksājuma veidu.",
+        "cancel": "Atcelt",
+        "retry": "Mēģini vēlreiz",
+        "return_to_hatch": "Atgriezties pie Hatcha",
+        "choose_again": "Izvēlieties vēlreiz",
+        "payment_method": {
+          "heading": "Maksājuma veids",
+          "expiry": "Derīguma termiņš beidzas {{expiry}}"
+        },
+        "shipping_address": {
+          "heading": "Piegādes adrese"
+        },
+        "confirm": {
+          "label": "Apstiprināt izvēli",
+          "success_title": "Izvēle apstiprināta",
+          "success_message": "Atlasītie maka dati ir gatavi. Šis prototips tos vēl neatgriež partneru lietotnei.",
+          "retryable_error_title": "Atlase netiek kopīgota",
+          "retryable_error_message": "Mēģiniet vēlreiz apstiprināt savu maka izvēli.",
+          "terminal_error_title": "Maka savienojums tika pārtraukts",
+          "terminal_error_message": "Atgriezieties un vēlreiz atveriet Shop Pay."
+        },
+        "cancelled": {
+          "title": "Atlase atcelta",
+          "message": "Maksājumu informācija netika kopīgota un pirkums netika veikts."
+        },
+        "empty": {
+          "title": "Nav saglabātu karšu",
+          "message": "Šajā Shop Pay makā nav saglabātu karšu."
+        },
+        "ineligible": {
+          "title": "Nav piemērotu karšu",
+          "message": "Neviena no saglabātajām kartēm nevar tikt izmantota šim pirkumam."
+        },
+        "expired": {
+          "title": "Šī maka sesija ir beigusies.",
+          "message": "Atgriezieties partneru lietotnē un sāciet pirkumu vēlreiz."
+        },
+        "revoked": {
+          "title": "Shop Pay vairs nav pievienots.",
+          "message": "Pirms turpināšanas atkārtoti izveidojiet savienojumu ar Shop Pay partneru lietotnē."
+        },
+        "error": {
+          "title": "Jūsu Shop Pay maks netika ielādēts.",
+          "message": "Atgriezieties vietnē Hatch un mēģiniet vēlreiz atvērt Shop Pay."
+        }
+      },
+      "order_errors": {
+        "creation_failure": "Radās problēma, izveidojot jūsu pasūtījumu. Mēģiniet vēlreiz vai sazinieties ar mums, lai uzzinātu sīkāku informāciju.",
+        "network_failure": "Jūsu pasūtījumu neizdevās iesniegt tīkla kļūdas dēļ. Pārbaudiet savienojumu un mēģiniet vēlreiz.",
+        "inventory_reservation_failure": "Dažas preces vairs nav pieejamas."
+      },
+      "session_errors": {
+        "session_not_unique": "Radās problēma, apstrādājot jūsu pasūtījumu. Atsvaidziniet šo lapu, lai atgrieztos veikalā.",
+        "session_already_finished": "Šis pasūtījums jau ir iesniegts. Varat atgriezties veikalā, lai sāktu jaunu pasūtījumu."
+      },
+      "artifact_errors": {
+        "artifact_dissatisfaction_without_violation": "Radās problēma, apstrādājot jūsu pasūtījumu. Mēģiniet vēlreiz pēc dažām minūtēm."
+      },
+      "pickup_point": {
+        "location_is_currently_closed": "Slēgts",
+        "business_hours": "Darba laiks",
+        "no_business_hours": "Darba laiks nav pieejams",
+        "open_twenty_four_hours": "Atvērts 24/7",
+        "title": "Savākšanas punkts",
+        "or": "vai",
+        "search_button": "Meklēt",
+        "address_label": "Adrese",
+        "selector_tabs": "Saņemšanas punkta izvēle",
+        "selector_tab_map": "Karte",
+        "selector_tab_list": "Saraksts",
+        "could_not_resolve_address": "Jūsu adresi neizdevās atrast. Mēģiniet vēlreiz vai izmantojiet citu adresi.",
+        "no_pickup_points_near_you": "Norādītajā adresē nav atrasti saņemšanas punkti",
+        "no_pickup_points_near_location": "Tuvumā nav atrasti saņemšanas punkti",
+        "pickup_unavailable_banner_title": {
+          "one": "Jūsu precei nav pieejami saņemšanas punkti",
+          "other": "Jūsu precēm nav pieejami saņemšanas punkti"
+        },
+        "no_pickup_points_found": "Saņemšanas punkti nav atrasti",
+        "paginator": {
+          "next_accessibility_label": "Nākamā lapa",
+          "previous_accessibility_label": "Iepriekšējā lapa",
+          "header": {
+            "one": "Rādīt %{first} - %{last} no %{count} punkta",
+            "other": "Rāda %{first} - %{last} no %{count} punktiem"
+          },
+          "selected_pickup_point_label": {
+            "one": "%{pickup_point_index}. no %{count} punkta",
+            "other": "%{pickup_point_index}. no %{count} punktiem"
+          },
+          "selected_page": {
+            "one": "%{first} - %{last} no %{count} punkta",
+            "other": "%{first} – %{last} no %{count} punktiem"
+          }
+        },
+        "number_of_pickup_points_near_location": {
+          "one": "%{count} saņemšanas punkts jūsu atrašanās vietas tuvumā",
+          "other": "%{count} saņemšanas punkti netālu no jūsu atrašanās vietas"
+        },
+        "change": "Mainīt atrašanās vietu",
+        "waiting_on_pickup_point_location_notice": "Meklējam saņemšanas punktus...",
+        "geolocation": {
+          "shared_location_button": "Izmantot manu atrašanās vietu",
+          "errors": {
+            "unsuported_by_browser": "Ģeolokācijas iegūšana jūsu pārlūkprogrammā netiek atbalstīta. Mēģiniet vēlreiz vai izmantojiet citu pārlūkprogrammu.",
+            "permission_not_allowed": "Atļaut kopīgot jūsu atrašanās vietu.",
+            "permission_denied": "Neizdevās noteikt jūsu atrašanās vietu. Mēģiniet vēlreiz."
+          }
+        }
+      },
+      "error_page": {
+        "terminal": {
+          "title": "Radās problēma ar mūsu norēķinu sistēmu",
+          "message": "Atsvaidziniet šo lapu vai mēģiniet vēlreiz pēc dažām minūtēm",
+          "action": {
+            "cta": "Atsvaidzināt lapu"
+          },
+          "request_id": "Pieprasījuma ID: {{requestId}}"
+        },
+        "embed_errors": {
+          "storefront_password_required": "Šis veikals ir aizsargāts ar paroli",
+          "customer_account_required": "Lai pabeigtu pirkumu, ir nepieciešams klienta konts",
+          "cart_completed": "Šis pasūtījums jau ir apmaksāts",
+          "invalid_cart": "Grozs vairs nav derīgs",
+          "not_authorized": "Norēķinu autentifikācija neizdevās. Pārbaudiet savus lietojumprogrammas akreditācijas datus.",
+          "killswitch_enabled": "Norēķināšanās uz laiku nav pieejama",
+          "policy_violation": "Nav iespējams pabeigt pasūtījumu politikas konfigurācijas ierobežojumu dēļ.",
+          "unrecoverable_failure": "Neizdevās ielādēt norēķinus. Mēģiniet vēlreiz"
+        }
+      },
+      "notice_banner": {
+        "return_to_cart_link_text": "Atgriezties grozā",
+        "return_to_cart_to_update_quantities": "%{return_to_cart_link_text}, lai atjauninātu daudzumus",
+        "subscription_changed": "Viena no jūsu abonēšanām ir mainījusies.",
+        "company_location_changed": "Jūsu grozs ir atjaunināts. Pārskatiet savu pasūtījumu pirms tā iesniegšanas.",
+        "company_location_changed_product_removed": "Jūsu grozs ir atjaunināts, jo daži produkti šajā atrašanās vietā nav pieejami. Pirms pasūtījuma iesniegšanas pārskatiet to.",
+        "violations_title": "{{violation}} trūkst vai ir nederīgs",
+        "individual_violations_title": {
+          "DeliveryViolations": "Piegādes adrese",
+          "PaymentViolations": "Norēķinu adrese",
+          "OtherViolations": "Pasūtījuma informācija",
+          "UnhandledViolations": "Pasūtījuma informācija"
+        },
+        "all_violations_content": "Zvaniet vai {{emailLink}}, lai atjauninātu šo informāciju un pabeigtu pasūtījumu.",
+        "all_violations_email_link": "e-pasts",
+        "editable_shipping_address_violations_message_title": "Lai pabeigtu pasūtījumu, pievienojiet šo informāciju:",
+        "editable_shipping_address_violations_message_footer": "Lai neatgriezeniski atjauninātu šīs atrašanās vietas adresi, {{emailLink}}.",
+        "editable_shipping_address_violations_email_link": "sazinieties ar mums",
+        "delivery_address_validation_errors_banner": {
+          "title": "Piegādes adrese nav derīga",
+          "text_html": "%{contact_us}, lai rediģētu adresi",
+          "contact_us": "Sazinieties ar mums",
+          "use_different_address": "Izmantot citu piegādes adresi"
+        }
+      },
+      "wallets": {
+        "call_to_action": "Maksāt ar {{walletName}}",
+        "place_order": "Veikt pasūtījumu",
+        "redirection_notice": "Jūs tiksiet novirzīts uz {{walletName}}, lai pabeigtu pirkumu",
+        "recovery_notice": "Jūsu pasūtījuma informācijā ir radusies kļūda. Atjauniniet savus datus, lai pabeigtu maksājumu.",
+        "errors": {
+          "unavailable": {
+            "title": "{{walletName}} nav pieejams",
+            "description": "{{walletName}} nebija pieejams. Izmantojiet citu maksājuma veidu vai mēģiniet vēlreiz vēlāk.",
+            "instructions": "Radās problēma ar {{walletName}}. Atgriezieties veikalā, lai mēģinātu vēlreiz, vai izvēlieties citu norēķinu veidu.",
+            "unavailable_for_country": "{{walletName}} nav pieejams valstī {{countryName}}. Lūdzu, izvēlieties citu maksājumu veidu, lai pabeigtu pirkumu"
+          },
+          "sdk_load_failure": "Radās problēma, ielādējot {{walletName}}. {{refresh_link}}, lai mēģinātu vēlreiz, vai izmantojiet citu maksājuma veidu.",
+          "refresh_link": "Atsvaidzināt",
+          "unavailable_terminal": {
+            "instructions": "{{walletName}} pašlaik nav pieejams jūsu pasūtījumam. Lai turpinātu pirkumu, lūdzu, izvēlieties citu maksājuma metodi."
+          },
+          "subscription_review_required": "Jūsu pasūtījumā ir iekļauts abonements. Pirms pasūtījuma pabeigšanas jums ir jāiepazīstas ar tālāk minētajiem noteikumiem.",
+          "generic": "Radās problēma ar {{walletName}}. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu.",
+          "discount_code": "Šo atlaižu kodu nav iespējams piemērot. Pārbaudiet kodu un mēģiniet vēlreiz.",
+          "terminal": "Radās problēma ar {{walletName}}. Izmantojiet citu maksājuma veidu.",
+          "detour": {
+            "stock_problems": "Dažas preces vairs nav pieejamas. Aizveriet {{walletName}} un mēģiniet vēlreiz.",
+            "price_change": "Dažu preču cenas ir mainījušās. Aizveriet {{walletName}}, lai pārskatītu pasūtījumu un mēģinātu vēlreiz.",
+            "queue": "Jūs esat ievietots rindā, lai samaksātu. Aizveriet {{walletName}}, lai turpinātu.",
+            "currency_change": "Jūs nevarat izmantot citu adresi ar {{walletName}}. Izmantojiet sākotnējo adresi vai izmēģiniet citu maksājuma metodi.",
+            "currency_change_with_country": "{{walletName}} nevar izmantot, jo valūta ir mainījusies. Izmantojiet adresi valstī {{countryName}} vai izmēģiniet citu maksājuma veidu."
+          },
+          "unsupported": {
+            "address": "Tirgotājs nevar piegādāt preces uz šo adresi.",
+            "wallet_is_unavailable": "{{walletName}} nevar izmantot ar šo adresi. Izvēlieties citu adresi vai aizveriet {{walletName}}, lai pabeigtu pirkumu",
+            "postal_code": "Šī atrašanās vieta netiek atbalstīta"
+          },
+          "outdated": {
+            "shipping_method": "Piegādes iespējas jūsu pasūtījumam ir mainījušās. Pārskatiet savu izvēli.",
+            "payment_terms": "Apmaksas noteikumi ir mainījušies. Pārskatiet savu pasūtījumu."
+          },
+          "invalid": {
+            "shipping_address": "Ievadiet derīgu piegādes adresi",
+            "billing_address": "Ievadiet derīgu norēķinu adresi",
+            "shipping_option": "Izvēlieties derīgu piegādes veidu",
+            "email": "Ievadiet derīgu e-pasta adresi",
+            "zone": "Ievadiet derīgu štatu / provinci",
+            "billing_zone": "Ievadiet derīgu norēķinu adreses štatu / provinci",
+            "emirate": "Ievadiet derīgu emirātu",
+            "postal_code": "Ievadiet derīgu pasta indeksu",
+            "phone": "Ievadiet derīgu tālruņa numuru",
+            "billing_phone": "Ievadiet derīgu norēķinu adreses tālruņa numuru",
+            "reduction_code": "Ievadiet derīgu atlaižu kodu vai dāvanu karti",
+            "billing_must_match_shipping": "Jāatbilst piegādes adresei",
+            "billing_zip": "Ievadiet derīgu norēķinu adreses pasta indeksu"
+          },
+          "missing": {
+            "first_name": "Ievadiet vārdu",
+            "billing_first_name": "Ievadiet norēķinu adreses vārdu",
+            "last_name": "Ievadiet uzvārdu",
+            "address1": "Ievadiet adresi",
+            "billing_address1": "Ievadiet norēķinu adresi",
+            "address2": "Ieiet dzīvoklī, apartamentos u. tml.",
+            "billing_address2": "Ievadiet norēķinu adreses dzīvokli, biroju utt.",
+            "city": "Ievadiet pilsētu",
+            "billing_city": "Ievadiet norēķinu adreses pilsētu",
+            "province": "Izvēlieties štatu / provinci",
+            "billing_province": "Izvēlieties norēķinu adreses štatu / provinci",
+            "country": "Izvēlieties valsti/reģionu",
+            "zip": "Ievadiet pasta indeksu",
+            "billing_zip": "Ievadiet norēķinu adreses pasta indeksu",
+            "phone": "Ievadiet tālruņa numuru",
+            "contact_info": "Ievadiet kontaktinformāciju"
+          },
+          "formatting": {
+            "name_contains_emojis": "Izdzēs emocijzīmi no sava vārda",
+            "postal_code_contains_emoji": "Izdzēsiet emocijzīmes no sava pasta indeksa",
+            "first_name_too_long": "Vārdā ir pārāk daudz burtu",
+            "last_name_too_long": "Uzvārdā ir pārāk daudz burtu",
+            "address_too_long": "Adreses rinda ir pārāk gara"
+          },
+          "select_different_shipping_address_to_resolve_errors": "Jūsu piegādes adrese nav derīga. Izvēlieties citu adresi vai izmantojiet jaunu.",
+          "processing_error_checkout_as_guest": "Radās problēma ar maksājuma apstrādi. Mēģiniet vēlreiz vai {{checkout_as_guest_link}}."
+        },
+        "scrim": {
+          "continue_purchase_in_window": "Turpiniet pirkumu {{walletName}} logā",
+          "and_return_to_checkout": "un atgriezties pie pasūtījuma noformēšanas",
+          "cancel": "Atcelt"
+        }
+      },
+      "note": {
+        "length_exceeds_maximum": "Samaziniet piezīmes izmēru līdz 5000 vai mazāk rakstzīmēm."
+      },
+      "offsite_payment_failed": {
+        "title": "Maksājums ārpus sistēmas neizdevās",
+        "payment_not_processed_title": "Maksājums neizdevās",
+        "payment_not_processed_text": "Mēģiniet noskenēt QR kodu vēlreiz. Ja tas joprojām nedarbojas, informējiet mūsu darbiniekus un izmantojiet citu maksājuma veidu.",
+        "payment_link_expired_title": "Maksājuma saites derīguma termiņš ir beidzies",
+        "payment_link_expired_text": "Mēģiniet vēlreiz noskenēt QR kodu."
+      },
+      "one": {
+        "errors": {
+          "merchandise": {
+            "gift_card_price_must_be_greater_than_zero": "Dāvanu kartes cenai jābūt lielākai par 0.",
+            "gift_card_price_must_not_exceed_limit": "Dāvanu kartes summa nedrīkst pārsniegt %{gift_card_limit}.",
+            "subtotal_limit_reached": "Ir sasniegta maksimālā rindu vienumu vērtība.",
+            "signature_mismatch": "Preces paraksta neatbilstība rindai %{stable_id}."
+          }
+        }
+      },
+      "remote": {
+        "errors": {
+          "only_remote_merchandise_lines": "Grozā ir tikai attālināti pieejamas preces. Lai pabeigtu pasūtījumu, ir nepieciešams tikt novirzītam uz attālo veikalu.",
+          "currency_mismatch": "Šo preci nevar pievienot grozam, jo tā ir no veikala, kurā tiek izmantota cita valūta.",
+          "currency_mismatch_removal": "Prece tika izņemta no jūsu groza, jo tā ir no veikala, kurā tiek izmantota cita valūta.",
+          "max_remote_shops_exceeded": "Šo produktu nevar pievienot, jo jūsu grozā jau ir maksimālais atļautais daudzums no citiem veikaliem."
+        }
+      },
+      "units": {
+        "milligram": "mg",
+        "kilogram": "kg",
+        "milliliter": "ml",
+        "centiliter": "cl",
+        "cubic_meter": "m³",
+        "millimeter": "mm",
+        "centimeter": "cm",
+        "square_meter": "m²",
+        "ounce": "oz",
+        "pound": "lb",
+        "fluid_ounce": "šķidruma unces",
+        "pint": "pt",
+        "quart": "qt",
+        "gallon": "gal",
+        "inch": "iekšā",
+        "foot": "pēdas",
+        "yard": "jā",
+        "square_foot": "kv. pēdas",
+        "item": "prece"
+      },
+      "memberships": {
+        "delivery_promise_unfulfillable": "Šī adrese nav atbalstīta pašreizējai dalībai.",
+        "items_split_across_locations_unsupported": "Jūsu pasūtījumam nav pieejama \"Prime\" piegāde. Jūsu piegādes iespējas ir atjauninātas."
+      },
+      "editor": {
+        "navigation": {
+          "store_logo_accessibility_label": "Doties uz interneta veikalu"
+        }
       }
     },
     "pagination": {
