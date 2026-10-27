@@ -1,0 +1,15 @@
+{
+  "name": "gpb-theme",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shopify theme for German Products Baltics",
+  "scripts": {
+    "dev": "shopify theme dev",
+    "check": "shopify theme check",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@shopify/prettier-plugin-liquid": "^1.11.3",
+    "prettier": "^3.9.10"
+  }
+}
