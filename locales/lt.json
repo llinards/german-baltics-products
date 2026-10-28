@@ -1,0 +1,82 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "shopify": {
+    "checkout": {
+      "local_pickup": {
+        "stock_details": {
+          "in_stock": "Sandėlyje"
+        }
+      },
+      "split_delivery": {
+        "delivery_updated_toast": {
+          "shipping_only": "Jūsų pristatymo informacija buvo atnaujinta. {{shipping}}",
+          "removal_only": "Jūsų pristatymas buvo atnaujintas. {{removal}}",
+          "shipping_and_removal": "Jūsų pristatymas buvo atnaujintas. {{shipping}} {{removal}}",
+          "shipping": {
+            "one": "{{count}} predo atidavimas pristatytas į siuntimo etapą.",
+            "other": "{{count}} elementai buvo perkelti į pristatymą."
+          },
+          "removal": {
+            "one": "{{count}} elementas pašalintas.",
+            "other": "Pašalinti {{count}} elementai."
+          }
+        }
+      }
+    }
+  },
+  "404": {
+    "not_found": "Puslapis nerastas.",
+    "back_to_shopping": "Grįžti prie pirkinių"
+  },
+  "blog": {
+    "article_comments": "Komentarai",
+    "comment_form_body": "Komentuoti",
+    "comment_form_email": "El. paštas",
+    "comment_form_name": "Vardas",
+    "comment_form_submit": "Įrašas",
+    "comment_form_title": "Pridėti komentarą"
+  },
+  "cart": {
+    "checkout": "Apmokėti",
+    "title": "Krepšelis",
+    "update": "Atnaujinti",
+    "remove": "Pašalinti"
+  },
+  "customers": {
+    "login": {
+      "email": "El. paštas",
+      "password": "Slaptažodis",
+      "submit": "Prisijungti",
+      "title": "Prisijungti"
+    }
+  },
+  "collections": {
+    "title": "Kolekcijos"
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Pridėti į „Apple Wallet“",
+    "card": "Dovanų kortelė",
+    "expired": "Šios dovanų kortelės galiojimas baigėsi",
+    "expires_on": "Galioja iki {{ expires_on }}",
+    "use_at_checkout": "Panaudokite šį dovanų kuponą atsiskaitydami"
+  },
+  "password": {
+    "title": "Ši parduotuvė yra privati.",
+    "password": "Slaptažodis",
+    "enter": "Įeiti"
+  },
+  "search": {
+    "title": "Ieškoti",
+    "placeholder": "Ieškoti straipsnių, puslapių ar produktų",
+    "submit": "Ieškoti",
+    "no_results_html": "Nerasta rezultatų užklausai {{ terms }}"
+  }
+}
