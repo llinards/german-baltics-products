@@ -4580,5 +4580,8 @@
     "placeholder": "Meklēt rakstus, lapas vai produktus",
     "submit": "Meklēt",
     "no_results_html": "Nav atrasts neviens rezultāts: {{ terms }}"
+  },
+  "accessibility": {
+    "account": "Konts"
   }
 }

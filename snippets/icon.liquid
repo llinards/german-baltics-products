@@ -1,0 +1,19 @@
+{%- doc -%}
+  Renders a theme icon inline from assets/icon-{name}.svg.
+  Icons are Phosphor Light (MIT, https://phosphoricons.com) and use currentColor.
+  They are hidden from screen readers, so give the surrounding link or button
+  a visible or visually-hidden text label.
+
+  Available: account, cart, caret-down, caret-left, caret-right, close, facebook,
+  globe, heart, instagram, linkedin, menu, phone, search, seal-check, truck
+
+  @param {string} name - Icon name, e.g. 'cart'
+  @param {string} [class] - Extra classes for the wrapper, e.g. 'icon--small'
+
+  @example
+  {% render 'icon', name: 'cart' %}
+{%- enddoc -%}
+
+<span class="icon{% if class != blank %} {{ class }}{% endif %}" aria-hidden="true">
+  {{- 'icon-' | append: name | append: '.svg' | inline_asset_content -}}
+</span>

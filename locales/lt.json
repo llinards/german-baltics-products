@@ -78,5 +78,8 @@
     "placeholder": "Ieškoti straipsnių, puslapių ar produktų",
     "submit": "Ieškoti",
     "no_results_html": "Nerasta rezultatų užklausai {{ terms }}"
+  },
+  "accessibility": {
+    "account": "Paskyra"
   }
 }

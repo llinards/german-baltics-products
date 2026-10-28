@@ -243,12 +243,6 @@ b {
     opacity: 0.5;
     cursor: not-allowed;
   }
-
-  & > svg {
-    flex: none;
-    width: var(--icon-size);
-    height: var(--icon-size);
-  }
 }
 
 .button--secondary {
@@ -279,6 +273,26 @@ b {
 
 .button--full {
   width: 100%;
+}
+
+/* ------------------------------------------------------------------
+ * Icons: {% render 'icon', name: 'cart' %}
+ * Size with --icon-size on the icon or any parent.
+ * ------------------------------------------------------------------ */
+.icon {
+  display: inline-flex;
+  flex: none;
+  width: var(--icon-size);
+  height: var(--icon-size);
+
+  & > svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.icon--small {
+  --icon-size: 1rem;
 }
 
 /* ------------------------------------------------------------------
