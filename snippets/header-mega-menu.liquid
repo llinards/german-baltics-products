@@ -11,7 +11,7 @@
   {% render 'header-mega-menu', link: link, brands: section.settings.mega_menu_brands, id: forloop.index %}
 {%- enddoc -%}
 
-<div class="header__mega{% if brands == blank %} header__mega--single{% endif %}">
+<div class="header__mega{% if brands.size == 0 %} header__mega--single{% endif %}">
   <div class="header__mega-column">
     <p class="header__mega-heading" id="HeaderMegaCategories-{{ id }}">{{ 'header.categories' | t }}</p>
     <ul class="header__mega-list" role="list" aria-labelledby="HeaderMegaCategories-{{ id }}">
@@ -34,7 +34,7 @@
     </ul>
   </div>
 
-  {%- if brands != blank -%}
+  {%- if brands.size > 0 -%}
     <div class="header__mega-column">
       <p class="header__mega-heading" id="HeaderMegaBrands-{{ id }}">{{ 'header.brands' | t }}</p>
       <ul class="header__mega-list" role="list" aria-labelledby="HeaderMegaBrands-{{ id }}">
