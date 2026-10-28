@@ -3,6 +3,10 @@
   the menu item's sub-links on the left ("Kategorijas") and brand
   collections with their logos on the right ("Zīmoli").
 
+  Each category can show an icon picked on its collection in the
+  custom.menu_icon metafield (type: file, images). When any category has
+  one, rows without an icon keep an empty slot so the names line up.
+
   @param {object} link - The top-level menu link whose sub-links are categories
   @param {object[]} [brands] - Brand collections from the header's collection_list setting
   @param {string} id - Unique id suffix for headings and aria wiring
@@ -10,6 +14,16 @@
   @example
   {% render 'header-mega-menu', link: link, brands: section.settings.mega_menu_brands, id: forloop.index %}
 {%- enddoc -%}
+
+{%- liquid
+  assign has_icons = false
+  for child in link.links
+    if child.object.metafields.custom.menu_icon.value
+      assign has_icons = true
+      break
+    endif
+  endfor
+-%}
 
 <div class="header__mega{% if brands.size == 0 %} header__mega--single{% endif %}">
   <div class="header__mega-column">
@@ -24,6 +38,16 @@
               aria-current="page"
             {% endif %}
           >
+            {%- if has_icons -%}
+              <span class="header__mega-icon">
+                {%- assign icon = child.object.metafields.custom.menu_icon.value -%}
+                {%- if icon.media_type == 'image' -%}
+                  {{ icon | image_url: width: 64 | image_tag: width: 32, height: 32, loading: 'lazy', alt: '' }}
+                {%- elsif icon.url -%}
+                  <img src="{{ icon.url }}" width="32" height="32" loading="lazy" alt="">
+                {%- endif -%}
+              </span>
+            {%- endif -%}
             <span class="header__mega-text">
               {{- child.title -}}
               {%- render 'icon', name: 'caret-right', class: 'icon--small' -%}
