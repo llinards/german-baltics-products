@@ -166,6 +166,8 @@
 
   .header {
     --header-action-size: 2.5rem;
+    /* Height of a top-level menu item: set by its caret button (the link text is shorter) */
+    --header-menu-item-size: 1.5rem;
   }
 
   .header__inner {
@@ -256,8 +258,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: var(--header-menu-item-size);
+    height: var(--header-menu-item-size);
     padding: 0;
     border: 0;
     color: var(--color-foreground-muted);
@@ -297,7 +299,8 @@
   }
 
   /* Mega menu: positioned against the whole header row (the item is made static),
-     centred, and narrower on small screens. */
+     centred, and narrower on small screens. It starts at the menu item's bottom edge
+     (items are centred in the row), so its gap matches the other dropdowns. */
   .header__inner {
     position: relative;
   }
@@ -307,10 +310,10 @@
   }
 
   .header__dropdown--mega {
+    inset-block-start: calc(50% + var(--header-menu-item-size) / 2);
     inset-inline: 0;
     width: min(56rem, 100% - var(--page-margin) * 2);
     margin-inline: auto;
-    padding-block-start: var(--space-xs);
   }
 
   .header__dropdown--mega .header__dropdown-card {
