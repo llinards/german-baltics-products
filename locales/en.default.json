@@ -51,6 +51,12 @@
   },
   "accessibility": {
     "account": "Account",
-    "pause_announcements": "Pause scrolling"
+    "pause_announcements": "Pause scrolling",
+    "main_menu": "Main menu",
+    "wishlist": "Wishlist",
+    "cart_count": {
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
+    }
   }
 }

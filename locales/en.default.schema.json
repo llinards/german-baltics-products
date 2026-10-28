@@ -48,17 +48,23 @@
     "heading_font": "Heading font",
     "layout_direction": "Layout direction",
     "link": "Link",
+    "logo": "Logo",
+    "logo_width": "Logo width",
     "menu": "Menu",
     "on_primary": "Text on primary",
     "padding": "Padding",
     "page_width": "Page width",
+    "phone": "Phone number",
+    "phone_note": "Phone note",
     "primary": "Primary",
     "scroll": "Scroll messages",
     "scroll_speed": "Scroll speed",
     "show_payment_icons": "Show payment icons",
+    "sticky_header": "Sticky header",
     "surface": "Surface",
     "text": "Text",
-    "text_style": "Text style"
+    "text_style": "Text style",
+    "wishlist_link": "Wishlist link"
   },
   "options": {
     "alignment": {
@@ -93,6 +99,7 @@
     "background_gradient": "Optional. Replaces the solid background when set.",
     "heading_font": "Used for headings, prices and buttons.",
     "primary_color": "Buttons, prices and links.",
-    "surface_color": "Cards, inputs and round icon buttons."
+    "surface_color": "Cards, inputs and round icon buttons.",
+    "wishlist_link": "The heart icon shows only when a link is set."
   }
 }

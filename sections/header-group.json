@@ -33,7 +33,15 @@
     },
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "logo_width": 106,
+        "menu": "main-menu",
+        "phone": "+371 67299994",
+        "phone_note": "(P. – Pk. 9:00 – 17:00)",
+        "wishlist_url": "",
+        "sticky": true,
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [

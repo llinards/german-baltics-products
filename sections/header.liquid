@@ -1,65 +1,315 @@
-<header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
+{%- liquid
+  assign logo = section.settings.logo
+  assign logo_width = section.settings.logo_width
+  assign menu = section.settings.menu
+  assign phone = section.settings.phone
+-%}
 
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
-
-  <div class="header__icons">
-    {% if shop.customer_accounts_enabled %}
-      <a href="{{ routes.account_url }}">
-        {% render 'icon', name: 'account' %}
-        <span class="visually-hidden">{{ 'accessibility.account' | t }}</span>
-      </a>
-    {% endif %}
-
-    <a href="{{ routes.cart_url }}">
-      {% render 'icon', name: 'cart' %}
-      <span class="visually-hidden">{{ 'cart.title' | t }}</span>
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
-      {% endif %}
+<header
+  class="header full-width color-{{ section.settings.color_scheme }}{% if section.settings.sticky %} header--sticky{% endif %}"
+>
+  <div class="header__inner">
+    <a class="header__logo" href="{{ routes.root_url }}">
+      {%- if logo != blank -%}
+        {%- liquid
+          assign logo_height = logo_width | divided_by: logo.aspect_ratio | round
+          assign logo_sizes = logo_width | append: 'px'
+        -%}
+        {{
+          logo
+          | image_url: width: 600
+          | image_tag:
+            width: logo_width,
+            height: logo_height,
+            widths: '150, 300, 450, 600',
+            sizes: logo_sizes,
+            alt: shop.name,
+            fetchpriority: 'high',
+            class: 'header__logo-image'
+        }}
+      {%- else -%}
+        <span class="header__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
     </a>
+
+    {%- if menu.links.size > 0 -%}
+      <nav class="header__nav" aria-label="{{ 'accessibility.main_menu' | t }}">
+        <ul class="header__menu" role="list">
+          {%- for link in menu.links -%}
+            <li>
+              <a
+                href="{{ link.url }}"
+                class="header__menu-link{% if link.active or link.child_active %} header__menu-link--active{% endif %}"
+                {% if link.current %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{- link.title -}}
+                {%- if link.links.size > 0 -%}
+                  {%- render 'icon', name: 'caret-down', class: 'icon--small' -%}
+                {%- endif -%}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+    {%- if phone != blank -%}
+      <p class="header__phone">
+        <a href="tel:{{ phone | remove: ' ' }}">{{ phone }}</a>
+        {%- if section.settings.phone_note != blank %}
+          <span class="header__phone-note">{{ section.settings.phone_note }}</span>
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+
+    <div class="header__actions">
+      <a class="header__action" href="{{ routes.search_url }}">
+        {%- render 'icon', name: 'search' -%}
+        <span class="visually-hidden">{{ 'search.title' | t }}</span>
+      </a>
+
+      <a class="header__action" href="{{ routes.cart_url }}">
+        {%- render 'icon', name: 'bag' -%}
+        <span class="visually-hidden">
+          {{- 'cart.title' | t -}}
+          {%- if cart.item_count > 0 -%}
+            , {{ 'accessibility.cart_count' | t: count: cart.item_count }}
+          {%- endif -%}
+        </span>
+        {%- if cart.item_count > 0 -%}
+          <span class="header__cart-count" aria-hidden="true">
+            {%- if cart.item_count < 100 %}{{ cart.item_count }}{% else %}99+{% endif -%}
+          </span>
+        {%- endif -%}
+      </a>
+
+      {%- if section.settings.wishlist_url != blank -%}
+        <a class="header__action header__action--desktop" href="{{ section.settings.wishlist_url }}">
+          {%- render 'icon', name: 'heart' -%}
+          <span class="visually-hidden">{{ 'accessibility.wishlist' | t }}</span>
+        </a>
+      {%- endif -%}
+
+      {%- if shop.customer_accounts_enabled -%}
+        <a class="header__action header__action--desktop" href="{{ routes.account_url }}">
+          {%- render 'icon', name: 'account' -%}
+          <span class="visually-hidden">{{ 'accessibility.account' | t }}</span>
+        </a>
+      {%- endif -%}
+    </div>
   </div>
 </header>
 
 {% stylesheet %}
-  header {
-    height: 5rem;
+  /* Sticky: applied to the section wrapper so the header sticks to the page, not to itself. */
+  .shopify-section:has(> .header--sticky) {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .header {
+    --header-action-size: 2.5rem;
+  }
+
+  .header__inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: var(--space-xl);
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-block: var(--space-2xs);
+    padding-inline: var(--page-margin);
   }
-  header a {
-    position: relative;
+
+  .header__logo {
+    display: block;
+    flex: 0 1 auto;
+    min-width: 0;
+    margin-inline-end: auto;
     text-decoration: none;
-    color: var(--color-foreground);
+
+    @media screen and (min-width: 990px) {
+      margin-inline-end: var(--space-2xl);
+    }
   }
-  header a sup {
-    position: absolute;
-    left: 100%;
-    overflow: hidden;
-    max-width: var(--page-margin);
+
+  .header__logo-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
   }
-  header .header__menu,
-  header .header__icons {
+
+  .header__logo-text {
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-heading-weight-bold);
+    line-height: var(--line-height-snug);
+
+    @media screen and (min-width: 990px) {
+      font-size: var(--font-size-xl);
+    }
+  }
+
+  .header__nav {
+    display: none;
+    flex: 1;
+
+    @media screen and (min-width: 990px) {
+      display: block;
+    }
+  }
+
+  .header__menu {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-xl);
+    padding: 0;
+    list-style: none;
+  }
+
+  .header__menu-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-body-weight-medium);
+    line-height: var(--line-height-body);
+    text-decoration: none;
+    color: var(--color-foreground-muted);
+    transition: color var(--duration-fast) var(--ease-out);
+
+    &:hover,
+    &.header__menu-link--active {
+      color: var(--color-foreground);
+    }
+  }
+
+  .header__phone {
+    display: none;
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-body-weight-medium);
+    color: var(--color-foreground-muted);
+    white-space: nowrap;
+
+    @media screen and (min-width: 1200px) {
+      display: block;
+    }
+
+    & a:hover {
+      color: var(--color-foreground);
+    }
+  }
+
+  .header__actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--space-3xs);
+  }
+
+  .header__action {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--header-action-size);
+    height: var(--header-action-size);
+    color: inherit;
+    border-radius: var(--radius-pill);
+    transition: background-color var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      background-color: var(--color-surface);
+    }
+  }
+
+  .header__action--desktop {
+    display: none;
+
+    @media screen and (min-width: 990px) {
+      display: inline-flex;
+    }
+  }
+
+  .header__cart-count {
+    position: absolute;
+    inset-block-start: 0.125rem;
+    inset-inline-end: 0;
+    display: grid;
+    place-items: center;
+    min-width: 1.125rem;
+    height: 1.125rem;
+    padding-inline: 0.25rem;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-body-weight-semibold);
+    line-height: 1;
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+    border-radius: var(--radius-pill);
   }
 {% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:general.header",
+  "class": "header-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:labels.logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "t:labels.logo_width",
+      "min": 50,
+      "max": 250,
+      "step": 2,
+      "unit": "px",
+      "default": 106
+    },
     {
       "type": "link_list",
       "id": "menu",
-      "label": "t:labels.menu"
+      "label": "t:labels.menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "t:labels.phone",
+      "default": "+371 67299994"
+    },
+    {
+      "type": "text",
+      "id": "phone_note",
+      "label": "t:labels.phone_note",
+      "default": "(P. – Pk. 9:00 – 17:00)"
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "t:labels.wishlist_link",
+      "info": "t:info.wishlist_link"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "t:labels.sticky_header",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "scheme-1"
     }
   ]
 }

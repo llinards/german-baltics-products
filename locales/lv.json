@@ -4583,6 +4583,13 @@
   },
   "accessibility": {
     "account": "Konts",
-    "pause_announcements": "Apturēt ritināšanu"
+    "pause_announcements": "Apturēt ritināšanu",
+    "main_menu": "Galvenā izvēlne",
+    "wishlist": "Vēlmju saraksts",
+    "cart_count": {
+      "zero": "{{ count }} preču",
+      "one": "{{ count }} prece",
+      "other": "{{ count }} preces"
+    }
   }
 }
