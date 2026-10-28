@@ -197,8 +197,8 @@
 
   .header__menu {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2xs) var(--space-xl);
+    flex-wrap: nowrap;
+    gap: var(--space-xl);
     padding: 0;
     list-style: none;
   }
@@ -206,6 +206,7 @@
   .header__menu-link {
     display: inline-flex;
     align-items: center;
+    white-space: nowrap;
     font-size: var(--font-size-ui);
     font-weight: var(--font-body-weight-medium);
     line-height: var(--line-height-body);
@@ -314,7 +315,8 @@
     color: var(--color-foreground-muted);
     white-space: nowrap;
 
-    @media screen and (min-width: 1200px) {
+    /* Shown only where the logo, one-line menu and phone fit side by side */
+    @media screen and (min-width: 1360px) {
       display: block;
     }
 
