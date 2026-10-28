@@ -165,7 +165,7 @@
     text-decoration: none;
 
     @media screen and (min-width: 990px) {
-      margin-inline-end: var(--space-2xl);
+      margin-inline-end: 0;
     }
   }
 
@@ -186,19 +186,24 @@
     }
   }
 
+  /* The menu fills the space between the logo and the phone (or the icons when the
+     phone is hidden) and centres itself in it, so the space on both sides stays even. */
   .header__nav {
     display: none;
     flex: 1;
+    justify-content: center;
+    min-width: 0;
 
     @media screen and (min-width: 990px) {
-      display: block;
+      display: flex;
     }
   }
 
   .header__menu {
     display: flex;
     flex-wrap: nowrap;
-    gap: var(--space-xl);
+    /* 24px at 990px wide, growing to 48px at 1440px */
+    gap: clamp(var(--space-md), 5.333vw - 1.8rem, var(--space-xl));
     padding: 0;
     list-style: none;
   }
