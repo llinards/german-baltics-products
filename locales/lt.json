@@ -80,6 +80,7 @@
     "no_results_html": "Nerasta rezultatų užklausai {{ terms }}"
   },
   "accessibility": {
-    "account": "Paskyra"
+    "account": "Paskyra",
+    "pause_announcements": "Sustabdyti slinkimą"
   }
 }

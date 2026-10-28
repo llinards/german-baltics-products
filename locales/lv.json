@@ -4582,6 +4582,7 @@
     "no_results_html": "Nav atrasts neviens rezultāts: {{ terms }}"
   },
   "accessibility": {
-    "account": "Konts"
+    "account": "Konts",
+    "pause_announcements": "Apturēt ritināšanu"
   }
 }

@@ -1,0 +1,281 @@
+{%- liquid
+  assign message_count = section.blocks.size
+  assign scroll = section.settings.scroll
+
+  # Repeat the messages so each half of the scrolling track is at least
+  # 6 messages wide, which fills wide screens (as in the design).
+  assign sets_per_half = 6 | plus: message_count | minus: 1 | divided_by: message_count
+  assign clone_sets = sets_per_half | times: 2 | minus: 1
+  assign messages_per_half = sets_per_half | times: message_count
+
+  case section.settings.speed
+    when 'slow'
+      assign seconds_per_message = 8
+    when 'fast'
+      assign seconds_per_message = 4
+    else
+      assign seconds_per_message = 6
+  endcase
+  assign duration = messages_per_half | times: seconds_per_message
+-%}
+
+{%- if message_count > 0 -%}
+  <announcement-bar
+    class="announcement-bar full-width color-{{ section.settings.color_scheme }}{% if scroll %} announcement-bar--scroll{% endif %}"
+    style="--announcement-duration: {{ duration }}s;"
+  >
+    <div class="announcement-bar__viewport">
+      <div class="announcement-bar__track">
+        <ul class="announcement-bar__list" role="list">
+          {%- for block in section.blocks -%}
+            <li class="announcement-bar__message" {{ block.shopify_attributes }}>
+              {%- render 'announcement-message', block: block -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        {%- if scroll -%}
+          {%- comment -%} Visual copies for the seamless loop: hidden from screen readers and keyboard {%- endcomment -%}
+          {%- for i in (1..clone_sets) -%}
+            <ul class="announcement-bar__list announcement-bar__list--clone" role="list" aria-hidden="true" inert>
+              {%- for block in section.blocks -%}
+                <li class="announcement-bar__message">
+                  {%- render 'announcement-message', block: block -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if scroll -%}
+      <button
+        type="button"
+        class="announcement-bar__toggle"
+        aria-pressed="false"
+        aria-label="{{ 'accessibility.pause_announcements' | t }}"
+      >
+        {%- render 'icon', name: 'pause', class: 'icon--small announcement-bar__icon-pause' -%}
+        {%- render 'icon', name: 'play', class: 'icon--small announcement-bar__icon-play' -%}
+      </button>
+    {%- endif -%}
+  </announcement-bar>
+{%- endif -%}
+
+{% stylesheet %}
+  .announcement-bar {
+    --announcement-gap: 8rem;
+    --announcement-padding: 0.875rem;
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-ui);
+    line-height: 1.6;
+  }
+
+  .announcement-bar__viewport {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .announcement-bar__track {
+    display: flex;
+    justify-content: center;
+    padding-block: var(--announcement-padding);
+  }
+
+  .announcement-bar__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2xs) var(--announcement-gap);
+    padding: 0;
+    list-style: none;
+  }
+
+  .announcement-bar__message a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  /* Scrolling: the track holds two identical halves and moves by one half per loop.
+     Spacing is padding on each message (not flex gap) so both halves are equally wide. */
+  .announcement-bar--scroll {
+    .announcement-bar__track {
+      justify-content: flex-start;
+      width: max-content;
+      animation: announcement-scroll var(--announcement-duration) linear infinite;
+    }
+
+    .announcement-bar__list {
+      flex-wrap: nowrap;
+      gap: 0;
+    }
+
+    .announcement-bar__message {
+      padding-inline-end: var(--announcement-gap);
+      white-space: nowrap;
+    }
+
+    /* Pause on hover, while a message link has keyboard focus, or via the pause button.
+       Focus on the button itself is excluded, so clicking "play" resumes straight away. */
+    &:is(:hover, [data-paused], :has(.announcement-bar__list :focus-visible)) .announcement-bar__track {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes announcement-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .announcement-bar__toggle {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-inline: var(--space-2xs) var(--page-margin);
+    padding: 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    border-radius: var(--radius-pill);
+    opacity: 0.7;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &[aria-pressed='false'] .announcement-bar__icon-play,
+    &[aria-pressed='true'] .announcement-bar__icon-pause {
+      display: none;
+    }
+  }
+
+  /* The pause button needs JavaScript; without it the bar still pauses on hover/focus. */
+  announcement-bar:not(:defined) .announcement-bar__toggle {
+    display: none;
+  }
+
+  /* Reduced motion: no scrolling, show each message once, centred. */
+  @media (prefers-reduced-motion: reduce) {
+    .announcement-bar--scroll {
+      .announcement-bar__track {
+        justify-content: center;
+        width: auto;
+        animation: none;
+      }
+
+      .announcement-bar__list {
+        flex-wrap: wrap;
+        gap: var(--space-2xs) var(--announcement-gap);
+      }
+
+      .announcement-bar__message {
+        padding-inline-end: 0;
+        white-space: normal;
+      }
+
+      .announcement-bar__list--clone,
+      .announcement-bar__toggle {
+        display: none;
+      }
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class AnnouncementBar extends HTMLElement {
+    connectedCallback() {
+      this.toggle = this.querySelector('.announcement-bar__toggle');
+      this.toggle?.addEventListener('click', this.#onToggle);
+    }
+
+    disconnectedCallback() {
+      this.toggle?.removeEventListener('click', this.#onToggle);
+    }
+
+    #onToggle = () => {
+      const paused = this.toggle.getAttribute('aria-pressed') !== 'true';
+      this.toggle.setAttribute('aria-pressed', String(paused));
+      this.toggleAttribute('data-paused', paused);
+    };
+  }
+
+  if (!customElements.get('announcement-bar')) {
+    customElements.define('announcement-bar', AnnouncementBar);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.announcement_bar",
+  "tag": "div",
+  "class": "announcement-bar-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "scheme-5"
+    },
+    {
+      "type": "checkbox",
+      "id": "scroll",
+      "label": "t:labels.scroll",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "speed",
+      "label": "t:labels.scroll_speed",
+      "options": [
+        { "value": "slow", "label": "t:options.speed.slow" },
+        { "value": "normal", "label": "t:options.speed.normal" },
+        { "value": "fast", "label": "t:options.speed.fast" }
+      ],
+      "default": "normal",
+      "visible_if": "{{ section.settings.scroll }}"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "t:general.message",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "t:labels.text",
+          "default": "Ātra piegāde visā Baltijā"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:labels.link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.announcement_bar",
+      "blocks": [{ "type": "message" }]
+    }
+  ]
+}
+{% endschema %}

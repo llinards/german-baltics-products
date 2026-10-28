@@ -1,13 +1,14 @@
 {
   "general": {
     "404": "Not found",
+    "announcement_bar": "Announcement bar",
     "article": "Article",
     "block": "Block",
     "blog": "Blog",
     "cart": "Cart",
     "collection": "Collection",
-    "collections": "Collections",
     "collection_card": "Collection card",
+    "collections": "Collections",
     "collections_grid": "Collections grid",
     "colors": "Colors",
     "column": "Column",
@@ -19,6 +20,7 @@
     "header": "Header",
     "layout": "Layout",
     "main": "Main",
+    "message": "Message",
     "page": "Page",
     "password": "Password",
     "primary": "Primary",
@@ -39,16 +41,20 @@
     "background_gradient": "Background gradient",
     "body_font": "Body font",
     "border": "Borders",
+    "color_scheme": "Color scheme",
     "foreground": "Foreground",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
     "heading_font": "Heading font",
     "layout_direction": "Layout direction",
+    "link": "Link",
     "menu": "Menu",
     "on_primary": "Text on primary",
     "padding": "Padding",
     "page_width": "Page width",
     "primary": "Primary",
+    "scroll": "Scroll messages",
+    "scroll_speed": "Scroll speed",
     "show_payment_icons": "Show payment icons",
     "surface": "Surface",
     "text": "Text",
@@ -76,6 +82,11 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
+    },
+    "speed": {
+      "slow": "Slow",
+      "normal": "Normal",
+      "fast": "Fast"
     }
   },
   "info": {

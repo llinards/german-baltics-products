@@ -52,6 +52,16 @@
           "surface": "#132838",
           "border": "#27394A"
         }
+      },
+      "scheme-5": {
+        "settings": {
+          "background": "#0D0C0D",
+          "foreground": "#FFFFFF",
+          "primary": "#047866",
+          "on_primary": "#FFFFFF",
+          "surface": "#1F1E1F",
+          "border": "#2E2D2E"
+        }
       }
     }
   }

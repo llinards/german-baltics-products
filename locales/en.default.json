@@ -50,6 +50,7 @@
     "results_for_html": "{{ count }} results found for {{ terms }}"
   },
   "accessibility": {
-    "account": "Account"
+    "account": "Account",
+    "pause_announcements": "Pause scrolling"
   }
 }
