@@ -90,10 +90,17 @@
       "many": "{{ count }} prekės",
       "other": "{{ count }} prekių"
     },
-    "submenu": "{{ title }} submeniu"
+    "submenu": "{{ title }} submeniu",
+    "open_menu": "Atidaryti meniu",
+    "close_menu": "Uždaryti meniu",
+    "menu": "Meniu",
+    "new_window": "atsidaro naujame lange"
   },
   "header": {
     "categories": "Kategorijos",
-    "brands": "Prekės ženklai"
+    "brands": "Prekės ženklai",
+    "view_all": "Žiūrėti viską",
+    "account": "Mano paskyra",
+    "wishlist": "Pageidavimų sąrašas"
   }
 }

@@ -40,12 +40,7 @@
           >
             {%- if has_icons -%}
               <span class="header__mega-icon">
-                {%- assign icon = child.object.metafields.custom.menu_icon.value -%}
-                {%- if icon.media_type == 'image' -%}
-                  {{ icon | image_url: width: 64 | image_tag: width: 32, height: 32, loading: 'lazy', alt: '' }}
-                {%- elsif icon.url -%}
-                  <img src="{{ icon.url }}" width="32" height="32" loading="lazy" alt="">
-                {%- endif -%}
+                {%- render 'menu-icon', collection: child.object -%}
               </span>
             {%- endif -%}
             <span class="header__mega-text">

@@ -4591,10 +4591,17 @@
       "one": "{{ count }} prece",
       "other": "{{ count }} preces"
     },
-    "submenu": "{{ title }} apakšizvēlne"
+    "submenu": "{{ title }} apakšizvēlne",
+    "open_menu": "Atvērt izvēlni",
+    "close_menu": "Aizvērt izvēlni",
+    "menu": "Izvēlne",
+    "new_window": "atveras jaunā logā"
   },
   "header": {
     "categories": "Kategorijas",
-    "brands": "Zīmoli"
+    "brands": "Zīmoli",
+    "view_all": "Skatīt visu",
+    "account": "Mans konts",
+    "wishlist": "Vēlmju saraksts"
   }
 }

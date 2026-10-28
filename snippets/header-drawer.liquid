@@ -1,0 +1,482 @@
+{%- doc -%}
+  Renders the full-screen mobile menu: logo, the main menu with sub-menus as
+  accordions, account / wishlist / phone links, a tagline and social links.
+  It is a modal <dialog> opened by the header's menu button
+  (commandfor="MenuDrawer"); the script below covers browsers without
+  Invoker Commands support and closes the menu at the desktop breakpoint.
+
+  @param {object} [menu] - The main menu (link list)
+  @param {object[]} [brands] - Brand collections shown under the category menu item
+  @param {object} [logo] - Logo image
+  @param {string} [phone] - Phone number
+  @param {string} [phone_note] - Text shown after the phone number, e.g. opening hours
+  @param {string} [wishlist_url] - Wishlist page link
+  @param {string} [tagline] - Short text near the bottom of the menu
+  @param {string} color_scheme - Color scheme id, e.g. scheme-1
+
+  @example
+  {% render 'header-drawer', menu: menu, brands: section.settings.mega_menu_brands, color_scheme: 'scheme-1' %}
+{%- enddoc -%}
+
+<header-drawer>
+  <dialog id="MenuDrawer" class="menu-drawer color-{{ color_scheme }}" aria-label="{{ 'accessibility.menu' | t }}">
+    <div class="menu-drawer__inner">
+      <button
+        type="button"
+        class="menu-drawer__close"
+        commandfor="MenuDrawer"
+        command="close"
+        aria-label="{{ 'accessibility.close_menu' | t }}"
+      >
+        {%- render 'icon', name: 'close' -%}
+      </button>
+
+      <a class="menu-drawer__logo" href="{{ routes.root_url }}">
+        {%- if logo != blank -%}
+          {%- assign logo_height = 144 | divided_by: logo.aspect_ratio | round -%}
+          {{
+            logo
+            | image_url: width: 288
+            | image_tag:
+              width: 144,
+              height: logo_height,
+              widths: '144, 288',
+              sizes: '144px',
+              loading: 'lazy',
+              alt: shop.name
+          }}
+        {%- else -%}
+          <span class="menu-drawer__logo-text">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+
+      {%- if menu.links.size > 0 -%}
+        <nav class="menu-drawer__nav" aria-label="{{ 'accessibility.main_menu' | t }}">
+          <ul class="menu-drawer__menu" role="list">
+            {%- for link in menu.links -%}
+              {%- assign link_index = forloop.index -%}
+              <li>
+                {%- if link.links.size > 0 -%}
+                  {%- liquid
+                    # Same rule as desktop: a menu item whose sub-items are all collections lists categories + brands
+                    assign collection_links = link.links | where: 'type', 'collection_link'
+                    assign is_mega = false
+                    if collection_links.size == link.links.size
+                      assign is_mega = true
+                    endif
+
+                    # The summary only opens the list, so link to the item's own page first, unless a sub-item already does
+                    assign same_url_links = link.links | where: 'url', link.url
+                  -%}
+                  <details
+                    class="menu-drawer__details"
+                    {% if link.child_active %}
+                      open
+                    {% endif %}
+                  >
+                    <summary class="menu-drawer__item{% if link.active or link.child_active %} menu-drawer__item--active{% endif %}">
+                      {{- link.title -}}
+                      {%- render 'icon', name: 'caret-down', class: 'icon--small menu-drawer__caret' -%}
+                    </summary>
+
+                    <div class="menu-drawer__submenu">
+                      {%- if same_url_links.size == 0 -%}
+                        <a
+                          class="menu-drawer__link menu-drawer__link--all"
+                          href="{{ link.url }}"
+                          {% if link.current %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          {{- 'header.view_all' | t -}}
+                        </a>
+                      {%- endif -%}
+
+                      {%- if is_mega -%}
+                        <p class="menu-drawer__heading" id="MenuDrawerCategories-{{ link_index }}">
+                          {{- 'header.categories' | t -}}
+                        </p>
+                      {%- endif -%}
+                      <ul
+                        class="menu-drawer__sublist"
+                        role="list"
+                        {% if is_mega %}
+                          aria-labelledby="MenuDrawerCategories-{{ link_index }}"
+                        {% endif %}
+                      >
+                        {%- for child in link.links -%}
+                          <li>
+                            <a
+                              href="{{ child.url }}"
+                              class="menu-drawer__link{% if child.active %} menu-drawer__link--active{% endif %}"
+                              {% if child.current %}
+                                aria-current="page"
+                              {% endif %}
+                            >
+                              {%- if is_mega -%}
+                                {%- capture menu_icon -%}{%- render 'menu-icon', collection: child.object -%}{%- endcapture -%}
+                                {%- if menu_icon != blank -%}
+                                  <span class="menu-drawer__icon">{{ menu_icon }}</span>
+                                {%- endif -%}
+                              {%- endif -%}
+                              {{- child.title -}}
+                            </a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+
+                      {%- if is_mega and brands.size > 0 -%}
+                        <p class="menu-drawer__heading" id="MenuDrawerBrands-{{ link_index }}">
+                          {{- 'header.brands' | t -}}
+                        </p>
+                        <ul
+                          class="menu-drawer__sublist"
+                          role="list"
+                          aria-labelledby="MenuDrawerBrands-{{ link_index }}"
+                        >
+                          {%- for brand in brands -%}
+                            <li>
+                              <a
+                                href="{{ brand.url }}"
+                                class="menu-drawer__link{% if collection.handle == brand.handle %} menu-drawer__link--active{% endif %}"
+                                {% if collection.handle == brand.handle %}
+                                  aria-current="page"
+                                {% endif %}
+                              >
+                                {{- brand.title -}}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    </div>
+                  </details>
+                {%- else -%}
+                  <a
+                    href="{{ link.url }}"
+                    class="menu-drawer__item{% if link.active %} menu-drawer__item--active{% endif %}"
+                    {% if link.current %}
+                      aria-current="page"
+                    {% endif %}
+                  >
+                    {{- link.title -}}
+                  </a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
+      <div class="menu-drawer__footer">
+        <ul class="menu-drawer__utility" role="list">
+          {%- if shop.customer_accounts_enabled -%}
+            <li>
+              <a class="menu-drawer__utility-link" href="{{ routes.account_url }}">
+                {%- render 'icon', name: 'account', class: 'icon--small' -%}
+                {{- 'header.account' | t -}}
+              </a>
+            </li>
+          {%- endif -%}
+          {%- if wishlist_url != blank -%}
+            <li>
+              <a class="menu-drawer__utility-link" href="{{ wishlist_url }}">
+                {%- render 'icon', name: 'heart', class: 'icon--small' -%}
+                {{- 'header.wishlist' | t -}}
+              </a>
+            </li>
+          {%- endif -%}
+          {%- if phone != blank -%}
+            <li class="menu-drawer__phone">
+              <a class="menu-drawer__utility-link" href="tel:{{ phone | remove: ' ' }}">
+                {%- render 'icon', name: 'phone', class: 'icon--small' -%}
+                {{- phone -}}
+              </a>
+              {%- if phone_note != blank -%}
+                <span class="menu-drawer__phone-note">{{ phone_note }}</span>
+              {%- endif -%}
+            </li>
+          {%- endif -%}
+        </ul>
+
+        {%- if tagline != blank -%}
+          <p class="menu-drawer__tagline">{{ tagline }}</p>
+        {%- endif -%}
+
+        {%- render 'social-links', class: 'menu-drawer__social' -%}
+      </div>
+    </div>
+  </dialog>
+</header-drawer>
+
+{% stylesheet %}
+  header-drawer {
+    display: contents;
+  }
+
+  /* Full-screen modal; the page behind is inert and doesn't scroll while it's open */
+  .menu-drawer {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    color: var(--color-foreground);
+    background: var(--color-background);
+    opacity: 0;
+    translate: 0 -0.5rem;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      translate var(--duration-fast) var(--ease-out),
+      overlay var(--duration-fast) allow-discrete,
+      display var(--duration-fast) allow-discrete;
+
+    &[open] {
+      opacity: 1;
+      translate: 0 0;
+
+      @starting-style {
+        opacity: 0;
+        translate: 0 -0.5rem;
+      }
+    }
+
+    &::backdrop {
+      background: transparent;
+    }
+  }
+
+  html:has(.menu-drawer[open]) {
+    overflow: hidden;
+  }
+
+  .menu-drawer__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+    padding: var(--space-sm) var(--page-margin) var(--space-xl);
+    text-align: center;
+  }
+
+  .menu-drawer__close {
+    display: inline-flex;
+    align-self: flex-end;
+    align-items: center;
+    justify-content: center;
+    width: var(--header-action-size, 2.5rem);
+    height: var(--header-action-size, 2.5rem);
+    padding: 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--color-surface);
+    }
+  }
+
+  .menu-drawer__logo {
+    display: block;
+    margin-block: var(--space-sm) var(--space-xl);
+    text-decoration: none;
+
+    & img {
+      display: block;
+      max-width: 9rem;
+      height: auto;
+    }
+  }
+
+  .menu-drawer__logo-text {
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-heading-weight-bold);
+  }
+
+  .menu-drawer__nav {
+    width: 100%;
+  }
+
+  .menu-drawer__menu {
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Top-level items: links and accordion toggles share one look */
+  .menu-drawer__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs);
+    min-height: 3rem;
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-body-weight-medium);
+    color: var(--color-foreground-muted);
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover,
+    &.menu-drawer__item--active {
+      color: var(--color-foreground);
+    }
+  }
+
+  .menu-drawer__caret {
+    transition: rotate var(--duration-fast) var(--ease-out);
+  }
+
+  .menu-drawer__details[open] > .menu-drawer__item {
+    color: var(--color-foreground);
+
+    & .menu-drawer__caret {
+      rotate: 180deg;
+    }
+  }
+
+  .menu-drawer__submenu {
+    padding-block-end: var(--space-sm);
+  }
+
+  .menu-drawer__heading {
+    margin-block-start: var(--space-sm);
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-heading-weight);
+    line-height: 2.75rem;
+  }
+
+  .menu-drawer__sublist {
+    padding: 0;
+    list-style: none;
+  }
+
+  .menu-drawer__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    min-height: 2.75rem;
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-heading-weight-regular);
+    text-decoration: none;
+
+    &:hover,
+    &.menu-drawer__link--active {
+      color: var(--color-primary-text);
+    }
+  }
+
+  .menu-drawer__link--all {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .menu-drawer__icon {
+    display: flex;
+    flex: none;
+    width: 1.5rem;
+    height: 1.5rem;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .menu-drawer__footer {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-md);
+    margin-block-start: auto;
+    padding-block-start: var(--space-xl);
+  }
+
+  .menu-drawer__utility {
+    display: grid;
+    justify-items: center;
+    padding: 0;
+    list-style: none;
+  }
+
+  .menu-drawer__utility-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-primary-text);
+    }
+  }
+
+  .menu-drawer__phone {
+    display: grid;
+    justify-items: center;
+  }
+
+  .menu-drawer__phone-note {
+    margin-block-start: calc(var(--space-2xs) * -1);
+    font-size: var(--font-size-xs);
+    color: var(--color-foreground-muted);
+  }
+
+  .menu-drawer__tagline {
+    max-width: 12rem;
+    font-size: var(--font-size-md);
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class HeaderDrawer extends HTMLElement {
+    connectedCallback() {
+      this.dialog = this.querySelector('dialog');
+      this.desktop = window.matchMedia('(min-width: 990px)');
+      this.desktop.addEventListener('change', this.#onBreakpointChange);
+
+      // Browsers without Invoker Commands: open and close through script instead
+      this.needsFallback = !('commandForElement' in HTMLButtonElement.prototype);
+      if (this.needsFallback) document.addEventListener('click', this.#onCommandClick);
+    }
+
+    disconnectedCallback() {
+      this.desktop.removeEventListener('change', this.#onBreakpointChange);
+      if (this.needsFallback) document.removeEventListener('click', this.#onCommandClick);
+    }
+
+    #onCommandClick = (event) => {
+      const button = event.target.closest(`button[commandfor="${this.dialog.id}"]`);
+      if (!button) return;
+
+      const command = button.getAttribute('command');
+      if (command === 'show-modal' && !this.dialog.open) this.dialog.showModal();
+      if (command === 'close') this.dialog.close();
+    };
+
+    // The mobile menu doesn't exist on desktop, so don't leave it open (and the page inert) after a resize
+    #onBreakpointChange = (event) => {
+      if (event.matches && this.dialog.open) this.dialog.close();
+    };
+  }
+
+  if (!customElements.get('header-drawer')) {
+    customElements.define('header-drawer', HeaderDrawer);
+  }
+{% endjavascript %}

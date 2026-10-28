@@ -31,6 +31,7 @@
     "section": "Section",
     "settings": "Settings",
     "sidebar": "Sidebar",
+    "social_media": "Social media",
     "text": "Text",
     "theme": "Theme",
     "typography": "Typography"
@@ -42,16 +43,20 @@
     "body_font": "Body font",
     "border": "Borders",
     "color_scheme": "Color scheme",
+    "facebook": "Facebook",
     "foreground": "Foreground",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
     "heading_font": "Heading font",
+    "instagram": "Instagram",
     "layout_direction": "Layout direction",
     "link": "Link",
+    "linkedin": "LinkedIn",
     "logo": "Logo",
     "logo_width": "Logo width",
     "mega_menu_brands": "Mega menu brands",
     "menu": "Menu",
+    "menu_tagline": "Menu tagline",
     "on_primary": "Text on primary",
     "padding": "Padding",
     "page_width": "Page width",
@@ -65,6 +70,7 @@
     "surface": "Surface",
     "text": "Text",
     "text_style": "Text style",
+    "tiktok": "TikTok",
     "wishlist_link": "Wishlist link"
   },
   "options": {
@@ -100,7 +106,9 @@
     "background_gradient": "Optional. Replaces the solid background when set.",
     "heading_font": "Used for headings, prices and buttons.",
     "mega_menu_brands": "Shown next to the categories in the menu item whose sub-items are all collections (E-veikals). Logos come from each collection image.",
+    "menu_tagline": "Shown near the bottom of the mobile menu.",
     "primary_color": "Buttons, prices and links.",
+    "social_media": "Icons show in the mobile menu and the footer for each link that is set.",
     "surface_color": "Cards, inputs and round icon buttons.",
     "wishlist_link": "The heart icon shows only when a link is set."
   }

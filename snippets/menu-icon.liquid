@@ -1,0 +1,17 @@
+{%- doc -%}
+  Renders the icon picked on a collection in its custom.menu_icon metafield
+  (type: file, images) as a decorative 32px image. Renders nothing when no
+  icon is set.
+
+  @param {object} collection - The collection a menu link points to
+
+  @example
+  {% render 'menu-icon', collection: child.object %}
+{%- enddoc -%}
+
+{%- assign icon = collection.metafields.custom.menu_icon.value -%}
+{%- if icon.media_type == 'image' -%}
+  {{ icon | image_url: width: 64 | image_tag: width: 32, height: 32, loading: 'lazy', alt: '' }}
+{%- elsif icon.url -%}
+  <img src="{{ icon.url }}" width="32" height="32" loading="lazy" alt="">
+{%- endif -%}

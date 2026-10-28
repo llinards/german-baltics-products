@@ -58,10 +58,17 @@
       "one": "{{ count }} item",
       "other": "{{ count }} items"
     },
-    "submenu": "{{ title }} submenu"
+    "submenu": "{{ title }} submenu",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu",
+    "menu": "Menu",
+    "new_window": "opens in a new window"
   },
   "header": {
     "categories": "Categories",
-    "brands": "Brands"
+    "brands": "Brands",
+    "view_all": "View all",
+    "account": "My account",
+    "wishlist": "Wishlist"
   }
 }

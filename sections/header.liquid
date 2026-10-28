@@ -152,9 +152,31 @@
           <span class="visually-hidden">{{ 'accessibility.account' | t }}</span>
         </a>
       {%- endif -%}
+
+      <button
+        type="button"
+        class="header__action header__action--mobile"
+        commandfor="MenuDrawer"
+        command="show-modal"
+        aria-haspopup="dialog"
+        aria-label="{{ 'accessibility.open_menu' | t }}"
+      >
+        {%- render 'icon', name: 'menu' -%}
+      </button>
     </div>
   </div>
 </header>
+
+{%- render 'header-drawer',
+  menu: menu,
+  brands: section.settings.mega_menu_brands,
+  logo: logo,
+  phone: phone,
+  phone_note: section.settings.phone_note,
+  wishlist_url: section.settings.wishlist_url,
+  tagline: section.settings.tagline,
+  color_scheme: section.settings.color_scheme
+-%}
 
 {% stylesheet %}
   /* Sticky: applied to the section wrapper so the header sticks to the page, not to itself. */
@@ -488,7 +510,11 @@
     justify-content: center;
     width: var(--header-action-size);
     height: var(--header-action-size);
+    padding: 0;
+    border: 0;
     color: inherit;
+    background: transparent;
+    cursor: pointer;
     border-radius: var(--radius-pill);
     transition: background-color var(--duration-fast) var(--ease-out);
 
@@ -502,6 +528,12 @@
 
     @media screen and (min-width: 990px) {
       display: inline-flex;
+    }
+  }
+
+  .header__action--mobile {
+    @media screen and (min-width: 990px) {
+      display: none;
     }
   }
 
@@ -646,6 +678,13 @@
       "id": "phone_note",
       "label": "t:labels.phone_note",
       "default": "(P. – Pk. 9:00 – 17:00)"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "t:labels.menu_tagline",
+      "info": "t:info.menu_tagline",
+      "default": "Kvalitatīvi produkti katrai dienai!"
     },
     {
       "type": "url",

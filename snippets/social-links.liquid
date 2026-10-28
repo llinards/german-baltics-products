@@ -1,0 +1,72 @@
+{%- doc -%}
+  Renders the social media icon links set in Theme settings → Social media.
+  Only links that are filled in are shown; renders nothing when none are set.
+
+  @param {string} [class] - Extra class for the list
+
+  @example
+  {% render 'social-links', class: 'menu-drawer__social' %}
+{%- enddoc -%}
+
+{%- liquid
+  # id:Name pairs; the id matches the setting (social_<id>_link) and the icon (icon-<id>.svg)
+  assign networks = 'instagram:Instagram,linkedin:LinkedIn,facebook:Facebook,tiktok:TikTok' | split: ','
+  assign has_links = false
+  for network in networks
+    assign network_id = network | split: ':' | first
+    assign setting_id = 'social_' | append: network_id | append: '_link'
+    if settings[setting_id] != blank
+      assign has_links = true
+      break
+    endif
+  endfor
+-%}
+
+{%- if has_links -%}
+  <ul class="social-links {{ class }}" role="list">
+    {%- for network in networks -%}
+      {%- liquid
+        assign network_id = network | split: ':' | first
+        assign network_name = network | split: ':' | last
+        assign setting_id = 'social_' | append: network_id | append: '_link'
+      -%}
+      {%- if settings[setting_id] != blank -%}
+        <li>
+          <a class="social-links__link" href="{{ settings[setting_id] }}" target="_blank" rel="noopener">
+            {%- render 'icon', name: network_id -%}
+            <span class="visually-hidden">
+              {{- network_name -}}
+              , {{ 'accessibility.new_window' | t -}}
+            </span>
+          </a>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+{%- endif -%}
+
+{% stylesheet %}
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3xs);
+    padding: 0;
+    list-style: none;
+  }
+
+  .social-links__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: inherit;
+    border-radius: var(--radius-pill);
+    transition: background-color var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      background-color: var(--color-surface);
+    }
+  }
+{% endstylesheet %}
