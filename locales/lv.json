@@ -4592,5 +4592,8 @@
       "other": "{{ count }} preces"
     },
     "submenu": "{{ title }} apakšizvēlne"
+  },
+  "header": {
+    "categories": "Kategorijas"
   }
 }

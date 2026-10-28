@@ -63,22 +63,43 @@
                     {%- render 'icon', name: 'caret-down', class: 'icon--small' -%}
                   </button>
 
+                  {%- liquid
+                    # Category dropdowns (every item links to a collection) get a "Kategorijas" heading
+                    assign collection_links = link.links | where: 'type', 'collection_link'
+                    assign show_heading = false
+                    if collection_links.size == link.links.size
+                      assign show_heading = true
+                    endif
+                  -%}
                   <div class="header__dropdown" id="HeaderDropdown-{{ forloop.index }}">
-                    <ul class="header__dropdown-list" role="list">
-                      {%- for child in link.links -%}
-                        <li>
-                          <a
-                            href="{{ child.url }}"
-                            class="header__dropdown-link{% if child.active %} header__dropdown-link--active{% endif %}"
-                            {% if child.current %}
-                              aria-current="page"
-                            {% endif %}
-                          >
-                            {{- child.title -}}
-                          </a>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
+                    <div class="header__dropdown-card">
+                      {%- if show_heading -%}
+                        <p class="header__dropdown-heading" id="HeaderDropdownHeading-{{ forloop.index }}">
+                          {{- 'header.categories' | t -}}
+                        </p>
+                      {%- endif -%}
+                      <ul
+                        class="header__dropdown-list"
+                        role="list"
+                        {% if show_heading %}
+                          aria-labelledby="HeaderDropdownHeading-{{ forloop.index }}"
+                        {% endif %}
+                      >
+                        {%- for child in link.links -%}
+                          <li>
+                            <a
+                              href="{{ child.url }}"
+                              class="header__dropdown-link{% if child.active %} header__dropdown-link--active{% endif %}"
+                              {% if child.current %}
+                                aria-current="page"
+                              {% endif %}
+                            >
+                              {{- child.title -}}
+                            </a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    </div>
                   </div>
                 {%- endif -%}
               </li>
@@ -256,7 +277,7 @@
     inset-block-start: 100%;
     inset-inline-start: 0;
     z-index: 20;
-    padding-block-start: var(--space-xs);
+    padding-block-start: var(--space-sm);
     visibility: hidden;
     opacity: 0;
     translate: 0 -0.25rem;
@@ -266,15 +287,28 @@
       visibility 0s linear var(--duration-fast);
   }
 
-  .header__dropdown-list {
+  .header__dropdown-card {
     min-width: 14rem;
-    padding-block: var(--space-xs);
-    padding-inline: var(--space-md);
-    list-style: none;
+    padding: var(--space-md);
     color: var(--color-foreground);
     background-color: var(--color-background);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-popover);
+  }
+
+  .header__dropdown-heading {
+    margin-block-end: var(--space-sm);
+    padding-block-end: var(--space-sm);
+    border-block-end: var(--border-width) solid var(--color-surface);
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-heading-weight);
+    line-height: 2rem;
+  }
+
+  .header__dropdown-list {
+    padding: 0;
+    list-style: none;
   }
 
   .header__dropdown-link {

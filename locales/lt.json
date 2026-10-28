@@ -91,5 +91,8 @@
       "other": "{{ count }} prekių"
     },
     "submenu": "{{ title }} submeniu"
+  },
+  "header": {
+    "categories": "Kategorijos"
   }
 }

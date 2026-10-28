@@ -59,5 +59,8 @@
       "other": "{{ count }} items"
     },
     "submenu": "{{ title }} submenu"
+  },
+  "header": {
+    "categories": "Categories"
   }
 }
