@@ -40,7 +40,18 @@
         "phone_note": "(P. – Pk. 9:00 – 17:00)",
         "wishlist_url": "",
         "sticky": true,
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "mega_menu_brands": [
+          "friso",
+          "dallmayr",
+          "playmais",
+          "nuk",
+          "bubchen",
+          "yogi-tea",
+          "oljarna-fram",
+          "william-saurin",
+          "freemore"
+        ]
       }
     }
   },

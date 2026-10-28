@@ -64,41 +64,41 @@
                   </button>
 
                   {%- liquid
-                    # Category dropdowns (every item links to a collection) get a "Kategorijas" heading
+                    # A dropdown whose items all link to collections becomes the wide category + brands menu
                     assign collection_links = link.links | where: 'type', 'collection_link'
-                    assign show_heading = false
+                    assign is_mega = false
                     if collection_links.size == link.links.size
-                      assign show_heading = true
+                      assign is_mega = true
                     endif
                   -%}
-                  <div class="header__dropdown" id="HeaderDropdown-{{ forloop.index }}">
+                  <div
+                    class="header__dropdown{% if is_mega %} header__dropdown--mega{% endif %}"
+                    id="HeaderDropdown-{{ forloop.index }}"
+                  >
                     <div class="header__dropdown-card">
-                      {%- if show_heading -%}
-                        <p class="header__dropdown-heading" id="HeaderDropdownHeading-{{ forloop.index }}">
-                          {{- 'header.categories' | t -}}
-                        </p>
+                      {%- if is_mega -%}
+                        {%- render 'header-mega-menu',
+                          link: link,
+                          brands: section.settings.mega_menu_brands,
+                          id: forloop.index
+                        -%}
+                      {%- else -%}
+                        <ul class="header__dropdown-list" role="list">
+                          {%- for child in link.links -%}
+                            <li>
+                              <a
+                                href="{{ child.url }}"
+                                class="header__dropdown-link{% if child.active %} header__dropdown-link--active{% endif %}"
+                                {% if child.current %}
+                                  aria-current="page"
+                                {% endif %}
+                              >
+                                {{- child.title -}}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
                       {%- endif -%}
-                      <ul
-                        class="header__dropdown-list"
-                        role="list"
-                        {% if show_heading %}
-                          aria-labelledby="HeaderDropdownHeading-{{ forloop.index }}"
-                        {% endif %}
-                      >
-                        {%- for child in link.links -%}
-                          <li>
-                            <a
-                              href="{{ child.url }}"
-                              class="header__dropdown-link{% if child.active %} header__dropdown-link--active{% endif %}"
-                              {% if child.current %}
-                                aria-current="page"
-                              {% endif %}
-                            >
-                              {{- child.title -}}
-                            </a>
-                          </li>
-                        {%- endfor -%}
-                      </ul>
                     </div>
                   </div>
                 {%- endif -%}
@@ -296,14 +296,106 @@
     box-shadow: var(--shadow-popover);
   }
 
-  .header__dropdown-heading {
-    margin-block-end: var(--space-sm);
-    padding-block-end: var(--space-sm);
-    border-block-end: var(--border-width) solid var(--color-surface);
+  /* Mega menu: positioned against the whole header row (the item is made static),
+     centred, and narrower on small screens. */
+  .header__inner {
+    position: relative;
+  }
+
+  .header__menu-item:has(> .header__dropdown--mega) {
+    position: static;
+  }
+
+  .header__dropdown--mega {
+    inset-inline: 0;
+    width: min(56rem, 100% - var(--page-margin) * 2);
+    margin-inline: auto;
+    padding-block-start: var(--space-xs);
+  }
+
+  .header__dropdown--mega .header__dropdown-card {
+    padding: var(--space-lg);
+  }
+
+  /* Categories only (no brands picked): half as wide */
+  .header__dropdown--mega:has(.header__mega--single) {
+    width: min(28rem, 100% - var(--page-margin) * 2);
+  }
+
+  .header__mega {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .header__mega--single {
+    grid-template-columns: 1fr;
+  }
+
+  .header__mega-column + .header__mega-column {
+    margin-inline-start: var(--space-lg);
+    padding-inline-start: var(--space-lg);
+    border-inline-start: var(--border-width) solid var(--color-border);
+  }
+
+  .header__mega-heading {
+    margin-block-end: var(--space-2xs);
     font-family: var(--font-heading-family);
-    font-size: var(--font-size-ui);
+    font-size: var(--font-size-md);
     font-weight: var(--font-heading-weight);
     line-height: 2rem;
+  }
+
+  .header__mega-list {
+    padding: 0;
+    list-style: none;
+  }
+
+  .header__mega-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-height: 3rem;
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-heading-weight-regular);
+    text-decoration: none;
+
+    &:hover,
+    &.header__mega-link--active {
+      color: var(--color-primary-text);
+    }
+  }
+
+  /* Row divider sits under the text only, not under the icon/logo (as in the design) */
+  .header__mega-text {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xs);
+    align-self: stretch;
+    border-block-end: var(--border-width) solid var(--color-surface);
+  }
+
+  .header__mega-list > li:last-child .header__mega-text {
+    border-block-end: 0;
+  }
+
+  .header__mega-logo {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 4.5rem;
+    height: 2.5rem;
+
+    & img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
   }
 
   .header__dropdown-list {
@@ -429,7 +521,7 @@
         });
         item.addEventListener('pointerleave', (event) => {
           if (event.pointerType !== 'mouse') return;
-          this.#closeTimer = setTimeout(() => this.#close(item), 150);
+          this.#closeTimer = setTimeout(() => this.#close(item), 200);
         });
       }
 
@@ -517,6 +609,13 @@
       "id": "menu",
       "label": "t:labels.menu",
       "default": "main-menu"
+    },
+    {
+      "type": "collection_list",
+      "id": "mega_menu_brands",
+      "label": "t:labels.mega_menu_brands",
+      "info": "t:info.mega_menu_brands",
+      "limit": 12
     },
     {
       "type": "text",

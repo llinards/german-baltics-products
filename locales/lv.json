@@ -4594,6 +4594,7 @@
     "submenu": "{{ title }} apakšizvēlne"
   },
   "header": {
-    "categories": "Kategorijas"
+    "categories": "Kategorijas",
+    "brands": "Zīmoli"
   }
 }

@@ -1,0 +1,69 @@
+{%- doc -%}
+  Renders the wide two-column dropdown used for a category menu item:
+  the menu item's sub-links on the left ("Kategorijas") and brand
+  collections with their logos on the right ("Zīmoli").
+
+  @param {object} link - The top-level menu link whose sub-links are categories
+  @param {object[]} [brands] - Brand collections from the header's collection_list setting
+  @param {string} id - Unique id suffix for headings and aria wiring
+
+  @example
+  {% render 'header-mega-menu', link: link, brands: section.settings.mega_menu_brands, id: forloop.index %}
+{%- enddoc -%}
+
+<div class="header__mega{% if brands == blank %} header__mega--single{% endif %}">
+  <div class="header__mega-column">
+    <p class="header__mega-heading" id="HeaderMegaCategories-{{ id }}">{{ 'header.categories' | t }}</p>
+    <ul class="header__mega-list" role="list" aria-labelledby="HeaderMegaCategories-{{ id }}">
+      {%- for child in link.links -%}
+        <li>
+          <a
+            href="{{ child.url }}"
+            class="header__mega-link{% if child.active %} header__mega-link--active{% endif %}"
+            {% if child.current %}
+              aria-current="page"
+            {% endif %}
+          >
+            <span class="header__mega-text">
+              {{- child.title -}}
+              {%- render 'icon', name: 'caret-right', class: 'icon--small' -%}
+            </span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  {%- if brands != blank -%}
+    <div class="header__mega-column">
+      <p class="header__mega-heading" id="HeaderMegaBrands-{{ id }}">{{ 'header.brands' | t }}</p>
+      <ul class="header__mega-list" role="list" aria-labelledby="HeaderMegaBrands-{{ id }}">
+        {%- for brand in brands -%}
+          <li>
+            <a
+              href="{{ brand.url }}"
+              class="header__mega-link{% if collection.handle == brand.handle %} header__mega-link--active{% endif %}"
+              {% if collection.handle == brand.handle %}
+                aria-current="page"
+              {% endif %}
+            >
+              <span class="header__mega-logo">
+                {%- if brand.image -%}
+                  {{
+                    brand.image
+                    | image_url: width: 192
+                    | image_tag: widths: '96, 192', sizes: '96px', loading: 'lazy', alt: ''
+                  }}
+                {%- endif -%}
+              </span>
+              <span class="header__mega-text">
+                {{- brand.title -}}
+                {%- render 'icon', name: 'caret-right', class: 'icon--small' -%}
+              </span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+</div>

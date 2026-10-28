@@ -61,6 +61,7 @@
     "submenu": "{{ title }} submenu"
   },
   "header": {
-    "categories": "Categories"
+    "categories": "Categories",
+    "brands": "Brands"
   }
 }

@@ -50,6 +50,7 @@
     "link": "Link",
     "logo": "Logo",
     "logo_width": "Logo width",
+    "mega_menu_brands": "Mega menu brands",
     "menu": "Menu",
     "on_primary": "Text on primary",
     "padding": "Padding",
@@ -98,6 +99,7 @@
   "info": {
     "background_gradient": "Optional. Replaces the solid background when set.",
     "heading_font": "Used for headings, prices and buttons.",
+    "mega_menu_brands": "Shown next to the categories in the menu item whose sub-items are all collections (E-veikals). Logos come from each collection image.",
     "primary_color": "Buttons, prices and links.",
     "surface_color": "Cards, inputs and round icon buttons.",
     "wishlist_link": "The heart icon shows only when a link is set."

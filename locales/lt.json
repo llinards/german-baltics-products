@@ -93,6 +93,7 @@
     "submenu": "{{ title }} submeniu"
   },
   "header": {
-    "categories": "Kategorijos"
+    "categories": "Kategorijos",
+    "brands": "Prekės ženklai"
   }
 }
