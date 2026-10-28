@@ -8,18 +8,91 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
+    "name": "t:general.colors",
+    "settings": [
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "color",
+            "id": "background",
+            "label": "t:labels.background",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color_background",
+            "id": "background_gradient",
+            "label": "t:labels.background_gradient",
+            "info": "t:info.background_gradient"
+          },
+          {
+            "type": "color",
+            "id": "foreground",
+            "label": "t:labels.foreground",
+            "default": "#0D0C0D"
+          },
+          {
+            "type": "color",
+            "id": "primary",
+            "label": "t:labels.primary",
+            "info": "t:info.primary_color",
+            "default": "#047866"
+          },
+          {
+            "type": "color",
+            "id": "on_primary",
+            "label": "t:labels.on_primary",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "surface",
+            "label": "t:labels.surface",
+            "info": "t:info.surface_color",
+            "default": "#F5F5F5"
+          },
+          {
+            "type": "color",
+            "id": "border",
+            "label": "t:labels.border",
+            "default": "#E5E5E5"
+          }
+        ],
+        "role": {
+          "background": {
+            "solid": "background",
+            "gradient": "background_gradient"
+          },
+          "text": "foreground",
+          "links": "primary",
+          "icons": "foreground",
+          "primary_button": "primary",
+          "on_primary_button": "on_primary",
+          "primary_button_border": "primary",
+          "secondary_button": "background",
+          "on_secondary_button": "primary",
+          "secondary_button_border": "primary"
+        }
+      }
+    ]
+  },
+  {
     "name": "t:general.typography",
     "settings": [
       {
-        "type": "header",
-        "content": "t:general.fonts"
+        "type": "font_picker",
+        "id": "type_heading_font",
+        "label": "t:labels.heading_font",
+        "info": "t:info.heading_font",
+        "default": "poppins_n6"
       },
       {
         "type": "font_picker",
-        "id": "type_primary_font",
-        "default": "work_sans_n4",
-        "label": "t:general.primary"
-      },
+        "id": "type_body_font",
+        "label": "t:labels.body_font",
+        "default": "inter_n4"
+      }
     ]
   },
   {
@@ -40,43 +113,6 @@
           }
         ],
         "default": "90rem"
-      },
-      {
-        "type": "range",
-        "id": "min_page_margin",
-        "min": 10,
-        "max": 100,
-        "step": 1,
-        "unit": "px",
-        "label": "t:labels.page_margin",
-        "default": 20
-      }
-    ]
-  },
-  {
-    "name": "t:general.colors",
-    "settings": [
-      {
-        "type": "color",
-        "id": "background_color",
-        "default": "#FFFFFF",
-        "label": "t:labels.background"
-      },
-      {
-        "type": "color",
-        "id": "foreground_color",
-        "default": "#333333",
-        "label": "t:labels.foreground"
-      },
-      {
-        "type": "range",
-        "id": "input_corner_radius",
-        "min": 0,
-        "max": 10,
-        "step": 1,
-        "unit": "px",
-        "label": "t:labels.input_corner_radius",
-        "default": 4
       }
     ]
   }
