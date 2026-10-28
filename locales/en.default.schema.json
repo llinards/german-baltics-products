@@ -36,18 +36,23 @@
   "labels": {
     "alignment": "Alignment",
     "background": "Background",
+    "background_gradient": "Background gradient",
+    "body_font": "Body font",
+    "border": "Borders",
     "foreground": "Foreground",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
-    "input_corner_radius": "Input corner radius",
+    "heading_font": "Heading font",
     "layout_direction": "Layout direction",
     "menu": "Menu",
+    "on_primary": "Text on primary",
     "padding": "Padding",
-    "page_margin": "Page margin",
     "page_width": "Page width",
+    "primary": "Primary",
     "show_payment_icons": "Show payment icons",
-    "text_style": "Text style",
-    "text": "Text"
+    "surface": "Surface",
+    "text": "Text",
+    "text_style": "Text style"
   },
   "options": {
     "alignment": {
@@ -71,6 +76,12 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
-    },
+    }
+  },
+  "info": {
+    "background_gradient": "Optional. Replaces the solid background when set.",
+    "heading_font": "Used for headings, prices and buttons.",
+    "primary_color": "Buttons, prices and links.",
+    "surface_color": "Cards, inputs and round icon buttons."
   }
 }
