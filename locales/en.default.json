@@ -57,6 +57,7 @@
     "cart_count": {
       "one": "{{ count }} item",
       "other": "{{ count }} items"
-    }
+    },
+    "submenu": "{{ title }} submenu"
   }
 }

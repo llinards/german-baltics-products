@@ -4590,6 +4590,7 @@
       "zero": "{{ count }} preču",
       "one": "{{ count }} prece",
       "other": "{{ count }} preces"
-    }
+    },
+    "submenu": "{{ title }} apakšizvēlne"
   }
 }

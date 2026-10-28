@@ -89,6 +89,7 @@
       "few": "{{ count }} prekės",
       "many": "{{ count }} prekės",
       "other": "{{ count }} prekių"
-    }
+    },
+    "submenu": "{{ title }} submeniu"
   }
 }

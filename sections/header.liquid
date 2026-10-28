@@ -33,26 +33,59 @@
     </a>
 
     {%- if menu.links.size > 0 -%}
-      <nav class="header__nav" aria-label="{{ 'accessibility.main_menu' | t }}">
-        <ul class="header__menu" role="list">
-          {%- for link in menu.links -%}
-            <li>
-              <a
-                href="{{ link.url }}"
-                class="header__menu-link{% if link.active or link.child_active %} header__menu-link--active{% endif %}"
-                {% if link.current %}
-                  aria-current="page"
-                {% endif %}
-              >
-                {{- link.title -}}
-                {%- if link.links.size > 0 -%}
-                  {%- render 'icon', name: 'caret-down', class: 'icon--small' -%}
+      <header-menu class="header__nav">
+        <nav aria-label="{{ 'accessibility.main_menu' | t }}">
+          <ul class="header__menu" role="list">
+            {%- for link in menu.links -%}
+              {%- assign has_dropdown = false -%}
+              {%- if link.links.size > 0 -%}
+                {%- assign has_dropdown = true -%}
+              {%- endif -%}
+              <li class="header__menu-item{% if has_dropdown %} header__menu-item--dropdown{% endif %}">
+                <a
+                  href="{{ link.url }}"
+                  class="header__menu-link{% if link.active or link.child_active %} header__menu-link--active{% endif %}"
+                  {% if link.current %}
+                    aria-current="page"
+                  {% endif %}
+                >
+                  {{- link.title -}}
+                </a>
+
+                {%- if has_dropdown -%}
+                  <button
+                    type="button"
+                    class="header__dropdown-toggle"
+                    aria-expanded="false"
+                    aria-controls="HeaderDropdown-{{ forloop.index }}"
+                    aria-label="{{ 'accessibility.submenu' | t: title: link.title }}"
+                  >
+                    {%- render 'icon', name: 'caret-down', class: 'icon--small' -%}
+                  </button>
+
+                  <div class="header__dropdown" id="HeaderDropdown-{{ forloop.index }}">
+                    <ul class="header__dropdown-list" role="list">
+                      {%- for child in link.links -%}
+                        <li>
+                          <a
+                            href="{{ child.url }}"
+                            class="header__dropdown-link{% if child.active %} header__dropdown-link--active{% endif %}"
+                            {% if child.current %}
+                              aria-current="page"
+                            {% endif %}
+                          >
+                            {{- child.title -}}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </div>
                 {%- endif -%}
-              </a>
-            </li>
-          {%- endfor -%}
-        </ul>
-      </nav>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      </header-menu>
     {%- endif -%}
 
     {%- if phone != blank -%}
@@ -173,7 +206,6 @@
   .header__menu-link {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-3xs);
     font-size: var(--font-size-ui);
     font-weight: var(--font-body-weight-medium);
     line-height: var(--line-height-body);
@@ -184,6 +216,94 @@
     &:hover,
     &.header__menu-link--active {
       color: var(--color-foreground);
+    }
+  }
+
+  .header__menu-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .header__dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    border: 0;
+    color: var(--color-foreground-muted);
+    background: transparent;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+
+    & .icon {
+      transition: rotate var(--duration-fast) var(--ease-out);
+    }
+  }
+
+  /* The dropdown wrapper starts right under the item; its top padding bridges the gap
+     so moving the mouse down into the card doesn't close it. */
+  .header__dropdown {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-start: 0;
+    z-index: 20;
+    padding-block-start: var(--space-xs);
+    visibility: hidden;
+    opacity: 0;
+    translate: 0 -0.25rem;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      translate var(--duration-fast) var(--ease-out),
+      visibility 0s linear var(--duration-fast);
+  }
+
+  .header__dropdown-list {
+    min-width: 14rem;
+    padding-block: var(--space-xs);
+    padding-inline: var(--space-md);
+    list-style: none;
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-popover);
+  }
+
+  .header__dropdown-link {
+    display: block;
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-heading-weight-regular);
+    line-height: 2rem;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover,
+    &.header__dropdown-link--active {
+      color: var(--color-primary-text);
+    }
+  }
+
+  /* Open state: .is-open is set by the script (hover, click, keyboard).
+     Without JavaScript, hover and keyboard focus open the dropdown through CSS. */
+  .header__menu-item--dropdown.is-open,
+  header-menu:not(:defined) .header__menu-item--dropdown:is(:hover, :focus-within) {
+    & > .header__menu-link,
+    & > .header__dropdown-toggle {
+      color: var(--color-foreground);
+    }
+
+    & > .header__dropdown-toggle .icon {
+      rotate: 180deg;
+    }
+
+    & > .header__dropdown {
+      visibility: visible;
+      opacity: 1;
+      translate: 0 0;
+      transition-delay: 0s;
     }
   }
 
@@ -251,6 +371,82 @@
     border-radius: var(--radius-pill);
   }
 {% endstylesheet %}
+
+{% javascript %}
+  class HeaderMenu extends HTMLElement {
+    #closeTimer;
+
+    connectedCallback() {
+      this.items = [...this.querySelectorAll('.header__menu-item--dropdown')];
+
+      for (const item of this.items) {
+        item.querySelector('.header__dropdown-toggle').addEventListener('click', () => this.#toggle(item));
+        item.addEventListener('pointerenter', (event) => {
+          if (event.pointerType !== 'mouse') return;
+          clearTimeout(this.#closeTimer);
+          this.#open(item);
+        });
+        item.addEventListener('pointerleave', (event) => {
+          if (event.pointerType !== 'mouse') return;
+          this.#closeTimer = setTimeout(() => this.#close(item), 150);
+        });
+      }
+
+      this.addEventListener('keydown', this.#onKeydown);
+      this.addEventListener('focusout', this.#onFocusOut);
+      document.addEventListener('click', this.#onDocumentClick);
+    }
+
+    disconnectedCallback() {
+      clearTimeout(this.#closeTimer);
+      document.removeEventListener('click', this.#onDocumentClick);
+    }
+
+    #open(item) {
+      for (const other of this.items) {
+        if (other !== item) this.#close(other);
+      }
+      item.classList.add('is-open');
+      item.querySelector('.header__dropdown-toggle').setAttribute('aria-expanded', 'true');
+    }
+
+    #close(item) {
+      item.classList.remove('is-open');
+      item.querySelector('.header__dropdown-toggle').setAttribute('aria-expanded', 'false');
+    }
+
+    #toggle(item) {
+      if (item.classList.contains('is-open')) {
+        this.#close(item);
+      } else {
+        this.#open(item);
+      }
+    }
+
+    #onKeydown = (event) => {
+      if (event.key !== 'Escape') return;
+      const item = event.target.closest('.header__menu-item--dropdown.is-open');
+      if (!item) return;
+      this.#close(item);
+      item.querySelector('.header__dropdown-toggle').focus();
+    };
+
+    // Close when keyboard focus leaves the item (tabbing past the last link)
+    #onFocusOut = (event) => {
+      const item = event.target.closest('.header__menu-item--dropdown');
+      if (item && !item.contains(event.relatedTarget)) this.#close(item);
+    };
+
+    #onDocumentClick = (event) => {
+      if (this.contains(event.target)) return;
+      for (const item of this.items) this.#close(item);
+    };
+  }
+
+  if (!customElements.get('header-menu')) {
+    customElements.define('header-menu', HeaderMenu);
+  }
+{% endjavascript %}
 
 {% schema %}
 {
