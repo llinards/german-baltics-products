@@ -4579,7 +4579,21 @@
     "title": "Meklēt",
     "placeholder": "Meklēt rakstus, lapas vai produktus",
     "submit": "Meklēt",
-    "no_results_html": "Nav atrasts neviens rezultāts: {{ terms }}"
+    "no_results_html": "Nav atrasts neviens rezultāts: {{ terms }}",
+    "predictive": {
+      "label": "Meklēt veikalā",
+      "placeholder": "Meklēt produktus, zīmolus vai kategorijas...",
+      "open": "Atvērt meklēšanu",
+      "close": "Aizvērt meklēšanu",
+      "clear": "Notīrīt meklēšanu",
+      "results_count": {
+        "zero": "Pieejami {{ count }} rezultātu",
+        "one": "Pieejams {{ count }} rezultāts",
+        "other": "Pieejami {{ count }} rezultāti"
+      },
+      "no_results": "Nav rezultātu meklējumam „{{ terms }}”",
+      "hint": "Izmantojiet bultiņas uz augšu un uz leju, lai pārlūkotu rezultātus. Nospiediet Tab, lai pabeigtu ieteikto tekstu."
+    }
   },
   "accessibility": {
     "account": "Konts",

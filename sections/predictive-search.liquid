@@ -1,0 +1,72 @@
+{%- assign results = predictive_search.resources.collections | concat: predictive_search.resources.products -%}
+
+<div class="predictive-search__results">
+  <p data-status-text>
+    {%- if results.size > 0 -%}
+      {{- 'search.predictive.results_count' | t: count: results.size -}}
+    {%- else -%}
+      {{- 'search.predictive.no_results' | t: terms: predictive_search.terms -}}
+    {%- endif -%}
+  </p>
+
+  {%- for item in results -%}
+    <div class="predictive-search__option" role="option" aria-selected="false" data-url="{{ item.url }}">
+      <span class="predictive-search__thumb">
+        {%- if item.featured_image != blank -%}
+          {{
+            item.featured_image
+            | image_url: width: 96
+            | image_tag: width: 48, height: 48, widths: '48, 96', sizes: '48px', loading: 'lazy', alt: item.title
+          }}
+        {%- endif -%}
+      </span>
+      <span class="predictive-search__option-text">{{ item.title }}</span>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% stylesheet %}
+  .predictive-search__option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-height: 2.75rem;
+    padding: var(--space-xs) var(--space-sm);
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-heading-weight-regular);
+    line-height: var(--line-height-snug);
+    border-radius: var(--space-sm);
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-out);
+
+    &:hover,
+    &[aria-selected='true'] {
+      background-color: var(--color-surface);
+    }
+  }
+
+  .predictive-search__thumb {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    padding: var(--space-3xs);
+    background-color: var(--color-background);
+    border-radius: var(--radius-sm);
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.search"
+}
+{% endschema %}

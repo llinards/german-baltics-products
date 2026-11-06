@@ -1,0 +1,666 @@
+{%- doc -%}
+  Search field with live collection and product predictions and inline
+  autocomplete, built as an ARIA combobox. Results come from
+  sections/predictive-search.liquid. Without JavaScript the form submits to the
+  search page.
+
+  With overlay: true it becomes the mobile search panel: hidden until a button
+  with aria-controls="{id}" opens it under the header.
+
+  @param {string} id - Unique id prefix, e.g. 'HeaderSearch'
+  @param {boolean} [overlay] - Render as the mobile panel with a close button
+
+  @example
+  {% render 'predictive-search', id: 'HeaderSearch' %}
+{%- enddoc -%}
+
+<predictive-search
+  class="predictive-search{% if overlay %} predictive-search--overlay{% endif %}"
+  data-url="{{ routes.predictive_search_url }}"
+  {% if overlay %}
+    id="{{ id }}" hidden
+  {% endif %}
+>
+  <form class="predictive-search__form" action="{{ routes.search_url }}" method="get" role="search">
+    {%- if overlay -%}
+      <button
+        type="button"
+        class="predictive-search__close"
+        data-close
+        aria-label="{{ 'search.predictive.close' | t }}"
+      >
+        {%- render 'icon', name: 'close' -%}
+      </button>
+    {%- endif -%}
+
+    <div class="predictive-search__field">
+      <label class="visually-hidden" for="{{ id }}-input">{{ 'search.predictive.label' | t }}</label>
+      <input
+        id="{{ id }}-input"
+        class="predictive-search__input"
+        type="search"
+        name="q"
+        placeholder="{{ 'search.predictive.placeholder' | t }}"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded="false"
+        aria-controls="{{ id }}-listbox"
+        aria-describedby="{{ id }}-hint"
+        autocomplete="off"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        enterkeyhint="search"
+      >
+      <span class="predictive-search__ghost" aria-hidden="true">
+        <span class="predictive-search__ghost-typed"></span>
+        <span class="predictive-search__ghost-rest"></span>
+      </span>
+      <span class="predictive-search__icon">
+        {%- render 'icon', name: 'search', class: 'predictive-search__icon-search' -%}
+        {%- render 'icon', name: 'spinner', class: 'predictive-search__icon-spinner' -%}
+      </span>
+      <button
+        type="button"
+        class="predictive-search__clear"
+        data-clear
+        aria-label="{{ 'search.predictive.clear' | t }}"
+      >
+        {%- render 'icon', name: 'close' -%}
+      </button>
+    </div>
+    <input type="hidden" name="options[prefix]" value="last">
+
+    <div class="predictive-search__dropdown" hidden>
+      <div
+        id="{{ id }}-listbox"
+        class="predictive-search__listbox"
+        role="listbox"
+        aria-label="{{ 'search.predictive.label' | t }}"
+      ></div>
+      <p class="predictive-search__empty" data-empty hidden></p>
+    </div>
+
+    <p id="{{ id }}-hint" class="visually-hidden">{{ 'search.predictive.hint' | t }}</p>
+    <p class="visually-hidden" role="status" data-status></p>
+  </form>
+</predictive-search>
+
+{% stylesheet %}
+  predictive-search {
+    display: block;
+  }
+
+  .predictive-search__form {
+    position: relative;
+  }
+
+  /* Distance from the field edge to the search icon; the dropdown uses it too so the rows line up with the icon */
+  predictive-search {
+    --predictive-search-inset: 1.25rem;
+    --predictive-search-text-inset: calc(var(--predictive-search-inset) + var(--icon-size) + var(--space-2xs));
+  }
+
+  .predictive-search__field {
+    position: relative;
+  }
+
+  .predictive-search__input {
+    width: 100%;
+    height: var(--button-height);
+    padding-block: 0;
+    padding-inline: var(--predictive-search-text-inset);
+    border: 0;
+    border-radius: var(--radius-pill);
+    /* 16px or more stops iOS from zooming in on focus */
+    font-size: var(--font-size-base);
+    color: var(--color-foreground);
+    background-color: var(--color-input-background);
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    appearance: none;
+    transition: outline-color var(--duration-fast) var(--ease-out);
+
+    &:focus-visible {
+      outline-color: var(--color-focus);
+    }
+
+    &::placeholder {
+      color: var(--color-foreground-muted);
+      opacity: 1;
+    }
+
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button {
+      display: none;
+      appearance: none;
+    }
+  }
+
+  .predictive-search__icon {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: var(--predictive-search-inset);
+    display: flex;
+    align-items: center;
+    color: var(--color-foreground-muted);
+    pointer-events: none;
+  }
+
+  .predictive-search__icon-spinner {
+    display: none;
+  }
+
+  predictive-search.is-loading {
+    & .predictive-search__icon-search {
+      display: none;
+    }
+
+    & .predictive-search__icon-spinner {
+      display: inline-flex;
+      animation: predictive-search-spin 0.8s linear infinite;
+    }
+  }
+
+  @keyframes predictive-search-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  /* The base styles stop all animation under reduced motion; keep this one turning slowly so loading stays visible */
+  @media (prefers-reduced-motion: reduce) {
+    predictive-search.is-loading .predictive-search__icon-spinner {
+      animation-duration: 2.4s !important;
+      animation-iteration-count: infinite !important;
+    }
+  }
+
+  /* Sits on top of the input with the typed part invisible, so only the completion shows after the caret */
+  .predictive-search__ghost {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    padding-inline: var(--predictive-search-text-inset);
+    overflow: hidden;
+    font-size: var(--font-size-base);
+    white-space: pre;
+    color: var(--color-foreground-subtle);
+    pointer-events: none;
+  }
+
+  .predictive-search__ghost-typed {
+    color: transparent;
+  }
+
+  .predictive-search__input:not(:focus) ~ .predictive-search__ghost {
+    visibility: hidden;
+  }
+
+  /* Its icon sits the same distance from the right edge as the search icon from the left */
+  .predictive-search__clear {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: calc(var(--predictive-search-inset) - (2.75rem - var(--icon-size)) / 2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-block: auto;
+    padding: 0;
+    border: 0;
+    color: var(--color-foreground-muted);
+    background: transparent;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-foreground);
+    }
+  }
+
+  .predictive-search__input:placeholder-shown ~ .predictive-search__clear {
+    display: none;
+  }
+
+  /* Fades like the header dropdowns; the gap clears the input's focus outline */
+  .predictive-search__dropdown {
+    position: absolute;
+    inset-block-start: calc(100% + var(--space-2xs));
+    inset-inline: 0;
+    /* Below the header dropdowns (20) so an opened menu covers it */
+    z-index: 15;
+    padding: var(--predictive-search-inset);
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-popover);
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      translate var(--duration-fast) var(--ease-out),
+      display var(--duration-fast) allow-discrete;
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 -0.25rem;
+    }
+
+    &[hidden] {
+      display: none;
+      opacity: 0;
+      translate: 0 -0.25rem;
+    }
+  }
+
+  .predictive-search__empty {
+    padding: var(--space-xs) var(--space-sm);
+    color: var(--color-foreground-muted);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  /* Mobile panel: placed under the header by the script. It's positioned against the page,
+     not the sticky header, so it scrolls away with the content and slides under the header. */
+  .predictive-search--overlay {
+    position: absolute;
+    inset-block-start: var(--search-overlay-top, 0);
+    inset-inline: 0;
+    z-index: 9;
+    padding: var(--space-xs) var(--page-margin) var(--space-md);
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    box-shadow: var(--shadow-popover);
+
+    &[hidden] {
+      display: none;
+    }
+
+    @media screen and (min-width: 990px) {
+      display: none;
+    }
+
+    & .predictive-search__form {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    & .predictive-search__dropdown {
+      position: static;
+      grid-column: 1 / -1;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    & .predictive-search__option {
+      padding-inline: 0;
+      border-block-end: var(--border-width) solid var(--color-surface);
+      border-radius: 0;
+    }
+  }
+
+  .predictive-search__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--color-surface);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class PredictiveSearch extends HTMLElement {
+    #debounceTimer;
+    #announceTimer;
+    #abortController;
+    #cache = new Map();
+    #options = [];
+    #activeIndex = -1;
+    #renderedTerm = '';
+    #completion = '';
+    #trigger = null;
+
+    connectedCallback() {
+      this.input = this.querySelector('.predictive-search__input');
+      this.dropdown = this.querySelector('.predictive-search__dropdown');
+      this.listbox = this.querySelector('[role="listbox"]');
+      this.empty = this.querySelector('[data-empty]');
+      this.status = this.querySelector('[data-status]');
+      this.ghostTyped = this.querySelector('.predictive-search__ghost-typed');
+      this.ghostRest = this.querySelector('.predictive-search__ghost-rest');
+      this.isOverlay = this.classList.contains('predictive-search--overlay');
+
+      this.input.addEventListener('input', this.#onInput);
+      this.input.addEventListener('focus', this.#onFocus);
+      this.input.addEventListener('keyup', this.#updateGhost);
+      this.input.addEventListener('click', this.#updateGhost);
+      this.addEventListener('keydown', this.#onKeydown);
+      this.addEventListener('focusout', this.#onFocusOut);
+      // Keep focus in the input while picking an option, so focusout doesn't close the list first
+      this.dropdown.addEventListener('mousedown', (event) => event.preventDefault());
+      this.listbox.addEventListener('click', this.#onOptionClick);
+      this.querySelector('[data-clear]').addEventListener('click', this.#onClear);
+
+      if (this.isOverlay) {
+        this.querySelector('[data-close]').addEventListener('click', () => this.#hideOverlay(true));
+        document.addEventListener('click', this.#onDocumentClick);
+        this.desktop = window.matchMedia('(min-width: 990px)');
+        this.desktop.addEventListener('change', this.#onBreakpointChange);
+      }
+    }
+
+    disconnectedCallback() {
+      clearTimeout(this.#debounceTimer);
+      clearTimeout(this.#announceTimer);
+      this.#abortController?.abort();
+      if (this.isOverlay) {
+        document.removeEventListener('click', this.#onDocumentClick);
+        this.desktop.removeEventListener('change', this.#onBreakpointChange);
+      }
+    }
+
+    #onInput = () => {
+      this.#updateGhost();
+      const term = this.input.value.trim();
+
+      if (!term) {
+        clearTimeout(this.#debounceTimer);
+        this.#abortController?.abort();
+        this.#setLoading(false);
+        this.#renderedTerm = '';
+        this.#completion = '';
+        this.#updateGhost();
+        this.#close();
+        return;
+      }
+
+      this.#schedule();
+    };
+
+    #onClear = () => {
+      this.input.value = '';
+      this.input.focus();
+      this.#onInput();
+    };
+
+    #schedule() {
+      clearTimeout(this.#debounceTimer);
+      this.#debounceTimer = setTimeout(() => this.#search(this.input.value.trim()), 300);
+    }
+
+    async #search(term) {
+      if (!term) return;
+      this.#abortController?.abort();
+
+      const key = term.toLowerCase();
+      if (this.#cache.has(key)) {
+        this.#setLoading(false);
+        this.#render(term, this.#cache.get(key));
+        return;
+      }
+
+      const controller = new AbortController();
+      this.#abortController = controller;
+      this.#setLoading(true);
+
+      try {
+        const [html, queries] = await Promise.all([
+          this.#fetchResults(term, controller.signal),
+          this.#fetchQueries(term, controller.signal),
+        ]);
+        this.#cache.set(key, { html, queries });
+        this.#render(term, { html, queries });
+      } catch (error) {
+        if (error.name !== 'AbortError') this.#close();
+      } finally {
+        if (this.#abortController === controller) this.#setLoading(false);
+      }
+    }
+
+    async #fetchResults(term, signal) {
+      const url = this.#url(term, {
+        'resources[type]': 'product,collection',
+        'resources[limit]': 3,
+        'resources[limit_scope]': 'all',
+        'resources[options][unavailable_products]': 'last',
+        section_id: 'predictive-search',
+      });
+      const response = await fetch(url, { signal });
+      if (!response.ok) throw new Error(`Predictive search failed: ${response.status}`);
+      return response.text();
+    }
+
+    // Search terms that feed the inline completion only. Optional: if they fail, the results still show
+    async #fetchQueries(term, signal) {
+      try {
+        const url = this.#url(term, { 'resources[type]': 'query', 'resources[limit]': 3 }, '.json');
+        const response = await fetch(url, { signal });
+        if (!response.ok) return [];
+        const data = await response.json();
+        return data.resources?.results?.queries?.map((query) => query.text) ?? [];
+      } catch (error) {
+        if (error.name === 'AbortError') throw error;
+        return [];
+      }
+    }
+
+    #url(term, params, extension = '') {
+      const url = new URL(this.dataset.url + extension, window.location.origin);
+      url.searchParams.set('q', term);
+      for (const [name, value] of Object.entries(params)) url.searchParams.set(name, value);
+      return url;
+    }
+
+    #render(term, { html, queries }) {
+      const page = new DOMParser().parseFromString(html, 'text/html');
+      const results = [...page.querySelectorAll('.predictive-search__option')];
+      const statusText = page.querySelector('[data-status-text]')?.textContent.trim() ?? '';
+
+      this.listbox.replaceChildren(...results.map((node) => document.adoptNode(node)));
+      this.empty.textContent = results.length ? '' : statusText;
+      this.empty.hidden = results.length > 0;
+
+      this.#options = [...this.listbox.querySelectorAll('[role="option"]')];
+      this.#options.forEach((option, index) => (option.id = `${this.input.id}-option-${index}`));
+      this.#renderedTerm = term;
+
+      const titles = results.map((node) => node.querySelector('.predictive-search__option-text').textContent.trim());
+      this.#completion = this.#findCompletion(term, queries, titles);
+      this.#updateGhost();
+
+      if (document.activeElement === this.input) this.#open();
+      this.#announce(statusText);
+    }
+
+    // A suggested term completes the whole text; a result title only finishes the word being typed
+    #findCompletion(term, queries, titles) {
+      const lowerTerm = term.toLowerCase();
+      const query = queries.find((text) => text.length > term.length && text.toLowerCase().startsWith(lowerTerm));
+      if (query) return query;
+
+      for (const title of titles) {
+        if (!title.toLowerCase().startsWith(lowerTerm)) continue;
+        const word = title.slice(term.length).match(/^\S*/)[0];
+        if (word) return title.slice(0, term.length + word.length);
+      }
+      return '';
+    }
+
+    #updateGhost = () => {
+      const { value } = this.input;
+      const show =
+        value.trim() !== '' &&
+        this.#completion.length > value.length &&
+        this.#completion.toLowerCase().startsWith(value.toLowerCase()) &&
+        this.input.selectionStart === value.length &&
+        this.input.scrollWidth <= this.input.clientWidth;
+
+      this.ghostTyped.textContent = show ? value : '';
+      this.ghostRest.textContent = show ? this.#completion.slice(value.length) : '';
+    };
+
+    #acceptCompletion() {
+      this.input.value += this.ghostRest.textContent;
+      this.#updateGhost();
+      this.#schedule();
+    }
+
+    #onKeydown = (event) => {
+      if (event.key === 'Escape') {
+        if (!this.dropdown.hidden) {
+          event.preventDefault();
+          this.#close();
+        } else if (this.isOverlay) {
+          event.preventDefault();
+          this.#hideOverlay(true);
+        }
+        return;
+      }
+
+      if (event.target !== this.input) return;
+
+      switch (event.key) {
+        case 'ArrowDown':
+        case 'ArrowUp': {
+          if (!this.#options.length) return;
+          event.preventDefault();
+          if (this.dropdown.hidden) this.#open();
+          const last = this.#options.length - 1;
+          let next = this.#activeIndex + (event.key === 'ArrowDown' ? 1 : -1);
+          if (next > last) next = 0;
+          if (next < 0) next = last;
+          this.#setActive(next);
+          break;
+        }
+        case 'Enter': {
+          const option = !this.dropdown.hidden && this.#options[this.#activeIndex];
+          if (option) {
+            event.preventDefault();
+            this.#choose(option);
+          }
+          break;
+        }
+        case 'Tab':
+          if (event.shiftKey || !this.ghostRest.textContent) return;
+          event.preventDefault();
+          this.#acceptCompletion();
+          break;
+        case 'ArrowRight':
+          if (!this.ghostRest.textContent || this.input.selectionStart !== this.input.value.length) return;
+          event.preventDefault();
+          this.#acceptCompletion();
+          break;
+      }
+    };
+
+    #onOptionClick = (event) => {
+      const option = event.target.closest('[role="option"]');
+      if (option) this.#choose(option);
+    };
+
+    #choose(option) {
+      window.location.href = option.dataset.url;
+    }
+
+    #setActive(index) {
+      this.#activeIndex = index;
+      this.#options.forEach((option, i) => option.setAttribute('aria-selected', String(i === index)));
+
+      const active = this.#options[index];
+      if (active) {
+        this.input.setAttribute('aria-activedescendant', active.id);
+        active.scrollIntoView({ block: 'nearest' });
+      } else {
+        this.input.removeAttribute('aria-activedescendant');
+      }
+    }
+
+    #open() {
+      if (!this.#renderedTerm || this.#renderedTerm !== this.input.value.trim()) return;
+      this.dropdown.hidden = false;
+      this.input.setAttribute('aria-expanded', String(this.#options.length > 0));
+    }
+
+    #close() {
+      this.dropdown.hidden = true;
+      this.input.setAttribute('aria-expanded', 'false');
+      this.#setActive(-1);
+    }
+
+    #onFocus = () => {
+      this.#open();
+      this.#updateGhost();
+    };
+
+    #onFocusOut = (event) => {
+      if (this.contains(event.relatedTarget)) return;
+      this.#close();
+      // Tabbing out of the mobile panel closes it too
+      if (this.isOverlay && event.relatedTarget && event.relatedTarget !== this.#trigger) this.#hideOverlay(false);
+    };
+
+    #setLoading(loading) {
+      this.classList.toggle('is-loading', loading);
+      this.listbox.setAttribute('aria-busy', String(loading));
+    }
+
+    // Clearing first makes screen readers announce the text again when it repeats
+    #announce(text) {
+      clearTimeout(this.#announceTimer);
+      this.status.textContent = '';
+      this.#announceTimer = setTimeout(() => (this.status.textContent = text), 150);
+    }
+
+    #onDocumentClick = (event) => {
+      const trigger = event.target.closest(`[aria-controls="${this.id}"]`);
+      if (trigger) {
+        this.hidden ? this.#showOverlay(trigger) : this.#hideOverlay(true);
+        return;
+      }
+      if (!this.hidden && !this.contains(event.target)) this.#hideOverlay(false);
+    };
+
+    #showOverlay(trigger) {
+      this.#trigger = trigger;
+      const header = trigger.closest('header') ?? trigger;
+      const top = header.getBoundingClientRect().bottom + window.scrollY;
+      this.style.setProperty('--search-overlay-top', `${top}px`);
+      this.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      // Focus in the same tap so the phone keyboard opens
+      this.input.focus({ preventScroll: true });
+    }
+
+    #hideOverlay(returnFocus) {
+      if (this.hidden) return;
+      this.#close();
+      this.hidden = true;
+      this.#trigger?.setAttribute('aria-expanded', 'false');
+      if (returnFocus) this.#trigger?.focus({ preventScroll: true });
+    }
+
+    #onBreakpointChange = (event) => {
+      if (event.matches) this.#hideOverlay(false);
+    };
+  }
+
+  if (!customElements.get('predictive-search')) {
+    customElements.define('predictive-search', PredictiveSearch);
+  }
+{% endjavascript %}

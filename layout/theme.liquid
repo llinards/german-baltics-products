@@ -16,6 +16,8 @@
   <body>
     {% sections 'header-group' %}
 
+    {% render 'predictive-search', id: 'SearchOverlay', overlay: true %}
+
     {{ content_for_layout }}
 
     {% sections 'footer-group' %}

@@ -77,7 +77,22 @@
     "title": "Ieškoti",
     "placeholder": "Ieškoti straipsnių, puslapių ar produktų",
     "submit": "Ieškoti",
-    "no_results_html": "Nerasta rezultatų užklausai {{ terms }}"
+    "no_results_html": "Nerasta rezultatų užklausai {{ terms }}",
+    "predictive": {
+      "label": "Ieškoti parduotuvėje",
+      "placeholder": "Ieškoti produktų, prekės ženklų ar kategorijų...",
+      "open": "Atidaryti paiešką",
+      "close": "Uždaryti paiešką",
+      "clear": "Išvalyti paiešką",
+      "results_count": {
+        "one": "Rastas {{ count }} rezultatas",
+        "few": "Rasti {{ count }} rezultatai",
+        "many": "Rasta {{ count }} rezultato",
+        "other": "Rasta {{ count }} rezultatų"
+      },
+      "no_results": "Nerasta rezultatų užklausai „{{ terms }}“",
+      "hint": "Naudokite rodykles aukštyn ir žemyn rezultatams naršyti. Paspauskite Tab, kad užbaigtumėte pasiūlytą tekstą."
+    }
   },
   "accessibility": {
     "account": "Paskyra",

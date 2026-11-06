@@ -119,10 +119,15 @@
     {%- endif -%}
 
     <div class="header__actions">
-      <a class="header__action" href="{{ routes.search_url }}">
+      <button
+        type="button"
+        class="header__action header__action--mobile"
+        aria-controls="SearchOverlay"
+        aria-expanded="false"
+        aria-label="{{ 'search.predictive.open' | t }}"
+      >
         {%- render 'icon', name: 'search' -%}
-        <span class="visually-hidden">{{ 'search.title' | t }}</span>
-      </a>
+      </button>
 
       <a class="header__action" href="{{ routes.cart_url }}">
         {%- render 'icon', name: 'bag' -%}
@@ -164,6 +169,10 @@
         {%- render 'icon', name: 'menu' -%}
       </button>
     </div>
+  </div>
+
+  <div class="header__search">
+    {%- render 'predictive-search', id: 'HeaderSearch' -%}
   </div>
 </header>
 
@@ -493,6 +502,23 @@
 
     & a:hover {
       color: var(--color-foreground);
+    }
+  }
+
+  .header__search {
+    display: none;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-block: var(--space-xs) var(--space-md);
+    padding-inline: var(--page-margin);
+
+    @media screen and (min-width: 990px) {
+      display: block;
+    }
+
+    & predictive-search {
+      width: calc(100% * 2 / 3);
+      margin-inline: auto;
     }
   }
 

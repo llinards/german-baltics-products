@@ -109,7 +109,7 @@
     "menu_tagline": "Shown near the bottom of the mobile menu.",
     "primary_color": "Buttons, prices and links.",
     "social_media": "Icons show in the mobile menu and the footer for each link that is set.",
-    "surface_color": "Cards, inputs and round icon buttons.",
+    "surface_color": "Cards, inputs (including the header search bar) and round icon buttons.",
     "wishlist_link": "The heart icon shows only when a link is set."
   }
 }
