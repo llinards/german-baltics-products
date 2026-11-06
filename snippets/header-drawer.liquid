@@ -1,6 +1,6 @@
 {%- doc -%}
   Renders the full-screen mobile menu: logo, the main menu with sub-menus as
-  accordions, account / wishlist / phone links, a tagline and social links.
+  accordions, account / wishlist links, phone, social links and a tagline.
   It is a modal <dialog> opened by the header's menu button
   (commandfor="MenuDrawer"); the script below covers browsers without
   Invoker Commands support and closes the menu at the desktop breakpoint.
@@ -50,8 +50,8 @@
         {%- endif -%}
       </a>
 
-      {%- if menu.links.size > 0 -%}
-        <nav class="menu-drawer__nav" aria-label="{{ 'accessibility.main_menu' | t }}">
+      <nav class="menu-drawer__nav" aria-label="{{ 'accessibility.main_menu' | t }}">
+        {%- if menu.links.size > 0 -%}
           <ul class="menu-drawer__menu" role="list">
             {%- for link in menu.links -%}
               {%- assign link_index = forloop.index -%}
@@ -165,45 +165,45 @@
               </li>
             {%- endfor -%}
           </ul>
-        </nav>
-      {%- endif -%}
+        {%- endif -%}
+
+        <ul class="menu-drawer__actions" role="list">
+          <li>
+            <a
+              class="menu-drawer__action"
+              href="{% if shop.customer_accounts_enabled %}{{ routes.account_url }}{% else %}#{% endif %}"
+            >
+              {%- render 'icon', name: 'account' -%}
+              <span class="visually-hidden">{{ 'header.account' | t }}</span>
+            </a>
+          </li>
+          <li>
+            <a class="menu-drawer__action" href="{{ wishlist_url | default: '#' }}">
+              {%- render 'icon', name: 'heart' -%}
+              <span class="visually-hidden">{{ 'header.wishlist' | t }}</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
 
       <div class="menu-drawer__footer">
-        <ul class="menu-drawer__utility" role="list">
-          {%- if shop.customer_accounts_enabled -%}
-            <li>
-              <a class="menu-drawer__utility-link" href="{{ routes.account_url }}">
-                {%- render 'icon', name: 'account', class: 'icon--small' -%}
-                {{- 'header.account' | t -}}
-              </a>
-            </li>
-          {%- endif -%}
-          {%- if wishlist_url != blank -%}
-            <li>
-              <a class="menu-drawer__utility-link" href="{{ wishlist_url }}">
-                {%- render 'icon', name: 'heart', class: 'icon--small' -%}
-                {{- 'header.wishlist' | t -}}
-              </a>
-            </li>
-          {%- endif -%}
-          {%- if phone != blank -%}
-            <li class="menu-drawer__phone">
-              <a class="menu-drawer__utility-link" href="tel:{{ phone | remove: ' ' }}">
-                {%- render 'icon', name: 'phone', class: 'icon--small' -%}
-                {{- phone -}}
-              </a>
-              {%- if phone_note != blank -%}
-                <span class="menu-drawer__phone-note">{{ phone_note }}</span>
-              {%- endif -%}
-            </li>
-          {%- endif -%}
-        </ul>
+        {%- if phone != blank -%}
+          <p class="menu-drawer__phone">
+            <a class="menu-drawer__utility-link" href="tel:{{ phone | remove: ' ' }}">
+              {%- render 'icon', name: 'phone', class: 'icon--small' -%}
+              {{- phone -}}
+            </a>
+            {%- if phone_note != blank -%}
+              <span class="menu-drawer__phone-note">{{ phone_note }}</span>
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+
+        {%- render 'social-links', class: 'menu-drawer__social' -%}
 
         {%- if tagline != blank -%}
           <p class="menu-drawer__tagline">{{ tagline }}</p>
         {%- endif -%}
-
-        {%- render 'social-links', class: 'menu-drawer__social' -%}
       </div>
     </div>
   </dialog>
@@ -286,7 +286,7 @@
 
   .menu-drawer__logo {
     display: block;
-    margin-block: var(--space-sm) var(--space-xl);
+    margin-block-start: var(--space-sm);
     text-decoration: none;
 
     & img {
@@ -300,6 +300,11 @@
     font-family: var(--font-heading-family);
     font-size: var(--font-size-xl);
     font-weight: var(--font-heading-weight-bold);
+  }
+
+  .menu-drawer__nav,
+  .menu-drawer__footer {
+    margin-block-start: auto;
   }
 
   .menu-drawer__nav {
@@ -402,23 +407,39 @@
   .menu-drawer__footer {
     display: grid;
     justify-items: center;
-    gap: var(--space-md);
-    margin-block-start: auto;
-    padding-block-start: var(--space-xl);
+    gap: var(--space-sm);
+    padding-block-start: var(--space-lg);
   }
 
-  .menu-drawer__utility {
-    display: grid;
-    justify-items: center;
+  .menu-drawer__actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3xs);
+    margin-block-end: -0.625rem;
     padding: 0;
     list-style: none;
+  }
+
+  .menu-drawer__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: inherit;
+    border-radius: var(--radius-pill);
+    transition: background-color var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      background-color: var(--color-surface);
+    }
   }
 
   .menu-drawer__utility-link {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2xs);
-    min-height: 2.75rem;
+    min-height: 1.5rem;
     font-size: var(--font-size-sm);
     text-decoration: none;
 
@@ -433,14 +454,17 @@
   }
 
   .menu-drawer__phone-note {
-    margin-block-start: calc(var(--space-2xs) * -1);
     font-size: var(--font-size-xs);
     color: var(--color-foreground-muted);
   }
 
   .menu-drawer__tagline {
     max-width: 12rem;
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-ui);
+  }
+
+  .menu-drawer__social {
+    margin-block: -0.625rem;
   }
 {% endstylesheet %}
 

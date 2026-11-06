@@ -2,7 +2,21 @@
   assign logo = section.settings.logo
   assign logo_width = section.settings.logo_width
   assign menu = section.settings.menu
-  assign phone = section.settings.phone
+
+  case localization.language.iso_code
+    when 'lt'
+      if shop.metafields.custom.support_phone_lt != blank
+        assign phone = shop.metafields.custom.support_phone_lt.value | prepend: '+370 '
+      endif
+    when 'et'
+      if shop.metafields.custom.support_phone_et != blank
+        assign phone = shop.metafields.custom.support_phone_et.value | prepend: '+372 '
+      endif
+    else
+      if shop.metafields.custom.support_phone_en != blank
+        assign phone = shop.metafields.custom.support_phone_en.value | prepend: '+371 '
+      endif
+  endcase
 -%}
 
 <header
@@ -144,19 +158,18 @@
         {%- endif -%}
       </a>
 
-      {%- if section.settings.wishlist_url != blank -%}
-        <a class="header__action header__action--desktop" href="{{ section.settings.wishlist_url }}">
-          {%- render 'icon', name: 'heart' -%}
-          <span class="visually-hidden">{{ 'accessibility.wishlist' | t }}</span>
-        </a>
-      {%- endif -%}
+      <a class="header__action header__action--desktop" href="{{ section.settings.wishlist_url | default: '#' }}">
+        {%- render 'icon', name: 'heart' -%}
+        <span class="visually-hidden">{{ 'accessibility.wishlist' | t }}</span>
+      </a>
 
-      {%- if shop.customer_accounts_enabled -%}
-        <a class="header__action header__action--desktop" href="{{ routes.account_url }}">
-          {%- render 'icon', name: 'account' -%}
-          <span class="visually-hidden">{{ 'accessibility.account' | t }}</span>
-        </a>
-      {%- endif -%}
+      <a
+        class="header__action header__action--desktop"
+        href="{% if shop.customer_accounts_enabled %}{{ routes.account_url }}{% else %}#{% endif %}"
+      >
+        {%- render 'icon', name: 'account' -%}
+        <span class="visually-hidden">{{ 'accessibility.account' | t }}</span>
+      </a>
 
       <button
         type="button"
@@ -692,12 +705,6 @@
       "label": "t:labels.mega_menu_brands",
       "info": "t:info.mega_menu_brands",
       "limit": 12
-    },
-    {
-      "type": "text",
-      "id": "phone",
-      "label": "t:labels.phone",
-      "default": "+371 67299994"
     },
     {
       "type": "text",
