@@ -430,8 +430,26 @@
       this.error = this.querySelector('[data-newsletter-error]');
       this.input = this.querySelector('input[type="email"]');
 
-      this.form.addEventListener('submit', this.#onSubmit);
+      this.addEventListener('submit', this.#onSubmit, true);
+      this.#createFrame();
       this.#clearPostedParam();
+    }
+
+    disconnectedCallback() {
+      this.frame?.remove();
+    }
+
+    #createFrame() {
+      this.frame?.remove();
+      this.frame = document.createElement('iframe');
+      this.frame.name = `${this.form.id}-frame`;
+      this.frame.hidden = true;
+      this.frame.tabIndex = -1;
+      this.frame.setAttribute('aria-hidden', 'true');
+      this.frame.setAttribute('sandbox', 'allow-same-origin');
+      this.frame.addEventListener('load', this.#onLoad);
+      this.append(this.frame);
+      this.form.target = this.frame.name;
     }
 
     #clearPostedParam() {
@@ -442,28 +460,40 @@
       history.replaceState(history.state, '', url);
     }
 
-    #onSubmit = async (event) => {
-      event.preventDefault();
-      if (this.#pending) return;
+    #onSubmit = () => {
       this.#pending = true;
+    };
 
+    #onLoad = () => {
+      if (!this.#pending) return;
+      this.#pending = false;
+
+      let url = '';
+      let page;
       try {
-        const response = await fetch(this.form.action, { method: 'POST', body: new FormData(this.form) });
-        if (response.url.includes('/challenge')) return this.form.submit();
+        url = this.frame.contentWindow.location.href;
+        page = this.frame.contentDocument;
+      } catch {}
 
-        const page = new DOMParser().parseFromString(await response.text(), 'text/html');
-        const form = page.getElementById(this.form.id);
-        const success = form?.querySelector('[data-newsletter-success]');
-        const error = form?.querySelector('[data-newsletter-error]');
-
-        if (success && !success.hidden) return this.#showSuccess();
-        if (error && !error.hidden) return this.#showError(error.textContent);
-        this.#showError(this.error.dataset.genericError);
-      } catch {
-        this.#showError(this.error.dataset.genericError);
-      } finally {
-        this.#pending = false;
+      if (url.includes('/challenge')) {
+        this.form.target = '_self';
+        this.form.submit();
+        return;
       }
+
+      const form = page?.getElementById(this.form.id);
+      const success = form?.querySelector('[data-newsletter-success]');
+      const error = form?.querySelector('[data-newsletter-error]');
+
+      if (success && !success.hidden) {
+        this.#showSuccess();
+      } else if (error && !error.hidden) {
+        this.#showError(error.textContent);
+      } else {
+        this.#showError(this.error.dataset.genericError);
+      }
+
+      this.#createFrame();
     };
 
     #showSuccess() {
