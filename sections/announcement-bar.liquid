@@ -123,9 +123,8 @@
       white-space: nowrap;
     }
 
-    /* Pause on hover, while a message link has keyboard focus, or via the pause button.
-       Focus on the button itself is excluded, so clicking "play" resumes straight away. */
-    &:is(:hover, [data-paused], :has(.announcement-bar__list :focus-visible)) .announcement-bar__track {
+    &:is([data-paused], :has(.announcement-bar__viewport:hover, .announcement-bar__list :focus-visible))
+      .announcement-bar__track {
       animation-play-state: paused;
     }
   }
