@@ -85,6 +85,7 @@
               class="footer__message"
               role="alert"
               data-newsletter-error
+              data-generic-error="{{ 'footer.newsletter.error' | t | escape }}"
               {% unless form.errors %}
                 hidden
               {% endunless %}
@@ -457,9 +458,9 @@
 
         if (success && !success.hidden) return this.#showSuccess();
         if (error && !error.hidden) return this.#showError(error.textContent);
-        this.form.submit();
+        this.#showError(this.error.dataset.genericError);
       } catch {
-        this.form.submit();
+        this.#showError(this.error.dataset.genericError);
       } finally {
         this.#pending = false;
       }

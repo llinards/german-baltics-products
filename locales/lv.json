@@ -4623,7 +4623,8 @@
       "label": "E-pasts",
       "placeholder": "Tavs e-pasts",
       "submit": "Pieteikties",
-      "success": "Paldies, esi pieteicies!"
+      "success": "Paldies, esi pieteicies!",
+      "error": "Kaut kas nogāja greizi. Lūdzu, mēģini vēlreiz."
     }
   }
 }

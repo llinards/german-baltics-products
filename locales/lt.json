@@ -123,7 +123,8 @@
       "label": "El. paštas",
       "placeholder": "Jūsų el. paštas",
       "submit": "Prenumeruoti",
-      "success": "Ačiū, kad užsiprenumeravote!"
+      "success": "Ačiū, kad užsiprenumeravote!",
+      "error": "Kažkas nepavyko. Bandykite dar kartą."
     }
   }
 }

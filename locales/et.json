@@ -98,7 +98,8 @@
       "label": "E-post",
       "placeholder": "Sinu e-post",
       "submit": "Liitu",
-      "success": "Aitäh, oled liitunud!"
+      "success": "Aitäh, oled liitunud!",
+      "error": "Midagi läks valesti. Palun proovi uuesti."
     }
   }
 }

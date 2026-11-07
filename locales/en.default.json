@@ -98,7 +98,8 @@
       "label": "Email",
       "placeholder": "Your email",
       "submit": "Subscribe",
-      "success": "Thanks for subscribing!"
+      "success": "Thanks for subscribing!",
+      "error": "Something went wrong. Please try again."
     }
   }
 }
