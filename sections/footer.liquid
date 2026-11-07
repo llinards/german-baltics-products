@@ -39,14 +39,10 @@
         <newsletter-form>
           {%- form 'customer', id: 'FooterNewsletter', class: 'footer__form' -%}
             <input type="hidden" name="contact[tags]" value="newsletter">
-            <div class="footer__form-body">
-              <div
-                class="footer__field"
-                data-newsletter-field
-                {% if form.posted_successfully? %}
-                  hidden
-                {% endif %}
-              >
+            {%- if form.posted_successfully? -%}
+              <p class="footer__success" role="status">{{ 'footer.newsletter.success' | t }}</p>
+            {%- else -%}
+              <div class="footer__field">
                 <label class="visually-hidden" for="FooterNewsletter-email">{{ 'footer.newsletter.label' | t }}</label>
                 <input
                   id="FooterNewsletter-email"
@@ -68,33 +64,13 @@
                 <button type="submit" class="footer__submit button">{{ 'footer.newsletter.submit' | t }}</button>
               </div>
 
-              <p
-                class="footer__success"
-                data-newsletter-success
-                tabindex="-1"
-                {% unless form.posted_successfully? %}
-                  hidden
-                {% endunless %}
-              >
-                {{ 'footer.newsletter.success' | t }}
-              </p>
-            </div>
-
-            <p
-              id="FooterNewsletter-error"
-              class="footer__message"
-              role="alert"
-              data-newsletter-error
-              data-generic-error="{{ 'footer.newsletter.error' | t | escape }}"
-              {% unless form.errors %}
-                hidden
-              {% endunless %}
-            >
               {%- if form.errors -%}
-                {{- form.errors.translated_fields.email | capitalize }}
-                {{ form.errors.messages.email -}}
+                <p id="FooterNewsletter-error" class="footer__message" role="alert">
+                  {{- form.errors.translated_fields.email | capitalize }}
+                  {{ form.errors.messages.email -}}
+                </p>
               {%- endif -%}
-            </p>
+            {%- endif -%}
           {%- endform -%}
         </newsletter-form>
       </div>
@@ -241,33 +217,15 @@
     display: block;
   }
 
-  .footer__form-body {
-    display: grid;
-
-    & > * {
-      grid-area: 1 / 1;
-    }
-  }
-
   .footer__field {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-md);
-    transition:
-      opacity var(--duration-fast) var(--ease-out),
-      translate var(--duration-fast) var(--ease-out),
-      display var(--duration-fast) allow-discrete;
 
     @media screen and (min-width: 990px) {
       flex-direction: row;
       gap: var(--space-2xs);
-    }
-
-    &[hidden] {
-      display: none;
-      opacity: 0;
-      translate: 0 -0.25rem;
     }
   }
 
@@ -275,7 +233,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    align-self: center;
     min-height: var(--button-height);
     padding-block: var(--space-xs);
     padding-inline: var(--space-md);
@@ -289,22 +246,11 @@
     border-radius: var(--radius-sm);
     transition:
       opacity var(--duration-fast) var(--ease-out),
-      translate var(--duration-fast) var(--ease-out),
-      display var(--duration-fast) allow-discrete;
+      translate var(--duration-fast) var(--ease-out);
 
     @starting-style {
       opacity: 0;
       translate: 0 -0.25rem;
-    }
-
-    &[hidden] {
-      display: none;
-      opacity: 0;
-      translate: 0 -0.25rem;
-    }
-
-    &:focus {
-      outline: none;
     }
   }
 
@@ -421,93 +367,12 @@
 
 {% javascript %}
   class NewsletterForm extends HTMLElement {
-    #pending = false;
-
     connectedCallback() {
-      this.form = this.querySelector('form');
-      this.field = this.querySelector('[data-newsletter-field]');
-      this.success = this.querySelector('[data-newsletter-success]');
-      this.error = this.querySelector('[data-newsletter-error]');
-      this.input = this.querySelector('input[type="email"]');
-
-      this.form.submit = () => this.#send();
-      this.form.addEventListener('submit', this.#onSubmit);
-      this.#clearPostedParam();
-    }
-
-    #clearPostedParam() {
       const url = new URL(window.location.href);
       if (!url.searchParams.has('customer_posted')) return;
       url.searchParams.delete('customer_posted');
       url.hash = '';
       history.replaceState(history.state, '', url);
-    }
-
-    #onSubmit = (event) => {
-      event.preventDefault();
-      if (this.form.hasAttribute('data-hcaptcha-bound')) return;
-
-      const captcha = window.Shopify?.captcha;
-      if (captcha?.protect) {
-        captcha.protect(this.form, () => this.form.submit());
-      } else {
-        this.#send();
-      }
-    };
-
-    async #send() {
-      if (this.#pending) return;
-      this.#pending = true;
-
-      try {
-        const response = await fetch(this.form.action, { method: 'POST', body: new FormData(this.form) });
-        const url = new URL(response.url);
-
-        if (url.pathname.endsWith('/challenge')) {
-          window.location.assign(response.url);
-          return;
-        }
-        if (url.searchParams.has('customer_posted')) {
-          this.#showSuccess();
-          return;
-        }
-
-        const page = new DOMParser().parseFromString(await response.text(), 'text/html');
-        const form = page.getElementById(this.form.id);
-        const success = form?.querySelector('[data-newsletter-success]');
-        const error = form?.querySelector('[data-newsletter-error]');
-
-        if (success && !success.hidden) {
-          this.#showSuccess();
-        } else if (error && !error.hidden) {
-          this.#showError(error.textContent);
-        } else {
-          this.#showError(this.error.dataset.genericError);
-        }
-      } catch {
-        if (navigator.onLine) {
-          this.#showSuccess();
-        } else {
-          this.#showError(this.error.dataset.genericError);
-        }
-      } finally {
-        this.#pending = false;
-      }
-    }
-
-    #showSuccess() {
-      this.error.hidden = true;
-      this.field.hidden = true;
-      this.success.hidden = false;
-      this.success.focus({ preventScroll: true });
-    }
-
-    #showError(message) {
-      this.error.textContent = message.trim();
-      this.error.hidden = false;
-      this.input.setAttribute('aria-invalid', 'true');
-      this.input.setAttribute('aria-describedby', this.error.id);
-      this.input.focus();
     }
   }
 

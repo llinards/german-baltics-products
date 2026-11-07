@@ -3291,12 +3291,10 @@
     },
     "challenge": {
       "message": "Lai turpinātu, lūdzu, apstipriniet, ka neesat robots.",
-      "error": "Jūsu atbilde nebija pareiza, lūdzu, mēģiniet vēlreiz.",
       "submit_button_text": "Iesniegt"
     },
     "checkpoint": {
       "message": "Atrisiniet CAPTCHA, lai turpinātu",
-      "error": "Neizdevās apstiprināt CAPTCHA",
       "submit_button_text": "Iesniegt"
     },
     "store_availability": {
@@ -4623,8 +4621,7 @@
       "label": "E-pasts",
       "placeholder": "Tavs e-pasts",
       "submit": "Pieteikties",
-      "success": "Paldies, esi pieteicies!",
-      "error": "Kaut kas nogāja greizi. Lūdzu, mēģini vēlreiz."
+      "success": "Paldies, esi pieteicies!"
     }
   }
 }
