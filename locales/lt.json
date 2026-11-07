@@ -117,5 +117,13 @@
     "view_all": "Žiūrėti viską",
     "account": "Mano paskyra",
     "wishlist": "Pageidavimų sąrašas"
+  },
+  "footer": {
+    "newsletter": {
+      "label": "El. paštas",
+      "placeholder": "Jūsų el. paštas",
+      "submit": "Prenumeruoti",
+      "success": "Ačiū, kad užsiprenumeravote!"
+    }
   }
 }

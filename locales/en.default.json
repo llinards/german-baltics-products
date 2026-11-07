@@ -92,5 +92,13 @@
     "view_all": "View all",
     "account": "My account",
     "wishlist": "Wishlist"
+  },
+  "footer": {
+    "newsletter": {
+      "label": "Email",
+      "placeholder": "Your email",
+      "submit": "Subscribe",
+      "success": "Thanks for subscribing!"
+    }
   }
 }

@@ -4617,5 +4617,13 @@
     "view_all": "Skatīt visu",
     "account": "Mans konts",
     "wishlist": "Vēlmju saraksts"
+  },
+  "footer": {
+    "newsletter": {
+      "label": "E-pasts",
+      "placeholder": "Tavs e-pasts",
+      "submit": "Pieteikties",
+      "success": "Paldies, esi pieteicies!"
+    }
   }
 }

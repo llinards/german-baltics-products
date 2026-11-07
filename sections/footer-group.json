@@ -14,8 +14,12 @@
     "footer": {
       "type": "footer",
       "settings": {
+        "logo_width": 150,
+        "tagline": "Kvalitatīvi produkti katrai dienai!",
+        "menu_heading": "Kategorijas",
         "menu": "footer",
-        "show_payment_icons": true
+        "newsletter_heading": "Saņem jaunākos piedāvājumus jau šodien!",
+        "color_scheme": "scheme-4"
       }
     }
   },

@@ -92,5 +92,13 @@
     "view_all": "Vaata kõiki",
     "account": "Minu konto",
     "wishlist": "Soovinimekiri"
+  },
+  "footer": {
+    "newsletter": {
+      "label": "E-post",
+      "placeholder": "Sinu e-post",
+      "submit": "Liitu",
+      "success": "Aitäh, oled liitunud!"
+    }
   }
 }
