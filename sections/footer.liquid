@@ -31,7 +31,7 @@
         {%- endif -%}
       </a>
 
-      <div class="footer__newsletter">
+      <div id="footer-newsletter" class="footer__newsletter">
         {%- if section.settings.newsletter_heading != blank -%}
           <h2 class="footer__newsletter-heading h2">{{ section.settings.newsletter_heading }}</h2>
         {%- endif -%}
@@ -369,10 +369,18 @@
   class NewsletterForm extends HTMLElement {
     connectedCallback() {
       const url = new URL(window.location.href);
-      if (!url.searchParams.has('customer_posted')) return;
-      url.searchParams.delete('customer_posted');
-      url.hash = '';
-      history.replaceState(history.state, '', url);
+      const posted = url.searchParams.has('customer_posted');
+      if (!posted && !this.querySelector('.footer__message')) return;
+
+      if (posted) {
+        url.searchParams.delete('customer_posted');
+        url.hash = '';
+        history.replaceState(history.state, '', url);
+      }
+
+      requestAnimationFrame(() => {
+        document.getElementById('footer-newsletter').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
     }
   }
 
