@@ -329,11 +329,13 @@
     align-items: center;
     min-height: 2.75rem;
     font-size: var(--font-size-base);
-    text-decoration: none;
+    text-decoration: underline;
+    text-decoration-color: transparent;
     text-underline-offset: 0.25em;
+    transition: text-decoration-color var(--duration-fast) var(--ease-out);
 
     &:hover {
-      text-decoration: underline;
+      text-decoration-color: currentColor;
     }
   }
 
