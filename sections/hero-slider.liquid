@@ -24,13 +24,6 @@
         {%- liquid
           assign image = block.settings.image
           assign title = block.settings.title
-          if forloop.first
-            assign loading = 'eager'
-            assign priority = 'high'
-          else
-            assign loading = 'lazy'
-            assign priority = 'auto'
-          endif
         -%}
         <div
           class="hero__slide hero__slide--{{ block.settings.alignment }}{% if forloop.first %} is-active{% endif %}"
@@ -60,8 +53,7 @@
                 widths: '375, 550, 750, 1100, 1500, 1780, 2000, 2400, 3000',
                 sizes: '100vw',
                 alt: alt,
-                loading: loading,
-                fetchpriority: priority,
+                preload: forloop.first,
                 class: 'hero__image'
             }}
           {%- else -%}
