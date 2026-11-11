@@ -25,6 +25,7 @@
     "custom_section": "Custom section",
     "fonts": "Fonts",
     "footer": "Footer",
+    "gradient": "Gradient overlay",
     "group": "Group",
     "header": "Header",
     "hero_slider": "Hero slider",
@@ -64,10 +65,17 @@
     "button_label": "Label",
     "button_style": "Style",
     "color_scheme": "Color scheme",
+    "content_position": "Text position on desktop",
+    "content_position_mobile": "Text position on mobile",
     "content_width": "Text content width",
     "eyebrow": "Text above title",
     "facebook": "Facebook",
     "foreground": "Foreground",
+    "gradient_color": "Start color",
+    "gradient_desktop": "Show on desktop",
+    "gradient_direction": "Direction",
+    "gradient_mobile": "Show on mobile",
+    "gradient_reach": "Reach",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
     "heading_font": "Heading font",
@@ -115,6 +123,12 @@
       "horizontal": "Horizontal",
       "vertical": "Vertical"
     },
+    "gradient_direction": {
+      "to_right": "Left to right",
+      "to_left": "Right to left",
+      "to_bottom": "Top to bottom",
+      "to_top": "Bottom to top"
+    },
     "icon": {
       "none": "None",
       "caret_right_fill": "Triangle",
@@ -142,12 +156,19 @@
       "slow": "Slow",
       "normal": "Normal",
       "fast": "Fast"
+    },
+    "vertical": {
+      "top": "Top",
+      "center": "Center",
+      "bottom": "Bottom"
     }
   },
   "info": {
     "background_gradient": "Optional. Replaces the solid background when set.",
     "content_width": "Desktop only. On mobile the text uses the full width.",
-    "hero_image_alt": "Describes the image for screen readers. Uses the image's own alt text when empty.",
+    "gradient_reach": "Where the gradient becomes fully transparent.",
+    "hero_gradient": "Covers the image to keep text readable. Fades from the start color to transparent. Mobile is below 990px wide.",
+    "hero_image_alt":"Describes the image for screen readers. Uses the image's own alt text when empty.",
     "hero_languages": "One dot per published language. Hidden when the store has only one language.",
     "hero_mobile_image": "Below 990px wide.",
     "footer_logo": "Use a light version of the logo so it shows on the dark footer.",

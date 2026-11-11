@@ -38,6 +38,14 @@
             --hero-y-mobile: {{ block.settings.image_y_mobile }}%;
             --hero-zoom-mobile: {{ block.settings.image_zoom_mobile }}%;
             --hero-content-width: {{ block.settings.content_width }}%;
+            --hero-justify: {{ block.settings.content_position }};
+            --hero-justify-mobile: {{ block.settings.content_position_mobile }};
+            {% if block.settings.gradient_desktop %}
+              --hero-gradient: linear-gradient({{ block.settings.gradient_direction }}, {{ block.settings.gradient_color }}, transparent {{ block.settings.gradient_reach }}%);
+            {% endif %}
+            {% if block.settings.gradient_mobile %}
+              --hero-gradient-mobile: linear-gradient({{ block.settings.gradient_direction_mobile }}, {{ block.settings.gradient_color }}, transparent {{ block.settings.gradient_reach_mobile }}%);
+            {% endif %}
           "
           {% unless forloop.first %}
             inert
@@ -197,6 +205,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: var(--hero-justify-mobile);
     grid-area: 1 / 1;
     padding: var(--hero-padding);
     padding-block-end: calc(var(--hero-padding) + var(--hero-controls-size) + var(--hero-edge));
@@ -214,8 +223,21 @@
       transition: opacity var(--hero-fade) ease-in-out;
     }
 
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--hero-gradient-mobile, none);
+      pointer-events: none;
+    }
+
     @media screen and (min-width: 990px) {
-      justify-content: center;
+      justify-content: var(--hero-justify);
+
+      &::after {
+        background: var(--hero-gradient, none);
+      }
     }
   }
 
@@ -677,6 +699,28 @@
           "default": 40
         },
         {
+          "type": "select",
+          "id": "content_position",
+          "label": "t:labels.content_position",
+          "options": [
+            { "value": "flex-start", "label": "t:options.vertical.top" },
+            { "value": "center", "label": "t:options.vertical.center" },
+            { "value": "flex-end", "label": "t:options.vertical.bottom" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "content_position_mobile",
+          "label": "t:labels.content_position_mobile",
+          "options": [
+            { "value": "flex-start", "label": "t:options.vertical.top" },
+            { "value": "center", "label": "t:options.vertical.center" },
+            { "value": "flex-end", "label": "t:options.vertical.bottom" }
+          ],
+          "default": "flex-start"
+        },
+        {
           "type": "header",
           "content": "t:general.image"
         },
@@ -768,6 +812,80 @@
           "unit": "%",
           "default": 100,
           "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "header",
+          "content": "t:general.gradient",
+          "info": "t:info.hero_gradient"
+        },
+        {
+          "type": "color",
+          "id": "gradient_color",
+          "label": "t:labels.gradient_color",
+          "default": "#0a1824",
+          "visible_if": "{{ block.settings.gradient_desktop or block.settings.gradient_mobile }}"
+        },
+        {
+          "type": "checkbox",
+          "id": "gradient_desktop",
+          "label": "t:labels.gradient_desktop",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "gradient_direction",
+          "label": "t:labels.gradient_direction",
+          "options": [
+            { "value": "to right", "label": "t:options.gradient_direction.to_right" },
+            { "value": "to left", "label": "t:options.gradient_direction.to_left" },
+            { "value": "to bottom", "label": "t:options.gradient_direction.to_bottom" },
+            { "value": "to top", "label": "t:options.gradient_direction.to_top" }
+          ],
+          "default": "to right",
+          "visible_if": "{{ block.settings.gradient_desktop }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_reach",
+          "label": "t:labels.gradient_reach",
+          "info": "t:info.gradient_reach",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 60,
+          "visible_if": "{{ block.settings.gradient_desktop }}"
+        },
+        {
+          "type": "checkbox",
+          "id": "gradient_mobile",
+          "label": "t:labels.gradient_mobile",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "gradient_direction_mobile",
+          "label": "t:labels.gradient_direction",
+          "options": [
+            { "value": "to right", "label": "t:options.gradient_direction.to_right" },
+            { "value": "to left", "label": "t:options.gradient_direction.to_left" },
+            { "value": "to bottom", "label": "t:options.gradient_direction.to_bottom" },
+            { "value": "to top", "label": "t:options.gradient_direction.to_top" }
+          ],
+          "default": "to bottom",
+          "visible_if": "{{ block.settings.gradient_mobile }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_reach_mobile",
+          "label": "t:labels.gradient_reach",
+          "info": "t:info.gradient_reach",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 60,
+          "visible_if": "{{ block.settings.gradient_mobile }}"
         },
         {
           "type": "header",
