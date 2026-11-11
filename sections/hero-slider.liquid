@@ -41,6 +41,8 @@
             --hero-y-mobile: {{ block.settings.image_y_mobile }}%;
             --hero-scale-mobile: {{ block.settings.image_scale_mobile }}%;
             --hero-content-width: {{ block.settings.content_width }}%;
+            --hero-background: {{ block.settings.background_color }};
+            --hero-background-mobile: {{ block.settings.background_color_mobile | default: block.settings.background_color }};
             --hero-justify: {{ block.settings.content_position }};
             --hero-justify-mobile: {{ block.settings.content_position_mobile }};
             {% if block.settings.gradient_desktop %}
@@ -240,6 +242,7 @@
     grid-area: 1 / 1;
     padding: var(--hero-padding);
     padding-block-end: calc(var(--hero-padding) + var(--hero-controls-size) + var(--hero-edge));
+    background-color: var(--hero-background-mobile);
     isolation: isolate;
     opacity: 0;
     visibility: hidden;
@@ -265,6 +268,7 @@
 
     @media screen and (min-width: 990px) {
       justify-content: var(--hero-justify);
+      background-color: var(--hero-background);
 
       &::after {
         background: var(--hero-gradient, none);
@@ -772,6 +776,13 @@
           "visible_if": "{{ block.settings.image != blank }}"
         },
         {
+          "type": "color",
+          "id": "background_color",
+          "label": "t:labels.background_color",
+          "info": "t:info.hero_background",
+          "default": "#0a1824"
+        },
+        {
           "type": "header",
           "content": "t:general.image_desktop",
           "visible_if": "{{ block.settings.image != blank }}"
@@ -819,6 +830,12 @@
           "id": "image_mobile",
           "label": "t:labels.image_mobile",
           "info": "t:info.hero_image_mobile"
+        },
+        {
+          "type": "color",
+          "id": "background_color_mobile",
+          "label": "t:labels.background_color",
+          "info": "t:info.hero_background_mobile"
         },
         {
           "type": "range",
