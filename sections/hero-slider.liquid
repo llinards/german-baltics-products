@@ -1,0 +1,868 @@
+{%- liquid
+  assign slide_count = section.blocks.size
+  assign autoplay = false
+  if section.settings.autoplay and slide_count > 1
+    assign autoplay = true
+  endif
+-%}
+
+{%- if slide_count > 0 -%}
+  <hero-slider
+    class="hero color-{{ section.settings.color_scheme }}"
+    {% if autoplay %}
+      data-autoplay
+      data-speed="{{ section.settings.autoplay_speed }}"
+    {% endif %}
+  >
+    <div
+      class="hero__viewport"
+      role="region"
+      aria-roledescription="{{ 'accessibility.carousel' | t }}"
+      aria-label="{{ 'accessibility.slideshow' | t }}"
+    >
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign image = block.settings.image
+          assign title = block.settings.title
+        -%}
+        <div
+          class="hero__slide hero__slide--{{ block.settings.alignment }}{% if forloop.first %} is-active{% endif %}"
+          role="group"
+          aria-roledescription="{{ 'accessibility.slide' | t }}"
+          aria-label="{{ 'accessibility.slide_label' | t: index: forloop.index, count: slide_count }}"
+          style="
+            --hero-x: {{ block.settings.image_x }}%;
+            --hero-y: {{ block.settings.image_y }}%;
+            --hero-zoom: {{ block.settings.image_zoom }}%;
+            --hero-x-mobile: {{ block.settings.image_x_mobile }}%;
+            --hero-y-mobile: {{ block.settings.image_y_mobile }}%;
+            --hero-zoom-mobile: {{ block.settings.image_zoom_mobile }}%;
+            --hero-content-width: {{ block.settings.content_width }}%;
+          "
+          {% unless forloop.first %}
+            inert
+          {% endunless %}
+          {{ block.shopify_attributes }}
+        >
+          {%- if image != blank -%}
+            {%- assign alt = block.settings.image_alt | default: image.alt | default: title | default: shop.name -%}
+            {{
+              image
+              | image_url: width: 3000
+              | image_tag:
+                widths: '375, 550, 750, 1100, 1500, 1780, 2000, 2400, 3000',
+                sizes: '100vw',
+                alt: alt,
+                preload: forloop.first,
+                class: 'hero__image'
+            }}
+          {%- else -%}
+            {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero__image hero__image--placeholder' }}
+          {%- endif -%}
+
+          <div class="hero__content">
+            {%- if block.settings.eyebrow != blank -%}
+              <p class="hero__eyebrow text-primary">{{ block.settings.eyebrow }}</p>
+            {%- endif -%}
+
+            {%- if title != blank -%}
+              {%- if forloop.first -%}
+                <h1 class="hero__title">{{ title }}</h1>
+              {%- else -%}
+                <h2 class="hero__title h1">{{ title }}</h2>
+              {%- endif -%}
+            {%- endif -%}
+
+            {%- if block.settings.text != blank -%}
+              <p class="hero__text">{{ block.settings.text }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.button_1_label != blank or block.settings.button_2_label != blank -%}
+              <div class="hero__buttons">
+                {%- render 'hero-button',
+                  label: block.settings.button_1_label,
+                  link: block.settings.button_1_link,
+                  style: block.settings.button_1_style,
+                  icon: block.settings.button_1_icon
+                -%}
+                {%- render 'hero-button',
+                  label: block.settings.button_2_label,
+                  link: block.settings.button_2_link,
+                  style: block.settings.button_2_style,
+                  icon: block.settings.button_2_icon
+                -%}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if slide_count > 1 -%}
+      <div class="hero__controls">
+        {%- if autoplay -%}
+          <button
+            type="button"
+            class="hero__toggle"
+            aria-pressed="false"
+            aria-label="{{ 'accessibility.pause_slideshow' | t }}"
+          >
+            {%- render 'icon', name: 'pause', class: 'icon--small hero__icon-pause' -%}
+            {%- render 'icon', name: 'play', class: 'icon--small hero__icon-play' -%}
+          </button>
+        {%- endif -%}
+
+        <div class="hero__dots" role="group" aria-label="{{ 'accessibility.choose_slide' | t }}">
+          {%- for block in section.blocks -%}
+            <button
+              type="button"
+              class="hero__dot"
+              data-index="{{ forloop.index0 }}"
+              aria-label="{{ 'accessibility.slide_label' | t: index: forloop.index, count: slide_count }}"
+              aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+            ></button>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_languages and localization.available_languages.size > 1 -%}
+      <div class="hero__languages" role="group" aria-label="{{ 'accessibility.language' | t }}">
+        {%- form 'localization', class: 'hero__languages-form' -%}
+          {%- for language in localization.available_languages -%}
+            <button
+              type="submit"
+              class="hero__language"
+              name="locale_code"
+              value="{{ language.iso_code }}"
+              lang="{{ language.iso_code }}"
+              {% if language.iso_code == localization.language.iso_code %}
+                aria-current="true"
+              {% endif %}
+            >
+              <span aria-hidden="true">{{ language.iso_code | upcase }}</span>
+              <span class="visually-hidden">{{ language.endonym_name }}</span>
+            </button>
+          {%- endfor -%}
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+  </hero-slider>
+{%- endif -%}
+
+{% stylesheet %}
+  .hero-section {
+    padding-block-start: var(--space-sm);
+
+    @media screen and (min-width: 990px) {
+      padding-block-start: var(--space-md);
+    }
+  }
+
+  .hero {
+    --hero-fade: 600ms;
+    --hero-padding: var(--space-md);
+    --hero-edge: var(--space-sm);
+    --hero-language-size: 2.5rem;
+    --hero-controls-size: 1.5rem;
+    --hero-language-background: #ffffff;
+    --hero-language-foreground: #0d0c0d;
+
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    isolation: isolate;
+
+    @media screen and (min-width: 990px) {
+      --hero-padding: var(--space-xl);
+      --hero-edge: var(--space-md);
+    }
+  }
+
+  .hero__viewport {
+    display: grid;
+    min-height: 40rem;
+    touch-action: pan-y;
+
+    @media screen and (min-width: 990px) {
+      min-height: 34.5rem;
+    }
+  }
+
+  .hero__slide {
+    --hero-align: flex-start;
+    --hero-text-align: start;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    grid-area: 1 / 1;
+    padding: var(--hero-padding);
+    padding-block-end: calc(var(--hero-padding) + var(--hero-controls-size) + var(--hero-edge));
+    isolation: isolate;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0s linear var(--hero-fade),
+      visibility 0s linear var(--hero-fade);
+
+    &.is-active {
+      z-index: 1;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity var(--hero-fade) ease-in-out;
+    }
+
+    @media screen and (min-width: 990px) {
+      justify-content: center;
+    }
+  }
+
+  .hero:has(.hero__languages) .hero__slide {
+    padding-inline-end: calc(var(--hero-edge) + var(--hero-language-size) + var(--space-sm));
+  }
+
+  .hero__slide--center {
+    --hero-align: center;
+    --hero-text-align: center;
+  }
+
+  .hero__slide--right {
+    --hero-align: flex-end;
+    --hero-text-align: end;
+  }
+
+  .hero__image {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--hero-x-mobile) var(--hero-y-mobile);
+    transform-origin: var(--hero-x-mobile) var(--hero-y-mobile);
+    scale: var(--hero-zoom-mobile);
+
+    @media screen and (min-width: 990px) {
+      object-position: var(--hero-x) var(--hero-y);
+      transform-origin: var(--hero-x) var(--hero-y);
+      scale: var(--hero-zoom);
+    }
+  }
+
+  .hero__image--placeholder {
+    fill: var(--color-foreground-subtle);
+    background-color: var(--color-surface);
+  }
+
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    align-self: var(--hero-align);
+    align-items: var(--hero-align);
+    max-width: 100%;
+    text-align: var(--hero-text-align);
+
+    @media screen and (min-width: 990px) {
+      max-width: var(--hero-content-width);
+    }
+  }
+
+  .hero__eyebrow {
+    margin-block-end: var(--space-sm);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-snug);
+  }
+
+  .hero__title {
+    margin-block-end: var(--space-md);
+  }
+
+  .hero__text {
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-snug);
+  }
+
+  .hero__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: var(--hero-align);
+    gap: var(--space-md);
+    margin-block-start: var(--space-lg);
+
+    @media screen and (min-width: 750px) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: var(--hero-align);
+      gap: var(--space-sm);
+    }
+
+    @media screen and (min-width: 990px) {
+      margin-block-start: var(--space-xl);
+    }
+  }
+
+  .hero__button {
+    min-width: 10rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .hero__button--secondary {
+    border-color: var(--color-foreground);
+    color: var(--color-foreground);
+    background-color: transparent;
+
+    &:hover {
+      border-color: var(--color-foreground);
+      color: var(--color-background);
+      background-color: var(--color-foreground);
+    }
+  }
+
+  .hero__controls {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: var(--hero-edge);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs);
+    pointer-events: none;
+
+    & > * {
+      pointer-events: auto;
+    }
+  }
+
+  hero-slider:not(:defined) .hero__controls {
+    display: none;
+  }
+
+  .hero__dots {
+    display: flex;
+  }
+
+  .hero__dot {
+    display: grid;
+    place-items: center;
+    width: var(--hero-controls-size);
+    height: var(--hero-controls-size);
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      width: 0.75rem;
+      height: 0.75rem;
+      background-color: var(--color-background);
+      border-radius: var(--radius-pill);
+      transition: background-color var(--duration-fast) var(--ease-out);
+    }
+
+    &[aria-current='true']::before {
+      background-color: var(--color-primary);
+    }
+  }
+
+  .hero__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--hero-controls-size);
+    height: var(--hero-controls-size);
+    padding: 0;
+    border: 0;
+    color: var(--color-foreground);
+    background: none;
+    border-radius: var(--radius-pill);
+    opacity: 0.7;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &[aria-pressed='false'] .hero__icon-play,
+    &[aria-pressed='true'] .hero__icon-pause {
+      display: none;
+    }
+  }
+
+  .hero__languages {
+    position: absolute;
+    inset-block-start: var(--hero-edge);
+    inset-inline-end: var(--hero-edge);
+    z-index: 2;
+  }
+
+  .hero__languages-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .hero__language {
+    display: grid;
+    place-items: center;
+    width: var(--hero-language-size);
+    height: var(--hero-language-size);
+    padding: 0;
+    border: 0;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-body-weight-medium);
+    line-height: var(--line-height-tight);
+    color: var(--hero-language-foreground);
+    background-color: var(--hero-language-background);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+
+    &:hover,
+    &[aria-current='true'] {
+      color: var(--color-on-primary);
+      background-color: var(--color-primary);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class HeroSlider extends HTMLElement {
+    #index = 0;
+    #timer;
+    #controller;
+    #paused = false;
+    #hovered = false;
+    #focused = false;
+    #editing = false;
+    #swipeStart = null;
+
+    connectedCallback() {
+      this.slides = [...this.querySelectorAll('.hero__slide')];
+      this.dots = [...this.querySelectorAll('.hero__dot')];
+      this.toggle = this.querySelector('.hero__toggle');
+      if (this.slides.length < 2) return;
+
+      this.#controller = new AbortController();
+      const { signal } = this.#controller;
+      const viewport = this.querySelector('.hero__viewport');
+      const dots = this.querySelector('.hero__dots');
+
+      this.#paused = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      this.toggle?.setAttribute('aria-pressed', String(this.#paused));
+
+      dots.addEventListener('click', this.#onDotClick, { signal });
+      dots.addEventListener('keydown', this.#onDotKeydown, { signal });
+      this.toggle?.addEventListener('click', this.#onToggle, { signal });
+      this.addEventListener('pointerenter', this.#onPointerEnter, { signal });
+      this.addEventListener('pointerleave', this.#onPointerLeave, { signal });
+      this.addEventListener('focusin', this.#onFocusIn, { signal });
+      this.addEventListener('focusout', this.#onFocusOut, { signal });
+      viewport.addEventListener('pointerdown', this.#onSwipeStart, { signal });
+      viewport.addEventListener('pointerup', this.#onSwipeEnd, { signal });
+      viewport.addEventListener('pointercancel', this.#onSwipeCancel, { signal });
+      document.addEventListener('shopify:block:select', this.#onBlockSelect, { signal });
+      document.addEventListener('shopify:block:deselect', this.#onBlockDeselect, { signal });
+
+      this.#schedule();
+    }
+
+    disconnectedCallback() {
+      this.#controller?.abort();
+      clearTimeout(this.#timer);
+    }
+
+    goTo(index) {
+      const count = this.slides.length;
+      this.#index = (index + count) % count;
+
+      this.slides.forEach((slide, i) => {
+        const active = i === this.#index;
+        slide.classList.toggle('is-active', active);
+        slide.inert = !active;
+      });
+
+      this.dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === this.#index)));
+      this.#schedule();
+    }
+
+    #schedule() {
+      clearTimeout(this.#timer);
+      if (!this.hasAttribute('data-autoplay')) return;
+      if (this.#paused || this.#hovered || this.#focused || this.#editing) return;
+
+      this.#timer = setTimeout(() => this.goTo(this.#index + 1), Number(this.dataset.speed) * 1000);
+    }
+
+    #onDotClick = (event) => {
+      const dot = event.target.closest('.hero__dot');
+      if (dot) this.goTo(Number(dot.dataset.index));
+    };
+
+    #onDotKeydown = (event) => {
+      const steps = { ArrowRight: 1, ArrowLeft: -1 };
+      if (!(event.key in steps)) return;
+
+      event.preventDefault();
+      this.goTo(this.#index + steps[event.key]);
+      this.dots[this.#index].focus();
+    };
+
+    #onToggle = () => {
+      this.#paused = !this.#paused;
+      this.toggle.setAttribute('aria-pressed', String(this.#paused));
+      this.#schedule();
+    };
+
+    #onPointerEnter = (event) => {
+      if (event.pointerType !== 'mouse') return;
+      this.#hovered = true;
+      this.#schedule();
+    };
+
+    #onPointerLeave = (event) => {
+      if (event.pointerType !== 'mouse') return;
+      this.#hovered = false;
+      this.#schedule();
+    };
+
+    #onFocusIn = (event) => {
+      this.#focused = event.target !== this.toggle && event.target.matches(':focus-visible');
+      this.#schedule();
+    };
+
+    #onFocusOut = (event) => {
+      if (this.contains(event.relatedTarget)) return;
+      this.#focused = false;
+      this.#schedule();
+    };
+
+    #onSwipeStart = (event) => {
+      if (event.pointerType === 'mouse') return;
+      this.#swipeStart = { x: event.clientX, y: event.clientY };
+    };
+
+    #onSwipeEnd = (event) => {
+      if (!this.#swipeStart) return;
+
+      const dx = event.clientX - this.#swipeStart.x;
+      const dy = event.clientY - this.#swipeStart.y;
+      this.#swipeStart = null;
+      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+
+      this.goTo(this.#index + (dx < 0 ? 1 : -1));
+    };
+
+    #onSwipeCancel = () => {
+      this.#swipeStart = null;
+    };
+
+    #onBlockSelect = (event) => {
+      const index = this.slides.indexOf(event.target);
+      if (index === -1) return;
+
+      this.#editing = true;
+      this.goTo(index);
+    };
+
+    #onBlockDeselect = (event) => {
+      if (!this.slides.includes(event.target)) return;
+
+      this.#editing = false;
+      this.#schedule();
+    };
+  }
+
+  if (!customElements.get('hero-slider')) {
+    customElements.define('hero-slider', HeroSlider);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.hero_slider",
+  "class": "hero-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "scheme-4"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:labels.autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "t:labels.autoplay_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 6,
+      "visible_if": "{{ section.settings.autoplay }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_languages",
+      "label": "t:labels.show_languages",
+      "info": "t:info.hero_languages",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "t:general.slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "t:general.content"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "t:labels.eyebrow",
+          "default": "GERMAN PRODUCTS BALTICS"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:labels.title",
+          "default": "Kvalitatīvi produkti katrai dienai!"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "t:labels.subtext",
+          "default": "Uzticams partneris pārtikas, dzērienu, bērnu aprūpes un higiēnas preču piegādē visā Baltijā."
+        },
+        {
+          "type": "header",
+          "content": "t:general.layout"
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "t:labels.alignment",
+          "options": [
+            { "value": "left", "label": "t:options.alignment.left" },
+            { "value": "center", "label": "t:options.alignment.center" },
+            { "value": "right", "label": "t:options.alignment.right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "range",
+          "id": "content_width",
+          "label": "t:labels.content_width",
+          "info": "t:info.content_width",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 40
+        },
+        {
+          "type": "header",
+          "content": "t:general.image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:labels.image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "t:labels.image_alt",
+          "info": "t:info.hero_image_alt",
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "header",
+          "content": "t:general.image_desktop",
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "image_x",
+          "label": "t:labels.image_x",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "image_y",
+          "label": "t:labels.image_y",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "image_zoom",
+          "label": "t:labels.image_zoom",
+          "min": 50,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 100,
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "header",
+          "content": "t:general.image_mobile",
+          "info": "t:info.hero_mobile_image",
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "image_x_mobile",
+          "label": "t:labels.image_x",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 100,
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "image_y_mobile",
+          "label": "t:labels.image_y",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "image_zoom_mobile",
+          "label": "t:labels.image_zoom",
+          "min": 50,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 100,
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "header",
+          "content": "t:general.button_1"
+        },
+        {
+          "type": "text",
+          "id": "button_1_label",
+          "label": "t:labels.button_label",
+          "default": "Uz veikalu"
+        },
+        {
+          "type": "url",
+          "id": "button_1_link",
+          "label": "t:labels.link",
+          "default": "/collections/all",
+          "visible_if": "{{ block.settings.button_1_label != blank }}"
+        },
+        {
+          "type": "select",
+          "id": "button_1_style",
+          "label": "t:labels.button_style",
+          "options": [
+            { "value": "primary", "label": "t:general.primary" },
+            { "value": "secondary", "label": "t:general.secondary" }
+          ],
+          "default": "primary",
+          "visible_if": "{{ block.settings.button_1_label != blank }}"
+        },
+        {
+          "type": "select",
+          "id": "button_1_icon",
+          "label": "t:labels.button_icon",
+          "options": [
+            { "value": "none", "label": "t:options.icon.none" },
+            { "value": "caret-right-fill", "label": "t:options.icon.caret_right_fill" },
+            { "value": "caret-right", "label": "t:options.icon.caret_right" },
+            { "value": "play", "label": "t:options.icon.play" },
+            { "value": "bag", "label": "t:options.icon.bag" },
+            { "value": "cart", "label": "t:options.icon.cart" },
+            { "value": "phone", "label": "t:options.icon.phone" },
+            { "value": "truck", "label": "t:options.icon.truck" }
+          ],
+          "default": "caret-right-fill",
+          "visible_if": "{{ block.settings.button_1_label != blank }}"
+        },
+        {
+          "type": "header",
+          "content": "t:general.button_2"
+        },
+        {
+          "type": "text",
+          "id": "button_2_label",
+          "label": "t:labels.button_label",
+          "default": "Par mums"
+        },
+        {
+          "type": "url",
+          "id": "button_2_link",
+          "label": "t:labels.link",
+          "visible_if": "{{ block.settings.button_2_label != blank }}"
+        },
+        {
+          "type": "select",
+          "id": "button_2_style",
+          "label": "t:labels.button_style",
+          "options": [
+            { "value": "primary", "label": "t:general.primary" },
+            { "value": "secondary", "label": "t:general.secondary" }
+          ],
+          "default": "secondary",
+          "visible_if": "{{ block.settings.button_2_label != blank }}"
+        },
+        {
+          "type": "select",
+          "id": "button_2_icon",
+          "label": "t:labels.button_icon",
+          "options": [
+            { "value": "none", "label": "t:options.icon.none" },
+            { "value": "caret-right-fill", "label": "t:options.icon.caret_right_fill" },
+            { "value": "caret-right", "label": "t:options.icon.caret_right" },
+            { "value": "play", "label": "t:options.icon.play" },
+            { "value": "bag", "label": "t:options.icon.bag" },
+            { "value": "cart", "label": "t:options.icon.cart" },
+            { "value": "phone", "label": "t:options.icon.phone" },
+            { "value": "truck", "label": "t:options.icon.truck" }
+          ],
+          "default": "caret-right-fill",
+          "visible_if": "{{ block.settings.button_2_label != blank }}"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.hero_slider",
+      "blocks": [{ "type": "slide" }]
+    }
+  ]
+}
+{% endschema %}
