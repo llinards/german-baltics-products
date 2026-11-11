@@ -4,6 +4,8 @@
   if section.settings.autoplay and slide_count > 1
     assign autoplay = true
   endif
+  assign desktop_widths = '375, 550, 750, 1100, 1500, 1780, 2000, 2400, 3000'
+  assign mobile_widths = '375, 550, 750, 1100, 1500' | split: ', '
 -%}
 
 {%- if slide_count > 0 -%}
@@ -23,6 +25,7 @@
       {%- for block in section.blocks -%}
         {%- liquid
           assign image = block.settings.image
+          assign image_mobile = block.settings.image_mobile
           assign title = block.settings.title
         -%}
         <div
@@ -54,16 +57,35 @@
         >
           {%- if image != blank -%}
             {%- assign alt = block.settings.image_alt | default: image.alt | default: title | default: shop.name -%}
-            {{
-              image
-              | image_url: width: 3000
-              | image_tag:
-                widths: '375, 550, 750, 1100, 1500, 1780, 2000, 2400, 3000',
-                sizes: '100vw',
-                alt: alt,
-                preload: forloop.first,
-                class: 'hero__image'
-            }}
+            {%- if image_mobile != blank -%}
+              <picture class="hero__picture">
+                <source
+                  media="(max-width: 989px)"
+                  sizes="100vw"
+                  srcset="
+                    {%- for width in mobile_widths -%}
+                      {{ image_mobile | image_url: width: width }} {{ width }}w{% unless forloop.last %}, {% endunless %}
+                    {%- endfor -%}
+                  "
+                >
+                {{
+                  image
+                  | image_url: width: 3000
+                  | image_tag: widths: desktop_widths, sizes: '100vw', alt: alt, class: 'hero__image'
+                }}
+              </picture>
+            {%- else -%}
+              {{
+                image
+                | image_url: width: 3000
+                | image_tag:
+                  widths: desktop_widths,
+                  sizes: '100vw',
+                  alt: alt,
+                  preload: forloop.first,
+                  class: 'hero__image'
+              }}
+            {%- endif -%}
           {%- else -%}
             {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero__image hero__image--placeholder' }}
           {%- endif -%}
@@ -280,6 +302,10 @@
       transform-origin: var(--hero-x) var(--hero-y);
       scale: var(--hero-scale);
     }
+  }
+
+  .hero__picture {
+    display: contents;
   }
 
   .hero__image--placeholder {
@@ -786,8 +812,13 @@
         {
           "type": "header",
           "content": "t:general.image_mobile",
-          "info": "t:info.hero_mobile_image",
-          "visible_if": "{{ block.settings.image != blank }}"
+          "info": "t:info.hero_mobile_image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "t:labels.image_mobile",
+          "info": "t:info.hero_image_mobile"
         },
         {
           "type": "range",
@@ -798,7 +829,7 @@
           "step": 1,
           "unit": "%",
           "default": 100,
-          "visible_if": "{{ block.settings.image != blank }}"
+          "visible_if": "{{ block.settings.image != blank or block.settings.image_mobile != blank }}"
         },
         {
           "type": "range",
@@ -809,7 +840,7 @@
           "step": 1,
           "unit": "%",
           "default": 50,
-          "visible_if": "{{ block.settings.image != blank }}"
+          "visible_if": "{{ block.settings.image != blank or block.settings.image_mobile != blank }}"
         },
         {
           "type": "range",
@@ -820,7 +851,7 @@
           "step": 5,
           "unit": "%",
           "default": 100,
-          "visible_if": "{{ block.settings.image != blank }}"
+          "visible_if": "{{ block.settings.image != blank or block.settings.image_mobile != blank }}"
         },
         {
           "type": "header",
