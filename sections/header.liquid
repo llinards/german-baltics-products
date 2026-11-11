@@ -1,65 +1,741 @@
-<header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
+{%- liquid
+  assign logo = section.settings.logo
+  assign logo_width = section.settings.logo_width
+  assign menu = section.settings.menu
 
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
+  case localization.language.iso_code
+    when 'lt'
+      if shop.metafields.custom.support_phone_lt != blank
+        assign phone = shop.metafields.custom.support_phone_lt.value | prepend: '+370 '
+      endif
+    when 'et'
+      if shop.metafields.custom.support_phone_et != blank
+        assign phone = shop.metafields.custom.support_phone_et.value | prepend: '+372 '
+      endif
+    else
+      if shop.metafields.custom.support_phone_en != blank
+        assign phone = shop.metafields.custom.support_phone_en.value | prepend: '+371 '
+      endif
+  endcase
+-%}
+
+<header
+  class="header full-width color-{{ section.settings.color_scheme }}{% if section.settings.sticky %} header--sticky{% endif %}"
+>
+  <div class="header__inner">
+    <a class="header__logo" href="{{ routes.root_url }}">
+      {%- if logo != blank -%}
+        {%- liquid
+          assign logo_height = logo_width | divided_by: logo.aspect_ratio | round
+          assign logo_sizes = logo_width | append: 'px'
+        -%}
+        {{
+          logo
+          | image_url: width: 600
+          | image_tag:
+            width: logo_width,
+            height: logo_height,
+            widths: '150, 300, 450, 600',
+            sizes: logo_sizes,
+            alt: shop.name,
+            fetchpriority: 'high',
+            class: 'header__logo-image'
+        }}
+      {%- else -%}
+        <span class="header__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    {%- if menu.links.size > 0 -%}
+      <header-menu class="header__nav">
+        <nav aria-label="{{ 'accessibility.main_menu' | t }}">
+          <ul class="header__menu" role="list">
+            {%- for link in menu.links -%}
+              {%- assign has_dropdown = false -%}
+              {%- if link.links.size > 0 -%}
+                {%- assign has_dropdown = true -%}
+              {%- endif -%}
+              <li class="header__menu-item{% if has_dropdown %} header__menu-item--dropdown{% endif %}">
+                <a
+                  href="{{ link.url }}"
+                  class="header__menu-link{% if link.active or link.child_active %} header__menu-link--active{% endif %}"
+                  {% if link.current %}
+                    aria-current="page"
+                  {% endif %}
+                >
+                  {{- link.title -}}
+                </a>
+
+                {%- if has_dropdown -%}
+                  <button
+                    type="button"
+                    class="header__dropdown-toggle"
+                    aria-expanded="false"
+                    aria-controls="HeaderDropdown-{{ forloop.index }}"
+                    aria-label="{{ 'accessibility.submenu' | t: title: link.title }}"
+                  >
+                    {%- render 'icon', name: 'caret-down', class: 'icon--small' -%}
+                  </button>
+
+                  {%- liquid
+                    # A dropdown whose items all link to collections becomes the wide category + brands menu
+                    assign collection_links = link.links | where: 'type', 'collection_link'
+                    assign is_mega = false
+                    if collection_links.size == link.links.size
+                      assign is_mega = true
+                    endif
+                  -%}
+                  <div
+                    class="header__dropdown{% if is_mega %} header__dropdown--mega{% endif %}"
+                    id="HeaderDropdown-{{ forloop.index }}"
+                  >
+                    <div class="header__dropdown-card">
+                      {%- if is_mega -%}
+                        {%- render 'header-mega-menu',
+                          link: link,
+                          brands: section.settings.mega_menu_brands,
+                          id: forloop.index
+                        -%}
+                      {%- else -%}
+                        <ul class="header__dropdown-list" role="list">
+                          {%- for child in link.links -%}
+                            <li>
+                              <a
+                                href="{{ child.url }}"
+                                class="header__dropdown-link{% if child.active %} header__dropdown-link--active{% endif %}"
+                                {% if child.current %}
+                                  aria-current="page"
+                                {% endif %}
+                              >
+                                {{- child.title -}}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+      </header-menu>
+    {%- endif -%}
+
+    {%- if phone != blank -%}
+      <p class="header__phone">
+        <a href="tel:{{ phone | remove: ' ' }}">{{ phone }}</a>
+        {%- if section.settings.phone_note != blank %}
+          <span class="header__phone-note">{{ section.settings.phone_note }}</span>
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+
+    <div class="header__actions">
+      <button
+        type="button"
+        class="header__action header__action--mobile"
+        aria-controls="SearchOverlay"
+        aria-expanded="false"
+        aria-label="{{ 'search.predictive.open' | t }}"
+      >
+        {%- render 'icon', name: 'search' -%}
+      </button>
+
+      <a class="header__action" href="{{ routes.cart_url }}">
+        {%- render 'icon', name: 'bag' -%}
+        <span class="visually-hidden">
+          {{- 'cart.title' | t -}}
+          {%- if cart.item_count > 0 -%}
+            , {{ 'accessibility.cart_count' | t: count: cart.item_count }}
+          {%- endif -%}
+        </span>
+        {%- if cart.item_count > 0 -%}
+          <span class="header__cart-count" aria-hidden="true">
+            {%- if cart.item_count < 100 %}{{ cart.item_count }}{% else %}99+{% endif -%}
+          </span>
+        {%- endif -%}
+      </a>
+
+      <a class="header__action header__action--desktop" href="{{ section.settings.wishlist_url | default: '#' }}">
+        {%- render 'icon', name: 'heart' -%}
+        <span class="visually-hidden">{{ 'accessibility.wishlist' | t }}</span>
+      </a>
+
+      <a
+        class="header__action header__action--desktop"
+        href="{% if shop.customer_accounts_enabled %}{{ routes.account_url }}{% else %}#{% endif %}"
+      >
+        {%- render 'icon', name: 'account' -%}
+        <span class="visually-hidden">{{ 'accessibility.account' | t }}</span>
+      </a>
+
+      <button
+        type="button"
+        class="header__action header__action--mobile"
+        commandfor="MenuDrawer"
+        command="show-modal"
+        aria-haspopup="dialog"
+        aria-label="{{ 'accessibility.open_menu' | t }}"
+      >
+        {%- render 'icon', name: 'menu' -%}
+      </button>
+    </div>
   </div>
 
-  <div class="header__icons">
-    {% if shop.customer_accounts_enabled %}
-      {{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
-    {% endif %}
-
-    <a href="{{ routes.cart_url }}">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
-      {% endif %}
-
-      {{ 'icon-cart.svg' | inline_asset_content }}
-    </a>
+  <div class="header__search">
+    {%- render 'predictive-search', id: 'HeaderSearch' -%}
   </div>
 </header>
 
+{%- render 'header-drawer',
+  menu: menu,
+  brands: section.settings.mega_menu_brands,
+  logo: logo,
+  phone: phone,
+  phone_note: section.settings.phone_note,
+  wishlist_url: section.settings.wishlist_url,
+  tagline: section.settings.tagline,
+  color_scheme: section.settings.color_scheme
+-%}
+
 {% stylesheet %}
-  header {
-    height: 5rem;
+  /* Sticky: applied to the section wrapper so the header sticks to the page, not to itself. */
+  .shopify-section:has(> .header--sticky) {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .header {
+    --header-action-size: 2.5rem;
+    /* Height of a top-level menu item: set by its caret button (the link text is shorter) */
+    --header-menu-item-size: 1.5rem;
+  }
+
+  .header__inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: var(--space-xl);
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-block: var(--space-2xs);
+    padding-inline: var(--page-margin);
   }
-  header a {
-    position: relative;
+
+  .header__logo {
+    display: block;
+    flex: 0 1 auto;
+    min-width: 0;
+    margin-inline-end: auto;
     text-decoration: none;
-    color: var(--color-foreground);
+
+    @media screen and (min-width: 990px) {
+      margin-inline-end: 0;
+    }
   }
-  header a sup {
-    position: absolute;
-    left: 100%;
-    overflow: hidden;
-    max-width: var(--page-margin);
+
+  .header__logo-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
   }
-  header svg {
-    width: 2rem;
+
+  .header__logo-text {
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-heading-weight-bold);
+    line-height: var(--line-height-snug);
+
+    @media screen and (min-width: 990px) {
+      font-size: var(--font-size-xl);
+    }
   }
-  header .header__menu,
-  header .header__icons {
+
+  /* The menu fills the space between the logo and the phone (or the icons when the
+     phone is hidden) and centres itself in it, so the space on both sides stays even. */
+  .header__nav {
+    display: none;
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+
+    @media screen and (min-width: 990px) {
+      display: flex;
+    }
+  }
+
+  .header__menu {
     display: flex;
-    gap: 1rem;
+    flex-wrap: nowrap;
+    /* 24px at 990px wide, growing to 48px at 1440px */
+    gap: clamp(var(--space-md), 5.333vw - 1.8rem, var(--space-xl));
+    padding: 0;
+    list-style: none;
+  }
+
+  .header__menu-link {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-body-weight-medium);
+    line-height: var(--line-height-body);
+    text-decoration: none;
+    color: var(--color-foreground-muted);
+    transition: color var(--duration-fast) var(--ease-out);
+
+    &:hover,
+    &.header__menu-link--active {
+      color: var(--color-foreground);
+    }
+  }
+
+  .header__menu-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .header__dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--header-menu-item-size);
+    height: var(--header-menu-item-size);
+    padding: 0;
+    border: 0;
+    color: var(--color-foreground-muted);
+    background: transparent;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+
+    & .icon {
+      transition: rotate var(--duration-fast) var(--ease-out);
+    }
+  }
+
+  /* The dropdown wrapper starts right under the item; its top padding bridges the gap
+     so moving the mouse down into the card doesn't close it. */
+  .header__dropdown {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-start: 0;
+    z-index: 20;
+    padding-block-start: var(--space-sm);
+    visibility: hidden;
+    opacity: 0;
+    translate: 0 -0.25rem;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      translate var(--duration-fast) var(--ease-out),
+      visibility 0s linear var(--duration-fast);
+  }
+
+  .header__dropdown-card {
+    min-width: 14rem;
+    padding: var(--space-md);
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-popover);
+  }
+
+  /* Mega menu: positioned against the whole header row (the item is made static),
+     centred, and narrower on small screens. It starts at the menu item's bottom edge
+     (items are centred in the row), so its gap matches the other dropdowns. */
+  .header__inner {
+    position: relative;
+  }
+
+  .header__menu-item:has(> .header__dropdown--mega) {
+    position: static;
+  }
+
+  .header__dropdown--mega {
+    inset-block-start: calc(50% + var(--header-menu-item-size) / 2);
+    inset-inline: 0;
+    width: min(56rem, 100% - var(--page-margin) * 2);
+    margin-inline: auto;
+  }
+
+  .header__dropdown--mega .header__dropdown-card {
+    padding: var(--space-lg);
+  }
+
+  /* Categories only (no brands picked): half as wide */
+  .header__dropdown--mega:has(.header__mega--single) {
+    width: min(28rem, 100% - var(--page-margin) * 2);
+  }
+
+  .header__mega {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .header__mega--single {
+    grid-template-columns: 1fr;
+  }
+
+  .header__mega-column + .header__mega-column {
+    margin-inline-start: var(--space-lg);
+    padding-inline-start: var(--space-lg);
+    border-inline-start: var(--border-width) solid var(--color-border);
+  }
+
+  .header__mega-heading {
+    margin-block-end: var(--space-2xs);
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-heading-weight);
+    line-height: 2rem;
+  }
+
+  .header__mega-list {
+    padding: 0;
+    list-style: none;
+  }
+
+  .header__mega-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-height: 3rem;
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-heading-weight-regular);
+    text-decoration: none;
+
+    &:hover,
+    &.header__mega-link--active {
+      color: var(--color-primary-text);
+    }
+  }
+
+  /* Row divider sits under the text only, not under the icon/logo (as in the design) */
+  .header__mega-text {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xs);
+    align-self: stretch;
+    border-block-end: var(--border-width) solid var(--color-surface);
+  }
+
+  .header__mega-list > li:last-child .header__mega-text {
+    border-block-end: 0;
+  }
+
+  .header__mega-icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .header__mega-logo {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 4.5rem;
+    height: 2.5rem;
+
+    & img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  .header__dropdown-list {
+    padding: 0;
+    list-style: none;
+  }
+
+  .header__dropdown-link {
+    display: block;
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-heading-weight-regular);
+    line-height: 2rem;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover,
+    &.header__dropdown-link--active {
+      color: var(--color-primary-text);
+    }
+  }
+
+  /* Open state: .is-open is set by the script (hover, click, keyboard).
+     Without JavaScript, hover and keyboard focus open the dropdown through CSS. */
+  .header__menu-item--dropdown.is-open,
+  header-menu:not(:defined) .header__menu-item--dropdown:is(:hover, :focus-within) {
+    & > .header__menu-link,
+    & > .header__dropdown-toggle {
+      color: var(--color-foreground);
+    }
+
+    & > .header__dropdown-toggle .icon {
+      rotate: 180deg;
+    }
+
+    & > .header__dropdown {
+      visibility: visible;
+      opacity: 1;
+      translate: 0 0;
+      transition-delay: 0s;
+    }
+  }
+
+  .header__phone {
+    display: none;
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-body-weight-medium);
+    color: var(--color-foreground-muted);
+    white-space: nowrap;
+
+    /* Shown only where the logo, one-line menu and phone fit side by side */
+    @media screen and (min-width: 1360px) {
+      display: block;
+    }
+
+    & a:hover {
+      color: var(--color-foreground);
+    }
+  }
+
+  .header__search {
+    display: none;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-block: var(--space-xs) var(--space-md);
+    padding-inline: var(--page-margin);
+
+    @media screen and (min-width: 990px) {
+      display: block;
+    }
+
+    & predictive-search {
+      width: calc(100% * 2 / 3);
+      margin-inline: auto;
+    }
+  }
+
+  .header__actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--space-3xs);
+  }
+
+  .header__action {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--header-action-size);
+    height: var(--header-action-size);
+    padding: 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+    border-radius: var(--radius-pill);
+    transition: background-color var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      background-color: var(--color-surface);
+    }
+  }
+
+  .header__action--desktop {
+    display: none;
+
+    @media screen and (min-width: 990px) {
+      display: inline-flex;
+    }
+  }
+
+  .header__action--mobile {
+    @media screen and (min-width: 990px) {
+      display: none;
+    }
+  }
+
+  .header__cart-count {
+    position: absolute;
+    inset-block-start: 0.125rem;
+    inset-inline-end: 0;
+    display: grid;
+    place-items: center;
+    min-width: 1.125rem;
+    height: 1.125rem;
+    padding-inline: 0.25rem;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-body-weight-semibold);
+    line-height: 1;
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+    border-radius: var(--radius-pill);
   }
 {% endstylesheet %}
+
+{% javascript %}
+  class HeaderMenu extends HTMLElement {
+    #closeTimer;
+
+    connectedCallback() {
+      this.items = [...this.querySelectorAll('.header__menu-item--dropdown')];
+
+      for (const item of this.items) {
+        item.querySelector('.header__dropdown-toggle').addEventListener('click', () => this.#toggle(item));
+        item.addEventListener('pointerenter', (event) => {
+          if (event.pointerType !== 'mouse') return;
+          clearTimeout(this.#closeTimer);
+          this.#open(item);
+        });
+        item.addEventListener('pointerleave', (event) => {
+          if (event.pointerType !== 'mouse') return;
+          this.#closeTimer = setTimeout(() => this.#close(item), 200);
+        });
+      }
+
+      this.addEventListener('keydown', this.#onKeydown);
+      this.addEventListener('focusout', this.#onFocusOut);
+      document.addEventListener('click', this.#onDocumentClick);
+    }
+
+    disconnectedCallback() {
+      clearTimeout(this.#closeTimer);
+      document.removeEventListener('click', this.#onDocumentClick);
+    }
+
+    #open(item) {
+      for (const other of this.items) {
+        if (other !== item) this.#close(other);
+      }
+      item.classList.add('is-open');
+      item.querySelector('.header__dropdown-toggle').setAttribute('aria-expanded', 'true');
+    }
+
+    #close(item) {
+      item.classList.remove('is-open');
+      item.querySelector('.header__dropdown-toggle').setAttribute('aria-expanded', 'false');
+    }
+
+    #toggle(item) {
+      if (item.classList.contains('is-open')) {
+        this.#close(item);
+      } else {
+        this.#open(item);
+      }
+    }
+
+    #onKeydown = (event) => {
+      if (event.key !== 'Escape') return;
+      const item = event.target.closest('.header__menu-item--dropdown.is-open');
+      if (!item) return;
+      this.#close(item);
+      item.querySelector('.header__dropdown-toggle').focus();
+    };
+
+    // Close when keyboard focus leaves the item (tabbing past the last link)
+    #onFocusOut = (event) => {
+      const item = event.target.closest('.header__menu-item--dropdown');
+      if (item && !item.contains(event.relatedTarget)) this.#close(item);
+    };
+
+    #onDocumentClick = (event) => {
+      if (this.contains(event.target)) return;
+      for (const item of this.items) this.#close(item);
+    };
+  }
+
+  if (!customElements.get('header-menu')) {
+    customElements.define('header-menu', HeaderMenu);
+  }
+{% endjavascript %}
 
 {% schema %}
 {
   "name": "t:general.header",
+  "class": "header-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:labels.logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "t:labels.logo_width",
+      "min": 50,
+      "max": 250,
+      "step": 2,
+      "unit": "px",
+      "default": 106
+    },
     {
       "type": "link_list",
       "id": "menu",
-      "label": "t:labels.menu"
+      "label": "t:labels.menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "collection_list",
+      "id": "mega_menu_brands",
+      "label": "t:labels.mega_menu_brands",
+      "info": "t:info.mega_menu_brands",
+      "limit": 12
+    },
+    {
+      "type": "text",
+      "id": "phone_note",
+      "label": "t:labels.phone_note",
+      "default": "(P. – Pk. 9:00 – 17:00)"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "t:labels.menu_tagline",
+      "info": "t:info.menu_tagline",
+      "default": "Kvalitatīvi produkti katrai dienai!"
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "t:labels.wishlist_link",
+      "info": "t:info.wishlist_link"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "t:labels.sticky_header",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "scheme-1"
     }
   ]
 }

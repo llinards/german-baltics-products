@@ -1,13 +1,23 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "404": "Not found",
+    "announcement_bar": "Announcement bar",
     "article": "Article",
     "block": "Block",
     "blog": "Blog",
     "cart": "Cart",
     "collection": "Collection",
-    "collections": "Collections",
     "collection_card": "Collection card",
+    "collections": "Collections",
     "collections_grid": "Collections grid",
     "colors": "Colors",
     "column": "Column",
@@ -19,6 +29,7 @@
     "header": "Header",
     "layout": "Layout",
     "main": "Main",
+    "message": "Message",
     "page": "Page",
     "password": "Password",
     "primary": "Primary",
@@ -29,6 +40,7 @@
     "section": "Section",
     "settings": "Settings",
     "sidebar": "Sidebar",
+    "social_media": "Social media",
     "text": "Text",
     "theme": "Theme",
     "typography": "Typography"
@@ -39,20 +51,37 @@
     "background_gradient": "Background gradient",
     "body_font": "Body font",
     "border": "Borders",
+    "color_scheme": "Color scheme",
+    "facebook": "Facebook",
     "foreground": "Foreground",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
     "heading_font": "Heading font",
+    "instagram": "Instagram",
     "layout_direction": "Layout direction",
+    "link": "Link",
+    "linkedin": "LinkedIn",
+    "logo": "Logo",
+    "logo_width": "Logo width",
+    "mega_menu_brands": "Mega menu brands",
     "menu": "Menu",
+    "menu_heading": "Menu heading",
+    "menu_tagline": "Menu tagline",
+    "newsletter_heading": "Newsletter heading",
     "on_primary": "Text on primary",
     "padding": "Padding",
     "page_width": "Page width",
+    "phone_note": "Phone note",
     "primary": "Primary",
-    "show_payment_icons": "Show payment icons",
+    "scroll": "Scroll messages",
+    "scroll_speed": "Scroll speed",
+    "sticky_header": "Sticky header",
     "surface": "Surface",
+    "tagline": "Tagline",
     "text": "Text",
-    "text_style": "Text style"
+    "text_style": "Text style",
+    "tiktok": "TikTok",
+    "wishlist_link": "Wishlist link"
   },
   "options": {
     "alignment": {
@@ -76,12 +105,23 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
+    },
+    "speed": {
+      "slow": "Slow",
+      "normal": "Normal",
+      "fast": "Fast"
     }
   },
   "info": {
     "background_gradient": "Optional. Replaces the solid background when set.",
+    "footer_logo": "Use a light version of the logo so it shows on the dark footer.",
+    "footer_menu": "Links are split into columns of 5 on desktop.",
     "heading_font": "Used for headings, prices and buttons.",
+    "mega_menu_brands": "Shown next to the categories in the menu item whose sub-items are all collections (E-veikals). Logos come from each collection image.",
+    "menu_tagline": "Shown near the bottom of the mobile menu.",
     "primary_color": "Buttons, prices and links.",
-    "surface_color": "Cards, inputs and round icon buttons."
+    "social_media": "Links from Settings → Brand → Social links are used first; these fill in any that are missing there. Icons show in the mobile menu and the footer for each link that is set.",
+    "surface_color": "Cards, inputs (including the header search bar) and round icon buttons.",
+    "wishlist_link": "Where the heart icon leads. Until a link is set, it goes nowhere."
   }
 }

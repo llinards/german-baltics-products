@@ -115,5 +115,34 @@
         "default": "90rem"
       }
     ]
+  },
+  {
+    "name": "t:general.social_media",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:info.social_media"
+      },
+      {
+        "type": "url",
+        "id": "social_instagram_link",
+        "label": "t:labels.instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_linkedin_link",
+        "label": "t:labels.linkedin"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook_link",
+        "label": "t:labels.facebook"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok_link",
+        "label": "t:labels.tiktok"
+      }
+    ]
   }
 ]

@@ -3291,12 +3291,10 @@
     },
     "challenge": {
       "message": "Lai turpinātu, lūdzu, apstipriniet, ka neesat robots.",
-      "error": "Jūsu atbilde nebija pareiza, lūdzu, mēģiniet vēlreiz.",
       "submit_button_text": "Iesniegt"
     },
     "checkpoint": {
       "message": "Atrisiniet CAPTCHA, lai turpinātu",
-      "error": "Neizdevās apstiprināt CAPTCHA",
       "submit_button_text": "Iesniegt"
     },
     "store_availability": {
@@ -4579,6 +4577,51 @@
     "title": "Meklēt",
     "placeholder": "Meklēt rakstus, lapas vai produktus",
     "submit": "Meklēt",
-    "no_results_html": "Nav atrasts neviens rezultāts: {{ terms }}"
+    "no_results_html": "Nav atrasts neviens rezultāts: {{ terms }}",
+    "predictive": {
+      "label": "Meklēt veikalā",
+      "placeholder": "Meklēt produktus, zīmolus vai kategorijas...",
+      "open": "Atvērt meklēšanu",
+      "close": "Aizvērt meklēšanu",
+      "clear": "Notīrīt meklēšanu",
+      "results_count": {
+        "zero": "Pieejami {{ count }} rezultātu",
+        "one": "Pieejams {{ count }} rezultāts",
+        "other": "Pieejami {{ count }} rezultāti"
+      },
+      "no_results": "Nav rezultātu meklējumam „{{ terms }}”",
+      "hint": "Izmantojiet bultiņas uz augšu un uz leju, lai pārlūkotu rezultātus. Nospiediet Tab, lai pabeigtu ieteikto tekstu."
+    }
+  },
+  "accessibility": {
+    "account": "Konts",
+    "pause_announcements": "Apturēt ritināšanu",
+    "main_menu": "Galvenā izvēlne",
+    "wishlist": "Vēlmju saraksts",
+    "cart_count": {
+      "zero": "{{ count }} preču",
+      "one": "{{ count }} prece",
+      "other": "{{ count }} preces"
+    },
+    "submenu": "{{ title }} apakšizvēlne",
+    "open_menu": "Atvērt izvēlni",
+    "close_menu": "Aizvērt izvēlni",
+    "menu": "Izvēlne",
+    "new_window": "atveras jaunā logā"
+  },
+  "header": {
+    "categories": "Kategorijas",
+    "brands": "Zīmoli",
+    "view_all": "Skatīt visu",
+    "account": "Mans konts",
+    "wishlist": "Vēlmju saraksts"
+  },
+  "footer": {
+    "newsletter": {
+      "label": "E-pasts",
+      "placeholder": "Tavs e-pasts",
+      "submit": "Pieteikties",
+      "success": "Paldies, esi pieteicies!"
+    }
   }
 }

@@ -9,12 +9,17 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "hello-world",
+    "1794064341b12e857b": {
+      "type": "apps",
+      "settings": {}
+    },
+    "1794064352fd947eb2": {
+      "type": "apps",
       "settings": {}
     }
   },
   "order": [
-    "main"
+    "1794064341b12e857b",
+    "1794064352fd947eb2"
   ]
 }

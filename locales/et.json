@@ -1,0 +1,104 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "404": {
+    "title": "404",
+    "not_found": "Lehte ei leitud.",
+    "back_to_shopping": "Tagasi poodi"
+  },
+  "blog": {
+    "article_comments": "Kommentaarid",
+    "article_metadata_html": "{{ date }}, autor {{ author }}",
+    "comment_form_body": "Kommentaar",
+    "comment_form_email": "E-post",
+    "comment_form_name": "Nimi",
+    "comment_form_submit": "Postita",
+    "comment_form_title": "Lisa kommentaar"
+  },
+  "cart": {
+    "checkout": "Vormista tellimus",
+    "title": "Ostukorv",
+    "update": "Uuenda",
+    "remove": "Eemalda"
+  },
+  "customers": {
+    "login": {
+      "email": "E-post",
+      "password": "Parool",
+      "submit": "Logi sisse",
+      "title": "Sisselogimine"
+    }
+  },
+  "collections": {
+    "title": "Kollektsioonid"
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Lisa Apple Walletisse",
+    "card": "Kinkekaart",
+    "expired": "Selle kinkekaardi kehtivus on lõppenud",
+    "expires_on": "Kehtib kuni {{ expires_on }}",
+    "use_at_checkout": "Kasuta seda kinkekaarti tellimuse vormistamisel"
+  },
+  "password": {
+    "title": "See pood on privaatne",
+    "password": "Parool",
+    "enter": "Sisene"
+  },
+  "search": {
+    "title": "Otsing",
+    "placeholder": "Otsi artikleid, lehti või tooteid",
+    "submit": "Otsi",
+    "no_results_html": "Päringule {{ terms }} ei leitud tulemusi",
+    "results_for_html": "Päringule {{ terms }} leiti {{ count }} tulemust",
+    "predictive": {
+      "label": "Otsi poest",
+      "placeholder": "Otsi tooteid, kaubamärke või kategooriaid...",
+      "open": "Ava otsing",
+      "close": "Sulge otsing",
+      "clear": "Tühjenda otsing",
+      "results_count": {
+        "one": "{{ count }} tulemus saadaval",
+        "other": "{{ count }} tulemust saadaval"
+      },
+      "no_results": "Päringule „{{ terms }}“ ei leitud tulemusi",
+      "hint": "Tulemuste sirvimiseks kasuta üles- ja allanooli. Soovitatud teksti lõpetamiseks vajuta Tab."
+    }
+  },
+  "accessibility": {
+    "account": "Konto",
+    "pause_announcements": "Peata kerimine",
+    "main_menu": "Peamenüü",
+    "wishlist": "Soovinimekiri",
+    "cart_count": {
+      "one": "{{ count }} toode",
+      "other": "{{ count }} toodet"
+    },
+    "submenu": "{{ title }} alammenüü",
+    "open_menu": "Ava menüü",
+    "close_menu": "Sulge menüü",
+    "menu": "Menüü",
+    "new_window": "avaneb uues aknas"
+  },
+  "header": {
+    "categories": "Kategooriad",
+    "brands": "Kaubamärgid",
+    "view_all": "Vaata kõiki",
+    "account": "Minu konto",
+    "wishlist": "Soovinimekiri"
+  },
+  "footer": {
+    "newsletter": {
+      "label": "E-post",
+      "placeholder": "Sinu e-post",
+      "submit": "Liitu",
+      "success": "Aitäh, oled liitunud!"
+    }
+  }
+}

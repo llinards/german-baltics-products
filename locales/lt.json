@@ -77,6 +77,53 @@
     "title": "Ieškoti",
     "placeholder": "Ieškoti straipsnių, puslapių ar produktų",
     "submit": "Ieškoti",
-    "no_results_html": "Nerasta rezultatų užklausai {{ terms }}"
+    "no_results_html": "Nerasta rezultatų užklausai {{ terms }}",
+    "predictive": {
+      "label": "Ieškoti parduotuvėje",
+      "placeholder": "Ieškoti produktų, prekės ženklų ar kategorijų...",
+      "open": "Atidaryti paiešką",
+      "close": "Uždaryti paiešką",
+      "clear": "Išvalyti paiešką",
+      "results_count": {
+        "one": "Rastas {{ count }} rezultatas",
+        "few": "Rasti {{ count }} rezultatai",
+        "many": "Rasta {{ count }} rezultato",
+        "other": "Rasta {{ count }} rezultatų"
+      },
+      "no_results": "Nerasta rezultatų užklausai „{{ terms }}“",
+      "hint": "Naudokite rodykles aukštyn ir žemyn rezultatams naršyti. Paspauskite Tab, kad užbaigtumėte pasiūlytą tekstą."
+    }
+  },
+  "accessibility": {
+    "account": "Paskyra",
+    "pause_announcements": "Sustabdyti slinkimą",
+    "main_menu": "Pagrindinis meniu",
+    "wishlist": "Pageidavimų sąrašas",
+    "cart_count": {
+      "one": "{{ count }} prekė",
+      "few": "{{ count }} prekės",
+      "many": "{{ count }} prekės",
+      "other": "{{ count }} prekių"
+    },
+    "submenu": "{{ title }} submeniu",
+    "open_menu": "Atidaryti meniu",
+    "close_menu": "Uždaryti meniu",
+    "menu": "Meniu",
+    "new_window": "atsidaro naujame lange"
+  },
+  "header": {
+    "categories": "Kategorijos",
+    "brands": "Prekės ženklai",
+    "view_all": "Žiūrėti viską",
+    "account": "Mano paskyra",
+    "wishlist": "Pageidavimų sąrašas"
+  },
+  "footer": {
+    "newsletter": {
+      "label": "El. paštas",
+      "placeholder": "Jūsų el. paštas",
+      "submit": "Prenumeruoti",
+      "success": "Ačiū, kad užsiprenumeravote!"
+    }
   }
 }

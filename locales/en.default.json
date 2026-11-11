@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "404": {
     "title": "404",
@@ -47,6 +56,49 @@
     "placeholder": "Search articles, pages, or products",
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "results_for_html": "{{ count }} results found for {{ terms }}",
+    "predictive": {
+      "label": "Search the store",
+      "placeholder": "Search products, brands or categories...",
+      "open": "Open search",
+      "close": "Close search",
+      "clear": "Clear search",
+      "results_count": {
+        "one": "{{ count }} result available",
+        "other": "{{ count }} results available"
+      },
+      "no_results": "No results for “{{ terms }}”",
+      "hint": "Use the up and down arrows to browse results. Press Tab to complete the suggested text."
+    }
+  },
+  "accessibility": {
+    "account": "Account",
+    "pause_announcements": "Pause scrolling",
+    "main_menu": "Main menu",
+    "wishlist": "Wishlist",
+    "cart_count": {
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
+    },
+    "submenu": "{{ title }} submenu",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu",
+    "menu": "Menu",
+    "new_window": "opens in a new window"
+  },
+  "header": {
+    "categories": "Categories",
+    "brands": "Brands",
+    "view_all": "View all",
+    "account": "My account",
+    "wishlist": "Wishlist"
+  },
+  "footer": {
+    "newsletter": {
+      "label": "Email",
+      "placeholder": "Your email",
+      "submit": "Subscribe",
+      "success": "Thanks for subscribing!"
+    }
   }
 }

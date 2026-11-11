@@ -11,12 +11,53 @@
   "type": "header",
   "name": "t:general.header",
   "sections": {
+    "announcement_bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "message_1": {
+          "type": "message",
+          "settings": {
+            "text": "Ātra piegāde visā Baltijā",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "message_1"
+      ],
+      "settings": {
+        "color_scheme": "scheme-5",
+        "scroll": true,
+        "speed": "normal"
+      }
+    },
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "logo": "shopify://shop_images/gpb-logo-dark.svg",
+        "logo_width": 106,
+        "menu": "main-menu",
+        "mega_menu_brands": [
+          "friso",
+          "dallmayr",
+          "playmais",
+          "nuk",
+          "bubchen",
+          "yogi-tea",
+          "oljarna-fram",
+          "william-saurin",
+          "freemore"
+        ],
+        "phone_note": "(P. – Pk. 9:00 – 17:00)",
+        "tagline": "Kvalitatīvi produkti katrai dienai!",
+        "wishlist_url": "",
+        "sticky": true,
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
+    "announcement_bar",
     "header"
-  ],
+  ]
 }

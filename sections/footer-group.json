@@ -14,8 +14,13 @@
     "footer": {
       "type": "footer",
       "settings": {
-        "menu": "",
-        "show_payment_icons": true
+        "logo": "shopify://shop_images/gpb-logo-white.svg",
+        "logo_width": 200,
+        "tagline": "Kvalitatīvi produkti katrai dienai!",
+        "menu_heading": "Kategorijas",
+        "menu": "footer",
+        "newsletter_heading": "Saņem jaunākos piedāvājumus jau šodien!",
+        "color_scheme": ""
       }
     }
   },
