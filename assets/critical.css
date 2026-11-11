@@ -6,8 +6,8 @@
  * are output by snippets/css-variables.liquid.
  * ------------------------------------------------------------------ */
 :root {
-  /* Layout: 16px on phones up to 48px at 1440px */
-  --page-margin: clamp(1rem, 3.34vw, 3rem);
+  /* Layout: 24px on phones up to 48px at 1440px */
+  --page-margin: clamp(1.5rem, 3.34vw, 3rem);
   --section-spacing: clamp(3rem, 2rem + 3vw, 4rem);
 
   /* Spacing */

@@ -189,6 +189,7 @@
   .hero {
     --hero-fade: 600ms;
     --hero-padding: var(--space-md);
+    --hero-inline: var(--page-margin);
     --hero-edge: var(--space-sm);
     --hero-language-size: 2.5rem;
     --hero-controls-size: 1.5rem;
@@ -202,6 +203,7 @@
 
     @media screen and (min-width: 990px) {
       --hero-padding: var(--space-xl);
+      --hero-inline: var(--hero-padding);
       --hero-edge: var(--space-md);
 
       border-radius: var(--radius-lg);
@@ -235,7 +237,7 @@
     flex-direction: column;
     justify-content: var(--hero-justify-mobile);
     grid-area: 1 / 1;
-    padding: var(--hero-padding);
+    padding: var(--hero-padding) var(--hero-inline);
     padding-block-end: calc(var(--hero-padding) + var(--hero-controls-size) + var(--hero-edge));
     isolation: isolate;
     opacity: 0;
@@ -271,7 +273,7 @@
   }
 
   .hero:has(.hero__languages) .hero__slide {
-    padding-inline-end: calc(var(--hero-edge) + var(--hero-language-size) + var(--space-sm));
+    padding-inline-end: calc(var(--hero-inline) + var(--hero-language-size) + var(--space-sm));
   }
 
   .hero__slide--center {
@@ -448,8 +450,8 @@
 
   .hero__languages {
     position: absolute;
-    inset-block-start: var(--hero-edge);
-    inset-inline-end: var(--hero-edge);
+    inset-block-start: var(--hero-inline);
+    inset-inline-end: var(--hero-inline);
     z-index: 2;
   }
 
