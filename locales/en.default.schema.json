@@ -83,7 +83,7 @@
     "image_alt": "Image alt text",
     "image_x": "Horizontal position",
     "image_y": "Vertical position",
-    "image_zoom": "Zoom",
+    "image_scale": "Scale",
     "instagram": "Instagram",
     "layout_direction": "Layout direction",
     "link": "Link",
