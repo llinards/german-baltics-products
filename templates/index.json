@@ -9,10 +9,18 @@
  */
 {
   "sections": {
-    "hero_slider": {
+    "1794064341b12e857b": {
+      "type": "apps",
+      "settings": {}
+    },
+    "1794064352fd947eb2": {
+      "type": "apps",
+      "settings": {}
+    },
+    "hero_slider_GFUrzJ": {
       "type": "hero-slider",
       "blocks": {
-        "slide_1": {
+        "slide_Gh7DYB": {
           "type": "slide",
           "settings": {
             "eyebrow": "GERMAN PRODUCTS BALTICS",
@@ -20,6 +28,7 @@
             "text": "Uzticams partneris pārtikas, dzērienu, bērnu aprūpes un higiēnas preču piegādē visā Baltijā.",
             "alignment": "left",
             "content_width": 40,
+            "image": "shopify://shop_images/gpb-hero-background.jpg",
             "image_alt": "",
             "image_x": 50,
             "image_y": 50,
@@ -32,31 +41,27 @@
             "button_1_style": "primary",
             "button_1_icon": "caret-right-fill",
             "button_2_label": "Par mums",
-            "button_2_link": "",
+            "button_2_link": "shopify://pages/par-mums",
             "button_2_style": "secondary",
             "button_2_icon": "caret-right-fill"
           }
         }
       },
-      "block_order": ["slide_1"],
+      "block_order": [
+        "slide_Gh7DYB"
+      ],
+      "name": "t:general.hero_slider",
       "settings": {
-        "color_scheme": "scheme-4",
+        "color_scheme": "",
         "autoplay": true,
         "autoplay_speed": 6,
         "show_languages": true
       }
-    },
-    "1794064341b12e857b": {
-      "type": "apps",
-      "settings": {}
-    },
-    "1794064352fd947eb2": {
-      "type": "apps",
-      "settings": {}
     }
   },
   "order": [
     "1794064341b12e857b",
-    "1794064352fd947eb2"
+    "1794064352fd947eb2",
+    "hero_slider_GFUrzJ"
   ]
 }
