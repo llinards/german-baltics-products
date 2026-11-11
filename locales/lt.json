@@ -109,7 +109,14 @@
     "open_menu": "Atidaryti meniu",
     "close_menu": "Uždaryti meniu",
     "menu": "Meniu",
-    "new_window": "atsidaro naujame lange"
+    "new_window": "atsidaro naujame lange",
+    "carousel": "karuselė",
+    "slide": "skaidrė",
+    "slideshow": "Skaidrių peržiūra",
+    "slide_label": "{{ index }} skaidrė iš {{ count }}",
+    "choose_slide": "Pasirinkti skaidrę",
+    "pause_slideshow": "Pristabdyti skaidrių peržiūrą",
+    "language": "Kalba"
   },
   "header": {
     "categories": "Kategorijos",

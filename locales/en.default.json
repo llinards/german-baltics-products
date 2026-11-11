@@ -84,7 +84,14 @@
     "open_menu": "Open menu",
     "close_menu": "Close menu",
     "menu": "Menu",
-    "new_window": "opens in a new window"
+    "new_window": "opens in a new window",
+    "carousel": "carousel",
+    "slide": "slide",
+    "slideshow": "Slideshow",
+    "slide_label": "Slide {{ index }} of {{ count }}",
+    "choose_slide": "Choose slide",
+    "pause_slideshow": "Pause slideshow",
+    "language": "Language"
   },
   "header": {
     "categories": "Categories",

@@ -1,0 +1,23 @@
+{%- doc -%}
+  Renders one hero slider call-to-action button. Renders nothing when the label is blank.
+
+  @param {string} label - Button text
+  @param {string} [link] - Destination URL
+  @param {string} [style] - 'primary' or 'secondary'
+  @param {string} [icon] - Icon name shown after the text, or 'none'
+
+  @example
+  {% render 'hero-button', label: 'Shop', link: '/collections/all', style: 'primary', icon: 'caret-right-fill' %}
+{%- enddoc -%}
+
+{%- if label != blank -%}
+  <a
+    class="button hero__button{% if style == 'secondary' %} hero__button--secondary{% endif %}"
+    href="{{ link | default: '#' }}"
+  >
+    {{- label -}}
+    {%- if icon != blank and icon != 'none' -%}
+      {%- render 'icon', name: icon, class: 'icon--small' -%}
+    {%- endif -%}
+  </a>
+{%- endif -%}
