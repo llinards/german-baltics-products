@@ -317,6 +317,10 @@ b {
   color: var(--color-foreground-muted);
 }
 
+.text-primary {
+  color: var(--color-primary);
+}
+
 /* ------------------------------------------------------------------
  * Section layout
  *

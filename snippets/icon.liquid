@@ -1,11 +1,13 @@
 {%- doc -%}
   Renders a theme icon inline from assets/icon-{name}.svg.
-  Icons are Phosphor Light (MIT, https://phosphoricons.com) and use currentColor.
+  Icons are Phosphor Light (MIT, https://phosphoricons.com) and use currentColor;
+  names ending in -fill use the Phosphor Fill weight.
   They are hidden from screen readers, so give the surrounding link or button
   a visible or visually-hidden text label.
 
-  Available: account, cart, caret-down, caret-left, caret-right, close, facebook,
-  globe, heart, instagram, linkedin, menu, phone, search, seal-check, spinner, tiktok, truck
+  Available: account, bag, cart, caret-down, caret-left, caret-right, caret-right-fill, close,
+  facebook, globe, heart, instagram, linkedin, menu, pause, phone, play, search, seal-check,
+  spinner, tiktok, truck
 
   @param {string} name - Icon name, e.g. 'cart'
   @param {string} [class] - Extra classes for the wrapper, e.g. 'icon--small'

@@ -84,7 +84,14 @@
     "open_menu": "Ava menüü",
     "close_menu": "Sulge menüü",
     "menu": "Menüü",
-    "new_window": "avaneb uues aknas"
+    "new_window": "avaneb uues aknas",
+    "carousel": "karussell",
+    "slide": "slaid",
+    "slideshow": "Slaidiseanss",
+    "slide_label": "Slaid {{ index }}/{{ count }}",
+    "choose_slide": "Vali slaid",
+    "pause_slideshow": "Peata slaidiseanss",
+    "language": "Keel"
   },
   "header": {
     "categories": "Kategooriad",

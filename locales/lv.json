@@ -4607,7 +4607,14 @@
     "open_menu": "Atvērt izvēlni",
     "close_menu": "Aizvērt izvēlni",
     "menu": "Izvēlne",
-    "new_window": "atveras jaunā logā"
+    "new_window": "atveras jaunā logā",
+    "carousel": "karuselis",
+    "slide": "slaids",
+    "slideshow": "Slaidrāde",
+    "slide_label": "{{ index }}. slaids no {{ count }}",
+    "choose_slide": "Izvēlēties slaidu",
+    "pause_slideshow": "Apturēt slaidrādi",
+    "language": "Valoda"
   },
   "header": {
     "categories": "Kategorijas",
