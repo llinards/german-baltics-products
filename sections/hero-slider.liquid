@@ -44,10 +44,10 @@
             --hero-justify: {{ block.settings.content_position }};
             --hero-justify-mobile: {{ block.settings.content_position_mobile }};
             {% if block.settings.gradient_desktop %}
-              --hero-gradient: linear-gradient({{ block.settings.gradient_direction }}, {{ block.settings.gradient_color }}, transparent {{ block.settings.gradient_reach }}%);
+              --hero-gradient: linear-gradient({{ block.settings.gradient_direction }}, {{ block.settings.gradient_color }} {{ block.settings.gradient_start }}%, transparent {{ block.settings.gradient_reach }}%);
             {% endif %}
             {% if block.settings.gradient_mobile %}
-              --hero-gradient-mobile: linear-gradient({{ block.settings.gradient_direction_mobile }}, {{ block.settings.gradient_color }}, transparent {{ block.settings.gradient_reach_mobile }}%);
+              --hero-gradient-mobile: linear-gradient({{ block.settings.gradient_direction_mobile }}, {{ block.settings.gradient_color }} {{ block.settings.gradient_start_mobile }}%, transparent {{ block.settings.gradient_reach_mobile }}%);
             {% endif %}
           "
           {% unless forloop.first %}
@@ -904,6 +904,18 @@
         },
         {
           "type": "range",
+          "id": "gradient_start",
+          "label": "t:labels.gradient_start",
+          "info": "t:info.gradient_start",
+          "min": 0,
+          "max": 90,
+          "step": 5,
+          "unit": "%",
+          "default": 0,
+          "visible_if": "{{ block.settings.gradient_desktop }}"
+        },
+        {
+          "type": "range",
           "id": "gradient_reach",
           "label": "t:labels.gradient_reach",
           "info": "t:info.gradient_reach",
@@ -931,6 +943,18 @@
             { "value": "to top", "label": "t:options.gradient_direction.to_top" }
           ],
           "default": "to bottom",
+          "visible_if": "{{ block.settings.gradient_mobile }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_start_mobile",
+          "label": "t:labels.gradient_start",
+          "info": "t:info.gradient_start",
+          "min": 0,
+          "max": 90,
+          "step": 5,
+          "unit": "%",
+          "default": 0,
           "visible_if": "{{ block.settings.gradient_mobile }}"
         },
         {
