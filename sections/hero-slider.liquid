@@ -58,7 +58,11 @@
           {%- if image != blank -%}
             {%- assign alt = block.settings.image_alt | default: image.alt | default: title | default: shop.name -%}
             {%- if image_mobile != blank -%}
-              <picture class="hero__picture">
+              <picture
+                class="hero__picture"
+                data-alt="{{ alt | escape }}"
+                data-alt-mobile="{{ block.settings.image_alt_mobile | default: alt | escape }}"
+              >
                 <source
                   media="(max-width: 989px)"
                   sizes="100vw"
@@ -181,13 +185,6 @@
 {%- endif -%}
 
 {% stylesheet %}
-  .hero-section {
-    padding-block-start: var(--space-sm);
-
-    @media screen and (min-width: 990px) {
-      padding-block-start: var(--space-md);
-    }
-  }
 
   .hero {
     --hero-fade: 600ms;
@@ -265,6 +262,7 @@
 
     @media screen and (min-width: 990px) {
       justify-content: var(--hero-justify);
+      padding-block-start: calc(var(--hero-padding) + var(--hero-controls-size) + var(--hero-edge));
 
       &::after {
         background: var(--hero-gradient, none);
@@ -498,15 +496,21 @@
     #focused = false;
     #editing = false;
     #swipeStart = null;
+    #mobileQuery = window.matchMedia('(max-width: 989px)');
 
     connectedCallback() {
       this.slides = [...this.querySelectorAll('.hero__slide')];
       this.dots = [...this.querySelectorAll('.hero__dot')];
       this.toggle = this.querySelector('.hero__toggle');
-      if (this.slides.length < 2) return;
 
       this.#controller = new AbortController();
       const { signal } = this.#controller;
+
+      this.#updateAlt();
+      this.#mobileQuery.addEventListener('change', this.#updateAlt, { signal });
+
+      if (this.slides.length < 2) return;
+
       const viewport = this.querySelector('.hero__viewport');
       const dots = this.querySelector('.hero__dots');
 
@@ -555,6 +559,13 @@
 
       this.#timer = setTimeout(() => this.goTo(this.#index + 1), Number(this.dataset.speed) * 1000);
     }
+
+    #updateAlt = () => {
+      for (const picture of this.querySelectorAll('.hero__picture')) {
+        const { alt, altMobile } = picture.dataset;
+        picture.querySelector('img').alt = this.#mobileQuery.matches ? altMobile : alt;
+      }
+    };
 
     #onDotClick = (event) => {
       const dot = event.target.closest('.hero__dot');
@@ -819,6 +830,13 @@
           "id": "image_mobile",
           "label": "t:labels.image_mobile",
           "info": "t:info.hero_image_mobile"
+        },
+        {
+          "type": "text",
+          "id": "image_alt_mobile",
+          "label": "t:labels.image_alt",
+          "info": "t:info.hero_image_alt_mobile",
+          "visible_if": "{{ block.settings.image_mobile != blank }}"
         },
         {
           "type": "range",

@@ -170,6 +170,7 @@
     "gradient_reach": "Where the gradient becomes fully transparent.",
     "hero_gradient": "Covers the image to keep text readable. Fades from the start color to transparent. Mobile is below 990px wide.",
     "hero_image_alt":"Describes the image for screen readers. Uses the image's own alt text when empty.",
+    "hero_image_alt_mobile": "Describes the mobile image for screen readers. Uses the desktop alt text when empty.",
     "hero_image_mobile": "Optional. Uses the desktop image when empty.",
     "hero_languages": "One dot per published language. Hidden when the store has only one language.",
     "hero_mobile_image": "Below 990px wide.",
