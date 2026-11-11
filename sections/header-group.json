@@ -34,6 +34,9 @@
     "header": {
       "type": "header",
       "settings": {
+        "logo": "shopify://shop_images/gpb-logo-dark.svg",
+        "logo_width": 106,
+        "menu": "main-menu",
         "mega_menu_brands": [
           "friso",
           "dallmayr",
@@ -45,9 +48,6 @@
           "william-saurin",
           "freemore"
         ],
-        "logo": "shopify://shop_images/gpb-logo.svg",
-        "logo_width": 106,
-        "menu": "main-menu",
         "phone_note": "(P. – Pk. 9:00 – 17:00)",
         "tagline": "Kvalitatīvi produkti katrai dienai!",
         "wishlist_url": "",
