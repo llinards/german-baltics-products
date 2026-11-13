@@ -20,23 +20,23 @@
     "hero_slider_GFUrzJ": {
       "type": "hero-slider",
       "blocks": {
-        "slide_Gh7DYB": {
+        "slide_LhDxXd": {
           "type": "slide",
           "settings": {
-            "eyebrow": "GERMAN PRODUCTS BALTICS",
-            "title": "Kvalitatīvi produkti katrai dienai!",
-            "text": "Uzticams partneris pārtikas, dzērienu, bērnu aprūpes un higiēnas preču piegādē visā Baltijā.",
+            "eyebrow": "",
+            "title": "",
+            "text": "",
             "alignment": "left",
-            "button_1_label": "Uz veikalu",
+            "button_1_label": "",
             "button_1_link": "shopify://collections/all",
             "button_1_style": "primary",
             "button_1_icon": "caret-right-fill",
-            "button_2_label": "Par mums",
-            "button_2_link": "shopify://pages/par-mums",
+            "button_2_label": "",
+            "button_2_link": "",
             "button_2_style": "secondary",
             "button_2_icon": "caret-right-fill",
-            "image": "shopify://shop_images/banner-products-dark.png",
-            "image_alt": "German Products Baltics sortiments",
+            "image": "shopify://shop_images/FM01-Freemore-Ultra-Thin-Panty-Liners-_E2_80_93-165mm-11-scaled.jpg",
+            "image_alt": "",
             "image_scale": 100,
             "content_width": 40,
             "content_position": "center",
@@ -45,18 +45,17 @@
             "gradient_direction": "to right",
             "gradient_start": 0,
             "gradient_reach": 60,
-            "image_mobile": "shopify://shop_images/lifestyle-products-tall.png",
-            "image_alt_mobile": "German Products Baltics sortiments",
-            "image_scale_mobile": 125,
+            "image_alt_mobile": "",
+            "image_scale_mobile": 100,
             "content_position_mobile": "flex-start",
-            "gradient_mobile": true,
+            "gradient_mobile": false,
             "gradient_color_mobile": "#0a1824",
             "gradient_direction_mobile": "to bottom",
-            "gradient_start_mobile": 40,
-            "gradient_reach_mobile": 75
+            "gradient_start_mobile": 0,
+            "gradient_reach_mobile": 60
           }
         },
-        "slide_iHmHTn": {
+        "slide_Gh7DYB": {
           "type": "slide",
           "settings": {
             "eyebrow": "GERMAN PRODUCTS BALTICS",
@@ -94,8 +93,8 @@
         }
       },
       "block_order": [
-        "slide_Gh7DYB",
-        "slide_iHmHTn"
+        "slide_LhDxXd",
+        "slide_Gh7DYB"
       ],
       "name": "t:general.hero_slider",
       "settings": {
