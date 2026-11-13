@@ -27,7 +27,16 @@
           assign image = block.settings.image
           assign image_mobile = block.settings.image_mobile
           assign title = block.settings.title
+          assign scale = block.settings.image_scale | divided_by: 100.0
+          assign scale_mobile = block.settings.image_scale_mobile | divided_by: 100.0
+          assign mobile_image = image_mobile | default: image
         -%}
+        {%- capture sizes_mobile -%}
+          max({{ 100 | times: scale_mobile }}vw, {{ 40 | times: mobile_image.aspect_ratio | times: scale_mobile | round: 1 }}rem)
+        {%- endcapture -%}
+        {%- capture sizes_desktop -%}
+          max({{ 100 | times: scale }}vw, {{ 34.5 | times: image.aspect_ratio | times: scale | round: 1 }}rem)
+        {%- endcapture -%}
         <div
           class="hero__slide hero__slide--{{ block.settings.alignment }}{% if forloop.first %} is-active{% endif %}"
           role="group"
@@ -37,8 +46,7 @@
             --hero-x: {{ block.settings.image_x }}%;
             --hero-y: {{ block.settings.image_y }}%;
             --hero-scale: {{ block.settings.image_scale }}%;
-            --hero-x-mobile: {{ block.settings.image_x_mobile }}%;
-            --hero-y-mobile: {{ block.settings.image_y_mobile }}%;
+            --hero-focal-mobile: {{ mobile_image.presentation.focal_point }};
             --hero-scale-mobile: {{ block.settings.image_scale_mobile }}%;
             --hero-content-width: {{ block.settings.content_width }}%;
             --hero-justify: {{ block.settings.content_position }};
@@ -65,7 +73,7 @@
               >
                 <source
                   media="(max-width: 989px)"
-                  sizes="100vw"
+                  sizes="{{ sizes_mobile }}"
                   srcset="
                     {%- for width in mobile_widths -%}
                       {{ image_mobile | image_url: width: width }} {{ width }}w{% unless forloop.last %}, {% endunless %}
@@ -75,16 +83,17 @@
                 {{
                   image
                   | image_url: width: 3000
-                  | image_tag: widths: desktop_widths, sizes: '100vw', alt: alt, class: 'hero__image'
+                  | image_tag: widths: desktop_widths, sizes: sizes_desktop, alt: alt, class: 'hero__image'
                 }}
               </picture>
             {%- else -%}
+              {%- capture sizes -%}(max-width: 989px) {{ sizes_mobile }}, {{ sizes_desktop }}{%- endcapture -%}
               {{
                 image
                 | image_url: width: 3000
                 | image_tag:
                   widths: desktop_widths,
-                  sizes: '100vw',
+                  sizes: sizes,
                   alt: alt,
                   preload: forloop.first,
                   class: 'hero__image'
@@ -293,12 +302,12 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: var(--hero-x-mobile) var(--hero-y-mobile);
-    transform-origin: var(--hero-x-mobile) var(--hero-y-mobile);
+    object-position: var(--hero-focal-mobile, 50% 50%) !important;
+    transform-origin: var(--hero-focal-mobile, 50% 50%);
     scale: var(--hero-scale-mobile);
 
     @media screen and (min-width: 990px) {
-      object-position: var(--hero-x) var(--hero-y);
+      object-position: var(--hero-x) var(--hero-y) !important;
       transform-origin: var(--hero-x) var(--hero-y);
       scale: var(--hero-scale);
     }
@@ -838,28 +847,6 @@
           "label": "t:labels.image_alt",
           "info": "t:info.hero_image_alt_mobile",
           "visible_if": "{{ block.settings.image_mobile != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_x_mobile",
-          "label": "t:labels.image_x",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "default": 100,
-          "visible_if": "{{ block.settings.image != blank or block.settings.image_mobile != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_y_mobile",
-          "label": "t:labels.image_y",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "default": 50,
-          "visible_if": "{{ block.settings.image != blank or block.settings.image_mobile != blank }}"
         },
         {
           "type": "range",
