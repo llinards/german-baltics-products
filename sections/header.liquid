@@ -23,7 +23,7 @@
   class="header full-width color-{{ section.settings.color_scheme }}{% if section.settings.sticky %} header--sticky{% endif %}"
 >
   <div class="header__inner">
-    <a class="header__logo" href="{{ routes.root_url }}">
+    {%- capture logo_markup -%}
       {%- if logo != blank -%}
         {%- liquid
           assign logo_height = logo_width | divided_by: logo.aspect_ratio | round
@@ -43,6 +43,13 @@
         }}
       {%- else -%}
         <span class="header__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    {%- endcapture -%}
+    <a class="header__logo" href="{{ routes.root_url }}">
+      {%- if request.page_type == 'index' -%}
+        <h1 class="header__heading">{{ logo_markup }}</h1>
+      {%- else -%}
+        {{ logo_markup }}
       {%- endif -%}
     </a>
 
@@ -234,6 +241,10 @@
     @media screen and (min-width: 990px) {
       margin-inline-end: 0;
     }
+  }
+
+  .header__heading {
+    font: inherit;
   }
 
   .header__logo-image {

@@ -110,11 +110,7 @@
             {%- endif -%}
 
             {%- if title != blank -%}
-              {%- if forloop.first -%}
-                <h1 class="hero__title">{{ title }}</h1>
-              {%- else -%}
-                <h2 class="hero__title h1">{{ title }}</h2>
-              {%- endif -%}
+              <h2 class="hero__title">{{ title }}</h2>
             {%- endif -%}
 
             {%- if block.settings.text != blank -%}
@@ -344,6 +340,9 @@
 
   .hero__title {
     margin-block-end: var(--space-md);
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-heading-weight-medium);
+    line-height: var(--line-height-tight);
   }
 
   .hero__text {
