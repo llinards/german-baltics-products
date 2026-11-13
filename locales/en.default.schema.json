@@ -175,7 +175,7 @@
     "hero_image_alt_mobile": "Describes the mobile image for screen readers. Uses the desktop alt text when empty.",
     "hero_image_mobile": "Optional. Uses the desktop image when empty.",
     "hero_languages": "One dot per published language. Hidden when the store has only one language.",
-    "hero_mobile_image": "Below 990px wide. To choose which part of the image stays visible, select the image, then Edit and set a focal point. The desktop image's focal point is used when no mobile image is set.",
+    "hero_mobile_image": "Below 990px wide. For the horizontal position, select the image, then Edit and set a focal point. The desktop image's focal point is used when no mobile image is set.",
     "footer_logo": "Use a light version of the logo so it shows on the dark footer.",
     "footer_menu": "Links are split into columns of 5 on desktop.",
     "heading_font": "Used for headings, prices and buttons.",

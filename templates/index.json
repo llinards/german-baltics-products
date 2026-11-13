@@ -36,6 +36,7 @@
             "image_y": 50,
             "image_scale": 100,
             "image_alt_mobile": "German Products Baltics sortiments",
+            "image_y_mobile": 0,
             "image_scale_mobile": 100,
             "gradient_color": "#0a1824",
             "gradient_desktop": false,

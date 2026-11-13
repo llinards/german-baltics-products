@@ -46,7 +46,8 @@
             --hero-x: {{ block.settings.image_x }}%;
             --hero-y: {{ block.settings.image_y }}%;
             --hero-scale: {{ block.settings.image_scale }}%;
-            --hero-focal-mobile: {{ mobile_image.presentation.focal_point }};
+            --hero-x-mobile: {{ mobile_image.presentation.focal_point.x | default: 50 }}%;
+            --hero-y-mobile: {{ block.settings.image_y_mobile }}%;
             --hero-scale-mobile: {{ block.settings.image_scale_mobile }}%;
             --hero-content-width: {{ block.settings.content_width }}%;
             --hero-justify: {{ block.settings.content_position }};
@@ -302,8 +303,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: var(--hero-focal-mobile, 50% 50%) !important;
-    transform-origin: var(--hero-focal-mobile, 50% 50%);
+    object-position: var(--hero-x-mobile) var(--hero-y-mobile) !important;
+    transform-origin: var(--hero-x-mobile) var(--hero-y-mobile);
     scale: var(--hero-scale-mobile);
 
     @media screen and (min-width: 990px) {
@@ -847,6 +848,17 @@
           "label": "t:labels.image_alt",
           "info": "t:info.hero_image_alt_mobile",
           "visible_if": "{{ block.settings.image_mobile != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "image_y_mobile",
+          "label": "t:labels.image_y",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "visible_if": "{{ block.settings.image != blank or block.settings.image_mobile != blank }}"
         },
         {
           "type": "range",
