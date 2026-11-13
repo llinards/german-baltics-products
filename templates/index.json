@@ -139,11 +139,31 @@
         "autoplay_speed": 4,
         "show_languages": true
       }
+    },
+    "hero_slider_qiXtBB": {
+      "type": "hero-slider",
+      "name": "t:general.hero_slider",
+      "settings": {
+        "color_scheme": "",
+        "autoplay": true,
+        "autoplay_speed": 6,
+        "show_languages": true
+      }
+    },
+    "brand_logo_strip_3BpynD": {
+      "type": "brand-logo-strip",
+      "name": "t:general.brand_logo_strip",
+      "settings": {
+        "color_scheme": "",
+        "brands": []
+      }
     }
   },
   "order": [
     "1794064341b12e857b",
     "1794064352fd947eb2",
-    "hero_slider_GFUrzJ"
+    "hero_slider_GFUrzJ",
+    "hero_slider_qiXtBB",
+    "brand_logo_strip_3BpynD"
   ]
 }
