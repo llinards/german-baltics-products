@@ -20,41 +20,6 @@
     "hero_slider_GFUrzJ": {
       "type": "hero-slider",
       "blocks": {
-        "slide_LhDxXd": {
-          "type": "slide",
-          "settings": {
-            "eyebrow": "",
-            "title": "",
-            "text": "",
-            "alignment": "left",
-            "button_1_label": "",
-            "button_1_link": "shopify://collections/all",
-            "button_1_style": "primary",
-            "button_1_icon": "caret-right-fill",
-            "button_2_label": "",
-            "button_2_link": "",
-            "button_2_style": "secondary",
-            "button_2_icon": "caret-right-fill",
-            "image": "shopify://shop_images/FM01-Freemore-Ultra-Thin-Panty-Liners-_E2_80_93-165mm-11-scaled.jpg",
-            "image_alt": "",
-            "image_scale": 100,
-            "content_width": 40,
-            "content_position": "center",
-            "gradient_desktop": false,
-            "gradient_color": "#0a1824",
-            "gradient_direction": "to right",
-            "gradient_start": 0,
-            "gradient_reach": 60,
-            "image_alt_mobile": "",
-            "image_scale_mobile": 100,
-            "content_position_mobile": "flex-start",
-            "gradient_mobile": false,
-            "gradient_color_mobile": "#0a1824",
-            "gradient_direction_mobile": "to bottom",
-            "gradient_start_mobile": 0,
-            "gradient_reach_mobile": 60
-          }
-        },
         "slide_Gh7DYB": {
           "type": "slide",
           "settings": {
@@ -90,11 +55,46 @@
             "gradient_start_mobile": 40,
             "gradient_reach_mobile": 75
           }
+        },
+        "slide_LhDxXd": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "",
+            "title": "",
+            "text": "",
+            "alignment": "left",
+            "button_1_label": "",
+            "button_1_link": "shopify://collections/all",
+            "button_1_style": "primary",
+            "button_1_icon": "caret-right-fill",
+            "button_2_label": "",
+            "button_2_link": "",
+            "button_2_style": "secondary",
+            "button_2_icon": "caret-right-fill",
+            "image": "shopify://shop_images/FM01-Freemore-Ultra-Thin-Panty-Liners-_E2_80_93-165mm-11-scaled.jpg",
+            "image_alt": "",
+            "image_scale": 100,
+            "content_width": 40,
+            "content_position": "center",
+            "gradient_desktop": false,
+            "gradient_color": "#0a1824",
+            "gradient_direction": "to right",
+            "gradient_start": 0,
+            "gradient_reach": 60,
+            "image_alt_mobile": "",
+            "image_scale_mobile": 100,
+            "content_position_mobile": "flex-start",
+            "gradient_mobile": false,
+            "gradient_color_mobile": "#0a1824",
+            "gradient_direction_mobile": "to bottom",
+            "gradient_start_mobile": 0,
+            "gradient_reach_mobile": 60
+          }
         }
       },
       "block_order": [
-        "slide_LhDxXd",
-        "slide_Gh7DYB"
+        "slide_Gh7DYB",
+        "slide_LhDxXd"
       ],
       "name": "t:general.hero_slider",
       "settings": {
