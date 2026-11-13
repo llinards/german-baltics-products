@@ -43,11 +43,11 @@
           aria-roledescription="{{ 'accessibility.slide' | t }}"
           aria-label="{{ 'accessibility.slide_label' | t: index: forloop.index, count: slide_count }}"
           style="
-            --hero-x: {{ block.settings.image_x }}%;
-            --hero-y: {{ block.settings.image_y }}%;
+            --hero-x: {{ image.presentation.focal_point.x | default: 50 }}%;
+            --hero-y: {{ image.presentation.focal_point.y | default: 50 }}%;
             --hero-scale: {{ block.settings.image_scale }}%;
             --hero-x-mobile: {{ mobile_image.presentation.focal_point.x | default: 50 }}%;
-            --hero-y-mobile: {{ block.settings.image_y_mobile }}%;
+            --hero-y-mobile: {{ mobile_image.presentation.focal_point.y | default: 50 }}%;
             --hero-scale-mobile: {{ block.settings.image_scale_mobile }}%;
             --hero-content-width: {{ block.settings.content_width }}%;
             --hero-justify: {{ block.settings.content_position }};
@@ -784,7 +784,8 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "t:labels.image"
+          "label": "t:labels.image",
+          "info": "t:info.hero_image"
         },
         {
           "type": "text",
@@ -796,28 +797,6 @@
         {
           "type": "header",
           "content": "t:general.image_desktop",
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_x",
-          "label": "t:labels.image_x",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "default": 50,
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_y",
-          "label": "t:labels.image_y",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "default": 50,
           "visible_if": "{{ block.settings.image != blank }}"
         },
         {
@@ -848,17 +827,6 @@
           "label": "t:labels.image_alt",
           "info": "t:info.hero_image_alt_mobile",
           "visible_if": "{{ block.settings.image_mobile != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_y_mobile",
-          "label": "t:labels.image_y",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "default": 50,
-          "visible_if": "{{ block.settings.image != blank or block.settings.image_mobile != blank }}"
         },
         {
           "type": "range",
