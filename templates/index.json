@@ -157,6 +157,27 @@
         "color_scheme": "",
         "brands": []
       }
+    },
+    "collection_strip_4A9ydT": {
+      "type": "collection-strip",
+      "name": "t:general.collection_strip",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Kategorijas",
+        "text": "Mūsu sortimentā atradīsiet kafiju, tējas, ātri pagatavojamas maltītes, mazuļu pārtiku, bērnu piederumus, kosmētiku un attīstošās rotaļlietas u.c.&nbsp;",
+        "collections": [
+          "kafija",
+          "tejas",
+          "atri-pagatavojamie-edieni",
+          "piena-maisijumi",
+          "mazulu-kosmetika",
+          "attistosas-rotallietas",
+          "bernu-piederumi",
+          "citi-produkti"
+        ],
+        "link": "shopify://collections",
+        "link_label": "Skatīt visu"
+      }
     }
   },
   "order": [
@@ -164,6 +185,7 @@
     "1794064352fd947eb2",
     "hero_slider_GFUrzJ",
     "hero_slider_qiXtBB",
-    "brand_logo_strip_3BpynD"
+    "brand_logo_strip_3BpynD",
+    "collection_strip_4A9ydT"
   ]
 }
