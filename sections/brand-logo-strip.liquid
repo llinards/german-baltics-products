@@ -6,7 +6,7 @@
       {%- for brand in brands -%}
         {%- if brand.logo.value != blank -%}
           {%- liquid
-            assign collection_url = brand.collection.value.url
+            assign collection_url = brand.brand_collection.value.url
             capture logo_image
               echo brand.logo.value | image_url: width: 400 | image_tag: widths: '160, 240, 320, 400', sizes: '(min-width: 990px) 160px, 40vw', loading: 'lazy', alt: brand.brand.value, class: 'brand-strip__image'
             endcapture
@@ -37,9 +37,30 @@
     --per-view: 2.5;
     --gap: var(--space-sm);
     --dot-size: 1.5rem;
+    --logo-height: 6.25rem;
 
     display: block;
-    padding-block: var(--section-spacing);
+    padding-block: var(--space-md) var(--space-md);
+
+    @media screen and (min-width: 480px) {
+      --per-view: 3.5;
+    }
+
+    @media screen and (min-width: 600px) {
+      --per-view: 4.5;
+    }
+
+    @media screen and (min-width: 720px) {
+      --per-view: 5.5;
+    }
+
+    @media screen and (min-width: 840px) {
+      --per-view: 6.5;
+    }
+
+    @media screen and (min-width: 960px) {
+      --per-view: 7.5;
+    }
 
     @media screen and (min-width: 990px) {
       --per-view: 9;
@@ -68,21 +89,13 @@
   .brand-strip__item {
     flex: 0 0 calc((100% + var(--gap)) / var(--per-view) - var(--gap));
     scroll-snap-align: start;
-    transition:
-      opacity var(--duration-fast) var(--ease-out),
-      filter var(--duration-fast) var(--ease-out);
-
-    &.is-clipped {
-      opacity: 0.4;
-      filter: grayscale(1);
-    }
   }
 
   .brand-strip__logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    block-size: 6.25rem;
+    block-size: var(--logo-height);
     transition: opacity var(--duration-fast) var(--ease-out);
   }
 
@@ -91,10 +104,9 @@
   }
 
   .brand-strip__image {
-    max-inline-size: 100%;
-    max-block-size: 100%;
-    inline-size: auto;
-    block-size: auto;
+    inline-size: 100%;
+    block-size: 100%;
+    max-block-size: var(--logo-height);
     object-fit: contain;
   }
 
@@ -143,7 +155,7 @@
     #observer;
     #frame;
     #page = 0;
-    #desktop = window.matchMedia('(min-width: 990px)');
+    #perPage = 1;
     #reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     connectedCallback() {
@@ -155,15 +167,12 @@
       this.#controller = new AbortController();
       const { signal } = this.#controller;
 
-      this.#observer = new IntersectionObserver(this.#onIntersect, { root: this.track, threshold: [0.99] });
-      this.items.forEach((item) => this.#observer.observe(item));
-
       this.track.addEventListener('scroll', this.#onScroll, { passive: true, signal });
       this.dotsContainer.addEventListener('click', this.#onDotClick, { signal });
       this.dotsContainer.addEventListener('keydown', this.#onDotKeydown, { signal });
-      this.#desktop.addEventListener('change', this.#renderDots, { signal });
 
-      this.#renderDots();
+      this.#observer = new ResizeObserver(this.#onResize);
+      this.#observer.observe(this.track);
     }
 
     disconnectedCallback() {
@@ -172,9 +181,13 @@
       cancelAnimationFrame(this.#frame);
     }
 
-    get #perPage() {
-      return this.#desktop.matches ? 9 : 2;
-    }
+    #onResize = () => {
+      const perPage = Math.max(1, Math.floor(parseFloat(getComputedStyle(this).getPropertyValue('--per-view'))));
+      if (perPage === this.#perPage && this.dots) return this.#updateActive();
+
+      this.#perPage = perPage;
+      this.#renderDots();
+    };
 
     get #pageCount() {
       return Math.ceil(this.items.length / this.#perPage);
@@ -223,12 +236,6 @@
     #onScroll = () => {
       cancelAnimationFrame(this.#frame);
       this.#frame = requestAnimationFrame(() => this.#updateActive());
-    };
-
-    #onIntersect = (entries) => {
-      for (const entry of entries) {
-        entry.target.classList.toggle('is-clipped', entry.intersectionRatio < 0.99);
-      }
     };
 
     #onDotClick = (event) => {
