@@ -56,7 +56,7 @@
               --hero-gradient: linear-gradient({{ block.settings.gradient_direction }}, {{ block.settings.gradient_color }} {{ block.settings.gradient_start }}%, transparent {{ block.settings.gradient_reach }}%);
             {% endif %}
             {% if block.settings.gradient_mobile %}
-              --hero-gradient-mobile: linear-gradient({{ block.settings.gradient_direction_mobile }}, {{ block.settings.gradient_color }} {{ block.settings.gradient_start_mobile }}%, transparent {{ block.settings.gradient_reach_mobile }}%);
+              --hero-gradient-mobile: linear-gradient({{ block.settings.gradient_direction_mobile }}, {{ block.settings.gradient_color_mobile }} {{ block.settings.gradient_start_mobile }}%, transparent {{ block.settings.gradient_reach_mobile }}%);
             {% endif %}
           "
           {% unless forloop.first %}
@@ -730,10 +730,6 @@
           "default": "Uzticams partneris pārtikas, dzērienu, bērnu aprūpes un higiēnas preču piegādē visā Baltijā."
         },
         {
-          "type": "header",
-          "content": "t:general.layout"
-        },
-        {
           "type": "select",
           "id": "alignment",
           "label": "t:labels.alignment",
@@ -743,199 +739,6 @@
             { "value": "right", "label": "t:options.alignment.right" }
           ],
           "default": "left"
-        },
-        {
-          "type": "range",
-          "id": "content_width",
-          "label": "t:labels.content_width",
-          "info": "t:info.content_width",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "default": 40
-        },
-        {
-          "type": "select",
-          "id": "content_position",
-          "label": "t:labels.content_position",
-          "options": [
-            { "value": "flex-start", "label": "t:options.vertical.top" },
-            { "value": "center", "label": "t:options.vertical.center" },
-            { "value": "flex-end", "label": "t:options.vertical.bottom" }
-          ],
-          "default": "center"
-        },
-        {
-          "type": "select",
-          "id": "content_position_mobile",
-          "label": "t:labels.content_position_mobile",
-          "options": [
-            { "value": "flex-start", "label": "t:options.vertical.top" },
-            { "value": "center", "label": "t:options.vertical.center" },
-            { "value": "flex-end", "label": "t:options.vertical.bottom" }
-          ],
-          "default": "flex-start"
-        },
-        {
-          "type": "header",
-          "content": "t:general.image"
-        },
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "t:labels.image",
-          "info": "t:info.hero_image"
-        },
-        {
-          "type": "text",
-          "id": "image_alt",
-          "label": "t:labels.image_alt",
-          "info": "t:info.hero_image_alt",
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "header",
-          "content": "t:general.image_desktop",
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_scale",
-          "label": "t:labels.image_scale",
-          "min": 100,
-          "max": 200,
-          "step": 5,
-          "unit": "%",
-          "default": 100,
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "header",
-          "content": "t:general.image_mobile",
-          "info": "t:info.hero_mobile_image"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_mobile",
-          "label": "t:labels.image_mobile",
-          "info": "t:info.hero_image_mobile"
-        },
-        {
-          "type": "text",
-          "id": "image_alt_mobile",
-          "label": "t:labels.image_alt",
-          "info": "t:info.hero_image_alt_mobile",
-          "visible_if": "{{ block.settings.image_mobile != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_scale_mobile",
-          "label": "t:labels.image_scale",
-          "min": 100,
-          "max": 200,
-          "step": 5,
-          "unit": "%",
-          "default": 100,
-          "visible_if": "{{ block.settings.image != blank or block.settings.image_mobile != blank }}"
-        },
-        {
-          "type": "header",
-          "content": "t:general.gradient",
-          "info": "t:info.hero_gradient"
-        },
-        {
-          "type": "color",
-          "id": "gradient_color",
-          "label": "t:labels.gradient_color",
-          "default": "#0a1824",
-          "visible_if": "{{ block.settings.gradient_desktop or block.settings.gradient_mobile }}"
-        },
-        {
-          "type": "checkbox",
-          "id": "gradient_desktop",
-          "label": "t:labels.gradient_desktop",
-          "default": false
-        },
-        {
-          "type": "select",
-          "id": "gradient_direction",
-          "label": "t:labels.gradient_direction",
-          "options": [
-            { "value": "to right", "label": "t:options.gradient_direction.to_right" },
-            { "value": "to left", "label": "t:options.gradient_direction.to_left" },
-            { "value": "to bottom", "label": "t:options.gradient_direction.to_bottom" },
-            { "value": "to top", "label": "t:options.gradient_direction.to_top" }
-          ],
-          "default": "to right",
-          "visible_if": "{{ block.settings.gradient_desktop }}"
-        },
-        {
-          "type": "range",
-          "id": "gradient_start",
-          "label": "t:labels.gradient_start",
-          "info": "t:info.gradient_start",
-          "min": 0,
-          "max": 90,
-          "step": 5,
-          "unit": "%",
-          "default": 0,
-          "visible_if": "{{ block.settings.gradient_desktop }}"
-        },
-        {
-          "type": "range",
-          "id": "gradient_reach",
-          "label": "t:labels.gradient_reach",
-          "info": "t:info.gradient_reach",
-          "min": 10,
-          "max": 100,
-          "step": 5,
-          "unit": "%",
-          "default": 60,
-          "visible_if": "{{ block.settings.gradient_desktop }}"
-        },
-        {
-          "type": "checkbox",
-          "id": "gradient_mobile",
-          "label": "t:labels.gradient_mobile",
-          "default": true
-        },
-        {
-          "type": "select",
-          "id": "gradient_direction_mobile",
-          "label": "t:labels.gradient_direction",
-          "options": [
-            { "value": "to right", "label": "t:options.gradient_direction.to_right" },
-            { "value": "to left", "label": "t:options.gradient_direction.to_left" },
-            { "value": "to bottom", "label": "t:options.gradient_direction.to_bottom" },
-            { "value": "to top", "label": "t:options.gradient_direction.to_top" }
-          ],
-          "default": "to bottom",
-          "visible_if": "{{ block.settings.gradient_mobile }}"
-        },
-        {
-          "type": "range",
-          "id": "gradient_start_mobile",
-          "label": "t:labels.gradient_start",
-          "info": "t:info.gradient_start",
-          "min": 0,
-          "max": 90,
-          "step": 5,
-          "unit": "%",
-          "default": 0,
-          "visible_if": "{{ block.settings.gradient_mobile }}"
-        },
-        {
-          "type": "range",
-          "id": "gradient_reach_mobile",
-          "label": "t:labels.gradient_reach",
-          "info": "t:info.gradient_reach",
-          "min": 10,
-          "max": 100,
-          "step": 5,
-          "unit": "%",
-          "default": 60,
-          "visible_if": "{{ block.settings.gradient_mobile }}"
         },
         {
           "type": "header",
@@ -1025,6 +828,206 @@
           ],
           "default": "caret-right-fill",
           "visible_if": "{{ block.settings.button_2_label != blank }}"
+        },
+        {
+          "type": "header",
+          "content": "t:general.desktop"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:labels.image",
+          "info": "t:info.hero_image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "t:labels.image_alt",
+          "info": "t:info.hero_image_alt",
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "image_scale",
+          "label": "t:labels.image_scale",
+          "min": 100,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 100,
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "content_width",
+          "label": "t:labels.content_width",
+          "info": "t:info.content_width",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 40
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "t:labels.content_position",
+          "options": [
+            { "value": "flex-start", "label": "t:options.vertical.top" },
+            { "value": "center", "label": "t:options.vertical.center" },
+            { "value": "flex-end", "label": "t:options.vertical.bottom" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "header",
+          "content": "t:general.gradient_desktop",
+          "info": "t:info.hero_gradient"
+        },
+        {
+          "type": "checkbox",
+          "id": "gradient_desktop",
+          "label": "t:labels.gradient",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "gradient_color",
+          "label": "t:labels.gradient_color",
+          "default": "#0a1824",
+          "visible_if": "{{ block.settings.gradient_desktop }}"
+        },
+        {
+          "type": "select",
+          "id": "gradient_direction",
+          "label": "t:labels.gradient_direction",
+          "options": [
+            { "value": "to right", "label": "t:options.gradient_direction.to_right" },
+            { "value": "to left", "label": "t:options.gradient_direction.to_left" },
+            { "value": "to bottom", "label": "t:options.gradient_direction.to_bottom" },
+            { "value": "to top", "label": "t:options.gradient_direction.to_top" }
+          ],
+          "default": "to right",
+          "visible_if": "{{ block.settings.gradient_desktop }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_start",
+          "label": "t:labels.gradient_start",
+          "info": "t:info.gradient_start",
+          "min": 0,
+          "max": 90,
+          "step": 5,
+          "unit": "%",
+          "default": 0,
+          "visible_if": "{{ block.settings.gradient_desktop }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_reach",
+          "label": "t:labels.gradient_reach",
+          "info": "t:info.gradient_reach",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 60,
+          "visible_if": "{{ block.settings.gradient_desktop }}"
+        },
+        {
+          "type": "header",
+          "content": "t:general.mobile",
+          "info": "t:info.hero_mobile_image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "t:labels.image",
+          "info": "t:info.hero_image_mobile"
+        },
+        {
+          "type": "text",
+          "id": "image_alt_mobile",
+          "label": "t:labels.image_alt",
+          "info": "t:info.hero_image_alt_mobile",
+          "visible_if": "{{ block.settings.image_mobile != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "image_scale_mobile",
+          "label": "t:labels.image_scale",
+          "min": 100,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 100,
+          "visible_if": "{{ block.settings.image != blank or block.settings.image_mobile != blank }}"
+        },
+        {
+          "type": "select",
+          "id": "content_position_mobile",
+          "label": "t:labels.content_position",
+          "options": [
+            { "value": "flex-start", "label": "t:options.vertical.top" },
+            { "value": "center", "label": "t:options.vertical.center" },
+            { "value": "flex-end", "label": "t:options.vertical.bottom" }
+          ],
+          "default": "flex-start"
+        },
+        {
+          "type": "header",
+          "content": "t:general.gradient_mobile",
+          "info": "t:info.hero_gradient"
+        },
+        {
+          "type": "checkbox",
+          "id": "gradient_mobile",
+          "label": "t:labels.gradient",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "gradient_color_mobile",
+          "label": "t:labels.gradient_color",
+          "default": "#0a1824",
+          "visible_if": "{{ block.settings.gradient_mobile }}"
+        },
+        {
+          "type": "select",
+          "id": "gradient_direction_mobile",
+          "label": "t:labels.gradient_direction",
+          "options": [
+            { "value": "to right", "label": "t:options.gradient_direction.to_right" },
+            { "value": "to left", "label": "t:options.gradient_direction.to_left" },
+            { "value": "to bottom", "label": "t:options.gradient_direction.to_bottom" },
+            { "value": "to top", "label": "t:options.gradient_direction.to_top" }
+          ],
+          "default": "to bottom",
+          "visible_if": "{{ block.settings.gradient_mobile }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_start_mobile",
+          "label": "t:labels.gradient_start",
+          "info": "t:info.gradient_start",
+          "min": 0,
+          "max": 90,
+          "step": 5,
+          "unit": "%",
+          "default": 0,
+          "visible_if": "{{ block.settings.gradient_mobile }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_reach_mobile",
+          "label": "t:labels.gradient_reach",
+          "info": "t:info.gradient_reach",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 60,
+          "visible_if": "{{ block.settings.gradient_mobile }}"
         }
       ]
     }

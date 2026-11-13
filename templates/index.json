@@ -41,6 +41,7 @@
             "gradient_start": 0,
             "gradient_reach": 60,
             "gradient_mobile": true,
+            "gradient_color_mobile": "#0a1824",
             "gradient_direction_mobile": "to bottom",
             "gradient_start_mobile": 40,
             "gradient_reach_mobile": 75,
