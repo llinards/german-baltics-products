@@ -1,8 +1,8 @@
 {%- assign brands = section.settings.brands | default: metaobjects.brand_logos.values -%}
 
 {%- if brands.size > 0 -%}
-  <brand-logo-strip class="brand-strip color-{{ section.settings.color_scheme }}">
-    <ul class="brand-strip__track" role="list" aria-label="{{ 'header.brands' | t }}">
+  <scroll-carousel class="brand-strip color-{{ section.settings.color_scheme }}">
+    <ul class="brand-strip__track" data-carousel-track role="list" aria-label="{{ 'header.brands' | t }}">
       {%- for brand in brands -%}
         {%- if brand.logo.value != blank -%}
           {%- liquid
@@ -22,24 +22,16 @@
       {%- endfor -%}
     </ul>
 
-    <div
-      class="brand-strip__dots"
-      role="group"
-      aria-label="{{ 'accessibility.choose_slide' | t }}"
-      data-dot-label="{{ 'accessibility.slide_label' | t: index: '[index]', count: '[count]' }}"
-      hidden
-    ></div>
-  </brand-logo-strip>
+    {% render 'carousel-dots' %}
+  </scroll-carousel>
 {%- endif -%}
 
 {% stylesheet %}
   .brand-strip {
     --per-view: 2.5;
     --gap: var(--space-sm);
-    --dot-size: 1.5rem;
     --logo-height: 6.25rem;
 
-    display: block;
     padding-block: var(--space-md) var(--space-md);
 
     @media screen and (min-width: 480px) {
@@ -69,26 +61,21 @@
   }
 
   .brand-strip__track {
-    position: relative;
     display: flex;
     justify-content: safe center;
     gap: var(--gap);
     margin: 0;
     padding: 0;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
     list-style: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
 
   .brand-strip__item {
     flex: 0 0 calc((100% + var(--gap)) / var(--per-view) - var(--gap));
-    scroll-snap-align: start;
+    transition: opacity var(--duration-fast) var(--ease-out);
+
+    &.is-clipped {
+      opacity: 0.5;
+    }
   }
 
   .brand-strip__logo {
@@ -109,156 +96,7 @@
     max-block-size: var(--logo-height);
     object-fit: contain;
   }
-
-  .brand-strip__dots {
-    display: flex;
-    justify-content: center;
-    margin-block-start: var(--space-sm);
-
-    &[hidden] {
-      display: none;
-    }
-  }
-
-  brand-logo-strip:not(:defined) .brand-strip__dots {
-    display: none;
-  }
-
-  .brand-strip__dot {
-    display: grid;
-    place-items: center;
-    width: var(--dot-size);
-    height: var(--dot-size);
-    padding: 0;
-    border: 0;
-    background: none;
-    cursor: pointer;
-
-    &::before {
-      content: '';
-      width: 0.75rem;
-      height: 0.75rem;
-      background-color: var(--color-foreground-subtle);
-      border-radius: var(--radius-pill);
-      transition: background-color var(--duration-fast) var(--ease-out);
-    }
-
-    &[aria-current='true']::before {
-      background-color: var(--color-primary);
-    }
-  }
 {% endstylesheet %}
-
-{% javascript %}
-  class BrandLogoStrip extends HTMLElement {
-    #controller;
-    #observer;
-    #frame;
-    #page = 0;
-    #perPage = 1;
-    #reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-    connectedCallback() {
-      this.track = this.querySelector('.brand-strip__track');
-      this.dotsContainer = this.querySelector('.brand-strip__dots');
-      this.items = [...this.track.children];
-      if (!this.items.length) return;
-
-      this.#controller = new AbortController();
-      const { signal } = this.#controller;
-
-      this.track.addEventListener('scroll', this.#onScroll, { passive: true, signal });
-      this.dotsContainer.addEventListener('click', this.#onDotClick, { signal });
-      this.dotsContainer.addEventListener('keydown', this.#onDotKeydown, { signal });
-
-      this.#observer = new ResizeObserver(this.#onResize);
-      this.#observer.observe(this.track);
-    }
-
-    disconnectedCallback() {
-      this.#controller?.abort();
-      this.#observer?.disconnect();
-      cancelAnimationFrame(this.#frame);
-    }
-
-    #onResize = () => {
-      const perPage = Math.max(1, Math.floor(parseFloat(getComputedStyle(this).getPropertyValue('--per-view'))));
-      if (perPage === this.#perPage && this.dots) return this.#updateActive();
-
-      this.#perPage = perPage;
-      this.#renderDots();
-    };
-
-    get #pageCount() {
-      return Math.ceil(this.items.length / this.#perPage);
-    }
-
-    goTo(page) {
-      const target = this.items[page * this.#perPage];
-      if (!target) return;
-
-      this.track.scrollTo({
-        left: target.offsetLeft,
-        behavior: this.#reducedMotion.matches ? 'auto' : 'smooth',
-      });
-    }
-
-    #renderDots = () => {
-      const count = this.#pageCount;
-      const label = this.dotsContainer.dataset.dotLabel;
-
-      this.dots = Array.from({ length: count }, (_, index) => {
-        const dot = document.createElement('button');
-        dot.type = 'button';
-        dot.className = 'brand-strip__dot';
-        dot.dataset.index = String(index);
-        dot.setAttribute('aria-label', label.replace('[index]', index + 1).replace('[count]', count));
-        return dot;
-      });
-
-      this.dotsContainer.replaceChildren(...this.dots);
-      this.dotsContainer.hidden = count < 2;
-      this.#updateActive();
-    };
-
-    #updateActive() {
-      const maxScroll = this.track.scrollWidth - this.track.clientWidth;
-      const stride = this.items.length > 1 ? this.items[1].offsetLeft - this.items[0].offsetLeft : 1;
-      const atEnd = maxScroll > 0 && this.track.scrollLeft >= maxScroll - 1;
-
-      this.#page = atEnd
-        ? this.#pageCount - 1
-        : Math.min(Math.round(this.track.scrollLeft / (stride * this.#perPage)), this.#pageCount - 1);
-
-      this.dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === this.#page)));
-    }
-
-    #onScroll = () => {
-      cancelAnimationFrame(this.#frame);
-      this.#frame = requestAnimationFrame(() => this.#updateActive());
-    };
-
-    #onDotClick = (event) => {
-      const dot = event.target.closest('.brand-strip__dot');
-      if (dot) this.goTo(Number(dot.dataset.index));
-    };
-
-    #onDotKeydown = (event) => {
-      const steps = { ArrowRight: 1, ArrowLeft: -1 };
-      if (!(event.key in steps)) return;
-
-      event.preventDefault();
-      const count = this.#pageCount;
-      const page = (this.#page + steps[event.key] + count) % count;
-      this.goTo(page);
-      this.dots[page].focus();
-    };
-  }
-
-  if (!customElements.get('brand-logo-strip')) {
-    customElements.define('brand-logo-strip', BrandLogoStrip);
-  }
-{% endjavascript %}
 
 {% schema %}
 {
