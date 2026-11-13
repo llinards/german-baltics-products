@@ -216,6 +216,10 @@
     }
   }
 
+  .hero-section:has(> .hero) {
+    padding-block-end: var(--space-lg);
+  }
+
   .hero-section > .hero {
     grid-column: 1 / -1;
 
@@ -231,6 +235,15 @@
 
     @media screen and (min-width: 990px) {
       min-height: 34.5rem;
+    }
+
+    .is-draggable & {
+      cursor: grab;
+    }
+
+    .is-dragging & {
+      cursor: grabbing;
+      user-select: none;
     }
   }
 
@@ -506,6 +519,7 @@
     #focused = false;
     #editing = false;
     #swipeStart = null;
+    #suppressClick = false;
     #mobileQuery = window.matchMedia('(max-width: 989px)');
 
     connectedCallback() {
@@ -535,8 +549,12 @@
       this.addEventListener('focusin', this.#onFocusIn, { signal });
       this.addEventListener('focusout', this.#onFocusOut, { signal });
       viewport.addEventListener('pointerdown', this.#onSwipeStart, { signal });
+      viewport.addEventListener('pointermove', this.#onSwipeMove, { signal });
       viewport.addEventListener('pointerup', this.#onSwipeEnd, { signal });
       viewport.addEventListener('pointercancel', this.#onSwipeCancel, { signal });
+      viewport.addEventListener('click', this.#onClick, { capture: true, signal });
+      viewport.addEventListener('dragstart', this.#onDragStart, { signal });
+      this.classList.add('is-draggable');
       document.addEventListener('shopify:block:select', this.#onBlockSelect, { signal });
       document.addEventListener('shopify:block:deselect', this.#onBlockDeselect, { signal });
 
@@ -621,16 +639,37 @@
     };
 
     #onSwipeStart = (event) => {
-      if (event.pointerType === 'mouse') return;
-      this.#swipeStart = { x: event.clientX, y: event.clientY };
+      const mouse = event.pointerType === 'mouse';
+      if (mouse && event.button !== 0) return;
+
+      this.#swipeStart = { id: event.pointerId, x: event.clientX, y: event.clientY, mouse, moved: false };
+    };
+
+    #onSwipeMove = (event) => {
+      const start = this.#swipeStart;
+      if (!start?.mouse || start.moved || event.pointerId !== start.id) return;
+      if (Math.abs(event.clientX - start.x) < 6) return;
+
+      start.moved = true;
+      event.currentTarget.setPointerCapture(start.id);
+      this.classList.add('is-dragging');
+      getSelection()?.removeAllRanges();
     };
 
     #onSwipeEnd = (event) => {
-      if (!this.#swipeStart) return;
+      const start = this.#swipeStart;
+      if (!start || event.pointerId !== start.id) return;
 
-      const dx = event.clientX - this.#swipeStart.x;
-      const dy = event.clientY - this.#swipeStart.y;
       this.#swipeStart = null;
+      this.classList.remove('is-dragging');
+
+      if (start.moved) {
+        this.#suppressClick = true;
+        setTimeout(() => (this.#suppressClick = false));
+      }
+
+      const dx = event.clientX - start.x;
+      const dy = event.clientY - start.y;
       if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
 
       this.goTo(this.#index + (dx < 0 ? 1 : -1));
@@ -638,6 +677,19 @@
 
     #onSwipeCancel = () => {
       this.#swipeStart = null;
+      this.classList.remove('is-dragging');
+    };
+
+    #onClick = (event) => {
+      if (!this.#suppressClick) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      this.#suppressClick = false;
+    };
+
+    #onDragStart = (event) => {
+      event.preventDefault();
     };
 
     #onBlockSelect = (event) => {

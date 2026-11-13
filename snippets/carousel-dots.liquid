@@ -42,6 +42,16 @@
     }
   }
 
+  scroll-carousel.is-draggable [data-carousel-track] {
+    cursor: grab;
+  }
+
+  scroll-carousel.is-dragging [data-carousel-track] {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    user-select: none;
+  }
+
   .carousel-dots {
     display: flex;
     justify-content: center;
@@ -87,6 +97,8 @@
     #resize;
     #visibility;
     #frame;
+    #drag = null;
+    #suppressClick = false;
     #page = 0;
     #columns = 0;
     #perPage = 0;
@@ -104,6 +116,12 @@
       this.track.addEventListener('scroll', this.#onScroll, { passive: true, signal });
       this.dotsContainer.addEventListener('click', this.#onDotClick, { signal });
       this.dotsContainer.addEventListener('keydown', this.#onDotKeydown, { signal });
+      this.track.addEventListener('pointerdown', this.#onPointerDown, { signal });
+      this.track.addEventListener('pointermove', this.#onPointerMove, { signal });
+      this.track.addEventListener('pointerup', this.#onPointerUp, { signal });
+      this.track.addEventListener('pointercancel', this.#onPointerUp, { signal });
+      this.track.addEventListener('click', this.#onClick, { capture: true, signal });
+      this.track.addEventListener('dragstart', this.#onDragStart, { signal });
 
       this.#resize = new ResizeObserver(this.#onResize);
       this.#resize.observe(this.track);
@@ -167,6 +185,7 @@
 
       this.dotsContainer.replaceChildren(...this.dots);
       this.dotsContainer.hidden = count < 2;
+      this.classList.toggle('is-draggable', count > 1);
       this.#updateActive();
     }
 
@@ -191,6 +210,69 @@
       for (const entry of entries) {
         entry.target.classList.toggle('is-clipped', entry.intersectionRatio < 0.99);
       }
+    };
+
+    #onPointerDown = (event) => {
+      if (event.pointerType !== 'mouse' || event.button !== 0 || this.#pageCount < 2) return;
+
+      this.#drag = {
+        id: event.pointerId,
+        x: event.clientX,
+        scroll: this.track.scrollLeft,
+        page: this.#page,
+        moved: false,
+      };
+    };
+
+    #onPointerMove = (event) => {
+      const drag = this.#drag;
+      if (!drag || event.pointerId !== drag.id) return;
+
+      const dx = event.clientX - drag.x;
+      if (!drag.moved) {
+        if (Math.abs(dx) < 6) return;
+
+        drag.moved = true;
+        this.track.setPointerCapture(drag.id);
+        this.classList.add('is-dragging');
+        getSelection()?.removeAllRanges();
+      }
+
+      this.track.scrollLeft = drag.scroll - dx;
+    };
+
+    #onPointerUp = (event) => {
+      const drag = this.#drag;
+      if (!drag || event.pointerId !== drag.id) return;
+
+      this.#drag = null;
+      if (!drag.moved) return;
+
+      this.#suppressClick = true;
+      setTimeout(() => (this.#suppressClick = false));
+
+      const dx = event.clientX - drag.x;
+      const step = Math.abs(dx) < 50 ? 0 : dx < 0 ? 1 : -1;
+      this.goTo(Math.min(Math.max(drag.page + step, 0), this.#pageCount - 1));
+
+      const finish = () => {
+        clearTimeout(timer);
+        this.classList.remove('is-dragging');
+      };
+      const timer = setTimeout(finish, 600);
+      this.track.addEventListener('scrollend', finish, { once: true });
+    };
+
+    #onClick = (event) => {
+      if (!this.#suppressClick) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      this.#suppressClick = false;
+    };
+
+    #onDragStart = (event) => {
+      event.preventDefault();
     };
 
     #onDotClick = (event) => {
