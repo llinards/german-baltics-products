@@ -14,6 +14,7 @@
     "article": "Article",
     "block": "Block",
     "blog": "Blog",
+    "brand_logo_strip": "Brand logo strip",
     "cart": "Cart",
     "collection": "Collection",
     "collection_card": "Collection card",
@@ -61,6 +62,7 @@
     "background_gradient": "Background gradient",
     "body_font": "Body font",
     "border": "Borders",
+    "brands": "Brands",
     "button_icon": "Icon",
     "button_label": "Label",
     "button_style": "Style",
@@ -162,6 +164,7 @@
   },
   "info": {
     "background_gradient": "Optional. Replaces the solid background when set.",
+    "brand_logo_strip_brands": "Choose which brands to show and in what order. Shows every brand when empty.",
     "content_width": "On mobile the text uses the full width.",
     "gradient_reach": "Where the gradient becomes fully transparent.",
     "gradient_start": "Where the fade begins. Up to this point the color is solid. Keep it below Reach.",

@@ -1,0 +1,282 @@
+{%- assign brands = section.settings.brands | default: metaobjects.brand_logo.values -%}
+
+{%- if brands.size > 0 -%}
+  <brand-logo-strip class="brand-strip color-{{ section.settings.color_scheme }}">
+    <ul class="brand-strip__track" role="list" aria-label="{{ 'header.brands' | t }}">
+      {%- for brand in brands -%}
+        {%- if brand.logo.value != blank -%}
+          {%- liquid
+            assign collection_url = brand.collection.value.url
+            capture logo_image
+              echo brand.logo.value | image_url: width: 400 | image_tag: widths: '160, 240, 320, 400', sizes: '(min-width: 990px) 160px, 40vw', loading: 'lazy', alt: brand.brand.value, class: 'brand-strip__image'
+            endcapture
+          -%}
+          <li class="brand-strip__item">
+            {%- if collection_url != blank -%}
+              <a class="brand-strip__logo" href="{{ collection_url }}">{{ logo_image }}</a>
+            {%- else -%}
+              <div class="brand-strip__logo">{{ logo_image }}</div>
+            {%- endif -%}
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+
+    <div
+      class="brand-strip__dots"
+      role="group"
+      aria-label="{{ 'accessibility.choose_slide' | t }}"
+      data-dot-label="{{ 'accessibility.slide_label' | t: index: '[index]', count: '[count]' }}"
+      hidden
+    ></div>
+  </brand-logo-strip>
+{%- endif -%}
+
+{% stylesheet %}
+  .brand-strip {
+    --per-view: 2.5;
+    --gap: var(--space-sm);
+    --dot-size: 1.5rem;
+
+    display: block;
+    padding-block: var(--section-spacing);
+
+    @media screen and (min-width: 990px) {
+      --per-view: 9;
+      --gap: var(--space-md);
+    }
+  }
+
+  .brand-strip__track {
+    position: relative;
+    display: flex;
+    justify-content: safe center;
+    gap: var(--gap);
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    list-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .brand-strip__item {
+    flex: 0 0 calc((100% + var(--gap)) / var(--per-view) - var(--gap));
+    scroll-snap-align: start;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      filter var(--duration-fast) var(--ease-out);
+
+    &.is-clipped {
+      opacity: 0.4;
+      filter: grayscale(1);
+    }
+  }
+
+  .brand-strip__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    block-size: 6.25rem;
+    transition: opacity var(--duration-fast) var(--ease-out);
+  }
+
+  a.brand-strip__logo:hover {
+    opacity: 0.7;
+  }
+
+  .brand-strip__image {
+    max-inline-size: 100%;
+    max-block-size: 100%;
+    inline-size: auto;
+    block-size: auto;
+    object-fit: contain;
+  }
+
+  .brand-strip__dots {
+    display: flex;
+    justify-content: center;
+    margin-block-start: var(--space-sm);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  brand-logo-strip:not(:defined) .brand-strip__dots {
+    display: none;
+  }
+
+  .brand-strip__dot {
+    display: grid;
+    place-items: center;
+    width: var(--dot-size);
+    height: var(--dot-size);
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      width: 0.75rem;
+      height: 0.75rem;
+      background-color: var(--color-foreground-subtle);
+      border-radius: var(--radius-pill);
+      transition: background-color var(--duration-fast) var(--ease-out);
+    }
+
+    &[aria-current='true']::before {
+      background-color: var(--color-primary);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class BrandLogoStrip extends HTMLElement {
+    #controller;
+    #observer;
+    #frame;
+    #page = 0;
+    #desktop = window.matchMedia('(min-width: 990px)');
+    #reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    connectedCallback() {
+      this.track = this.querySelector('.brand-strip__track');
+      this.dotsContainer = this.querySelector('.brand-strip__dots');
+      this.items = [...this.track.children];
+      if (!this.items.length) return;
+
+      this.#controller = new AbortController();
+      const { signal } = this.#controller;
+
+      this.#observer = new IntersectionObserver(this.#onIntersect, { root: this.track, threshold: [0.99] });
+      this.items.forEach((item) => this.#observer.observe(item));
+
+      this.track.addEventListener('scroll', this.#onScroll, { passive: true, signal });
+      this.dotsContainer.addEventListener('click', this.#onDotClick, { signal });
+      this.dotsContainer.addEventListener('keydown', this.#onDotKeydown, { signal });
+      this.#desktop.addEventListener('change', this.#renderDots, { signal });
+
+      this.#renderDots();
+    }
+
+    disconnectedCallback() {
+      this.#controller?.abort();
+      this.#observer?.disconnect();
+      cancelAnimationFrame(this.#frame);
+    }
+
+    get #perPage() {
+      return this.#desktop.matches ? 9 : 2;
+    }
+
+    get #pageCount() {
+      return Math.ceil(this.items.length / this.#perPage);
+    }
+
+    goTo(page) {
+      const target = this.items[page * this.#perPage];
+      if (!target) return;
+
+      this.track.scrollTo({
+        left: target.offsetLeft,
+        behavior: this.#reducedMotion.matches ? 'auto' : 'smooth',
+      });
+    }
+
+    #renderDots = () => {
+      const count = this.#pageCount;
+      const label = this.dotsContainer.dataset.dotLabel;
+
+      this.dots = Array.from({ length: count }, (_, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'brand-strip__dot';
+        dot.dataset.index = String(index);
+        dot.setAttribute('aria-label', label.replace('[index]', index + 1).replace('[count]', count));
+        return dot;
+      });
+
+      this.dotsContainer.replaceChildren(...this.dots);
+      this.dotsContainer.hidden = count < 2;
+      this.#updateActive();
+    };
+
+    #updateActive() {
+      const maxScroll = this.track.scrollWidth - this.track.clientWidth;
+      const stride = this.items.length > 1 ? this.items[1].offsetLeft - this.items[0].offsetLeft : 1;
+      const atEnd = maxScroll > 0 && this.track.scrollLeft >= maxScroll - 1;
+
+      this.#page = atEnd
+        ? this.#pageCount - 1
+        : Math.min(Math.round(this.track.scrollLeft / (stride * this.#perPage)), this.#pageCount - 1);
+
+      this.dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === this.#page)));
+    }
+
+    #onScroll = () => {
+      cancelAnimationFrame(this.#frame);
+      this.#frame = requestAnimationFrame(() => this.#updateActive());
+    };
+
+    #onIntersect = (entries) => {
+      for (const entry of entries) {
+        entry.target.classList.toggle('is-clipped', entry.intersectionRatio < 0.99);
+      }
+    };
+
+    #onDotClick = (event) => {
+      const dot = event.target.closest('.brand-strip__dot');
+      if (dot) this.goTo(Number(dot.dataset.index));
+    };
+
+    #onDotKeydown = (event) => {
+      const steps = { ArrowRight: 1, ArrowLeft: -1 };
+      if (!(event.key in steps)) return;
+
+      event.preventDefault();
+      const count = this.#pageCount;
+      const page = (this.#page + steps[event.key] + count) % count;
+      this.goTo(page);
+      this.dots[page].focus();
+    };
+  }
+
+  if (!customElements.get('brand-logo-strip')) {
+    customElements.define('brand-logo-strip', BrandLogoStrip);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.brand_logo_strip",
+  "class": "brand-strip-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "metaobject_list",
+      "id": "brands",
+      "label": "t:labels.brands",
+      "info": "t:info.brand_logo_strip_brands",
+      "metaobject_type": "brand_logo",
+      "limit": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.brand_logo_strip"
+    }
+  ]
+}
+{% endschema %}
