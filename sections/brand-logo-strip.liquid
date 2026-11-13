@@ -1,4 +1,4 @@
-{%- assign brands = section.settings.brands | default: metaobjects.brand_logo.values -%}
+{%- assign brands = section.settings.brands | default: metaobjects.brand_logos.values -%}
 
 {%- if brands.size > 0 -%}
   <brand-logo-strip class="brand-strip color-{{ section.settings.color_scheme }}">
@@ -269,7 +269,7 @@
       "id": "brands",
       "label": "t:labels.brands",
       "info": "t:info.brand_logo_strip_brands",
-      "metaobject_type": "brand_logo",
+      "metaobject_type": "brand_logos",
       "limit": 50
     }
   ],
