@@ -184,6 +184,7 @@
       "blocks": {
         "collection_REHtjc": {
           "type": "collection",
+          "name": "Jaunumi",
           "settings": {
             "collection": "atklajiet-jaunus-favoritus",
             "badge": "JAUNUMI"
@@ -191,9 +192,10 @@
         },
         "collection_zRVmRW": {
           "type": "collection",
+          "name": "Akcijas",
           "settings": {
-            "collection": "",
-            "badge": ""
+            "collection": "akcijas",
+            "badge": "AKCIJAS"
           }
         },
         "collection_fxpQR9": {
