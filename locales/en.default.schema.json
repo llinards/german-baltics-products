@@ -49,12 +49,14 @@
     "search": "Search",
     "secondary": "Secondary",
     "section": "Section",
+    "service": "Service",
+    "services": "Services",
     "settings": "Settings",
     "sidebar": "Sidebar",
     "slide": "Slide",
     "social_media": "Social media",
+    "stat": "Stat",
     "text": "Text",
-    "reason": "Reason",
     "theme": "Theme",
     "typography": "Typography",
     "why_choose_us": "Why choose us"
@@ -204,10 +206,10 @@
     "mega_menu_brands": "Shown next to the categories in the menu item whose sub-items are all collections (E-veikals). Logos come from each collection image.",
     "menu_tagline": "Shown near the bottom of the mobile menu.",
     "primary_color": "Buttons, prices and links.",
-    "social_media": "Links from Settings → Brand → Social links are used first; these fill in any that are missing there. Icons show in the mobile menu and the footer for each link that is set.",
     "surface_color": "Cards, inputs (including the header search bar) and round icon buttons.",
-    "why_choose_us_mobile": "Below 1240px wide.",
-    "why_choose_us_image_position": "Which part of the mobile image card stays visible when it's cropped. Only used when the image has no focal point. 0% is the left or top edge, 100% the right or bottom edge.",
+    "social_media": "Links from Settings → Brand → Social links are used first; these fill in any that are missing there. Icons show in the mobile menu and the footer for each link that is set.",
+    "services_mobile": "Below 1240px wide.",
+    "services_image_position": "Which part of the mobile image card stays visible when it's cropped. Only used when the image has no focal point. 0% is the left or top edge, 100% the right or bottom edge.",
     "wishlist_link": "Where the heart icon leads. Until a link is set, it goes nowhere."
   }
 }

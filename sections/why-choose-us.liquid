@@ -1,337 +1,90 @@
-{%- liquid
-  assign image = section.settings.image | default: section.settings.image_mobile
-  assign image_mobile = section.settings.image_mobile
-  assign mobile_image = image_mobile | default: image
-  assign title = section.settings.title
-  assign desktop_widths = '375, 550, 750, 1100, 1500, 1780, 2000, 2400, 3000'
-  assign mobile_widths = '375, 550, 750, 1100, 1500' | split: ', '
--%}
-
-{%- capture sizes_desktop -%}
-  max({{ section.settings.image_scale | times: 0.7 }}vw, {{ 34.5 | times: image.aspect_ratio | times: section.settings.image_scale | divided_by: 100.0 | round: 1 }}rem)
-{%- endcapture -%}
-
-<div
-  class="why-us why-us--{{ section.settings.content_position }} full-width color-{{ section.settings.color_scheme }}"
-  style="
-    --why-x: {{ image.presentation.focal_point.x | default: 50 }}%;
-    --why-y: {{ image.presentation.focal_point.y | default: 50 }}%;
-    --why-scale: {{ section.settings.image_scale }}%;
-    --why-x-mobile: {{ mobile_image.presentation.focal_point.x | default: section.settings.image_position_x }}%;
-    --why-y-mobile: {{ mobile_image.presentation.focal_point.y | default: section.settings.image_position_y }}%;
-    --why-scale-mobile: {{ section.settings.image_scale_mobile }}%;
-    --why-content-width: {{ section.settings.content_width }}%;    {% if section.settings.gradient_desktop %}
-      --why-gradient: linear-gradient({{ section.settings.gradient_direction }}, {{ section.settings.gradient_color }} {{ section.settings.gradient_start }}%, transparent {{ section.settings.gradient_reach }}%);
-    {% endif %}
-  "
->
-  <div class="why-us__content">
-    {%- if section.settings.eyebrow != blank -%}
-      <p class="why-us__eyebrow text-primary">{{ section.settings.eyebrow }}</p>
-    {%- endif -%}
-
-    {%- if title != blank -%}
-      <h2 class="why-us__title">{{ title }}</h2>
+<div class="why-choose-us full-width color-{{ section.settings.color_scheme }}">
+  <div class="why-choose-us__inner">
+    {%- if section.settings.title != blank -%}
+      <h2 class="why-choose-us__title">{{ section.settings.title }}</h2>
     {%- endif -%}
 
     {%- if section.settings.text != blank -%}
-      <p class="why-us__text">{{ section.settings.text }}</p>
+      <p class="why-choose-us__text">{{ section.settings.text }}</p>
     {%- endif -%}
-  </div>
 
-  <div class="why-us__media">
-    {%- if image != blank -%}
-      {%- assign alt = section.settings.image_alt | default: image.alt | default: title | default: shop.name -%}
-      {%- if image_mobile != blank -%}
-        <picture>
-          <source
-            media="(max-width: 1239px)"
-            sizes="{{ section.settings.image_scale_mobile }}vw"
-            srcset="
-              {%- for width in mobile_widths -%}
-                {{ image_mobile | image_url: width: width }} {{ width }}w{% unless forloop.last %}, {% endunless %}
-              {%- endfor -%}
-            "
-          >
-          {{
-            image
-            | image_url: width: 3000
-            | image_tag:
-              widths: desktop_widths,
-              sizes: sizes_desktop,
-              loading: 'lazy',
-              alt: alt,
-              class: 'why-us__image'
-          }}
-        </picture>
-      {%- else -%}
-        {{
-          image
-          | image_url: width: 3000
-          | image_tag:
-            widths: desktop_widths,
-            sizes: sizes_desktop,
-            loading: 'lazy',
-            alt: alt,
-            class: 'why-us__image'
-        }}
-      {%- endif -%}
-    {%- else -%}
-      {{ 'hero-apparel-1' | placeholder_svg_tag: 'why-us__image why-us__image--placeholder' }}
-    {%- endif -%}
-  </div>
-
-  {%- if section.blocks.size > 0 -%}
-    <ul class="why-us__reasons" role="list">
-      {%- for block in section.blocks -%}
-        <li class="why-us__reason" {{ block.shopify_attributes }}>
-          {%- render 'icon', name: block.settings.icon, class: 'why-us__icon' -%}
-          <div class="why-us__reason-body">
+    {%- if section.blocks.size > 0 -%}
+      <ul class="why-choose-us__stats" role="list">
+        {%- for block in section.blocks -%}
+          <li class="why-choose-us__stat" {{ block.shopify_attributes }}>
             {%- if block.settings.title != blank -%}
-              <h3 class="why-us__reason-title">{{ block.settings.title }}</h3>
+              <p class="why-choose-us__stat-title">{{ block.settings.title }}</p>
             {%- endif -%}
             {%- if block.settings.text != blank -%}
-              <p class="why-us__reason-text">{{ block.settings.text }}</p>
+              <p class="why-choose-us__stat-text">{{ block.settings.text }}</p>
             {%- endif -%}
-          </div>
-        </li>
-      {%- endfor -%}
-    </ul>
-  {%- endif -%}
-
-  {%- if section.settings.button_1_label != blank or section.settings.button_2_label != blank -%}
-    <div class="why-us__buttons">
-      {%- render 'hero-button',
-        label: section.settings.button_1_label,
-        link: section.settings.button_1_link,
-        style: section.settings.button_1_style,
-        icon: section.settings.button_1_icon
-      -%}
-      {%- render 'hero-button',
-        label: section.settings.button_2_label,
-        link: section.settings.button_2_link,
-        style: section.settings.button_2_style,
-        icon: section.settings.button_2_icon
-      -%}
-    </div>
-  {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
 </div>
 
 {% stylesheet %}
-  .why-choose-us-section {
-    padding-block-end: var(--space-xl);
-  }
-
-  .why-us {
-    --why-row-start: minmax(var(--space-xl), 1fr);
-    --why-row-end: minmax(var(--space-xl), 1fr);
-
+  .why-choose-us {
     display: grid;
     grid-template-columns: var(--content-grid);
-    row-gap: var(--space-lg);
+    padding-block-end: var(--space-xl);
+    background: var(--color-background);
 
     & > * {
       grid-column: 2;
     }
-
-    @media screen and (min-width: 750px) {
-      grid-template-rows: var(--why-row-start) auto auto var(--why-row-end) auto;
-      row-gap: 0;
-    }
-
-    @media screen and (min-width: 1240px) {
-      grid-template-columns:
-        var(--content-margin)
-        calc(var(--content-width) * 2 / 3)
-        calc(var(--content-width) / 3)
-        var(--content-margin);
-      grid-template-rows: var(--why-row-start) auto auto var(--why-row-end);
-      min-height: 34.5rem;
-      background: var(--color-surface);
-    }
   }
 
-  .why-us--flex-start {
-    --why-row-start: var(--space-xl);
+  .why-choose-us__inner {
+    width: 100%;
+    max-width: 66rem;
+    margin-inline: auto;
+    text-align: center;
   }
 
-  .why-us--flex-end {
-    --why-row-end: var(--space-xl);
+  .why-choose-us__title {
+    margin-block-end: var(--space-md);
   }
 
-  .why-us__content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    @media screen and (min-width: 750px) {
-      --color-foreground: var(--color-on-overlay);
-      --color-background: var(--color-overlay);
-
-      position: relative;
-      z-index: 1;
-      grid-row: 2;
-      max-width: var(--why-content-width);
-      padding-inline: var(--space-xl);
-      color: var(--color-foreground);
-    }
-
-    @media screen and (min-width: 1240px) {
-      padding-inline: 0 var(--space-xl);
-    }
-  }
-
-  .why-us__eyebrow {
-    margin-block-end: var(--space-sm);
+  .why-choose-us__text {
     font-size: var(--font-size-md);
     line-height: var(--line-height-snug);
   }
 
-  .why-us__title {
-    margin-block-end: var(--space-lg);
-    font-size: var(--font-size-4xl);
-    font-weight: var(--font-heading-weight-medium);
+  .why-choose-us__stats {
+    display: grid;
+    gap: var(--space-lg);
+    margin: var(--space-xl) 0 0;
+    padding: 0;
+    list-style: none;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(2, auto);
+      justify-content: space-around;
+      gap: var(--space-xl);
+      text-align: start;
+    }
+
+    @media screen and (min-width: 1240px) {
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      justify-content: space-between;
+    }
+  }
+
+  .why-choose-us__stat-title {
+    margin-block-end: var(--space-2xs);
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-heading-weight-bold);
     line-height: var(--line-height-tight);
   }
 
-  .why-us__text {
+  .why-choose-us__stat-text {
     font-size: var(--font-size-md);
     line-height: var(--line-height-snug);
-  }
-
-  .why-us__buttons {
-    @media screen and (min-width: 750px) {
-      --color-foreground: var(--color-on-overlay);
-      --color-background: var(--color-overlay);
-
-      color: var(--color-foreground);
-    }
-  }
-
-  .why-us__media {
-    position: relative;
-    isolation: isolate;
-    block-size: 25rem;
-    overflow: hidden;
-    background-color: var(--color-overlay);
-    border-radius: var(--radius-lg);
-
-    @media screen and (min-width: 750px) {
-      grid-row: 1 / 5;
-      block-size: auto;
-      min-block-size: 25rem;
-
-      &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: var(--why-gradient, none);
-        pointer-events: none;
-      }
-    }
-
-    @media screen and (min-width: 1240px) {
-      grid-column: 1 / 3;
-      grid-row: 1 / -1;
-      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-    }
-  }
-
-  .why-us__image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: var(--why-x-mobile) var(--why-y-mobile) !important;
-    transform-origin: var(--why-x-mobile) var(--why-y-mobile);
-    scale: var(--why-scale-mobile);
-
-    @media screen and (min-width: 1240px) {
-      object-position: var(--why-x) var(--why-y) !important;
-      transform-origin: var(--why-x) var(--why-y);
-      scale: var(--why-scale);
-    }
-  }
-
-  .why-us__image--placeholder {
-    fill: var(--color-foreground-subtle);
-    background-color: var(--color-surface);
-  }
-
-  .why-us__reasons {
-    display: grid;
-    gap: var(--space-lg);
-    margin: 0;
-    padding: var(--space-xl) var(--page-margin);
-    list-style: none;
-    background: var(--color-surface);
-
-    .why-us > & {
-      grid-column: 1 / -1;
-    }
-
-    @media screen and (min-width: 750px) and (max-width: 1239px) {
-      grid-row: 5;
-      margin-block-start: var(--space-lg);
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: var(--space-xl);
-    }
-
-    @media screen and (min-width: 1240px) {
-      grid-row: 1 / -1;
-      align-content: center;
-      padding-inline: var(--space-lg) 0;
-      background: none;
-
-      .why-us > & {
-        grid-column: 3;
-      }
-    }
-  }
-
-  .why-us__reason {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: start;
-    column-gap: var(--space-md);
-  }
-
-  .why-us__icon {
-    --icon-size: 3rem;
-  }
-
-  .why-us__reason-title {
-    margin-block-end: var(--space-2xs);
-    font-family: var(--font-body-family);
-    font-size: var(--font-size-md);
-    font-weight: var(--font-body-weight-semibold);
-    line-height: var(--line-height-snug);
-  }
-
-  .why-us__reason-text {
-    font-size: var(--font-size-md);
-    line-height: var(--line-height-snug);
-  }
-
-  .why-us__buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-sm);
-
-    @media screen and (min-width: 750px) {
-      position: relative;
-      z-index: 1;
-      grid-row: 3;
-      justify-content: flex-start;
-      padding-block-start: var(--space-xl);
-      padding-inline: var(--space-xl);
-    }
-
-    @media screen and (min-width: 1240px) {
-      padding-inline: 0 var(--space-xl);
-    }
   }
 {% endstylesheet %}
 
@@ -351,15 +104,6 @@
       "default": "scheme-1"
     },
     {
-      "type": "header",
-      "content": "t:general.content"
-    },
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "t:labels.eyebrow"
-    },
-    {
       "type": "text",
       "id": "title",
       "label": "t:labels.title"
@@ -368,264 +112,13 @@
       "type": "inline_richtext",
       "id": "text",
       "label": "t:labels.subtext"
-    },
-    {
-      "type": "header",
-      "content": "t:general.button_1"
-    },
-    {
-      "type": "text",
-      "id": "button_1_label",
-      "label": "t:labels.button_label"
-    },
-    {
-      "type": "url",
-      "id": "button_1_link",
-      "label": "t:labels.link",
-      "visible_if": "{{ section.settings.button_1_label != blank }}"
-    },
-    {
-      "type": "select",
-      "id": "button_1_style",
-      "label": "t:labels.button_style",
-      "options": [
-        { "value": "primary", "label": "t:general.primary" },
-        { "value": "secondary", "label": "t:general.secondary" }
-      ],
-      "default": "primary",
-      "visible_if": "{{ section.settings.button_1_label != blank }}"
-    },
-    {
-      "type": "select",
-      "id": "button_1_icon",
-      "label": "t:labels.button_icon",
-      "options": [
-        { "value": "none", "label": "t:options.icon.none" },
-        { "value": "caret-right-fill", "label": "t:options.icon.caret_right_fill" },
-        { "value": "caret-right", "label": "t:options.icon.caret_right" },
-        { "value": "play", "label": "t:options.icon.play" },
-        { "value": "bag", "label": "t:options.icon.bag" },
-        { "value": "cart", "label": "t:options.icon.cart" },
-        { "value": "phone", "label": "t:options.icon.phone" },
-        { "value": "truck", "label": "t:options.icon.truck" }
-      ],
-      "default": "caret-right-fill",
-      "visible_if": "{{ section.settings.button_1_label != blank }}"
-    },
-    {
-      "type": "header",
-      "content": "t:general.button_2"
-    },
-    {
-      "type": "text",
-      "id": "button_2_label",
-      "label": "t:labels.button_label"
-    },
-    {
-      "type": "url",
-      "id": "button_2_link",
-      "label": "t:labels.link",
-      "visible_if": "{{ section.settings.button_2_label != blank }}"
-    },
-    {
-      "type": "select",
-      "id": "button_2_style",
-      "label": "t:labels.button_style",
-      "options": [
-        { "value": "primary", "label": "t:general.primary" },
-        { "value": "secondary", "label": "t:general.secondary" }
-      ],
-      "default": "secondary",
-      "visible_if": "{{ section.settings.button_2_label != blank }}"
-    },
-    {
-      "type": "select",
-      "id": "button_2_icon",
-      "label": "t:labels.button_icon",
-      "options": [
-        { "value": "none", "label": "t:options.icon.none" },
-        { "value": "caret-right-fill", "label": "t:options.icon.caret_right_fill" },
-        { "value": "caret-right", "label": "t:options.icon.caret_right" },
-        { "value": "play", "label": "t:options.icon.play" },
-        { "value": "bag", "label": "t:options.icon.bag" },
-        { "value": "cart", "label": "t:options.icon.cart" },
-        { "value": "phone", "label": "t:options.icon.phone" },
-        { "value": "truck", "label": "t:options.icon.truck" }
-      ],
-      "default": "caret-right-fill",
-      "visible_if": "{{ section.settings.button_2_label != blank }}"
-    },
-    {
-      "type": "header",
-      "content": "t:general.desktop"
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "t:labels.image",
-      "info": "t:info.hero_image"
-    },
-    {
-      "type": "text",
-      "id": "image_alt",
-      "label": "t:labels.image_alt",
-      "info": "t:info.hero_image_alt",
-      "visible_if": "{{ section.settings.image != blank or section.settings.image_mobile != blank }}"
-    },
-    {
-      "type": "range",
-      "id": "image_scale",
-      "label": "t:labels.image_scale",
-      "min": 100,
-      "max": 200,
-      "step": 5,
-      "unit": "%",
-      "default": 100,
-      "visible_if": "{{ section.settings.image != blank }}"
-    },
-    {
-      "type": "range",
-      "id": "content_width",
-      "label": "t:labels.content_width",
-      "info": "t:info.content_width",
-      "min": 30,
-      "max": 100,
-      "step": 1,
-      "unit": "%",
-      "default": 70
-    },
-    {
-      "type": "select",
-      "id": "content_position",
-      "label": "t:labels.content_position",
-      "options": [
-        { "value": "flex-start", "label": "t:options.vertical.top" },
-        { "value": "center", "label": "t:options.vertical.center" },
-        { "value": "flex-end", "label": "t:options.vertical.bottom" }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "header",
-      "content": "t:general.gradient_desktop",
-      "info": "t:info.hero_gradient"
-    },
-    {
-      "type": "checkbox",
-      "id": "gradient_desktop",
-      "label": "t:labels.gradient",
-      "default": true
-    },
-    {
-      "type": "color",
-      "id": "gradient_color",
-      "label": "t:labels.gradient_color",
-      "default": "#0a1824",
-      "visible_if": "{{ section.settings.gradient_desktop }}"
-    },
-    {
-      "type": "select",
-      "id": "gradient_direction",
-      "label": "t:labels.gradient_direction",
-      "options": [
-        { "value": "to right", "label": "t:options.gradient_direction.to_right" },
-        { "value": "to left", "label": "t:options.gradient_direction.to_left" },
-        { "value": "to bottom", "label": "t:options.gradient_direction.to_bottom" },
-        { "value": "to top", "label": "t:options.gradient_direction.to_top" }
-      ],
-      "default": "to right",
-      "visible_if": "{{ section.settings.gradient_desktop }}"
-    },
-    {
-      "type": "range",
-      "id": "gradient_start",
-      "label": "t:labels.gradient_start",
-      "info": "t:info.gradient_start",
-      "min": 0,
-      "max": 90,
-      "step": 5,
-      "unit": "%",
-      "default": 20,
-      "visible_if": "{{ section.settings.gradient_desktop }}"
-    },
-    {
-      "type": "range",
-      "id": "gradient_reach",
-      "label": "t:labels.gradient_reach",
-      "info": "t:info.gradient_reach",
-      "min": 10,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "default": 75,
-      "visible_if": "{{ section.settings.gradient_desktop }}"
-    },
-    {
-      "type": "header",
-      "content": "t:general.mobile",
-      "info": "t:info.why_choose_us_mobile"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_mobile",
-      "label": "t:labels.image",
-      "info": "t:info.hero_image_mobile"
-    },
-    {
-      "type": "range",
-      "id": "image_position_x",
-      "label": "t:labels.image_position_x",
-      "info": "t:info.why_choose_us_image_position",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "%",
-      "default": 50,
-      "visible_if": "{{ section.settings.image != blank or section.settings.image_mobile != blank }}"
-    },
-    {
-      "type": "range",
-      "id": "image_position_y",
-      "label": "t:labels.image_position_y",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "%",
-      "default": 50,
-      "visible_if": "{{ section.settings.image != blank or section.settings.image_mobile != blank }}"
-    },
-    {
-      "type": "range",
-      "id": "image_scale_mobile",
-      "label": "t:labels.image_scale",
-      "min": 100,
-      "max": 200,
-      "step": 5,
-      "unit": "%",
-      "default": 100,
-      "visible_if": "{{ section.settings.image != blank or section.settings.image_mobile != blank }}"
     }
   ],
   "blocks": [
     {
-      "type": "reason",
-      "name": "t:general.reason",
+      "type": "stat",
+      "name": "t:general.stat",
       "settings": [
-        {
-          "type": "select",
-          "id": "icon",
-          "label": "t:labels.button_icon",
-          "options": [
-            { "value": "globe", "label": "t:options.icon.globe" },
-            { "value": "truck", "label": "t:options.icon.truck" },
-            { "value": "seal-check", "label": "t:options.icon.seal_check" },
-            { "value": "handshake", "label": "t:options.icon.handshake" },
-            { "value": "phone", "label": "t:options.icon.phone" },
-            { "value": "bag", "label": "t:options.icon.bag" },
-            { "value": "cart", "label": "t:options.icon.cart" }
-          ],
-          "default": "globe"
-        },
         {
           "type": "text",
           "id": "title",
@@ -643,42 +136,36 @@
     {
       "name": "t:general.why_choose_us",
       "settings": {
-        "eyebrow": "PAKALPOJUMI",
-        "title": "No ražotāja līdz veikala plauktam",
-        "text": "Nodrošinām loģistiku, tirdzniecību, mārketingu un preču izvietošanu, palīdzot jūsu zīmolam sasniegt pircējus Baltijas tirgū.",
-        "button_1_label": "Par mums"
+        "title": "Kāpēc izvēlēties GPB?",
+        "text": "Uzticams partneris kvalitatīvu pārtikas, dzērienu, bērnu aprūpes un higiēnas preču izplatīšanā visā Baltijā. Apvienojam pieredzi, atzītus zīmolus un pārdomātu loģistiku jūsu biznesa izaugsmei."
       },
       "blocks": [
         {
-          "type": "reason",
+          "type": "stat",
           "settings": {
-            "icon": "globe",
-            "title": "Loģistika",
-            "text": "Nodrošinām preču uzglabāšanu, krājumu vadību, pasūtījumu apstrādi un piegādi klientiem."
+            "title": "10+ gadi",
+            "text": "Pieredze"
           }
         },
         {
-          "type": "reason",
+          "type": "stat",
           "settings": {
-            "icon": "truck",
-            "title": "Tirdzniecība",
-            "text": "Organizējam produktu pārdošanu veikaliem, aptiekām un citām tirdzniecības vietām — no sortimenta veidošanas līdz pasūtījumu izpildei."
+            "title": "3",
+            "text": "Baltijas valstis"
           }
         },
         {
-          "type": "reason",
+          "type": "stat",
           "settings": {
-            "icon": "seal-check",
-            "title": "Mārketings",
-            "text": "Izstrādājam zīmola un produktu virzības stratēģijas, plānojam reklāmas kampaņas un veicinām atpazīstamību tirgū."
+            "title": "10+",
+            "text": "Zīmoli"
           }
         },
         {
-          "type": "reason",
+          "type": "stat",
           "settings": {
-            "icon": "handshake",
-            "title": "Merčendaizings",
-            "text": "Rūpējamies par produktu izvietojumu veikalu plauktos, reklāmas materiāliem un preču atlikumu un derīguma termiņu kontroli."
+            "title": "1 partneris",
+            "text": "Tavai izaugsmei"
           }
         }
       ]

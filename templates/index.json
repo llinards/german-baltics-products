@@ -231,35 +231,35 @@
         "text": ""
       }
     },
-    "why_choose_us_RcUn6q": {
-      "type": "why-choose-us",
+    "services_RcUn6q": {
+      "type": "services",
       "blocks": {
-        "reason_wkCFxa": {
-          "type": "reason",
+        "service_wkCFxa": {
+          "type": "service",
           "settings": {
             "icon": "globe",
             "title": "Loģistika",
             "text": "Nodrošinām preču uzglabāšanu, krājumu vadību, pasūtījumu apstrādi un piegādi klientiem."
           }
         },
-        "reason_Dj77tw": {
-          "type": "reason",
+        "service_Dj77tw": {
+          "type": "service",
           "settings": {
             "icon": "truck",
             "title": "Tirdzniecība",
             "text": "Organizējam produktu pārdošanu veikaliem, aptiekām un citām tirdzniecības vietām — no sortimenta veidošanas līdz pasūtījumu izpildei."
           }
         },
-        "reason_8TaJJy": {
-          "type": "reason",
+        "service_8TaJJy": {
+          "type": "service",
           "settings": {
             "icon": "seal-check",
             "title": "Mārketings",
             "text": "Izstrādājam zīmola un produktu virzības stratēģijas, plānojam reklāmas kampaņas un veicinām atpazīstamību tirgū."
           }
         },
-        "reason_c7Nni7": {
-          "type": "reason",
+        "service_c7Nni7": {
+          "type": "service",
           "settings": {
             "icon": "handshake",
             "title": "Merčendaizings",
@@ -268,12 +268,12 @@
         }
       },
       "block_order": [
-        "reason_wkCFxa",
-        "reason_Dj77tw",
-        "reason_8TaJJy",
-        "reason_c7Nni7"
+        "service_wkCFxa",
+        "service_Dj77tw",
+        "service_8TaJJy",
+        "service_c7Nni7"
       ],
-      "name": "t:general.why_choose_us",
+      "name": "t:general.services",
       "settings": {
         "color_scheme": "",
         "eyebrow": "PAKALPOJUMI",
@@ -302,6 +302,51 @@
         "image_scale_mobile": 100
       }
     },
+    "why_choose_us_Kx4mPq": {
+      "type": "why-choose-us",
+      "blocks": {
+        "stat_Ta8LwE": {
+          "type": "stat",
+          "settings": {
+            "title": "10+ gadi",
+            "text": "Pieredze"
+          }
+        },
+        "stat_Hn3VcR": {
+          "type": "stat",
+          "settings": {
+            "title": "3",
+            "text": "Baltijas valstis"
+          }
+        },
+        "stat_Pq7ZsD": {
+          "type": "stat",
+          "settings": {
+            "title": "10+",
+            "text": "Zīmoli"
+          }
+        },
+        "stat_Wm2YfJ": {
+          "type": "stat",
+          "settings": {
+            "title": "1 partneris",
+            "text": "Tavai izaugsmei"
+          }
+        }
+      },
+      "block_order": [
+        "stat_Ta8LwE",
+        "stat_Hn3VcR",
+        "stat_Pq7ZsD",
+        "stat_Wm2YfJ"
+      ],
+      "name": "t:general.why_choose_us",
+      "settings": {
+        "color_scheme": "",
+        "title": "Kāpēc izvēlēties GPB?",
+        "text": "Uzticams partneris kvalitatīvu pārtikas, dzērienu, bērnu aprūpes un higiēnas preču izplatīšanā visā Baltijā. Apvienojam pieredzi, atzītus zīmolus un pārdomātu loģistiku jūsu biznesa izaugsmei."
+      }
+    },
     "faq_pnpjtK": {
       "type": "faq",
       "name": "t:general.faq",
@@ -328,7 +373,8 @@
     "brand_logo_strip_3BpynD",
     "collection_strip_4A9ydT",
     "collection_cards_p8D8Pp",
-    "why_choose_us_RcUn6q",
+    "services_RcUn6q",
+    "why_choose_us_Kx4mPq",
     "faq_pnpjtK"
   ]
 }
