@@ -1,0 +1,141 @@
+{%- assign questions = section.settings.questions | default: metaobjects.faq_questions.values -%}
+
+<div class="faq full-width color-{{ section.settings.color_scheme }}">
+  <div class="faq__inner">
+    {%- if section.settings.title != blank -%}
+      <h2 class="faq__title">{{ section.settings.title }}</h2>
+    {%- endif -%}
+
+    {%- if questions.size > 0 -%}
+      <div class="faq__list">
+        {%- for entry in questions -%}
+          <details class="faq__item">
+            <summary class="faq__question">
+              <span class="faq__question-text">{{ entry.question.value }}</span>
+              {%- render 'icon', name: 'caret-down', class: 'faq__caret' -%}
+            </summary>
+
+            <div class="faq__answer">
+              {{- entry.answer | metafield_tag -}}
+            </div>
+          </details>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .faq {
+    display: grid;
+    grid-template-columns: var(--content-grid);
+    padding-block: var(--section-spacing);
+    background: var(--color-background);
+
+    & > * {
+      grid-column: 2;
+    }
+  }
+
+  .faq__inner {
+    width: 100%;
+    max-width: 54rem;
+    margin-inline: auto;
+  }
+
+  .faq__title {
+    margin-block-end: var(--space-xl);
+    text-align: center;
+  }
+
+  .faq__item {
+    interpolate-size: allow-keywords;
+    border-block-end: var(--border-width) solid var(--color-divider);
+
+    &::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition:
+        block-size var(--duration-fast) var(--ease-out),
+        content-visibility var(--duration-fast) allow-discrete;
+    }
+
+    &[open]::details-content {
+      block-size: auto;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &::details-content {
+        transition: none;
+      }
+    }
+  }
+
+  .faq__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding: var(--space-lg) var(--space-sm);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-snug);
+    text-align: start;
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  .faq__caret {
+    flex: none;
+    transition: rotate var(--duration-fast) var(--ease-out);
+  }
+
+  .faq__item[open] .faq__caret {
+    rotate: 180deg;
+  }
+
+  .faq__answer {
+    padding: 0 var(--space-sm) var(--space-lg);
+    color: var(--color-foreground-muted);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.faq",
+  "class": "faq-section",
+  "disabled_on": {
+    "groups": ["*"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title",
+      "default": "Biežāk uzdotie jautājumi"
+    },
+    {
+      "type": "metaobject_list",
+      "id": "questions",
+      "label": "t:labels.questions",
+      "info": "t:info.faq_questions",
+      "metaobject_type": "faq_questions",
+      "limit": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.faq"
+    }
+  ]
+}
+{% endschema %}
