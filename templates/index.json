@@ -287,6 +287,7 @@
         "button_2_link": "",
         "button_2_style": "secondary",
         "button_2_icon": "caret-right-fill",
+        "image": "shopify://shop_images/warehouse-truck-exterior.jpg",
         "image_alt": "",
         "image_scale": 100,
         "content_width": 70,
@@ -295,7 +296,7 @@
         "gradient_color": "#0a1824",
         "gradient_direction": "to right",
         "gradient_start": 20,
-        "gradient_reach": 75,
+        "gradient_reach": 60,
         "image_position_x": 50,
         "image_position_y": 50,
         "image_scale_mobile": 100
