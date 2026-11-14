@@ -187,7 +187,9 @@
           "name": "Jaunumi",
           "settings": {
             "collection": "atklajiet-jaunus-favoritus",
-            "image_scale": 100,
+            "image_position_x": 100,
+            "image_position_y": 70,
+            "image_scale": 125,
             "badge": "JAUNUMI",
             "link_label": ""
           }
@@ -197,7 +199,9 @@
           "name": "Akcijas",
           "settings": {
             "collection": "iecieniti-produkti-par-izdevigam-cenam",
-            "image_scale": 100,
+            "image_position_x": 100,
+            "image_position_y": 75,
+            "image_scale": 135,
             "badge": "AKCIJAS",
             "link_label": ""
           }
@@ -207,7 +211,9 @@
           "name": "Mazuļa ikdienai",
           "settings": {
             "collection": "rupes-par-pasiem-mazakajiem",
-            "image_scale": 100,
+            "image_position_x": 100,
+            "image_position_y": 70,
+            "image_scale": 135,
             "badge": "MAZUĻA IKDIENA",
             "link_label": ""
           }
