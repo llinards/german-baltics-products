@@ -76,8 +76,10 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--space-md);
-    padding: var(--space-lg) var(--space-sm);
+    padding: var(--space-md) var(--space-sm);
+    font-family: var(--font-heading-family);
     font-size: var(--font-size-md);
+    font-weight: var(--font-heading-weight-light);
     line-height: var(--line-height-snug);
     text-align: start;
     list-style: none;
@@ -89,6 +91,8 @@
   }
 
   .faq__caret {
+    --icon-size: var(--space-lg);
+
     flex: none;
     transition: rotate var(--duration-fast) var(--ease-out);
   }
@@ -100,6 +104,10 @@
   .faq__answer {
     padding: 0 var(--space-sm) var(--space-lg);
     color: var(--color-foreground-muted);
+  }
+
+  .faq__answer :where(p, ul, ol) + :where(p, ul, ol) {
+    margin-block-start: var(--space-sm);
   }
 {% endstylesheet %}
 
