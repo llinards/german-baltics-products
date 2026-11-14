@@ -25,8 +25,8 @@
           class="collection-cards__card"
           href="{{ collection.url }}"
           style="
-            --card-x: {{ image.presentation.focal_point.x | default: 50 }}%;
-            --card-y: {{ image.presentation.focal_point.y | default: 50 }}%;
+            --card-x: {{ image.presentation.focal_point.x | default: block.settings.image_position_x }}%;
+            --card-y: {{ image.presentation.focal_point.y | default: block.settings.image_position_y }}%;
             --card-scale: {{ block.settings.image_scale }}%;
           "
         >
@@ -263,6 +263,29 @@
         },
         {
           "type": "range",
+          "id": "image_position_x",
+          "label": "t:labels.image_position_x",
+          "info": "t:info.collection_cards_image_position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "visible_if": "{{ block.settings.image == blank }}"
+        },
+        {
+          "type": "range",
+          "id": "image_position_y",
+          "label": "t:labels.image_position_y",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50,
+          "visible_if": "{{ block.settings.image == blank }}"
+        },
+        {
+          "type": "range",
           "id": "image_scale",
           "label": "t:labels.image_scale",
           "min": 100,
@@ -281,7 +304,8 @@
           "type": "text",
           "id": "link_label",
           "label": "t:labels.link_label",
-          "info": "t:info.collection_cards_link_label"
+          "info": "t:info.collection_cards_link_label",
+          "default": "Uzzināt vairāk"
         }
       ]
     }
