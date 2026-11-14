@@ -230,6 +230,76 @@
         "heading": "Ikdienas preces",
         "text": ""
       }
+    },
+    "why_choose_us_RcUn6q": {
+      "type": "why-choose-us",
+      "blocks": {
+        "reason_wkCFxa": {
+          "type": "reason",
+          "settings": {
+            "icon": "globe",
+            "title": "Loģistika",
+            "text": "Nodrošinām preču uzglabāšanu, krājumu vadību, pasūtījumu apstrādi un piegādi klientiem."
+          }
+        },
+        "reason_Dj77tw": {
+          "type": "reason",
+          "settings": {
+            "icon": "truck",
+            "title": "Tirdzniecība",
+            "text": "Organizējam produktu pārdošanu veikaliem, aptiekām un citām tirdzniecības vietām — no sortimenta veidošanas līdz pasūtījumu izpildei."
+          }
+        },
+        "reason_8TaJJy": {
+          "type": "reason",
+          "settings": {
+            "icon": "seal-check",
+            "title": "Mārketings",
+            "text": "Izstrādājam zīmola un produktu virzības stratēģijas, plānojam reklāmas kampaņas un veicinām atpazīstamību tirgū."
+          }
+        },
+        "reason_c7Nni7": {
+          "type": "reason",
+          "settings": {
+            "icon": "handshake",
+            "title": "Merčendaizings",
+            "text": "Rūpējamies par produktu izvietojumu veikalu plauktos, reklāmas materiāliem un preču atlikumu un derīguma termiņu kontroli."
+          }
+        }
+      },
+      "block_order": [
+        "reason_wkCFxa",
+        "reason_Dj77tw",
+        "reason_8TaJJy",
+        "reason_c7Nni7"
+      ],
+      "name": "t:general.why_choose_us",
+      "settings": {
+        "color_scheme": "",
+        "eyebrow": "PAKALPOJUMI",
+        "title": "No ražotāja līdz veikala plauktam",
+        "text": "Nodrošinām loģistiku, tirdzniecību, mārketingu un preču izvietošanu, palīdzot jūsu zīmolam sasniegt pircējus Baltijas tirgū.",
+        "button_1_label": "Par mums",
+        "button_1_link": "shopify://pages/par-mums",
+        "button_1_style": "primary",
+        "button_1_icon": "caret-right-fill",
+        "button_2_label": "",
+        "button_2_link": "",
+        "button_2_style": "secondary",
+        "button_2_icon": "caret-right-fill",
+        "image_alt": "",
+        "image_scale": 100,
+        "content_width": 70,
+        "content_position": "center",
+        "gradient_desktop": true,
+        "gradient_color": "#0a1824",
+        "gradient_direction": "to right",
+        "gradient_start": 20,
+        "gradient_reach": 75,
+        "image_position_x": 50,
+        "image_position_y": 50,
+        "image_scale_mobile": 100
+      }
     }
   },
   "order": [
@@ -239,6 +309,7 @@
     "hero_slider_qiXtBB",
     "brand_logo_strip_3BpynD",
     "collection_strip_4A9ydT",
-    "collection_cards_p8D8Pp"
+    "collection_cards_p8D8Pp",
+    "why_choose_us_RcUn6q"
   ]
 }
