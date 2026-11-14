@@ -196,7 +196,7 @@
           "type": "collection",
           "name": "Akcijas",
           "settings": {
-            "collection": "akcijas",
+            "collection": "iecieniti-produkti-par-izdevigam-cenam",
             "image_scale": 100,
             "badge": "AKCIJAS",
             "link_label": ""
