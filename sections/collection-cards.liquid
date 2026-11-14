@@ -12,16 +12,27 @@
 
   <ul class="collection-cards__track" data-carousel-track role="list">
     {%- for block in section.blocks -%}
-      {%- assign collection = block.settings.collection -%}
+      {%- liquid
+        assign collection = block.settings.collection
+        assign image = block.settings.image | default: collection.featured_image
+      -%}
       {%- unless collection != blank or request.design_mode -%}
         {%- continue -%}
       {%- endunless -%}
 
       <li class="collection-cards__item" {{ block.shopify_attributes }}>
-        <a class="collection-cards__card" href="{{ collection.url }}">
-          {%- if collection.featured_image != blank -%}
+        <a
+          class="collection-cards__card"
+          href="{{ collection.url }}"
+          style="
+            --card-x: {{ image.presentation.focal_point.x | default: 50 }}%;
+            --card-y: {{ image.presentation.focal_point.y | default: 50 }}%;
+            --card-scale: {{ block.settings.image_scale }}%;
+          "
+        >
+          {%- if image != blank -%}
             {{
-              collection.featured_image
+              image
               | image_url: width: 880
               | image_tag:
                 widths: '300, 440, 660, 880',
@@ -45,8 +56,8 @@
                 <p class="collection-cards__description">{{ collection.description | strip_html }}</p>
               {%- endif -%}
               <span class="collection-cards__link">
-                {%- if section.settings.link_label != blank -%}
-                  {{- section.settings.link_label -}}
+                {%- if block.settings.link_label != blank -%}
+                  {{- block.settings.link_label -}}
                 {%- else -%}
                   {{- 'general.learn_more' | t -}}
                 {%- endif -%}
@@ -133,6 +144,9 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: var(--card-x) var(--card-y) !important;
+    transform-origin: var(--card-x) var(--card-y);
+    scale: var(--card-scale);
     transition: transform var(--duration-fast) var(--ease-out);
 
     @media (prefers-reduced-motion: no-preference) {
@@ -228,12 +242,6 @@
       "type": "inline_richtext",
       "id": "text",
       "label": "t:labels.subtext"
-    },
-    {
-      "type": "text",
-      "id": "link_label",
-      "label": "t:labels.link_label",
-      "info": "t:info.collection_cards_link_label"
     }
   ],
   "blocks": [
@@ -248,10 +256,32 @@
           "info": "t:info.collection_cards_collection"
         },
         {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:labels.image",
+          "info": "t:info.collection_cards_image"
+        },
+        {
+          "type": "range",
+          "id": "image_scale",
+          "label": "t:labels.image_scale",
+          "min": 100,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 100
+        },
+        {
           "type": "text",
           "id": "badge",
           "label": "t:labels.badge",
           "info": "t:info.collection_cards_badge"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "t:labels.link_label",
+          "info": "t:info.collection_cards_link_label"
         }
       ]
     }

@@ -173,6 +173,7 @@
     "brand_logo_strip_brands": "Choose which brands to show and in what order. Shows every brand when empty.",
     "collection_cards_badge": "Small label in the top-left corner. Hidden when empty.",
     "collection_cards_collection": "Uses the collection's image, title and description.",
+    "collection_cards_image": "Optional. Replaces the collection image on this card. To choose which part of the image stays visible when it's cropped, select the image, click Edit and set a focal point.",
     "collection_cards_link_label": "Defaults to \"Learn more\".",
     "collection_strip_collections": "Collection images are used as thumbnails. On mobile the collections are shown in columns of 5.",
     "collection_strip_link": "Shown next to the title on mobile. The label defaults to \"View all\".",
