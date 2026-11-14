@@ -178,6 +178,44 @@
         "link": "shopify://collections",
         "link_label": "Skatīt visu"
       }
+    },
+    "collection_cards_p8D8Pp": {
+      "type": "collection-cards",
+      "blocks": {
+        "collection_REHtjc": {
+          "type": "collection",
+          "settings": {
+            "collection": "atklajiet-jaunus-favoritus",
+            "badge": "JAUNUMI"
+          }
+        },
+        "collection_zRVmRW": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "badge": ""
+          }
+        },
+        "collection_fxpQR9": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "badge": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_REHtjc",
+        "collection_zRVmRW",
+        "collection_fxpQR9"
+      ],
+      "name": "t:general.collection_cards",
+      "settings": {
+        "color_scheme": "",
+        "heading": "",
+        "text": "",
+        "link_label": ""
+      }
     }
   },
   "order": [
@@ -186,6 +224,7 @@
     "hero_slider_GFUrzJ",
     "hero_slider_qiXtBB",
     "brand_logo_strip_3BpynD",
-    "collection_strip_4A9ydT"
+    "collection_strip_4A9ydT",
+    "collection_cards_p8D8Pp"
   ]
 }
