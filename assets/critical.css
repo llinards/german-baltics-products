@@ -10,6 +10,9 @@
   --page-margin: clamp(1.5rem, 3.34vw, 3rem);
   --section-spacing: clamp(3rem, 2rem + 3vw, 4rem);
 
+  --color-overlay: #0a1824;
+  --color-on-overlay: #ffffff;
+
   /* Spacing */
   --space-3xs: 0.25rem; /* 4px */
   --space-2xs: 0.5rem; /* 8px */

@@ -39,6 +39,9 @@
   "collections": {
     "title": "Kollektsioonid"
   },
+  "general": {
+    "learn_more": "Loe lähemalt"
+  },
   "gift_card": {
     "add_to_apple_wallet": "Lisa Apple Walletisse",
     "card": "Kinkekaart",

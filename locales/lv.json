@@ -4561,6 +4561,9 @@
   "collections": {
     "title": "Kolekcijas"
   },
+  "general": {
+    "learn_more": "Uzzināt vairāk"
+  },
   "gift_card": {
     "add_to_apple_wallet": "Pievienot Apple Wallet",
     "card": "Dāvanu karte",
