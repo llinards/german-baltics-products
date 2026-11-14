@@ -296,7 +296,7 @@
         "gradient_color": "#0a1824",
         "gradient_direction": "to right",
         "gradient_start": 20,
-        "gradient_reach": 60,
+        "gradient_reach": 100,
         "image_position_x": 50,
         "image_position_y": 50,
         "image_scale_mobile": 100

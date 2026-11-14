@@ -77,7 +77,6 @@
   .collection-cards {
     --per-view: 1.25;
     --gap: var(--space-sm);
-    --card-padding: clamp(var(--space-sm), 0.28rem + 4.44cqi, var(--space-md));
 
     padding-block-end: var(--space-lg);
 
@@ -122,7 +121,6 @@
   .collection-cards__card {
     position: relative;
     isolation: isolate;
-    container-type: inline-size;
     display: grid;
     aspect-ratio: 440 / 540;
     overflow: hidden;
@@ -165,8 +163,8 @@
 
   .collection-cards__badge {
     position: absolute;
-    inset-block-start: var(--card-padding);
-    inset-inline-start: var(--card-padding);
+    inset-block-start: var(--space-md);
+    inset-inline-start: var(--space-md);
     z-index: 1;
     padding: var(--space-3xs) var(--space-sm);
     font-size: var(--font-size-sm);
@@ -182,12 +180,16 @@
     align-self: end;
     display: grid;
     gap: var(--space-xs);
-    padding: var(--card-padding);
+    padding: var(--space-md);
   }
 
   .collection-cards__title {
-    font-size: clamp(var(--font-size-xl), 11.11cqi - 0.43rem, 2.625rem);
+    font-size: var(--font-size-2xl);
     font-weight: var(--font-heading-weight-bold);
+
+    @media screen and (min-width: 990px) {
+      font-size: var(--font-size-3xl);
+    }
   }
 
   .collection-cards__description {
@@ -196,8 +198,12 @@
     -webkit-line-clamp: 3;
     line-clamp: 3;
     overflow: hidden;
-    font-size: clamp(var(--font-size-base), 0.82rem + 1.11cqi, var(--font-size-md));
+    font-size: var(--font-size-base);
     line-height: var(--line-height-snug);
+
+    @media screen and (min-width: 990px) {
+      font-size: var(--font-size-md);
+    }
   }
 
   .collection-cards__link {
@@ -207,15 +213,10 @@
     gap: var(--space-xs);
     margin-block-start: var(--space-xs);
     font-family: var(--font-heading-family);
-    font-size: clamp(var(--font-size-ui), 0.85rem + 0.56cqi, var(--font-size-base));
     font-weight: var(--font-heading-weight);
 
     @media screen and (min-width: 750px) {
       justify-self: start;
-    }
-
-    @media screen and (min-width: 990px) {
-      margin-block-start: var(--space-xs);
     }
   }
 {% endstylesheet %}

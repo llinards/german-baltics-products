@@ -20,7 +20,8 @@
     --why-x-mobile: {{ mobile_image.presentation.focal_point.x | default: section.settings.image_position_x }}%;
     --why-y-mobile: {{ mobile_image.presentation.focal_point.y | default: section.settings.image_position_y }}%;
     --why-scale-mobile: {{ section.settings.image_scale_mobile }}%;
-    --why-content-width: {{ section.settings.content_width }}%;    {% if section.settings.gradient_desktop %}
+    --why-content-width: {{ section.settings.content_width }}%;
+    {% if section.settings.gradient_desktop %}
       --why-gradient: linear-gradient({{ section.settings.gradient_direction }}, {{ section.settings.gradient_color }} {{ section.settings.gradient_start }}%, transparent {{ section.settings.gradient_reach }}%);
     {% endif %}
   "
@@ -45,7 +46,7 @@
       {%- if image_mobile != blank -%}
         <picture>
           <source
-            media="(max-width: 1239px)"
+            media="(max-width: 989px)"
             sizes="{{ section.settings.image_scale_mobile }}vw"
             srcset="
               {%- for width in mobile_widths -%}
@@ -134,18 +135,14 @@
       grid-column: 2;
     }
 
-    @media screen and (min-width: 750px) {
-      grid-template-rows: var(--why-row-start) auto auto var(--why-row-end) auto;
-      row-gap: 0;
-    }
-
-    @media screen and (min-width: 1240px) {
+    @media screen and (min-width: 990px) {
       grid-template-columns:
         var(--content-margin)
         calc(var(--content-width) * 2 / 3)
         calc(var(--content-width) / 3)
         var(--content-margin);
       grid-template-rows: var(--why-row-start) auto auto var(--why-row-end);
+      row-gap: 0;
       min-height: 34.5rem;
       background: var(--color-surface);
     }
@@ -164,20 +161,12 @@
     flex-direction: column;
     align-items: flex-start;
 
-    @media screen and (min-width: 750px) {
-      --color-foreground: var(--color-on-overlay);
-      --color-background: var(--color-overlay);
-
+    @media screen and (min-width: 990px) {
       position: relative;
       z-index: 1;
       grid-row: 2;
       max-width: var(--why-content-width);
-      padding-inline: var(--space-xl);
-      color: var(--color-foreground);
-    }
-
-    @media screen and (min-width: 1240px) {
-      padding-inline: 0 var(--space-xl);
+      padding-inline-end: var(--space-xl);
     }
   }
 
@@ -199,8 +188,9 @@
     line-height: var(--line-height-snug);
   }
 
+  .why-us__content,
   .why-us__buttons {
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 990px) {
       --color-foreground: var(--color-on-overlay);
       --color-background: var(--color-overlay);
 
@@ -211,15 +201,16 @@
   .why-us__media {
     position: relative;
     isolation: isolate;
-    block-size: 25rem;
+    aspect-ratio: 440 / 540;
     overflow: hidden;
     background-color: var(--color-overlay);
     border-radius: var(--radius-lg);
 
-    @media screen and (min-width: 750px) {
-      grid-row: 1 / 5;
-      block-size: auto;
-      min-block-size: 25rem;
+    @media screen and (min-width: 990px) {
+      grid-column: 1 / 3;
+      grid-row: 1 / -1;
+      aspect-ratio: auto;
+      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 
       &::after {
         content: '';
@@ -228,12 +219,6 @@
         background: var(--why-gradient, none);
         pointer-events: none;
       }
-    }
-
-    @media screen and (min-width: 1240px) {
-      grid-column: 1 / 3;
-      grid-row: 1 / -1;
-      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
     }
   }
 
@@ -247,7 +232,7 @@
     transform-origin: var(--why-x-mobile) var(--why-y-mobile);
     scale: var(--why-scale-mobile);
 
-    @media screen and (min-width: 1240px) {
+    @media screen and (min-width: 990px) {
       object-position: var(--why-x) var(--why-y) !important;
       transform-origin: var(--why-x) var(--why-y);
       scale: var(--why-scale);
@@ -271,14 +256,7 @@
       grid-column: 1 / -1;
     }
 
-    @media screen and (min-width: 750px) and (max-width: 1239px) {
-      grid-row: 5;
-      margin-block-start: var(--space-lg);
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: var(--space-xl);
-    }
-
-    @media screen and (min-width: 1240px) {
+    @media screen and (min-width: 990px) {
       grid-row: 1 / -1;
       align-content: center;
       padding-inline: var(--space-lg) 0;
@@ -320,17 +298,13 @@
     justify-content: center;
     gap: var(--space-sm);
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 990px) {
       position: relative;
       z-index: 1;
       grid-row: 3;
       justify-content: flex-start;
       padding-block-start: var(--space-xl);
-      padding-inline: var(--space-xl);
-    }
-
-    @media screen and (min-width: 1240px) {
-      padding-inline: 0 var(--space-xl);
+      padding-inline-end: var(--space-xl);
     }
   }
 {% endstylesheet %}
@@ -563,7 +537,7 @@
     {
       "type": "header",
       "content": "t:general.mobile",
-      "info": "t:info.why_choose_us_mobile"
+      "info": "t:info.hero_mobile_image"
     },
     {
       "type": "image_picker",
