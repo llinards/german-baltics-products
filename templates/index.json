@@ -187,7 +187,9 @@
           "name": "Jaunumi",
           "settings": {
             "collection": "atklajiet-jaunus-favoritus",
-            "badge": "JAUNUMI"
+            "image_scale": 100,
+            "badge": "JAUNUMI",
+            "link_label": ""
           }
         },
         "collection_zRVmRW": {
@@ -195,14 +197,19 @@
           "name": "Akcijas",
           "settings": {
             "collection": "akcijas",
-            "badge": "AKCIJAS"
+            "image_scale": 100,
+            "badge": "AKCIJAS",
+            "link_label": ""
           }
         },
         "collection_fxpQR9": {
           "type": "collection",
+          "name": "Mazuļa ikdienai",
           "settings": {
             "collection": "mazulu-ikdienai",
-            "badge": "MAZUĻA IKDIENA"
+            "image_scale": 100,
+            "badge": "MAZUĻA IKDIENA",
+            "link_label": ""
           }
         }
       },
@@ -215,8 +222,7 @@
       "settings": {
         "color_scheme": "",
         "heading": "",
-        "text": "",
-        "link_label": ""
+        "text": ""
       }
     }
   },
