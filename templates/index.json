@@ -301,6 +301,23 @@
         "image_position_y": 50,
         "image_scale_mobile": 100
       }
+    },
+    "faq_pnpjtK": {
+      "type": "faq",
+      "name": "t:general.faq",
+      "settings": {
+        "color_scheme": "",
+        "title": "Biežāk uzdotie jautājumi",
+        "questions": [
+          "ka-veikt-pasutijumu",
+          "ka-apmaksat-pasutijumu",
+          "cik-ilga-laika-tiek-sagatavots-pasutijums",
+          "kadi-piegades-veidi-ir-pieejami-un-cik-tie-maksa",
+          "vai-pasutijumu-var-sanemt-uz-vietas",
+          "ka-varu-izsekot-savam-pasutijumam",
+          "ko-darit-ja-sanemta-nepareiza-bojata-prece-vai-pasutijuma-kaut-ka-trukst"
+        ]
+      }
     }
   },
   "order": [
@@ -311,6 +328,7 @@
     "brand_logo_strip_3BpynD",
     "collection_strip_4A9ydT",
     "collection_cards_p8D8Pp",
-    "why_choose_us_RcUn6q"
+    "why_choose_us_RcUn6q",
+    "faq_pnpjtK"
   ]
 }
