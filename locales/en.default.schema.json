@@ -53,8 +53,10 @@
     "slide": "Slide",
     "social_media": "Social media",
     "text": "Text",
+    "reason": "Reason",
     "theme": "Theme",
-    "typography": "Typography"
+    "typography": "Typography",
+    "why_choose_us": "Why choose us"
   },
   "labels": {
     "alignment": "Alignment",
@@ -144,7 +146,10 @@
       "bag": "Bag",
       "cart": "Cart",
       "phone": "Phone",
-      "truck": "Truck"
+      "truck": "Truck",
+      "globe": "Globe",
+      "seal_check": "Seal with check",
+      "handshake": "Handshake"
     },
     "page_width": {
       "narrow": "Narrow",
@@ -198,6 +203,7 @@
     "primary_color": "Buttons, prices and links.",
     "social_media": "Links from Settings → Brand → Social links are used first; these fill in any that are missing there. Icons show in the mobile menu and the footer for each link that is set.",
     "surface_color": "Cards, inputs (including the header search bar) and round icon buttons.",
+    "why_choose_us_image_position": "Which part of the mobile image card stays visible when it's cropped. Only used when the image has no focal point. 0% is the left or top edge, 100% the right or bottom edge.",
     "wishlist_link": "Where the heart icon leads. Until a link is set, it goes nowhere."
   }
 }
