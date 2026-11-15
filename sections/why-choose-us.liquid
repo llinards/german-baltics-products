@@ -1,0 +1,175 @@
+<div class="why-choose-us full-width color-{{ section.settings.color_scheme }}">
+  <div class="why-choose-us__inner">
+    {%- if section.settings.title != blank -%}
+      <h2 class="why-choose-us__title">{{ section.settings.title }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.text != blank -%}
+      <p class="why-choose-us__text">{{ section.settings.text }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="why-choose-us__stats" role="list">
+        {%- for block in section.blocks -%}
+          <li class="why-choose-us__stat" {{ block.shopify_attributes }}>
+            {%- if block.settings.title != blank -%}
+              <p class="why-choose-us__stat-title">{{ block.settings.title }}</p>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="why-choose-us__stat-text">{{ block.settings.text }}</p>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .why-choose-us {
+    display: grid;
+    grid-template-columns: var(--content-grid);
+    padding-block: var(--space-xl);
+    background: var(--color-background);
+
+    & > * {
+      grid-column: 2;
+    }
+  }
+
+  .why-choose-us__inner {
+    width: 100%;
+    max-width: 66rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .why-choose-us__title {
+    margin-block-end: var(--space-md);
+  }
+
+  .why-choose-us__text {
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-snug);
+  }
+
+  .why-choose-us__stats {
+    display: grid;
+    gap: var(--space-lg);
+    margin: var(--space-xl) 0 0;
+    padding: 0;
+    list-style: none;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(2, auto);
+      justify-content: space-around;
+      gap: var(--space-xl);
+      text-align: start;
+    }
+
+    @media screen and (min-width: 1240px) {
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      justify-content: space-between;
+    }
+  }
+
+  .why-choose-us__stat-title {
+    margin-block-end: var(--space-2xs);
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-heading-weight-bold);
+    line-height: var(--line-height-tight);
+  }
+
+  .why-choose-us__stat-text {
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-snug);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.why_choose_us",
+  "class": "why-choose-us-section",
+  "disabled_on": {
+    "groups": ["*"]
+  },
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "t:labels.subtext"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "t:general.stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:labels.title"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "t:labels.text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.why_choose_us",
+      "settings": {
+        "title": "Kāpēc izvēlēties GPB?",
+        "text": "Uzticams partneris kvalitatīvu pārtikas, dzērienu, bērnu aprūpes un higiēnas preču izplatīšanā visā Baltijā. Apvienojam pieredzi, atzītus zīmolus un pārdomātu loģistiku jūsu biznesa izaugsmei."
+      },
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "title": "10+ gadi",
+            "text": "Pieredze"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "title": "3",
+            "text": "Baltijas valstis"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "title": "10+",
+            "text": "Zīmoli"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "title": "1 partneris",
+            "text": "Tavai izaugsmei"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

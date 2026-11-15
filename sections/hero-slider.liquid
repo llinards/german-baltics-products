@@ -4,6 +4,8 @@
   if section.settings.autoplay and slide_count > 1
     assign autoplay = true
   endif
+  assign desktop_widths = '375, 550, 750, 1100, 1500, 1780, 2000, 2400, 3000'
+  assign mobile_widths = '375, 550, 750, 1100, 1500' | split: ', '
 -%}
 
 {%- if slide_count > 0 -%}
@@ -23,21 +25,39 @@
       {%- for block in section.blocks -%}
         {%- liquid
           assign image = block.settings.image
+          assign image_mobile = block.settings.image_mobile
           assign title = block.settings.title
+          assign scale = block.settings.image_scale | divided_by: 100.0
+          assign scale_mobile = block.settings.image_scale_mobile | divided_by: 100.0
+          assign mobile_image = image_mobile | default: image
         -%}
+        {%- capture sizes_mobile -%}
+          max({{ 100 | times: scale_mobile }}vw, {{ 40 | times: mobile_image.aspect_ratio | times: scale_mobile | round: 1 }}rem)
+        {%- endcapture -%}
+        {%- capture sizes_desktop -%}
+          max({{ 100 | times: scale }}vw, {{ 34.5 | times: image.aspect_ratio | times: scale | round: 1 }}rem)
+        {%- endcapture -%}
         <div
           class="hero__slide hero__slide--{{ block.settings.alignment }}{% if forloop.first %} is-active{% endif %}"
           role="group"
           aria-roledescription="{{ 'accessibility.slide' | t }}"
           aria-label="{{ 'accessibility.slide_label' | t: index: forloop.index, count: slide_count }}"
           style="
-            --hero-x: {{ block.settings.image_x }}%;
-            --hero-y: {{ block.settings.image_y }}%;
-            --hero-zoom: {{ block.settings.image_zoom }}%;
-            --hero-x-mobile: {{ block.settings.image_x_mobile }}%;
-            --hero-y-mobile: {{ block.settings.image_y_mobile }}%;
-            --hero-zoom-mobile: {{ block.settings.image_zoom_mobile }}%;
+            --hero-x: {{ image.presentation.focal_point.x | default: 50 }}%;
+            --hero-y: {{ image.presentation.focal_point.y | default: 50 }}%;
+            --hero-scale: {{ block.settings.image_scale }}%;
+            --hero-x-mobile: {{ mobile_image.presentation.focal_point.x | default: 50 }}%;
+            --hero-y-mobile: {{ mobile_image.presentation.focal_point.y | default: 50 }}%;
+            --hero-scale-mobile: {{ block.settings.image_scale_mobile }}%;
             --hero-content-width: {{ block.settings.content_width }}%;
+            --hero-justify: {{ block.settings.content_position }};
+            --hero-justify-mobile: {{ block.settings.content_position_mobile }};
+            {% if block.settings.gradient_desktop %}
+              --hero-gradient: linear-gradient({{ block.settings.gradient_direction }}, {{ block.settings.gradient_color }} {{ block.settings.gradient_start }}%, transparent {{ block.settings.gradient_reach }}%);
+            {% endif %}
+            {% if block.settings.gradient_mobile %}
+              --hero-gradient-mobile: linear-gradient({{ block.settings.gradient_direction_mobile }}, {{ block.settings.gradient_color_mobile }} {{ block.settings.gradient_start_mobile }}%, transparent {{ block.settings.gradient_reach_mobile }}%);
+            {% endif %}
           "
           {% unless forloop.first %}
             inert
@@ -46,16 +66,40 @@
         >
           {%- if image != blank -%}
             {%- assign alt = block.settings.image_alt | default: image.alt | default: title | default: shop.name -%}
-            {{
-              image
-              | image_url: width: 3000
-              | image_tag:
-                widths: '375, 550, 750, 1100, 1500, 1780, 2000, 2400, 3000',
-                sizes: '100vw',
-                alt: alt,
-                preload: forloop.first,
-                class: 'hero__image'
-            }}
+            {%- if image_mobile != blank -%}
+              <picture
+                class="hero__picture"
+                data-alt="{{ alt | escape }}"
+                data-alt-mobile="{{ block.settings.image_alt_mobile | default: alt | escape }}"
+              >
+                <source
+                  media="(max-width: 989px)"
+                  sizes="{{ sizes_mobile }}"
+                  srcset="
+                    {%- for width in mobile_widths -%}
+                      {{ image_mobile | image_url: width: width }} {{ width }}w{% unless forloop.last %}, {% endunless %}
+                    {%- endfor -%}
+                  "
+                >
+                {{
+                  image
+                  | image_url: width: 3000
+                  | image_tag: widths: desktop_widths, sizes: sizes_desktop, alt: alt, class: 'hero__image'
+                }}
+              </picture>
+            {%- else -%}
+              {%- capture sizes -%}(max-width: 989px) {{ sizes_mobile }}, {{ sizes_desktop }}{%- endcapture -%}
+              {{
+                image
+                | image_url: width: 3000
+                | image_tag:
+                  widths: desktop_widths,
+                  sizes: sizes,
+                  alt: alt,
+                  preload: forloop.first,
+                  class: 'hero__image'
+              }}
+            {%- endif -%}
           {%- else -%}
             {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero__image hero__image--placeholder' }}
           {%- endif -%}
@@ -66,11 +110,7 @@
             {%- endif -%}
 
             {%- if title != blank -%}
-              {%- if forloop.first -%}
-                <h1 class="hero__title">{{ title }}</h1>
-              {%- else -%}
-                <h2 class="hero__title h1">{{ title }}</h2>
-              {%- endif -%}
+              <h2 class="hero__title">{{ title }}</h2>
             {%- endif -%}
 
             {%- if block.settings.text != blank -%}
@@ -151,17 +191,11 @@
 {%- endif -%}
 
 {% stylesheet %}
-  .hero-section {
-    padding-block-start: var(--space-sm);
-
-    @media screen and (min-width: 990px) {
-      padding-block-start: var(--space-md);
-    }
-  }
 
   .hero {
     --hero-fade: 600ms;
     --hero-padding: var(--space-md);
+    --hero-inline: var(--page-margin);
     --hero-edge: var(--space-sm);
     --hero-language-size: 2.5rem;
     --hero-controls-size: 1.5rem;
@@ -171,12 +205,26 @@
     position: relative;
     display: block;
     overflow: hidden;
-    border-radius: var(--radius-lg);
     isolation: isolate;
 
     @media screen and (min-width: 990px) {
       --hero-padding: var(--space-xl);
+      --hero-inline: var(--hero-padding);
       --hero-edge: var(--space-md);
+
+      border-radius: var(--radius-lg);
+    }
+  }
+
+  .hero-section:has(> .hero) {
+    padding-block-end: var(--space-xl);
+  }
+
+  .hero-section > .hero {
+    grid-column: 1 / -1;
+
+    @media screen and (min-width: 990px) {
+      grid-column: 2;
     }
   }
 
@@ -188,6 +236,15 @@
     @media screen and (min-width: 990px) {
       min-height: 34.5rem;
     }
+
+    .is-draggable & {
+      cursor: grab;
+    }
+
+    .is-dragging & {
+      cursor: grabbing;
+      user-select: none;
+    }
   }
 
   .hero__slide {
@@ -197,8 +254,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: var(--hero-justify-mobile);
     grid-area: 1 / 1;
-    padding: var(--hero-padding);
+    padding: var(--hero-padding) var(--hero-inline);
     padding-block-end: calc(var(--hero-padding) + var(--hero-controls-size) + var(--hero-edge));
     isolation: isolate;
     opacity: 0;
@@ -214,13 +272,27 @@
       transition: opacity var(--hero-fade) ease-in-out;
     }
 
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--hero-gradient-mobile, none);
+      pointer-events: none;
+    }
+
     @media screen and (min-width: 990px) {
-      justify-content: center;
+      justify-content: var(--hero-justify);
+      padding-block-start: calc(var(--hero-padding) + var(--hero-controls-size) + var(--hero-edge));
+
+      &::after {
+        background: var(--hero-gradient, none);
+      }
     }
   }
 
   .hero:has(.hero__languages) .hero__slide {
-    padding-inline-end: calc(var(--hero-edge) + var(--hero-language-size) + var(--space-sm));
+    padding-inline-end: calc(var(--hero-inline) + var(--hero-language-size) + var(--space-sm));
   }
 
   .hero__slide--center {
@@ -240,15 +312,19 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: var(--hero-x-mobile) var(--hero-y-mobile);
+    object-position: var(--hero-x-mobile) var(--hero-y-mobile) !important;
     transform-origin: var(--hero-x-mobile) var(--hero-y-mobile);
-    scale: var(--hero-zoom-mobile);
+    scale: var(--hero-scale-mobile);
 
     @media screen and (min-width: 990px) {
-      object-position: var(--hero-x) var(--hero-y);
+      object-position: var(--hero-x) var(--hero-y) !important;
       transform-origin: var(--hero-x) var(--hero-y);
-      scale: var(--hero-zoom);
+      scale: var(--hero-scale);
     }
+  }
+
+  .hero__picture {
+    display: contents;
   }
 
   .hero__image--placeholder {
@@ -276,7 +352,10 @@
   }
 
   .hero__title {
-    margin-block-end: var(--space-md);
+    margin-block-end: var(--space-lg);
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-heading-weight-medium);
+    line-height: var(--line-height-tight);
   }
 
   .hero__text {
@@ -305,7 +384,6 @@
 
   .hero__button {
     min-width: 10rem;
-    border-radius: var(--radius-sm);
   }
 
   .hero__button--secondary {
@@ -394,8 +472,8 @@
 
   .hero__languages {
     position: absolute;
-    inset-block-start: var(--hero-edge);
-    inset-inline-end: var(--hero-edge);
+    inset-block-start: var(--hero-inline);
+    inset-inline-end: var(--hero-inline);
     z-index: 2;
   }
 
@@ -441,15 +519,22 @@
     #focused = false;
     #editing = false;
     #swipeStart = null;
+    #suppressClick = false;
+    #mobileQuery = window.matchMedia('(max-width: 989px)');
 
     connectedCallback() {
       this.slides = [...this.querySelectorAll('.hero__slide')];
       this.dots = [...this.querySelectorAll('.hero__dot')];
       this.toggle = this.querySelector('.hero__toggle');
-      if (this.slides.length < 2) return;
 
       this.#controller = new AbortController();
       const { signal } = this.#controller;
+
+      this.#updateAlt();
+      this.#mobileQuery.addEventListener('change', this.#updateAlt, { signal });
+
+      if (this.slides.length < 2) return;
+
       const viewport = this.querySelector('.hero__viewport');
       const dots = this.querySelector('.hero__dots');
 
@@ -464,8 +549,12 @@
       this.addEventListener('focusin', this.#onFocusIn, { signal });
       this.addEventListener('focusout', this.#onFocusOut, { signal });
       viewport.addEventListener('pointerdown', this.#onSwipeStart, { signal });
+      viewport.addEventListener('pointermove', this.#onSwipeMove, { signal });
       viewport.addEventListener('pointerup', this.#onSwipeEnd, { signal });
       viewport.addEventListener('pointercancel', this.#onSwipeCancel, { signal });
+      viewport.addEventListener('click', this.#onClick, { capture: true, signal });
+      viewport.addEventListener('dragstart', this.#onDragStart, { signal });
+      this.classList.add('is-draggable');
       document.addEventListener('shopify:block:select', this.#onBlockSelect, { signal });
       document.addEventListener('shopify:block:deselect', this.#onBlockDeselect, { signal });
 
@@ -498,6 +587,13 @@
 
       this.#timer = setTimeout(() => this.goTo(this.#index + 1), Number(this.dataset.speed) * 1000);
     }
+
+    #updateAlt = () => {
+      for (const picture of this.querySelectorAll('.hero__picture')) {
+        const { alt, altMobile } = picture.dataset;
+        picture.querySelector('img').alt = this.#mobileQuery.matches ? altMobile : alt;
+      }
+    };
 
     #onDotClick = (event) => {
       const dot = event.target.closest('.hero__dot');
@@ -543,16 +639,37 @@
     };
 
     #onSwipeStart = (event) => {
-      if (event.pointerType === 'mouse') return;
-      this.#swipeStart = { x: event.clientX, y: event.clientY };
+      const mouse = event.pointerType === 'mouse';
+      if (mouse && event.button !== 0) return;
+
+      this.#swipeStart = { id: event.pointerId, x: event.clientX, y: event.clientY, mouse, moved: false };
+    };
+
+    #onSwipeMove = (event) => {
+      const start = this.#swipeStart;
+      if (!start?.mouse || start.moved || event.pointerId !== start.id) return;
+      if (Math.abs(event.clientX - start.x) < 6) return;
+
+      start.moved = true;
+      event.currentTarget.setPointerCapture(start.id);
+      this.classList.add('is-dragging');
+      getSelection()?.removeAllRanges();
     };
 
     #onSwipeEnd = (event) => {
-      if (!this.#swipeStart) return;
+      const start = this.#swipeStart;
+      if (!start || event.pointerId !== start.id) return;
 
-      const dx = event.clientX - this.#swipeStart.x;
-      const dy = event.clientY - this.#swipeStart.y;
       this.#swipeStart = null;
+      this.classList.remove('is-dragging');
+
+      if (start.moved) {
+        this.#suppressClick = true;
+        setTimeout(() => (this.#suppressClick = false));
+      }
+
+      const dx = event.clientX - start.x;
+      const dy = event.clientY - start.y;
       if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
 
       this.goTo(this.#index + (dx < 0 ? 1 : -1));
@@ -560,6 +677,19 @@
 
     #onSwipeCancel = () => {
       this.#swipeStart = null;
+      this.classList.remove('is-dragging');
+    };
+
+    #onClick = (event) => {
+      if (!this.#suppressClick) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      this.#suppressClick = false;
+    };
+
+    #onDragStart = (event) => {
+      event.preventDefault();
     };
 
     #onBlockSelect = (event) => {
@@ -635,24 +765,17 @@
         {
           "type": "text",
           "id": "eyebrow",
-          "label": "t:labels.eyebrow",
-          "default": "GERMAN PRODUCTS BALTICS"
+          "label": "t:labels.eyebrow"
         },
         {
           "type": "text",
           "id": "title",
-          "label": "t:labels.title",
-          "default": "Kvalitatīvi produkti katrai dienai!"
+          "label": "t:labels.title"
         },
         {
           "type": "inline_richtext",
           "id": "text",
-          "label": "t:labels.subtext",
-          "default": "Uzticams partneris pārtikas, dzērienu, bērnu aprūpes un higiēnas preču piegādē visā Baltijā."
-        },
-        {
-          "type": "header",
-          "content": "t:general.layout"
+          "label": "t:labels.subtext"
         },
         {
           "type": "select",
@@ -666,124 +789,18 @@
           "default": "left"
         },
         {
-          "type": "range",
-          "id": "content_width",
-          "label": "t:labels.content_width",
-          "info": "t:info.content_width",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "default": 40
-        },
-        {
-          "type": "header",
-          "content": "t:general.image"
-        },
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "t:labels.image"
-        },
-        {
-          "type": "text",
-          "id": "image_alt",
-          "label": "t:labels.image_alt",
-          "info": "t:info.hero_image_alt",
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "header",
-          "content": "t:general.image_desktop",
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_x",
-          "label": "t:labels.image_x",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "default": 50,
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_y",
-          "label": "t:labels.image_y",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "default": 50,
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_zoom",
-          "label": "t:labels.image_zoom",
-          "min": 50,
-          "max": 200,
-          "step": 5,
-          "unit": "%",
-          "default": 100,
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "header",
-          "content": "t:general.image_mobile",
-          "info": "t:info.hero_mobile_image",
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_x_mobile",
-          "label": "t:labels.image_x",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "default": 100,
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_y_mobile",
-          "label": "t:labels.image_y",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "default": 50,
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
-          "type": "range",
-          "id": "image_zoom_mobile",
-          "label": "t:labels.image_zoom",
-          "min": 50,
-          "max": 200,
-          "step": 5,
-          "unit": "%",
-          "default": 100,
-          "visible_if": "{{ block.settings.image != blank }}"
-        },
-        {
           "type": "header",
           "content": "t:general.button_1"
         },
         {
           "type": "text",
           "id": "button_1_label",
-          "label": "t:labels.button_label",
-          "default": "Uz veikalu"
+          "label": "t:labels.button_label"
         },
         {
           "type": "url",
           "id": "button_1_link",
           "label": "t:labels.link",
-          "default": "/collections/all",
           "visible_if": "{{ block.settings.button_1_label != blank }}"
         },
         {
@@ -821,8 +838,7 @@
         {
           "type": "text",
           "id": "button_2_label",
-          "label": "t:labels.button_label",
-          "default": "Par mums"
+          "label": "t:labels.button_label"
         },
         {
           "type": "url",
@@ -857,6 +873,206 @@
           ],
           "default": "caret-right-fill",
           "visible_if": "{{ block.settings.button_2_label != blank }}"
+        },
+        {
+          "type": "header",
+          "content": "t:general.desktop"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:labels.image",
+          "info": "t:info.hero_image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "t:labels.image_alt",
+          "info": "t:info.hero_image_alt",
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "image_scale",
+          "label": "t:labels.image_scale",
+          "min": 100,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 100,
+          "visible_if": "{{ block.settings.image != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "content_width",
+          "label": "t:labels.content_width",
+          "info": "t:info.content_width",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 40
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "t:labels.content_position",
+          "options": [
+            { "value": "flex-start", "label": "t:options.vertical.top" },
+            { "value": "center", "label": "t:options.vertical.center" },
+            { "value": "flex-end", "label": "t:options.vertical.bottom" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "header",
+          "content": "t:general.gradient_desktop",
+          "info": "t:info.hero_gradient"
+        },
+        {
+          "type": "checkbox",
+          "id": "gradient_desktop",
+          "label": "t:labels.gradient",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "gradient_color",
+          "label": "t:labels.gradient_color",
+          "default": "#0a1824",
+          "visible_if": "{{ block.settings.gradient_desktop }}"
+        },
+        {
+          "type": "select",
+          "id": "gradient_direction",
+          "label": "t:labels.gradient_direction",
+          "options": [
+            { "value": "to right", "label": "t:options.gradient_direction.to_right" },
+            { "value": "to left", "label": "t:options.gradient_direction.to_left" },
+            { "value": "to bottom", "label": "t:options.gradient_direction.to_bottom" },
+            { "value": "to top", "label": "t:options.gradient_direction.to_top" }
+          ],
+          "default": "to right",
+          "visible_if": "{{ block.settings.gradient_desktop }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_start",
+          "label": "t:labels.gradient_start",
+          "info": "t:info.gradient_start",
+          "min": 0,
+          "max": 90,
+          "step": 5,
+          "unit": "%",
+          "default": 0,
+          "visible_if": "{{ block.settings.gradient_desktop }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_reach",
+          "label": "t:labels.gradient_reach",
+          "info": "t:info.gradient_reach",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 60,
+          "visible_if": "{{ block.settings.gradient_desktop }}"
+        },
+        {
+          "type": "header",
+          "content": "t:general.mobile",
+          "info": "t:info.hero_mobile_image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "t:labels.image",
+          "info": "t:info.hero_image_mobile"
+        },
+        {
+          "type": "text",
+          "id": "image_alt_mobile",
+          "label": "t:labels.image_alt",
+          "info": "t:info.hero_image_alt_mobile",
+          "visible_if": "{{ block.settings.image_mobile != blank }}"
+        },
+        {
+          "type": "range",
+          "id": "image_scale_mobile",
+          "label": "t:labels.image_scale",
+          "min": 100,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 100,
+          "visible_if": "{{ block.settings.image != blank or block.settings.image_mobile != blank }}"
+        },
+        {
+          "type": "select",
+          "id": "content_position_mobile",
+          "label": "t:labels.content_position",
+          "options": [
+            { "value": "flex-start", "label": "t:options.vertical.top" },
+            { "value": "center", "label": "t:options.vertical.center" },
+            { "value": "flex-end", "label": "t:options.vertical.bottom" }
+          ],
+          "default": "flex-start"
+        },
+        {
+          "type": "header",
+          "content": "t:general.gradient_mobile",
+          "info": "t:info.hero_gradient"
+        },
+        {
+          "type": "checkbox",
+          "id": "gradient_mobile",
+          "label": "t:labels.gradient",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "gradient_color_mobile",
+          "label": "t:labels.gradient_color",
+          "default": "#0a1824",
+          "visible_if": "{{ block.settings.gradient_mobile }}"
+        },
+        {
+          "type": "select",
+          "id": "gradient_direction_mobile",
+          "label": "t:labels.gradient_direction",
+          "options": [
+            { "value": "to right", "label": "t:options.gradient_direction.to_right" },
+            { "value": "to left", "label": "t:options.gradient_direction.to_left" },
+            { "value": "to bottom", "label": "t:options.gradient_direction.to_bottom" },
+            { "value": "to top", "label": "t:options.gradient_direction.to_top" }
+          ],
+          "default": "to bottom",
+          "visible_if": "{{ block.settings.gradient_mobile }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_start_mobile",
+          "label": "t:labels.gradient_start",
+          "info": "t:info.gradient_start",
+          "min": 0,
+          "max": 90,
+          "step": 5,
+          "unit": "%",
+          "default": 0,
+          "visible_if": "{{ block.settings.gradient_mobile }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_reach_mobile",
+          "label": "t:labels.gradient_reach",
+          "info": "t:info.gradient_reach",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 60,
+          "visible_if": "{{ block.settings.gradient_mobile }}"
         }
       ]
     }

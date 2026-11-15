@@ -39,6 +39,9 @@
   "collections": {
     "title": "Collections"
   },
+  "general": {
+    "learn_more": "Learn more"
+  },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",
     "card": "Gift card",

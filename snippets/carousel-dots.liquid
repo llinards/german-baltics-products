@@ -1,0 +1,298 @@
+{%- doc -%}
+  Renders the dot navigation for a <scroll-carousel> and defines that element.
+  The carousel pages through a horizontally scrolling track marked with
+  data-carousel-track. Set --per-view (columns visible, may be fractional) and
+  --rows (items stacked per column, default 1) on the <scroll-carousel>; one dot
+  pages by the fully visible columns. Items that aren't fully visible get the
+  is-clipped class.
+
+  @example
+  <scroll-carousel class="brand-strip">
+    <ul class="brand-strip__track" data-carousel-track role="list">…</ul>
+    {% render 'carousel-dots' %}
+  </scroll-carousel>
+{%- enddoc -%}
+
+<div
+  class="carousel-dots"
+  role="group"
+  aria-label="{{ 'accessibility.choose_slide' | t }}"
+  data-dot-label="{{ 'accessibility.slide_label' | t: index: '[index]', count: '[count]' }}"
+  hidden
+></div>
+
+{% stylesheet %}
+  scroll-carousel {
+    display: block;
+  }
+
+  [data-carousel-track] {
+    position: relative;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    & > * {
+      scroll-snap-align: start;
+    }
+  }
+
+  scroll-carousel.is-draggable [data-carousel-track] {
+    cursor: grab;
+  }
+
+  scroll-carousel.is-dragging [data-carousel-track] {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    user-select: none;
+  }
+
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    margin-block-start: var(--space-sm);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  scroll-carousel:not(:defined) .carousel-dots {
+    display: none;
+  }
+
+  .carousel-dot {
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      width: 0.75rem;
+      height: 0.75rem;
+      background-color: var(--color-foreground-subtle);
+      border-radius: var(--radius-pill);
+      transition: background-color var(--duration-fast) var(--ease-out);
+    }
+
+    &[aria-current='true']::before {
+      background-color: var(--color-primary);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class ScrollCarousel extends HTMLElement {
+    #controller;
+    #resize;
+    #visibility;
+    #frame;
+    #drag = null;
+    #suppressClick = false;
+    #page = 0;
+    #columns = 0;
+    #perPage = 0;
+    #reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    connectedCallback() {
+      this.track = this.querySelector('[data-carousel-track]');
+      this.dotsContainer = this.querySelector('.carousel-dots');
+      this.items = [...(this.track?.children ?? [])];
+      if (!this.items.length || !this.dotsContainer) return;
+
+      this.#controller = new AbortController();
+      const { signal } = this.#controller;
+
+      this.track.addEventListener('scroll', this.#onScroll, { passive: true, signal });
+      this.dotsContainer.addEventListener('click', this.#onDotClick, { signal });
+      this.dotsContainer.addEventListener('keydown', this.#onDotKeydown, { signal });
+      this.track.addEventListener('pointerdown', this.#onPointerDown, { signal });
+      this.track.addEventListener('pointermove', this.#onPointerMove, { signal });
+      this.track.addEventListener('pointerup', this.#onPointerUp, { signal });
+      this.track.addEventListener('pointercancel', this.#onPointerUp, { signal });
+      this.track.addEventListener('click', this.#onClick, { capture: true, signal });
+      this.track.addEventListener('dragstart', this.#onDragStart, { signal });
+
+      this.#resize = new ResizeObserver(this.#onResize);
+      this.#resize.observe(this.track);
+
+      this.#visibility = new IntersectionObserver(this.#onIntersect, { root: this.track, threshold: [0.99] });
+      this.items.forEach((item) => this.#visibility.observe(item));
+    }
+
+    disconnectedCallback() {
+      this.#controller?.abort();
+      this.#resize?.disconnect();
+      this.#visibility?.disconnect();
+      cancelAnimationFrame(this.#frame);
+    }
+
+    goTo(page) {
+      const target = this.items[page * this.#perPage];
+      if (!target) return;
+
+      this.track.scrollTo({
+        left: target.offsetLeft,
+        behavior: this.#reducedMotion.matches ? 'auto' : 'smooth',
+      });
+    }
+
+    get #pageCount() {
+      return Math.ceil(this.items.length / this.#perPage);
+    }
+
+    get #columnStride() {
+      const first = this.items[0].offsetLeft;
+      const next = this.items.find((item) => item.offsetLeft !== first);
+      return next ? Math.abs(next.offsetLeft - first) : 1;
+    }
+
+    #onResize = () => {
+      const style = getComputedStyle(this);
+      const columns = Math.max(1, Math.floor(parseFloat(style.getPropertyValue('--per-view')) || 1));
+      const rows = Math.max(1, parseInt(style.getPropertyValue('--rows'), 10) || 1);
+      const perPage = columns * rows;
+
+      if (perPage === this.#perPage && columns === this.#columns) return this.#updateActive();
+
+      this.#columns = columns;
+      this.#perPage = perPage;
+      this.#renderDots();
+    };
+
+    #renderDots() {
+      const count = this.#pageCount;
+      const label = this.dotsContainer.dataset.dotLabel;
+
+      this.dots = Array.from({ length: count }, (_, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'carousel-dot';
+        dot.dataset.index = String(index);
+        dot.setAttribute('aria-label', label.replace('[index]', index + 1).replace('[count]', count));
+        return dot;
+      });
+
+      this.dotsContainer.replaceChildren(...this.dots);
+      this.dotsContainer.hidden = count < 2;
+      this.classList.toggle('is-draggable', count > 1);
+      this.#updateActive();
+    }
+
+    #updateActive() {
+      const maxScroll = this.track.scrollWidth - this.track.clientWidth;
+      const atEnd = maxScroll > 0 && this.track.scrollLeft >= maxScroll - 1;
+      const last = this.#pageCount - 1;
+
+      this.#page = atEnd
+        ? last
+        : Math.min(Math.round(this.track.scrollLeft / (this.#columnStride * this.#columns)), last);
+
+      this.dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === this.#page)));
+    }
+
+    #onScroll = () => {
+      cancelAnimationFrame(this.#frame);
+      this.#frame = requestAnimationFrame(() => this.#updateActive());
+    };
+
+    #onIntersect = (entries) => {
+      for (const entry of entries) {
+        entry.target.classList.toggle('is-clipped', entry.intersectionRatio < 0.99);
+      }
+    };
+
+    #onPointerDown = (event) => {
+      if (event.pointerType !== 'mouse' || event.button !== 0 || this.#pageCount < 2) return;
+
+      this.#drag = {
+        id: event.pointerId,
+        x: event.clientX,
+        scroll: this.track.scrollLeft,
+        page: this.#page,
+        moved: false,
+      };
+    };
+
+    #onPointerMove = (event) => {
+      const drag = this.#drag;
+      if (!drag || event.pointerId !== drag.id) return;
+
+      const dx = event.clientX - drag.x;
+      if (!drag.moved) {
+        if (Math.abs(dx) < 6) return;
+
+        drag.moved = true;
+        this.track.setPointerCapture(drag.id);
+        this.classList.add('is-dragging');
+        getSelection()?.removeAllRanges();
+      }
+
+      this.track.scrollLeft = drag.scroll - dx;
+    };
+
+    #onPointerUp = (event) => {
+      const drag = this.#drag;
+      if (!drag || event.pointerId !== drag.id) return;
+
+      this.#drag = null;
+      if (!drag.moved) return;
+
+      this.#suppressClick = true;
+      setTimeout(() => (this.#suppressClick = false));
+
+      const dx = event.clientX - drag.x;
+      const step = Math.abs(dx) < 50 ? 0 : dx < 0 ? 1 : -1;
+      this.goTo(Math.min(Math.max(drag.page + step, 0), this.#pageCount - 1));
+
+      const finish = () => {
+        clearTimeout(timer);
+        this.classList.remove('is-dragging');
+      };
+      const timer = setTimeout(finish, 600);
+      this.track.addEventListener('scrollend', finish, { once: true });
+    };
+
+    #onClick = (event) => {
+      if (!this.#suppressClick) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      this.#suppressClick = false;
+    };
+
+    #onDragStart = (event) => {
+      event.preventDefault();
+    };
+
+    #onDotClick = (event) => {
+      const dot = event.target.closest('.carousel-dot');
+      if (dot) this.goTo(Number(dot.dataset.index));
+    };
+
+    #onDotKeydown = (event) => {
+      const steps = { ArrowRight: 1, ArrowLeft: -1 };
+      if (!(event.key in steps)) return;
+
+      event.preventDefault();
+      const count = this.#pageCount;
+      const page = (this.#page + steps[event.key] + count) % count;
+      this.goTo(page);
+      this.dots[page].focus();
+    };
+  }
+
+  if (!customElements.get('scroll-carousel')) {
+    customElements.define('scroll-carousel', ScrollCarousel);
+  }
+{% endjavascript %}

@@ -6,9 +6,13 @@
  * are output by snippets/css-variables.liquid.
  * ------------------------------------------------------------------ */
 :root {
-  /* Layout: 16px on phones up to 48px at 1440px */
-  --page-margin: clamp(1rem, 3.34vw, 3rem);
+  /* Layout: 24px on phones up to 48px at 1440px */
+  --page-margin: clamp(1.5rem, 3.34vw, 3rem);
   --section-spacing: clamp(3rem, 2rem + 3vw, 4rem);
+
+  --color-overlay: #0a1824;
+  --color-on-overlay: #ffffff;
+  --color-divider: #DEDEDE;
 
   /* Spacing */
   --space-3xs: 0.25rem; /* 4px */
@@ -34,7 +38,7 @@
   --font-size-4xl: clamp(2.25rem, 1.4rem + 3.6vw, 3.75rem); /* 36px → 60px */
 
   --line-height-tight: 1;
-  --line-height-heading: 1.24;
+  --line-height-heading: 1;
   --line-height-snug: 1.25;
   --line-height-body: 1.5;
   --line-height-relaxed: 1.7;

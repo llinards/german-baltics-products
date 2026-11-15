@@ -27,15 +27,6 @@
             "title": "Kvalitatīvi produkti katrai dienai!",
             "text": "Uzticams partneris pārtikas, dzērienu, bērnu aprūpes un higiēnas preču piegādē visā Baltijā.",
             "alignment": "left",
-            "content_width": 40,
-            "image": "shopify://shop_images/gpb-hero-background.jpg",
-            "image_alt": "",
-            "image_x": 50,
-            "image_y": 50,
-            "image_zoom": 100,
-            "image_x_mobile": 100,
-            "image_y_mobile": 50,
-            "image_zoom_mobile": 100,
             "button_1_label": "Uz veikalu",
             "button_1_link": "shopify://collections/all",
             "button_1_style": "primary",
@@ -43,13 +34,114 @@
             "button_2_label": "Par mums",
             "button_2_link": "shopify://pages/par-mums",
             "button_2_style": "secondary",
-            "button_2_icon": "caret-right-fill"
+            "button_2_icon": "caret-right-fill",
+            "image": "shopify://shop_images/banner-products-dark.png",
+            "image_alt": "German Products Baltics sortiments",
+            "image_scale": 100,
+            "content_width": 40,
+            "content_position": "center",
+            "gradient_desktop": false,
+            "gradient_color": "#0a1824",
+            "gradient_direction": "to right",
+            "gradient_start": 0,
+            "gradient_reach": 60,
+            "image_mobile": "shopify://shop_images/lifestyle-products-tall.png",
+            "image_alt_mobile": "German Products Baltics sortiments",
+            "image_scale_mobile": 125,
+            "content_position_mobile": "flex-start",
+            "gradient_mobile": true,
+            "gradient_color_mobile": "#0a1824",
+            "gradient_direction_mobile": "to bottom",
+            "gradient_start_mobile": 40,
+            "gradient_reach_mobile": 75
+          }
+        },
+        "slide_LhDxXd": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "",
+            "title": "",
+            "text": "",
+            "alignment": "left",
+            "button_1_label": "",
+            "button_1_link": "shopify://collections/all",
+            "button_1_style": "primary",
+            "button_1_icon": "caret-right-fill",
+            "button_2_label": "",
+            "button_2_link": "",
+            "button_2_style": "secondary",
+            "button_2_icon": "caret-right-fill",
+            "image": "shopify://shop_images/FM01-Freemore-Ultra-Thin-Panty-Liners-_E2_80_93-165mm-11-scaled.jpg",
+            "image_alt": "",
+            "image_scale": 100,
+            "content_width": 40,
+            "content_position": "center",
+            "gradient_desktop": false,
+            "gradient_color": "#0a1824",
+            "gradient_direction": "to right",
+            "gradient_start": 0,
+            "gradient_reach": 60,
+            "image_alt_mobile": "",
+            "image_scale_mobile": 100,
+            "content_position_mobile": "flex-start",
+            "gradient_mobile": false,
+            "gradient_color_mobile": "#0a1824",
+            "gradient_direction_mobile": "to bottom",
+            "gradient_start_mobile": 0,
+            "gradient_reach_mobile": 60
+          }
+        },
+        "slide_GHCeVe": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "",
+            "title": "",
+            "text": "",
+            "alignment": "left",
+            "button_1_label": "",
+            "button_1_link": "shopify://collections/all",
+            "button_1_style": "primary",
+            "button_1_icon": "caret-right-fill",
+            "button_2_label": "",
+            "button_2_link": "",
+            "button_2_style": "secondary",
+            "button_2_icon": "caret-right-fill",
+            "image": "shopify://shop_images/banner-products-wide.jpg",
+            "image_alt": "",
+            "image_scale": 125,
+            "content_width": 40,
+            "content_position": "center",
+            "gradient_desktop": false,
+            "gradient_color": "#0a1824",
+            "gradient_direction": "to right",
+            "gradient_start": 0,
+            "gradient_reach": 60,
+            "image_alt_mobile": "",
+            "image_scale_mobile": 100,
+            "content_position_mobile": "flex-start",
+            "gradient_mobile": false,
+            "gradient_color_mobile": "#0a1824",
+            "gradient_direction_mobile": "to bottom",
+            "gradient_start_mobile": 0,
+            "gradient_reach_mobile": 60
           }
         }
       },
       "block_order": [
-        "slide_Gh7DYB"
+        "slide_Gh7DYB",
+        "slide_LhDxXd",
+        "slide_GHCeVe"
       ],
+      "name": "t:general.hero_slider",
+      "settings": {
+        "color_scheme": "",
+        "autoplay": true,
+        "autoplay_speed": 4,
+        "show_languages": true
+      }
+    },
+    "hero_slider_qiXtBB": {
+      "type": "hero-slider",
       "name": "t:general.hero_slider",
       "settings": {
         "color_scheme": "",
@@ -57,11 +149,232 @@
         "autoplay_speed": 6,
         "show_languages": true
       }
+    },
+    "brand_logo_strip_3BpynD": {
+      "type": "brand-logo-strip",
+      "name": "t:general.brand_logo_strip",
+      "settings": {
+        "color_scheme": "",
+        "brands": []
+      }
+    },
+    "collection_strip_4A9ydT": {
+      "type": "collection-strip",
+      "name": "t:general.collection_strip",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Kategorijas",
+        "text": "Mūsu sortimentā atradīsiet kafiju, tējas, ātri pagatavojamas maltītes, mazuļu pārtiku, bērnu piederumus, kosmētiku un attīstošās rotaļlietas u.c.&nbsp;",
+        "collections": [
+          "kafija",
+          "tejas",
+          "atri-pagatavojamie-edieni",
+          "piena-maisijumi",
+          "mazulu-kosmetika",
+          "attistosas-rotallietas",
+          "bernu-piederumi",
+          "citi-produkti"
+        ],
+        "link": "shopify://collections",
+        "link_label": "Skatīt visu"
+      }
+    },
+    "collection_cards_p8D8Pp": {
+      "type": "collection-cards",
+      "blocks": {
+        "collection_REHtjc": {
+          "type": "collection",
+          "name": "Jaunumi",
+          "settings": {
+            "collection": "atklajiet-jaunus-favoritus",
+            "image_position_x": 100,
+            "image_position_y": 70,
+            "image_scale": 125,
+            "badge": "JAUNUMI",
+            "link_label": "Uzzināt vairāk"
+          }
+        },
+        "collection_zRVmRW": {
+          "type": "collection",
+          "name": "Akcijas",
+          "settings": {
+            "collection": "iecieniti-produkti-par-izdevigam-cenam",
+            "image_position_x": 100,
+            "image_position_y": 75,
+            "image_scale": 130,
+            "badge": "AKCIJAS",
+            "link_label": "Uzzināt vairāk"
+          }
+        },
+        "collection_fxpQR9": {
+          "type": "collection",
+          "name": "Mazuļa ikdienai",
+          "settings": {
+            "collection": "rupes-par-pasiem-mazakajiem",
+            "image_position_x": 100,
+            "image_position_y": 70,
+            "image_scale": 135,
+            "badge": "MAZUĻA IKDIENA",
+            "link_label": "Uzzināt vairāk"
+          }
+        }
+      },
+      "block_order": [
+        "collection_REHtjc",
+        "collection_zRVmRW",
+        "collection_fxpQR9"
+      ],
+      "name": "t:general.collection_cards",
+      "settings": {
+        "color_scheme": "",
+        "heading": "Ikdienas preces",
+        "text": ""
+      }
+    },
+    "why_choose_us_Kx4mPq": {
+      "type": "why-choose-us",
+      "blocks": {
+        "stat_Ta8LwE": {
+          "type": "stat",
+          "settings": {
+            "title": "10+ gadi",
+            "text": "Pieredze"
+          }
+        },
+        "stat_Hn3VcR": {
+          "type": "stat",
+          "settings": {
+            "title": "3",
+            "text": "Baltijas valstis"
+          }
+        },
+        "stat_Pq7ZsD": {
+          "type": "stat",
+          "settings": {
+            "title": "10+",
+            "text": "Zīmoli"
+          }
+        },
+        "stat_Wm2YfJ": {
+          "type": "stat",
+          "settings": {
+            "title": "1 partneris",
+            "text": "Tavai izaugsmei"
+          }
+        }
+      },
+      "block_order": [
+        "stat_Ta8LwE",
+        "stat_Hn3VcR",
+        "stat_Pq7ZsD",
+        "stat_Wm2YfJ"
+      ],
+      "name": "t:general.why_choose_us",
+      "settings": {
+        "color_scheme": "",
+        "title": "Kāpēc izvēlēties GPB?",
+        "text": "Uzticams partneris kvalitatīvu pārtikas, dzērienu, bērnu aprūpes un higiēnas preču izplatīšanā visā Baltijā. Apvienojam pieredzi, atzītus zīmolus un pārdomātu loģistiku jūsu biznesa izaugsmei."
+      }
+    },
+    "services_RcUn6q": {
+      "type": "services",
+      "blocks": {
+        "service_wkCFxa": {
+          "type": "service",
+          "settings": {
+            "icon": "globe",
+            "title": "Loģistika",
+            "text": "Nodrošinām preču uzglabāšanu, krājumu vadību, pasūtījumu apstrādi un piegādi klientiem."
+          }
+        },
+        "service_Dj77tw": {
+          "type": "service",
+          "settings": {
+            "icon": "truck",
+            "title": "Tirdzniecība",
+            "text": "Organizējam produktu pārdošanu veikaliem, aptiekām un citām tirdzniecības vietām — no sortimenta veidošanas līdz pasūtījumu izpildei."
+          }
+        },
+        "service_8TaJJy": {
+          "type": "service",
+          "settings": {
+            "icon": "seal-check",
+            "title": "Mārketings",
+            "text": "Izstrādājam zīmola un produktu virzības stratēģijas, plānojam reklāmas kampaņas un veicinām atpazīstamību tirgū."
+          }
+        },
+        "service_c7Nni7": {
+          "type": "service",
+          "settings": {
+            "icon": "handshake",
+            "title": "Merčendaizings",
+            "text": "Rūpējamies par produktu izvietojumu veikalu plauktos, reklāmas materiāliem un preču atlikumu un derīguma termiņu kontroli."
+          }
+        }
+      },
+      "block_order": [
+        "service_wkCFxa",
+        "service_Dj77tw",
+        "service_8TaJJy",
+        "service_c7Nni7"
+      ],
+      "name": "t:general.services",
+      "settings": {
+        "color_scheme": "",
+        "eyebrow": "PAKALPOJUMI",
+        "title": "No ražotāja līdz veikala plauktam",
+        "text": "Nodrošinām loģistiku, tirdzniecību, mārketingu un preču izvietošanu, palīdzot jūsu zīmolam sasniegt pircējus Baltijas tirgū.",
+        "button_1_label": "Par mums",
+        "button_1_link": "shopify://pages/par-mums",
+        "button_1_style": "primary",
+        "button_1_icon": "caret-right-fill",
+        "button_2_label": "",
+        "button_2_link": "",
+        "button_2_style": "secondary",
+        "button_2_icon": "caret-right-fill",
+        "image": "shopify://shop_images/warehouse-truck-exterior.jpg",
+        "image_alt": "",
+        "image_scale": 100,
+        "content_width": 70,
+        "content_position": "center",
+        "gradient_desktop": true,
+        "gradient_color": "#0a1824",
+        "gradient_direction": "to right",
+        "gradient_start": 20,
+        "gradient_reach": 100,
+        "image_position_x": 50,
+        "image_position_y": 50,
+        "image_scale_mobile": 100
+      }
+    },
+    "faq_pnpjtK": {
+      "type": "faq",
+      "name": "t:general.faq",
+      "settings": {
+        "color_scheme": "",
+        "title": "Biežāk uzdotie jautājumi",
+        "questions": [
+          "ka-veikt-pasutijumu",
+          "ka-apmaksat-pasutijumu",
+          "cik-ilga-laika-tiek-sagatavots-pasutijums",
+          "kadi-piegades-veidi-ir-pieejami-un-cik-tie-maksa",
+          "vai-pasutijumu-var-sanemt-uz-vietas",
+          "ka-varu-izsekot-savam-pasutijumam",
+          "ko-darit-ja-sanemta-nepareiza-bojata-prece-vai-pasutijuma-kaut-ka-trukst"
+        ]
+      }
     }
   },
   "order": [
     "1794064341b12e857b",
     "1794064352fd947eb2",
-    "hero_slider_GFUrzJ"
+    "hero_slider_GFUrzJ",
+    "hero_slider_qiXtBB",
+    "brand_logo_strip_3BpynD",
+    "collection_strip_4A9ydT",
+    "collection_cards_p8D8Pp",
+    "services_RcUn6q",
+    "faq_pnpjtK",
+    "why_choose_us_Kx4mPq"
   ]
 }
