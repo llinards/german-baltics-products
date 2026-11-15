@@ -140,16 +140,6 @@
         "show_languages": true
       }
     },
-    "hero_slider_qiXtBB": {
-      "type": "hero-slider",
-      "name": "t:general.hero_slider",
-      "settings": {
-        "color_scheme": "",
-        "autoplay": true,
-        "autoplay_speed": 6,
-        "show_languages": true
-      }
-    },
     "brand_logo_strip_3BpynD": {
       "type": "brand-logo-strip",
       "name": "t:general.brand_logo_strip",
@@ -229,51 +219,6 @@
         "color_scheme": "",
         "heading": "Ikdienas preces",
         "text": ""
-      }
-    },
-    "why_choose_us_Kx4mPq": {
-      "type": "why-choose-us",
-      "blocks": {
-        "stat_Ta8LwE": {
-          "type": "stat",
-          "settings": {
-            "title": "10+ gadi",
-            "text": "Pieredze"
-          }
-        },
-        "stat_Hn3VcR": {
-          "type": "stat",
-          "settings": {
-            "title": "3",
-            "text": "Baltijas valstis"
-          }
-        },
-        "stat_Pq7ZsD": {
-          "type": "stat",
-          "settings": {
-            "title": "10+",
-            "text": "Zīmoli"
-          }
-        },
-        "stat_Wm2YfJ": {
-          "type": "stat",
-          "settings": {
-            "title": "1 partneris",
-            "text": "Tavai izaugsmei"
-          }
-        }
-      },
-      "block_order": [
-        "stat_Ta8LwE",
-        "stat_Hn3VcR",
-        "stat_Pq7ZsD",
-        "stat_Wm2YfJ"
-      ],
-      "name": "t:general.why_choose_us",
-      "settings": {
-        "color_scheme": "",
-        "title": "Kāpēc izvēlēties GPB?",
-        "text": "Uzticams partneris kvalitatīvu pārtikas, dzērienu, bērnu aprūpes un higiēnas preču izplatīšanā visā Baltijā. Apvienojam pieredzi, atzītus zīmolus un pārdomātu loģistiku jūsu biznesa izaugsmei."
       }
     },
     "services_RcUn6q": {
@@ -363,13 +308,57 @@
           "ko-darit-ja-sanemta-nepareiza-bojata-prece-vai-pasutijuma-kaut-ka-trukst"
         ]
       }
+    },
+    "why_choose_us_Kx4mPq": {
+      "type": "why-choose-us",
+      "blocks": {
+        "stat_Ta8LwE": {
+          "type": "stat",
+          "settings": {
+            "title": "10+ gadi",
+            "text": "Pieredze"
+          }
+        },
+        "stat_Hn3VcR": {
+          "type": "stat",
+          "settings": {
+            "title": "3",
+            "text": "Baltijas valstis"
+          }
+        },
+        "stat_Pq7ZsD": {
+          "type": "stat",
+          "settings": {
+            "title": "10+",
+            "text": "Zīmoli"
+          }
+        },
+        "stat_Wm2YfJ": {
+          "type": "stat",
+          "settings": {
+            "title": "1 partneris",
+            "text": "Tavai izaugsmei"
+          }
+        }
+      },
+      "block_order": [
+        "stat_Ta8LwE",
+        "stat_Hn3VcR",
+        "stat_Pq7ZsD",
+        "stat_Wm2YfJ"
+      ],
+      "name": "t:general.why_choose_us",
+      "settings": {
+        "color_scheme": "",
+        "title": "Kāpēc izvēlēties GPB?",
+        "text": "Uzticams partneris kvalitatīvu pārtikas, dzērienu, bērnu aprūpes un higiēnas preču izplatīšanā visā Baltijā. Apvienojam pieredzi, atzītus zīmolus un pārdomātu loģistiku jūsu biznesa izaugsmei."
+      }
     }
   },
   "order": [
     "1794064341b12e857b",
     "1794064352fd947eb2",
     "hero_slider_GFUrzJ",
-    "hero_slider_qiXtBB",
     "brand_logo_strip_3BpynD",
     "collection_strip_4A9ydT",
     "collection_cards_p8D8Pp",
