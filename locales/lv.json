@@ -4617,7 +4617,22 @@
     "slide_label": "{{ index }}. slaids no {{ count }}",
     "choose_slide": "Izvēlēties slaidu",
     "pause_slideshow": "Apturēt slaidrādi",
-    "language": "Valoda"
+    "language": "Valoda",
+    "previous_image": "Iepriekšējais attēls",
+    "next_image": "Nākamais attēls",
+    "product_images": "Produkta attēli"
+  },
+  "product": {
+    "price_without_vat": "Bez PVN:",
+    "in_stock": "Ir noliktavā",
+    "low_stock": "<5 noliktavā",
+    "out_of_stock": "Nav noliktavā",
+    "add_to_cart": "Pievienot grozam",
+    "about": "Par produktu",
+    "size": "Izmērs",
+    "weight": "Svars",
+    "sku": "SKU",
+    "country_of_origin": "Izcelsmes valsts"
   },
   "header": {
     "categories": "Kategorijas",

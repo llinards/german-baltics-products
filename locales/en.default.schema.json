@@ -44,6 +44,7 @@
     "page": "Page",
     "password": "Password",
     "primary": "Primary",
+    "pricing": "Pricing",
     "product": "Product",
     "row": "Row",
     "search": "Search",
@@ -124,6 +125,7 @@
     "title": "Title",
     "text_style": "Text style",
     "tiktok": "TikTok",
+    "vat_rate": "VAT rate",
     "wishlist_link": "Wishlist link"
   },
   "options": {

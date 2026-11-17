@@ -119,7 +119,22 @@
     "slide_label": "{{ index }} skaidrė iš {{ count }}",
     "choose_slide": "Pasirinkti skaidrę",
     "pause_slideshow": "Pristabdyti skaidrių peržiūrą",
-    "language": "Kalba"
+    "language": "Kalba",
+    "previous_image": "Ankstesnis vaizdas",
+    "next_image": "Kitas vaizdas",
+    "product_images": "Produkto nuotraukos"
+  },
+  "product": {
+    "price_without_vat": "Be PVM:",
+    "in_stock": "Yra sandėlyje",
+    "low_stock": "<5 sandėlyje",
+    "out_of_stock": "Nėra sandėlyje",
+    "add_to_cart": "Į krepšelį",
+    "about": "Apie produktą",
+    "size": "Dydis",
+    "weight": "Svoris",
+    "sku": "SKU",
+    "country_of_origin": "Kilmės šalis"
   },
   "header": {
     "categories": "Kategorijos",

@@ -94,7 +94,22 @@
     "slide_label": "Slide {{ index }} of {{ count }}",
     "choose_slide": "Choose slide",
     "pause_slideshow": "Pause slideshow",
-    "language": "Language"
+    "language": "Language",
+    "previous_image": "Previous image",
+    "next_image": "Next image",
+    "product_images": "Product images"
+  },
+  "product": {
+    "price_without_vat": "Excl. VAT:",
+    "in_stock": "In stock",
+    "low_stock": "<5 in stock",
+    "out_of_stock": "Out of stock",
+    "add_to_cart": "Add to cart",
+    "about": "About the product",
+    "size": "Size",
+    "weight": "Weight",
+    "sku": "SKU",
+    "country_of_origin": "Country of origin"
   },
   "header": {
     "categories": "Categories",

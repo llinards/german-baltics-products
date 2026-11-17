@@ -94,7 +94,22 @@
     "slide_label": "Slaid {{ index }}/{{ count }}",
     "choose_slide": "Vali slaid",
     "pause_slideshow": "Peata slaidiseanss",
-    "language": "Keel"
+    "language": "Keel",
+    "previous_image": "Eelmine pilt",
+    "next_image": "Järgmine pilt",
+    "product_images": "Toote pildid"
+  },
+  "product": {
+    "price_without_vat": "Ilma KM-ta:",
+    "in_stock": "Laos",
+    "low_stock": "<5 laos",
+    "out_of_stock": "Otsas",
+    "add_to_cart": "Lisa ostukorvi",
+    "about": "Toote kohta",
+    "size": "Suurus",
+    "weight": "Kaal",
+    "sku": "SKU",
+    "country_of_origin": "Päritoluriik"
   },
   "header": {
     "categories": "Kategooriad",
