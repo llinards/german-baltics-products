@@ -139,9 +139,12 @@
       </a>
     </div>
 
-    <div class="product__about">
-      <h2 class="product__about-heading">{{ 'product.about' | t }}</h2>
-      <dl class="product__specs">
+    <details class="curtain product__about" open>
+      <summary class="curtain__summary">
+        <h2 class="curtain__heading">{{ 'product.about' | t }}</h2>
+        {%- render 'icon', name: 'caret-down', class: 'curtain__caret' -%}
+      </summary>
+      <dl class="curtain__content product__specs">
         {%- assign size = product.options_by_name['Size'].selected_value -%}
         {%- if size != blank -%}
           <div class="product__spec">
@@ -167,8 +170,14 @@
             <dd>{{ product.metafields.custom.country_of_origin.value }}</dd>
           </div>
         {%- endif -%}
+        {%- if product.metafields.custom.ingredients != blank -%}
+          <div class="product__spec product__spec--mobile">
+            <dt>{{ 'product.ingredients' | t }}:</dt>
+            <dd>{{ product.metafields.custom.ingredients.value }}</dd>
+          </div>
+        {%- endif -%}
       </dl>
-    </div>
+    </details>
   </div>
 </div>
 
@@ -176,7 +185,7 @@
   .product {
     display: grid;
     gap: var(--space-lg);
-    padding-block: var(--space-lg) var(--space-xl);
+    padding-block-start: var(--space-md);
   }
 
   .product__gallery {
@@ -230,6 +239,7 @@
       var(--gallery-max-height) - var(--border-width) * 2 - var(--gallery-padding) * 2 - var(--gallery-gap) -
         var(--thumb-size) - var(--thumb-padding) * 2
     );
+    overflow: hidden;
     scroll-snap-align: center;
   }
 
@@ -239,6 +249,18 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+    transform-origin: var(--zoom-x, 50%) var(--zoom-y, 50%);
+    transition: transform var(--duration-fast) ease-in-out;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .product-gallery__slide {
+      cursor: zoom-in;
+    }
+
+    .product-gallery__slide:hover .product-gallery__image {
+      transform: scale(2);
+    }
   }
 
   .product-gallery__arrow {
@@ -406,7 +428,6 @@
     display: flex;
     align-items: center;
     gap: var(--space-xs);
-    margin-block-start: var(--space-2xs);
   }
 
   .product__form {
@@ -430,41 +451,70 @@
     color: rgb(17 17 17 / 0.5);
     background-color: var(--color-neutral);
     border-radius: var(--radius-pill);
-  }
+    transition: background-color var(--duration-fast) ease-in-out;
 
-  .product__about {
-    margin-block-start: var(--space-md);
-  }
-
-  .product__about-heading {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-heading-weight-bold);
-    line-height: var(--line-height-snug);
+    &:hover {
+      background-color: color-mix(in srgb, var(--color-neutral) 60%, white);
+    }
   }
 
   .product__specs {
     display: flex;
     flex-direction: column;
     gap: var(--space-3xs);
-    margin-block-start: var(--space-sm);
     color: var(--color-foreground-secondary);
   }
 
   .product__spec {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3xs);
-
     & dt {
+      display: inline;
       font-weight: var(--font-body-weight-semibold);
     }
 
     & dd {
+      display: inline;
       margin: 0;
     }
   }
 
   @media screen and (min-width: 990px) {
+    .product {
+      padding-block-end: var(--space-lg);
+    }
+
+    .product__spec--mobile {
+      display: none;
+    }
+
+    .product__about.curtain {
+      margin-block-start: var(--space-md);
+      border: 0;
+
+      &::details-content {
+        block-size: auto;
+        content-visibility: visible;
+      }
+    }
+
+    .product__about > .curtain__summary {
+      padding-block: 0;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .product__about .curtain__caret {
+      display: none;
+    }
+
+    .product__about .curtain__content {
+      margin-block-start: var(--space-sm);
+      padding-block-end: 0;
+    }
+
+    .product__actions {
+      margin-block-start: var(--space-2xs);
+    }
+
     .product {
       grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
       align-items: start;
@@ -502,6 +552,12 @@
     connectedCallback() {
       this.track = this.querySelector('[data-gallery-track]');
       this.slides = [...(this.track?.children ?? [])];
+      if (!this.slides.length) return;
+
+      this.#controller = new AbortController();
+      const { signal } = this.#controller;
+
+      this.track.addEventListener('pointermove', this.#onZoom, { passive: true, signal });
       if (this.slides.length < 2) return;
 
       this.prev = this.querySelector('[data-gallery-prev]');
@@ -509,9 +565,6 @@
       this.thumbList = this.querySelector('[data-gallery-thumbs]');
       this.thumbs = [...this.querySelectorAll('[data-gallery-thumb]')];
       this.index = 0;
-
-      this.#controller = new AbortController();
-      const { signal } = this.#controller;
 
       this.track.addEventListener('scroll', this.#onScroll, { passive: true, signal });
       this.prev?.addEventListener('click', () => this.goTo(this.index - 1), { signal });
@@ -560,6 +613,17 @@
         this.thumbList.scrollBy({ left: rect.right - list.right + padding, behavior: this.#behavior });
       }
     }
+
+    #onZoom = (event) => {
+      if (event.pointerType !== 'mouse') return;
+
+      const slide = event.target.closest('.product-gallery__slide');
+      if (!slide) return;
+
+      const rect = slide.getBoundingClientRect();
+      slide.style.setProperty('--zoom-x', `${((event.clientX - rect.left) / rect.width) * 100}%`);
+      slide.style.setProperty('--zoom-y', `${((event.clientY - rect.top) / rect.height) * 100}%`);
+    };
 
     #onScroll = () => {
       cancelAnimationFrame(this.#frame);

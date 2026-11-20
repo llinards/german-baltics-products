@@ -131,10 +131,12 @@
     "out_of_stock": "Nėra sandėlyje",
     "add_to_cart": "Į krepšelį",
     "about": "Apie produktą",
+    "description": "Produkto aprašymas",
     "size": "Dydis",
     "weight": "Svoris",
     "sku": "SKU",
-    "country_of_origin": "Kilmės šalis"
+    "country_of_origin": "Kilmės šalis",
+    "ingredients": "ingredientai"
   },
   "header": {
     "categories": "Kategorijos",

@@ -290,6 +290,58 @@ b {
   width: 100%;
 }
 
+.curtain {
+  interpolate-size: allow-keywords;
+  border-block-end: var(--border-width) solid var(--color-divider);
+
+  &::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size var(--duration-fast) ease-in-out,
+      content-visibility var(--duration-fast) allow-discrete;
+  }
+
+  &[open]::details-content {
+    block-size: auto;
+  }
+}
+
+.curtain__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding-block: var(--space-sm);
+  list-style: none;
+  cursor: pointer;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.curtain__heading {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-heading-weight-bold);
+  line-height: var(--line-height-snug);
+}
+
+.curtain__caret {
+  --icon-size: 1.25rem;
+
+  flex: none;
+  transition: rotate var(--duration-fast) ease-in-out;
+}
+
+.curtain[open] > .curtain__summary .curtain__caret {
+  rotate: 180deg;
+}
+
+.curtain__content {
+  padding-block-end: var(--space-sm);
+}
+
 /* ------------------------------------------------------------------
  * Icons: {% render 'icon', name: 'cart' %}
  * Size with --icon-size on the icon or any parent.

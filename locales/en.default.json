@@ -106,10 +106,12 @@
     "out_of_stock": "Out of stock",
     "add_to_cart": "Add to cart",
     "about": "About the product",
+    "description": "Product description",
     "size": "Size",
     "weight": "Weight",
     "sku": "SKU",
-    "country_of_origin": "Country of origin"
+    "country_of_origin": "Country of origin",
+    "ingredients": "Ingredients"
   },
   "header": {
     "categories": "Categories",

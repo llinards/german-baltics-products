@@ -4629,10 +4629,12 @@
     "out_of_stock": "Nav noliktavā",
     "add_to_cart": "Pievienot grozam",
     "about": "Par produktu",
+    "description": "Produkta apraksts",
     "size": "Izmērs",
     "weight": "Svars",
     "sku": "SKU",
-    "country_of_origin": "Izcelsmes valsts"
+    "country_of_origin": "Izcelsmes valsts",
+    "ingredients": "Sastāvs"
   },
   "header": {
     "categories": "Kategorijas",

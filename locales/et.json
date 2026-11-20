@@ -106,10 +106,12 @@
     "out_of_stock": "Otsas",
     "add_to_cart": "Lisa ostukorvi",
     "about": "Toote kohta",
+    "description": "Tootekirjeldus",
     "size": "Suurus",
     "weight": "Kaal",
     "sku": "SKU",
-    "country_of_origin": "Päritoluriik"
+    "country_of_origin": "Päritoluriik",
+    "ingredients": "Koostisosad"
   },
   "header": {
     "categories": "Kategooriad",
