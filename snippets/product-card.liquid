@@ -1,0 +1,161 @@
+{%- doc -%}
+  Renders a product card: image, title, price (sale price in the primary color
+  with the full price struck through), price without VAT and an add-to-cart button.
+
+  @param {product} product - The product to render
+
+  @example
+  {% render 'product-card', product: product %}
+{%- enddoc -%}
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign vat_divisor = settings.vat_rate | plus: 100
+-%}
+
+<div class="product-card">
+  <a class="product-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+    {%- if product.featured_image != blank -%}
+      {{
+        product.featured_image
+        | image_url: width: 600
+        | image_tag:
+          widths: '200, 300, 400, 600',
+          sizes: '(min-width: 990px) 20vw, (min-width: 750px) 40vw, 80vw',
+          loading: 'lazy',
+          alt: product.title,
+          class: 'product-card__image'
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'product-card__image product-card__image--placeholder' }}
+    {%- endif -%}
+  </a>
+
+  <div class="product-card__info">
+    <h3 class="product-card__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+    <p class="product-card__price">
+      {%- if variant.compare_at_price > variant.price -%}
+        <span class="product-card__price-current product-card__price-current--sale">{{ variant.price | money }}</span>
+        <s class="product-card__price-compare">{{ variant.compare_at_price | money }}</s>
+      {%- else -%}
+        <span class="product-card__price-current">{{ variant.price | money }}</span>
+      {%- endif -%}
+    </p>
+    <p class="product-card__price-net">
+      {{ 'product.price_without_vat' | t }}
+      {{ variant.price | times: 100.0 | divided_by: vat_divisor | round | money }}
+    </p>
+  </div>
+
+  {%- if variant.available -%}
+    {%- form 'product', product, class: 'product-card__action' -%}
+      <input type="hidden" name="id" value="{{ variant.id }}">
+      <button type="submit" name="add" class="button button--secondary button--full product-card__button">
+        {{ 'product.add_to_cart' | t }}
+      </button>
+    {%- endform -%}
+  {%- else -%}
+    <button type="button" class="button button--sold-out button--full product-card__action" disabled>
+      {{ 'product.out_of_stock' | t }}
+    </button>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    block-size: 100%;
+  }
+
+  .product-card__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+  }
+
+  .product-card__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: var(--space-md);
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    transition: transform var(--duration-fast) ease-in-out;
+
+    @media (prefers-reduced-motion: no-preference) {
+      .product-card__media:hover & {
+        transform: scale(1.03);
+      }
+    }
+  }
+
+  .product-card__image--placeholder {
+    fill: var(--color-foreground-subtle);
+  }
+
+  .product-card__title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-heading-weight-regular);
+    line-height: var(--line-height-snug);
+
+    & a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--duration-fast) ease-in-out;
+
+      &:hover {
+        color: var(--color-primary-text);
+      }
+    }
+  }
+
+  .product-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .product-card__price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2xs);
+  }
+
+  .product-card__price-current {
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-heading-weight-bold);
+    line-height: var(--line-height-snug);
+  }
+
+  .product-card__price-current--sale {
+    color: var(--color-primary-text);
+  }
+
+  .product-card__price-compare {
+    font-size: var(--font-size-base);
+    color: var(--color-foreground-faded);
+  }
+
+  .product-card__price-net {
+    font-size: var(--font-size-sm);
+    color: var(--color-foreground-muted);
+  }
+
+  .product-card__action {
+    margin-block-start: auto;
+  }
+
+  .product-card__button {
+    background-color: var(--color-background);
+  }
+{% endstylesheet %}

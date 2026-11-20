@@ -290,6 +290,14 @@ b {
   width: 100%;
 }
 
+.button--sold-out,
+.button--sold-out:is(:hover, :disabled) {
+  border-color: var(--color-neutral);
+  color: rgb(17 17 17 / 0.5);
+  background-color: var(--color-neutral);
+  opacity: 1;
+}
+
 .curtain {
   interpolate-size: allow-keywords;
   border-block-end: var(--border-width) solid var(--color-divider);

@@ -75,6 +75,8 @@
     }
   },
   "accessibility": {
+    "previous_slide": "Eelmine slaid",
+    "next_slide": "Järgmine slaid",
     "account": "Konto",
     "pause_announcements": "Peata kerimine",
     "main_menu": "Peamenüü",
@@ -100,6 +102,7 @@
     "product_images": "Toote pildid"
   },
   "product": {
+    "related_products": "Teised sarnased tooted",
     "price_without_vat": "Ilma KM-ta:",
     "in_stock": "Laos",
     "low_stock": "<5 laos",

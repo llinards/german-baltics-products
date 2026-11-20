@@ -4597,6 +4597,8 @@
     }
   },
   "accessibility": {
+    "previous_slide": "Iepriekšējais slaids",
+    "next_slide": "Nākamais slaids",
     "account": "Konts",
     "pause_announcements": "Apturēt ritināšanu",
     "main_menu": "Galvenā izvēlne",
@@ -4623,6 +4625,7 @@
     "product_images": "Produkta attēli"
   },
   "product": {
+    "related_products": "Citi līdzīgi produkti",
     "price_without_vat": "Bez PVN:",
     "in_stock": "Ir noliktavā",
     "low_stock": "<5 noliktavā",

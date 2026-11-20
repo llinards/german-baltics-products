@@ -75,6 +75,8 @@
     }
   },
   "accessibility": {
+    "previous_slide": "Previous slide",
+    "next_slide": "Next slide",
     "account": "Account",
     "pause_announcements": "Pause scrolling",
     "main_menu": "Main menu",
@@ -100,6 +102,7 @@
     "product_images": "Product images"
   },
   "product": {
+    "related_products": "Similar products",
     "price_without_vat": "Excl. VAT:",
     "in_stock": "In stock",
     "low_stock": "<5 in stock",

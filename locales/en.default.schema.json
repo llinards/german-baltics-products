@@ -47,6 +47,7 @@
     "pricing": "Pricing",
     "product": "Product",
     "product_details": "Product details",
+    "related_products": "Related products",
     "row": "Row",
     "search": "Search",
     "secondary": "Secondary",
@@ -114,6 +115,7 @@
     "page_width": "Page width",
     "phone_note": "Phone note",
     "primary": "Primary",
+    "products_to_show": "Maximum products to show",
     "questions": "Questions",
     "scroll": "Scroll messages",
     "scroll_speed": "Scroll speed",
@@ -212,6 +214,7 @@
     "surface_color": "Cards, inputs (including the header search bar) and round icon buttons.",
     "social_media": "Links from Settings → Brand → Social links are used first; these fill in any that are missing there. Icons show in the mobile menu and the footer for each link that is set.",
     "services_mobile": "Below 1240px wide.",
+    "related_products_heading": "Leave empty to use the translated default heading.",
     "services_image_position": "Which part of the mobile image card stays visible when it's cropped. Only used when the image has no focal point. 0% is the left or top edge, 100% the right or bottom edge.",
     "wishlist_link": "Where the heart icon leads. Until a link is set, it goes nowhere."
   }

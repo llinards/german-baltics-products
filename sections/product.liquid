@@ -99,38 +99,38 @@
         {{ variant.price | times: 100.0 | divided_by: vat_divisor | round | money }}
       </p>
       <p class="product__price">
-        <span class="product__price-current">{{ variant.price | money }}</span>
         {%- if variant.compare_at_price > variant.price -%}
+          <span class="product__price-current product__price-current--sale">{{ variant.price | money }}</span>
           <s class="product__price-compare">{{ variant.compare_at_price | money }}</s>
+        {%- else -%}
+          <span class="product__price-current">{{ variant.price | money }}</span>
         {%- endif -%}
       </p>
+       <p class="product__stock product__stock--{{ stock_status }}">
+          {%- case stock_status -%}
+            {%- when 'out' -%}
+              {{- 'product.out_of_stock' | t -}}
+            {%- when 'low' -%}
+              {{- 'product.low_stock' | t -}}
+            {%- else -%}
+              {{- 'product.in_stock' | t -}}
+          {%- endcase -%}
+        </p>
     </div>
-
-    <p class="product__stock product__stock--{{ stock_status }}">
-      {%- case stock_status -%}
-        {%- when 'out' -%}
-          {{- 'product.out_of_stock' | t -}}
-        {%- when 'low' -%}
-          {{- 'product.low_stock' | t -}}
-        {%- else -%}
-          {{- 'product.in_stock' | t -}}
-      {%- endcase -%}
-    </p>
 
     <div class="product__actions">
       {%- form 'product', product, class: 'product__form' -%}
         <input type="hidden" name="id" value="{{ variant.id }}">
-        <button
-          type="submit"
-          name="add"
-          class="button product__add-to-cart"
-          {% unless variant.available %}
-            disabled
-          {% endunless %}
-        >
-          <span>{{ 'product.add_to_cart' | t }}</span>
-          {%- render 'icon', name: 'cart' -%}
-        </button>
+        {%- if variant.available -%}
+          <button type="submit" name="add" class="button product__add-to-cart">
+            <span>{{ 'product.add_to_cart' | t }}</span>
+            {%- render 'icon', name: 'cart' -%}
+          </button>
+        {%- else -%}
+          <button type="button" class="button button--sold-out product__add-to-cart" disabled>
+            {{ 'product.out_of_stock' | t }}
+          </button>
+        {%- endif -%}
       {%- endform -%}
 
       <a class="product__wishlist" href="#">
@@ -402,6 +402,10 @@
     font-size: var(--font-size-2xl);
     font-weight: var(--font-heading-weight-bold);
     line-height: var(--line-height-snug);
+  }
+
+  .product__price-current--sale {
+    color: var(--color-primary-text);
   }
 
   .product__price-compare {

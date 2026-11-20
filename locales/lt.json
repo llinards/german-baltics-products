@@ -98,6 +98,8 @@
     }
   },
   "accessibility": {
+    "previous_slide": "Ankstesnė skaidrė",
+    "next_slide": "Kita skaidrė",
     "account": "Paskyra",
     "pause_announcements": "Sustabdyti slinkimą",
     "main_menu": "Pagrindinis meniu",
@@ -125,6 +127,7 @@
     "product_images": "Produkto nuotraukos"
   },
   "product": {
+    "related_products": "Kiti panašūs produktai",
     "price_without_vat": "Be PVM:",
     "in_stock": "Yra sandėlyje",
     "low_stock": "<5 sandėlyje",
