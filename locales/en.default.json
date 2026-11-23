@@ -37,7 +37,18 @@
     }
   },
   "collections": {
-    "title": "Collections"
+    "title": "Collections",
+    "catalog": "Catalog",
+    "empty": "There are no products in this collection.",
+    "sort_by": "Sort by:",
+    "show": "Show:",
+    "sort": {
+      "created_descending": "Default",
+      "title_ascending": "Alphabetically, A-Z",
+      "title_descending": "Alphabetically, Z-A",
+      "price_descending": "Price, high to low",
+      "price_ascending": "Price, low to high"
+    }
   },
   "general": {
     "learn_more": "Learn more"
@@ -99,7 +110,12 @@
     "language": "Language",
     "previous_image": "Previous image",
     "next_image": "Next image",
-    "product_images": "Product images"
+    "product_images": "Product images",
+    "pagination": "Pagination",
+    "quantity": "Quantity",
+    "increase_quantity": "Increase quantity",
+    "decrease_quantity": "Decrease quantity",
+    "remove_from_cart": "Remove from cart"
   },
   "product": {
     "related_products": "Similar products",

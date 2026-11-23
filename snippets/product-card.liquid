@@ -16,16 +16,35 @@
 <div class="product-card">
   <a class="product-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
     {%- if product.featured_image != blank -%}
-      {{
-        product.featured_image
-        | image_url: width: 600
-        | image_tag:
-          widths: '200, 300, 400, 600',
-          sizes: '(min-width: 990px) 20vw, (min-width: 750px) 40vw, 80vw',
-          loading: 'lazy',
-          alt: product.title,
-          class: 'product-card__image'
-      }}
+      <product-card-gallery class="product-card__gallery">
+        {{
+          product.featured_image
+          | image_url: width: 600
+          | image_tag:
+            widths: '200, 300, 400, 600',
+            sizes: '(min-width: 990px) 20vw, (min-width: 750px) 40vw, 80vw',
+            loading: 'lazy',
+            alt: product.title,
+            class: 'product-card__image is-active'
+        }}
+
+        {%- if product.images.size > 1 -%}
+          <template>
+            {%- for image in product.images offset: 1 -%}
+              {{
+                image
+                | image_url: width: 600
+                | image_tag:
+                  widths: '200, 300, 400, 600',
+                  sizes: '(min-width: 990px) 20vw, (min-width: 750px) 40vw, 80vw',
+                  loading: 'eager',
+                  alt: product.title,
+                  class: 'product-card__image'
+              }}
+            {%- endfor -%}
+          </template>
+        {%- endif -%}
+      </product-card-gallery>
     {%- else -%}
       {{ 'product-1' | placeholder_svg_tag: 'product-card__image product-card__image--placeholder' }}
     {%- endif -%}
@@ -50,12 +69,23 @@
   </div>
 
   {%- if variant.available -%}
-    {%- form 'product', product, class: 'product-card__action' -%}
-      <input type="hidden" name="id" value="{{ variant.id }}">
-      <button type="submit" name="add" class="button button--secondary button--full product-card__button">
-        {{ 'product.add_to_cart' | t }}
-      </button>
-    {%- endform -%}
+    {%- assign cart_quantity = cart.items | where: 'variant_id', variant.id | map: 'quantity' | sum -%}
+    <product-card-cart
+      class="product-card__action"
+      data-variant-id="{{ variant.id }}"
+      {% if cart_quantity > 0 %}
+        data-in-cart
+      {% endif %}
+    >
+      {%- form 'product', product, class: 'product-card__form' -%}
+        <input type="hidden" name="id" value="{{ variant.id }}">
+        <button type="submit" name="add" class="button button--secondary button--full product-card__button">
+          {{ 'product.add_to_cart' | t }}
+        </button>
+      {%- endform -%}
+
+      {%- render 'quantity-input', quantity: cart_quantity, removable: true, class: 'product-card__quantity' -%}
+    </product-card-cart>
   {%- else -%}
     <button type="button" class="button button--sold-out button--full product-card__action" disabled>
       {{ 'product.out_of_stock' | t }}
@@ -80,6 +110,12 @@
     border-radius: var(--radius-lg);
   }
 
+  .product-card__gallery {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+
   .product-card__image {
     position: absolute;
     inset: 0;
@@ -88,7 +124,13 @@
     padding: var(--space-md);
     object-fit: contain;
     mix-blend-mode: multiply;
-    transition: transform var(--duration-fast) ease-in-out;
+    transition:
+      transform var(--duration-fast) ease-in-out,
+      opacity 0.6s ease-in-out;
+
+    .product-card__gallery &:not(.is-active) {
+      opacity: 0;
+    }
 
     @media (prefers-reduced-motion: no-preference) {
       .product-card__media:hover & {
@@ -152,10 +194,163 @@
   }
 
   .product-card__action {
+    display: block;
     margin-block-start: auto;
+  }
+
+  .product-card__quantity {
+    margin-inline: auto;
+
+    @media screen and (min-width: 990px) {
+      padding-inline: var(--space-lg);
+    }
+  }
+
+  product-card-cart {
+    &[data-in-cart] .product-card__form,
+    &:not([data-in-cart]) .product-card__quantity {
+      display: none;
+    }
   }
 
   .product-card__button {
     background-color: var(--color-background);
   }
 {% endstylesheet %}
+
+{% javascript %}
+  class ProductCardGallery extends HTMLElement {
+    #images = [];
+    #index = 0;
+    #timer;
+
+    connectedCallback() {
+      if (!this.querySelector('template')) return;
+      this.addEventListener('pointerenter', this.#start);
+      this.addEventListener('pointerleave', this.#stop);
+    }
+
+    disconnectedCallback() {
+      this.removeEventListener('pointerenter', this.#start);
+      this.removeEventListener('pointerleave', this.#stop);
+      clearInterval(this.#timer);
+    }
+
+    #start = (event) => {
+      if (event.pointerType !== 'mouse') return;
+
+      if (!this.#images.length) {
+        this.append(this.querySelector('template').content.cloneNode(true));
+        this.#images = [...this.querySelectorAll('.product-card__image')];
+      }
+
+      clearInterval(this.#timer);
+      this.#show(1);
+      this.#timer = setInterval(() => this.#show((this.#index + 1) % this.#images.length), 2000);
+    };
+
+    #stop = () => {
+      clearInterval(this.#timer);
+      if (this.#images.length) this.#show(0);
+    };
+
+    #show(index) {
+      this.#index = index;
+      const image = this.#images[index];
+
+      if (image.complete) {
+        this.#activate(image);
+      } else {
+        image.addEventListener('load', () => this.#index === index && this.#activate(image), { once: true });
+      }
+    }
+
+    #activate(image) {
+      this.#images.forEach((item) => item.classList.toggle('is-active', item === image));
+    }
+  }
+
+  class ProductCardCart extends HTMLElement {
+    #timer;
+    #request = 0;
+
+    connectedCallback() {
+      this.form = this.querySelector('form');
+      this.quantity = this.querySelector('quantity-input');
+      this.variantId = Number(this.dataset.variantId);
+
+      this.form.addEventListener('submit', this.#onSubmit);
+      this.addEventListener('quantity:change', this.#onChange);
+    }
+
+    disconnectedCallback() {
+      this.form.removeEventListener('submit', this.#onSubmit);
+      this.removeEventListener('quantity:change', this.#onChange);
+      clearTimeout(this.#timer);
+    }
+
+    #onSubmit = (event) => {
+      event.preventDefault();
+      const hadFocus = this.form.contains(document.activeElement);
+
+      this.#show(1);
+      if (hadFocus) this.querySelector('[data-quantity-plus]').focus();
+      this.#send('cart/add.js', { items: [{ id: this.variantId, quantity: 1 }] });
+    };
+
+    #onChange = (event) => {
+      const { quantity } = event.detail;
+
+      clearTimeout(this.#timer);
+      if (quantity === 0) {
+        const hadFocus = this.quantity.contains(document.activeElement);
+        this.#show(0);
+        if (hadFocus) this.form.querySelector('button').focus();
+      }
+
+      this.#timer = setTimeout(() => {
+        this.#timer = null;
+        this.#send('cart/update.js', { updates: { [this.variantId]: quantity } });
+      }, 300);
+    };
+
+    #send(path, body) {
+      const request = ++this.#request;
+      const root = window.Shopify.routes.root;
+
+      fetch(`${root}${path}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(body),
+      })
+        .then((response) => {
+          if (response.ok && body.updates) return response.json();
+          return fetch(`${root}cart.js`).then((cartResponse) => cartResponse.json());
+        })
+        .then((cart) => {
+          if (request !== this.#request || this.#timer) return;
+
+          const quantity = cart.items
+            .filter((item) => item.variant_id === this.variantId)
+            .reduce((sum, item) => sum + item.quantity, 0);
+
+          this.#show(quantity);
+        })
+        .catch(() => {})
+        .finally(() => document.dispatchEvent(new CustomEvent('cart:change')));
+    }
+
+    #show(quantity) {
+      this.quantity.value = quantity;
+      this.toggleAttribute('data-in-cart', quantity > 0);
+    }
+  }
+
+  if (!customElements.get('product-card-gallery')) {
+    customElements.define('product-card-gallery', ProductCardGallery);
+  }
+
+  if (!customElements.get('product-card-cart')) {
+    customElements.define('product-card-cart', ProductCardCart);
+  }
+{% endjavascript %}

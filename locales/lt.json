@@ -59,7 +59,18 @@
     }
   },
   "collections": {
-    "title": "Kolekcijos"
+    "title": "Kolekcijos",
+    "catalog": "Katalogas",
+    "empty": "Šioje kolekcijoje produktų nėra.",
+    "sort_by": "Rūšiuoti pagal:",
+    "show": "Rodyti:",
+    "sort": {
+      "created_descending": "Numatytasis",
+      "title_ascending": "Abėcėlės tvarka A-Z",
+      "title_descending": "Abėcėlės tvarka Z-A",
+      "price_descending": "Kaina mažėjančia tvarka",
+      "price_ascending": "Kaina didėjančia tvarka"
+    }
   },
   "general": {
     "learn_more": "Sužinoti daugiau"
@@ -124,7 +135,12 @@
     "language": "Kalba",
     "previous_image": "Ankstesnis vaizdas",
     "next_image": "Kitas vaizdas",
-    "product_images": "Produkto nuotraukos"
+    "product_images": "Produkto nuotraukos",
+    "pagination": "Puslapiavimas",
+    "quantity": "Kiekis",
+    "increase_quantity": "Padidinti kiekį",
+    "decrease_quantity": "Sumažinti kiekį",
+    "remove_from_cart": "Pašalinti iš krepšelio"
   },
   "product": {
     "related_products": "Kiti panašūs produktai",

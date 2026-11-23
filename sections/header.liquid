@@ -150,20 +150,22 @@
         {%- render 'icon', name: 'search' -%}
       </button>
 
-      <a class="header__action" href="{{ routes.cart_url }}">
-        {%- render 'icon', name: 'bag' -%}
-        <span class="visually-hidden">
-          {{- 'cart.title' | t -}}
-          {%- if cart.item_count > 0 -%}
-            , {{ 'accessibility.cart_count' | t: count: cart.item_count }}
-          {%- endif -%}
-        </span>
-        {%- if cart.item_count > 0 -%}
-          <span class="header__cart-count" aria-hidden="true">
-            {%- if cart.item_count < 100 %}{{ cart.item_count }}{% else %}99+{% endif -%}
+      <cart-count class="header__cart" data-section-id="{{ section.id }}">
+        <a class="header__action" href="{{ routes.cart_url }}">
+          {%- render 'icon', name: 'bag' -%}
+          <span class="visually-hidden">
+            {{- 'cart.title' | t -}}
+            {%- if cart.item_count > 0 -%}
+              , {{ 'accessibility.cart_count' | t: count: cart.item_count }}
+            {%- endif -%}
           </span>
-        {%- endif -%}
-      </a>
+          {%- if cart.item_count > 0 -%}
+            <span class="header__cart-count" aria-hidden="true">
+              {%- if cart.item_count < 100 %}{{ cart.item_count }}{% else %}99+{% endif -%}
+            </span>
+          {%- endif -%}
+        </a>
+      </cart-count>
 
       <a class="header__action header__action--desktop" href="{{ section.settings.wishlist_url | default: '#' }}">
         {%- render 'icon', name: 'heart' -%}
@@ -590,6 +592,10 @@
     }
   }
 
+  .header__cart {
+    display: contents;
+  }
+
   .header__cart-count {
     position: absolute;
     inset-block-start: 0.125rem;
@@ -605,6 +611,28 @@
     color: var(--color-on-primary);
     background-color: var(--color-primary);
     border-radius: var(--radius-pill);
+  }
+
+  .header__cart-count--bump {
+    animation: cart-count-bump 0.5s var(--ease-out);
+  }
+
+  @keyframes cart-count-bump {
+    0% {
+      scale: 1;
+    }
+
+    30% {
+      scale: 1.45;
+    }
+
+    60% {
+      scale: 0.9;
+    }
+
+    100% {
+      scale: 1;
+    }
   }
 {% endstylesheet %}
 
@@ -679,8 +707,41 @@
     };
   }
 
+  class CartCount extends HTMLElement {
+    #controller;
+
+    connectedCallback() {
+      this.#controller = new AbortController();
+      document.addEventListener('cart:change', this.#refresh, { signal: this.#controller.signal });
+    }
+
+    disconnectedCallback() {
+      this.#controller?.abort();
+    }
+
+    #refresh = () => {
+      fetch(`${window.Shopify.routes.root}?section_id=${this.dataset.sectionId}`)
+        .then((response) => response.text())
+        .then((text) => {
+          const fresh = new DOMParser().parseFromString(text, 'text/html').querySelector('cart-count');
+          if (!fresh) return;
+
+          const previous = this.querySelector('.header__cart-count')?.textContent;
+          this.innerHTML = fresh.innerHTML;
+
+          const badge = this.querySelector('.header__cart-count');
+          if (badge && badge.textContent !== previous) badge.classList.add('header__cart-count--bump');
+        })
+        .catch(() => {});
+    };
+  }
+
   if (!customElements.get('header-menu')) {
     customElements.define('header-menu', HeaderMenu);
+  }
+
+  if (!customElements.get('cart-count')) {
+    customElements.define('cart-count', CartCount);
   }
 {% endjavascript %}
 

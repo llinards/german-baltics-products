@@ -1,43 +1,409 @@
-{% comment %}
-  This section is used in the collection template to render collection page
-  listing all products within a collection.
+{%- liquid
+  assign sort_options = 'created-descending,title-ascending,title-descending,price-descending,price-ascending' | split: ','
+  assign current_sort = collection.sort_by
+  unless sort_options contains current_sort
+    assign current_sort = sort_options.first
+  endunless
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
-{% endcomment %}
+  assign per_page_options = '16,32,48' | split: ','
+  assign per_page = cart.attributes.products_per_page | default: per_page_options.first
+  unless per_page_options contains per_page
+    assign per_page = per_page_options.first
+  endunless
+  assign page_size = per_page | plus: 0
+-%}
 
-<h1>{{ collection.title }}</h1>
+<div class="collection">
+  <div class="collection__toolbar">
+    <div class="collection__sort">
+      <span class="collection__toolbar-label" id="CollectionSortLabel-{{ section.id }}">
+        {{- 'collections.sort_by' | t -}}
+      </span>
 
-<div class="collection-products">
-  {% paginate collection.products by 20 %}
-    {% for product in collection.products %}
-      <div class="collection-product">
-        {% if product.featured_image %}
-          {% render 'image',
-            class: 'collection-product__image',
-            image: product.featured_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
-        {% endif %}
-        <div class="collection-product__content">
-          <p>{{ product.title | escape | link_to: product.url }}</p>
-          <p>{{ product.price | money }}</p>
-        </div>
-      </div>
-    {% endfor %}
+      <collection-sort class="collection-sort">
+        <details class="collection-sort__details">
+          <summary class="collection-sort__summary" aria-describedby="CollectionSortLabel-{{ section.id }}">
+            <span>{{ current_sort | prepend: 'collections.sort.' | replace: '-', '_' | t }}</span>
+            {%- render 'icon', name: 'caret-down', class: 'collection-sort__caret' -%}
+          </summary>
 
-    {{ paginate | default_pagination }}
-  {% endpaginate %}
+          <ul class="collection-sort__list" role="list">
+            {%- for option in sort_options -%}
+              <li>
+                <a
+                  class="collection-sort__option"
+                  href="{{ collection.url }}?sort_by={{ option }}"
+                  {% if option == current_sort %}
+                    aria-current="true"
+                  {% endif %}
+                >
+                  {{- option | prepend: 'collections.sort.' | replace: '-', '_' | t -}}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </details>
+      </collection-sort>
+    </div>
+
+    <collection-per-page
+      class="collection-per-page"
+      role="group"
+      aria-labelledby="CollectionPerPageLabel-{{ section.id }}"
+      data-url="{{ routes.cart_update_url }}"
+    >
+      <span class="collection__toolbar-label" id="CollectionPerPageLabel-{{ section.id }}">
+        {{- 'collections.show' | t -}}
+      </span>
+      {%- for option in per_page_options -%}
+        <button
+          type="button"
+          class="collection__control"
+          data-per-page="{{ option }}"
+          aria-pressed="{% if option == per_page %}true{% else %}false{% endif %}"
+        >
+          {{ option }}
+        </button>
+      {%- endfor -%}
+    </collection-per-page>
+  </div>
+
+  <h1 class="collection__title">
+    {%- if collection.handle == 'all' -%}
+      {{- 'collections.catalog' | t -}}
+    {%- else -%}
+      {{- collection.title -}}
+    {%- endif -%}
+  </h1>
+
+  {%- paginate collection.products by page_size -%}
+    {%- if collection.products.size > 0 -%}
+      <ul class="collection__grid" role="list">
+        {%- for product in collection.products -%}
+          <li class="collection__item">
+            {%- render 'product-card', product: product -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p class="collection__empty">{{ 'collections.empty' | t }}</p>
+    {%- endif -%}
+
+    {%- if paginate.pages > 1 -%}
+      {%- liquid
+        assign page_start = paginate.current_page | plus: 2 | at_most: paginate.pages | minus: 4 | at_least: 1
+        assign page_end = page_start | plus: 4 | at_most: paginate.pages
+        assign pages_after = paginate.pages | minus: page_end
+
+        assign sort_param = ''
+        if collection.sort_by != blank
+          assign sort_param = collection.sort_by | prepend: '&sort_by='
+        endif
+      -%}
+      <nav class="collection__pagination" aria-label="{{ 'accessibility.pagination' | t }}">
+        <ul class="collection__pagination-list" role="list">
+          {%- if page_start > 1 -%}
+            <li>
+              <a class="collection__control" href="{{ collection.url }}?page=1{{ sort_param }}">1</a>
+            </li>
+            {%- if page_start > 2 -%}
+              <li class="collection__pagination-gap" aria-hidden="true">…</li>
+            {%- endif -%}
+          {%- endif -%}
+
+          {%- for page in (page_start..page_end) -%}
+            <li>
+              {%- if page == paginate.current_page -%}
+                <span class="collection__control" aria-current="page">{{ page }}</span>
+              {%- else -%}
+                <a class="collection__control" href="{{ collection.url }}?page={{ page }}{{ sort_param }}">
+                  {{- page -}}
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+
+          {%- if pages_after > 0 -%}
+            {%- if pages_after > 1 -%}
+              <li class="collection__pagination-gap" aria-hidden="true">…</li>
+            {%- endif -%}
+            <li>
+              <a class="collection__control" href="{{ collection.url }}?page={{ paginate.pages }}{{ sort_param }}">
+                {{- paginate.pages -}}
+              </a>
+            </li>
+          {%- endif -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+  {%- endpaginate -%}
 </div>
 
 {% stylesheet %}
-  .collection-products {
+  .collection {
+    --control-height: 3.625rem;
+    --control-shadow: 0 2px 16px rgb(27 14 24 / 0.06);
+
+    padding-block: var(--space-lg) var(--space-2xl);
+  }
+
+  .collection__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-block-end: var(--space-xl);
+  }
+
+  .collection__sort,
+  .collection-per-page {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .collection__toolbar-label {
+    flex: none;
+    margin-inline-end: var(--space-sm);
+  }
+
+  .collection-sort {
+    position: relative;
+    display: block;
+  }
+
+  .collection-sort__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    min-width: 17rem;
+    min-height: var(--control-height);
+    padding-inline: var(--space-md);
+    color: var(--color-primary-text);
+    background-color: var(--color-background);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--control-shadow);
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  .collection-sort__caret {
+    --icon-size: 1.25rem;
+
+    transition: rotate var(--duration-fast) ease-in-out;
+
+    [open] > summary > & {
+      rotate: 180deg;
+    }
+  }
+
+  .collection-sort__list {
+    position: absolute;
+    inset-block-start: calc(100% + var(--space-2xs));
+    inset-inline-start: 0;
+    z-index: 2;
+    min-width: 100%;
+    margin: 0;
+    padding: var(--space-2xs);
+    list-style: none;
+    background-color: var(--color-background);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-popover);
+  }
+
+  .collection-sort__option {
+    display: block;
+    padding: var(--space-2xs) var(--space-sm);
+    text-decoration: none;
+    white-space: nowrap;
+    border-radius: var(--radius-sm);
+    transition: background-color var(--duration-fast) ease-in-out;
+
+    &:hover {
+      background-color: var(--color-surface);
+    }
+
+    &[aria-current='true'] {
+      color: var(--color-primary-text);
+      font-weight: var(--font-body-weight-semibold);
+    }
+  }
+
+  .collection-per-page {
+    &[aria-busy='true'] {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  .collection__control {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    place-items: center;
+    width: var(--control-height);
+    height: var(--control-height);
+    padding: 0;
+    border: var(--border-width) solid transparent;
+    color: var(--color-foreground);
+    text-decoration: none;
+    background-color: var(--color-background);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--control-shadow);
+    cursor: pointer;
+    transition:
+      border-color var(--duration-fast) ease-in-out,
+      color var(--duration-fast) ease-in-out;
+
+    &:hover,
+    &:is([aria-pressed='true'], [aria-current='page']) {
+      color: var(--color-primary-text);
+    }
+
+    &:is([aria-pressed='true'], [aria-current='page']) {
+      border-color: var(--color-primary-text);
+      cursor: default;
+    }
+  }
+
+  .collection__title {
+    margin-block-end: var(--space-lg);
+    font-size: var(--font-size-3xl);
+    line-height: var(--line-height-snug);
+  }
+
+  .collection__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-xl) var(--space-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-2xl) var(--space-md);
+    }
+  }
+
+  .collection__pagination {
+    margin-block-start: var(--space-2xl);
+  }
+
+  .collection__pagination-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .collection__pagination-gap {
+    padding-inline: var(--space-2xs);
+    color: var(--color-foreground-muted);
+  }
+
+  @media screen and (max-width: 749px) {
+    .collection__sort {
+      flex: 1 1 100%;
+    }
+
+    .collection-sort {
+      flex: 1;
+    }
+
+    .collection-sort__summary {
+      min-width: 0;
+    }
+
+    .collection__control {
+      --control-height: 2.5rem;
+    }
   }
 {% endstylesheet %}
+
+{% javascript %}
+  class CollectionSort extends HTMLElement {
+    #controller;
+
+    connectedCallback() {
+      this.#controller = new AbortController();
+      const { signal } = this.#controller;
+      const details = this.querySelector('details');
+
+      document.addEventListener(
+        'click',
+        (event) => {
+          if (details.open && !this.contains(event.target)) details.open = false;
+        },
+        { signal }
+      );
+
+      this.addEventListener(
+        'keydown',
+        (event) => {
+          if (event.key !== 'Escape' || !details.open) return;
+          details.open = false;
+          details.querySelector('summary').focus();
+        },
+        { signal }
+      );
+    }
+
+    disconnectedCallback() {
+      this.#controller?.abort();
+    }
+  }
+
+  class CollectionPerPage extends HTMLElement {
+    connectedCallback() {
+      this.addEventListener('click', this.#onClick);
+    }
+
+    disconnectedCallback() {
+      this.removeEventListener('click', this.#onClick);
+    }
+
+    #onClick = (event) => {
+      const button = event.target.closest('[data-per-page]');
+      if (!button || button.getAttribute('aria-pressed') === 'true') return;
+
+      this.setAttribute('aria-busy', 'true');
+
+      fetch(`${this.dataset.url}.js`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ attributes: { products_per_page: button.dataset.perPage } }),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error(response.statusText);
+          const url = new URL(window.location.href);
+          url.searchParams.delete('page');
+          window.location.assign(url);
+        })
+        .catch(() => this.removeAttribute('aria-busy'));
+    };
+  }
+
+  if (!customElements.get('collection-sort')) {
+    customElements.define('collection-sort', CollectionSort);
+  }
+
+  if (!customElements.get('collection-per-page')) {
+    customElements.define('collection-per-page', CollectionPerPage);
+  }
+{% endjavascript %}
 
 {% schema %}
 {

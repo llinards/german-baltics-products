@@ -1,0 +1,205 @@
+{%- doc -%}
+  Renders a quantity stepper: minus, a number input and plus. When removable, a trash
+  button replaces minus at a quantity of 1 and sets the quantity to 0.
+  Emits a bubbling `quantity:change` event with `detail.quantity` on every change.
+
+  @param {number} quantity - The starting quantity
+  @param {boolean} [removable] - Allow going down to 0 with a trash button
+  @param {string} [name] - Input name, e.g. 'quantity' inside a product form
+  @param {string} [class] - Extra classes for the wrapper
+
+  @example
+  {% render 'quantity-input', quantity: 1, name: 'quantity' %}
+{%- enddoc -%}
+
+<quantity-input class="quantity{% if class != blank %} {{ class }}{% endif %}">
+  {%- if removable -%}
+    <button
+      type="button"
+      class="quantity__button"
+      data-quantity-remove
+      {% if quantity > 1 %}
+        hidden
+      {% endif %}
+    >
+      {%- render 'icon', name: 'trash' -%}
+      <span class="visually-hidden">{{ 'accessibility.remove_from_cart' | t }}</span>
+    </button>
+  {%- endif -%}
+
+  <button
+    type="button"
+    class="quantity__button"
+    data-quantity-minus
+    {% if quantity <= 1 %}
+      {% if removable %}hidden{% else %}disabled{% endif %}
+    {% endif %}
+  >
+    {%- render 'icon', name: 'minus' -%}
+    <span class="visually-hidden">{{ 'accessibility.decrease_quantity' | t }}</span>
+  </button>
+
+  <input
+    class="quantity__input"
+    type="number"
+    inputmode="numeric"
+    value="{{ quantity }}"
+    min="{% if removable %}0{% else %}1{% endif %}"
+    step="1"
+    {% if name != blank %}
+      name="{{ name }}"
+    {% endif %}
+    aria-label="{{ 'accessibility.quantity' | t }}"
+  >
+
+  <button type="button" class="quantity__button quantity__button--plus" data-quantity-plus>
+    {%- render 'icon', name: 'plus' -%}
+    <span class="visually-hidden">{{ 'accessibility.increase_quantity' | t }}</span>
+  </button>
+</quantity-input>
+
+{% stylesheet %}
+  .quantity {
+    --quantity-height: var(--button-height);
+    --quantity-button-size: 2rem;
+
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    width: fit-content;
+    max-width: 100%;
+    min-height: var(--quantity-height);
+    padding: var(--space-3xs) var(--space-sm);
+    background-color: var(--color-background-soft);
+    border-radius: var(--radius-pill);
+  }
+
+  .quantity__button {
+    --icon-size: 1.125rem;
+
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: var(--quantity-button-size);
+    height: var(--quantity-button-size);
+    padding: 0;
+    border: 0;
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    border-radius: 50%;
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast) ease-in-out,
+      opacity var(--duration-fast) ease-in-out;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-neutral);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .quantity__button--plus {
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-primary-hover);
+    }
+  }
+
+  .quantity__input {
+    width: 3ch;
+    padding: 0;
+    border: 0;
+    font-size: var(--font-size-md);
+    text-align: center;
+    background: none;
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      margin: 0;
+      appearance: none;
+    }
+
+    @supports (field-sizing: content) {
+      width: auto;
+      min-width: 1ch;
+      field-sizing: content;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class QuantityInput extends HTMLElement {
+    connectedCallback() {
+      this.input = this.querySelector('input');
+      this.addEventListener('click', this.#onClick);
+      this.input.addEventListener('change', this.#onInput);
+    }
+
+    disconnectedCallback() {
+      this.removeEventListener('click', this.#onClick);
+      this.input.removeEventListener('change', this.#onInput);
+    }
+
+    get min() {
+      return Number(this.input.min) || 0;
+    }
+
+    get value() {
+      return Number(this.input.value) || 0;
+    }
+
+    set value(quantity) {
+      this.input.value = quantity;
+      this.#update();
+    }
+
+    #onClick = (event) => {
+      const button = event.target.closest('button');
+      if (!button || button.disabled) return;
+
+      if (button.hasAttribute('data-quantity-remove')) this.#change(0);
+      if (button.hasAttribute('data-quantity-minus')) this.#change(this.value - 1);
+      if (button.hasAttribute('data-quantity-plus')) this.#change(this.value + 1);
+    };
+
+    #onInput = () => this.#change(this.value);
+
+    #change(quantity) {
+      this.value = Math.max(this.min, Math.floor(quantity));
+      this.dispatchEvent(new CustomEvent('quantity:change', { bubbles: true, detail: { quantity: this.value } }));
+    }
+
+    #update() {
+      const lowest = this.value <= Math.max(this.min, 1);
+      const remove = this.querySelector('[data-quantity-remove]');
+      const minus = this.querySelector('[data-quantity-minus]');
+
+      if (!remove) {
+        minus.disabled = lowest;
+        return;
+      }
+
+      const focusTarget = lowest ? remove : minus;
+      const hadFocus = document.activeElement === remove || document.activeElement === minus;
+
+      remove.hidden = !lowest;
+      minus.hidden = lowest;
+      if (hadFocus) focusTarget.focus();
+    }
+  }
+
+  if (!customElements.get('quantity-input')) {
+    customElements.define('quantity-input', QuantityInput);
+  }
+{% endjavascript %}

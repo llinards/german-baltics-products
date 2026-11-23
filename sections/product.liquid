@@ -122,6 +122,7 @@
       {%- form 'product', product, class: 'product__form' -%}
         <input type="hidden" name="id" value="{{ variant.id }}">
         {%- if variant.available -%}
+          {%- render 'quantity-input', quantity: 1, name: 'quantity', class: 'product__quantity' -%}
           <button type="submit" name="add" class="button product__add-to-cart">
             <span>{{ 'product.add_to_cart' | t }}</span>
             {%- render 'icon', name: 'cart' -%}
@@ -429,29 +430,38 @@
   }
 
   .product__actions {
-    display: flex;
+    --action-height: 3.5rem;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    gap: var(--space-xs);
+    gap: var(--space-sm) var(--space-xs);
   }
 
   .product__form {
-    flex: 1 1 auto;
+    display: contents;
+  }
+
+  .product__quantity {
+    grid-column: 1 / -1;
+    justify-self: start;
   }
 
   .product__add-to-cart {
     --icon-size: 1.25rem;
 
     gap: var(--space-xs);
-    width: 100%;
-    min-height: 3.5rem;
+    height: var(--action-height);
+    min-height: 0;
+    padding-block: 0;
   }
 
   .product__wishlist {
     display: grid;
     place-items: center;
     flex: none;
-    width: 3.5rem;
-    height: 3.5rem;
+    width: var(--action-height);
+    height: var(--action-height);
     color: rgb(17 17 17 / 0.5);
     background-color: var(--color-neutral);
     border-radius: var(--radius-pill);
@@ -537,12 +547,8 @@
       border-radius: var(--radius-lg);
     }
 
-    .product__form {
-      max-width: 324px;
-    }
-
-    .product__add-to-cart {
-      max-height: 3.5rem;
+    .product__actions {
+      grid-template-columns: minmax(0, 324px) auto;
     }
   }
 {% endstylesheet %}

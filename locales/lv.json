@@ -4559,7 +4559,18 @@
     }
   },
   "collections": {
-    "title": "Kolekcijas"
+    "title": "Kolekcijas",
+    "catalog": "Katalogs",
+    "empty": "Šajā kolekcijā nav produktu.",
+    "sort_by": "Kārtot pēc:",
+    "show": "Rādīt:",
+    "sort": {
+      "created_descending": "Noklusējuma",
+      "title_ascending": "Alfabēta secībā A-Z",
+      "title_descending": "Alfabēta secībā Z-A",
+      "price_descending": "Cena dilstošā secībā",
+      "price_ascending": "Cena augošā secībā"
+    }
   },
   "general": {
     "learn_more": "Uzzināt vairāk"
@@ -4622,7 +4633,12 @@
     "language": "Valoda",
     "previous_image": "Iepriekšējais attēls",
     "next_image": "Nākamais attēls",
-    "product_images": "Produkta attēli"
+    "product_images": "Produkta attēli",
+    "pagination": "Lapošana",
+    "quantity": "Daudzums",
+    "increase_quantity": "Palielināt daudzumu",
+    "decrease_quantity": "Samazināt daudzumu",
+    "remove_from_cart": "Izņemt no groza"
   },
   "product": {
     "related_products": "Citi līdzīgi produkti",

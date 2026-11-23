@@ -37,7 +37,18 @@
     }
   },
   "collections": {
-    "title": "Kollektsioonid"
+    "title": "Kollektsioonid",
+    "catalog": "Kataloog",
+    "empty": "Selles kollektsioonis pole tooteid.",
+    "sort_by": "Sorteeri:",
+    "show": "Näita:",
+    "sort": {
+      "created_descending": "Vaikimisi",
+      "title_ascending": "Tähestikuliselt A-Z",
+      "title_descending": "Tähestikuliselt Z-A",
+      "price_descending": "Hind kahanevalt",
+      "price_ascending": "Hind kasvavalt"
+    }
   },
   "general": {
     "learn_more": "Loe lähemalt"
@@ -99,7 +110,12 @@
     "language": "Keel",
     "previous_image": "Eelmine pilt",
     "next_image": "Järgmine pilt",
-    "product_images": "Toote pildid"
+    "product_images": "Toote pildid",
+    "pagination": "Lehekülgede navigeerimine",
+    "quantity": "Kogus",
+    "increase_quantity": "Suurenda kogust",
+    "decrease_quantity": "Vähenda kogust",
+    "remove_from_cart": "Eemalda ostukorvist"
   },
   "product": {
     "related_products": "Teised sarnased tooted",
