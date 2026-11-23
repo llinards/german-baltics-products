@@ -4564,6 +4564,11 @@
     "empty": "Šajā kolekcijā nav produktu.",
     "sort_by": "Kārtot pēc:",
     "show": "Rādīt:",
+    "categories": "Kategorijas",
+    "clear_filters": "Noņemt filtrus",
+    "apply_filters": "Lietot filtrus",
+    "price_from": "No",
+    "price_to": "Līdz",
     "sort": {
       "created_descending": "Noklusējuma",
       "title_ascending": "Alfabēta secībā A-Z",

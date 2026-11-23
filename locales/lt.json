@@ -64,6 +64,11 @@
     "empty": "Šioje kolekcijoje produktų nėra.",
     "sort_by": "Rūšiuoti pagal:",
     "show": "Rodyti:",
+    "categories": "Kategorijos",
+    "clear_filters": "Pašalinti filtrus",
+    "apply_filters": "Taikyti filtrus",
+    "price_from": "Nuo",
+    "price_to": "Iki",
     "sort": {
       "created_descending": "Numatytasis",
       "title_ascending": "Abėcėlės tvarka A-Z",

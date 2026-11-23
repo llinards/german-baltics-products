@@ -42,6 +42,11 @@
     "empty": "There are no products in this collection.",
     "sort_by": "Sort by:",
     "show": "Show:",
+    "categories": "Categories",
+    "clear_filters": "Clear filters",
+    "apply_filters": "Apply filters",
+    "price_from": "From",
+    "price_to": "To",
     "sort": {
       "created_descending": "Default",
       "title_ascending": "Alphabetically, A-Z",

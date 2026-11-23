@@ -5,6 +5,12 @@
     assign current_sort = sort_options.first
   endunless
 
+  assign sort_param = ''
+  if collection.sort_by != blank
+    assign sort_param = collection.sort_by | prepend: '&sort_by='
+  endif
+  assign sort_query = sort_param | replace_first: '&', '?'
+
   assign per_page_options = '16,32,48' | split: ','
   assign per_page = cart.attributes.products_per_page | default: per_page_options.first
   unless per_page_options contains per_page
@@ -13,138 +19,443 @@
   assign page_size = per_page | plus: 0
 -%}
 
+{%- capture filter_params -%}
+  {%- for filter in collection.filters -%}
+    {%- if filter.type == 'price_range' -%}
+      {%- if filter.min_value.value != nil -%}
+        &{{ filter.min_value.param_name }}={{ filter.min_value.value | divided_by: 100.0 }}
+      {%- endif -%}
+      {%- if filter.max_value.value != nil -%}
+        &{{ filter.max_value.param_name }}={{ filter.max_value.value | divided_by: 100.0 }}
+      {%- endif -%}
+    {%- else -%}
+      {%- for value in filter.active_values -%}
+        &{{ value.param_name }}={{ value.value | url_encode }}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
 <div class="collection">
-  <div class="collection__toolbar">
-    <div class="collection__sort">
-      <span class="collection__toolbar-label" id="CollectionSortLabel-{{ section.id }}">
-        {{- 'collections.sort_by' | t -}}
-      </span>
+  {%- if section.settings.categories != empty -%}
+    <aside class="collection__sidebar">
+      <h2 class="collection-filters__heading">{{ 'collections.categories' | t }}</h2>
 
-      <collection-sort class="collection-sort">
-        <details class="collection-sort__details">
-          <summary class="collection-sort__summary" aria-describedby="CollectionSortLabel-{{ section.id }}">
-            <span>{{ current_sort | prepend: 'collections.sort.' | replace: '-', '_' | t }}</span>
-            {%- render 'icon', name: 'caret-down', class: 'collection-sort__caret' -%}
-          </summary>
+      <collection-filters class="collection-filters">
+        {%- for category in section.settings.categories -%}
+          {%- if category.handle == collection.handle -%}
+            <details class="curtain collection-filters__item collection-filters__item--active" open>
+              <summary class="curtain__summary collection-filters__row" aria-current="true">
+                <span class="collection-filters__icon">{%- render 'menu-icon', collection: category -%}</span>
+                <span class="collection-filters__title">{{ category.title }}</span>
+                {%- render 'icon', name: 'caret-down', class: 'curtain__caret collection-filters__caret' -%}
+              </summary>
 
-          <ul class="collection-sort__list" role="list">
-            {%- for option in sort_options -%}
-              <li>
-                <a
-                  class="collection-sort__option"
-                  href="{{ collection.url }}?sort_by={{ option }}"
-                  {% if option == current_sort %}
-                    aria-current="true"
-                  {% endif %}
-                >
-                  {{- option | prepend: 'collections.sort.' | replace: '-', '_' | t -}}
-                </a>
-              </li>
-            {%- endfor -%}
-          </ul>
-        </details>
-      </collection-sort>
+              {%- if collection.filters != empty -%}
+                <form class="curtain__content collection-filters__form" action="{{ collection.url }}" method="get">
+                  {%- if collection.sort_by != blank -%}
+                    <input type="hidden" name="sort_by" value="{{ collection.sort_by }}">
+                  {%- endif -%}
+
+                  {%- for filter in collection.filters -%}
+                    <fieldset class="collection-filters__group">
+                      <legend class="collection-filters__legend">{{ filter.label }}</legend>
+
+                      {%- if filter.type == 'price_range' -%}
+                        <div class="collection-filters__price">
+                          <label class="collection-filters__price-field">
+                            <span class="visually-hidden">{{ 'collections.price_from' | t }}</span>
+                            <input
+                              class="collection-filters__price-input"
+                              type="number"
+                              inputmode="decimal"
+                              min="0"
+                              step="0.01"
+                              name="{{ filter.min_value.param_name }}"
+                              placeholder="{{ 'collections.price_from' | t }}"
+                              {% if filter.min_value.value != nil %}
+                                value="{{ filter.min_value.value | divided_by: 100.0 }}"
+                              {% endif %}
+                            >
+                          </label>
+                          <span aria-hidden="true">–</span>
+                          <label class="collection-filters__price-field">
+                            <span class="visually-hidden">{{ 'collections.price_to' | t }}</span>
+                            <input
+                              class="collection-filters__price-input"
+                              type="number"
+                              inputmode="decimal"
+                              min="0"
+                              step="0.01"
+                              name="{{ filter.max_value.param_name }}"
+                              placeholder="{{ filter.range_max | divided_by: 100.0 | ceil }}"
+                              {% if filter.max_value.value != nil %}
+                                value="{{ filter.max_value.value | divided_by: 100.0 }}"
+                              {% endif %}
+                            >
+                          </label>
+                        </div>
+                      {%- else -%}
+                        <ul class="collection-filters__values" role="list">
+                          {%- for value in filter.values -%}
+                            <li>
+                              <label class="collection-filters__option">
+                                <input
+                                  class="collection-filters__checkbox"
+                                  type="checkbox"
+                                  name="{{ value.param_name }}"
+                                  value="{{ value.value | escape }}"
+                                  {% if value.active %}
+                                    checked
+                                  {% elsif value.count == 0 %}
+                                    disabled
+                                  {% endif %}
+                                >
+                                <span class="collection-filters__label">{{ value.label }}</span>
+                                <span class="collection-filters__count">({{ value.count }})</span>
+                              </label>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    </fieldset>
+                  {%- endfor -%}
+
+                  <button type="submit" class="button button--secondary collection-filters__apply">
+                    {{ 'collections.apply_filters' | t }}
+                  </button>
+                </form>
+              {%- endif -%}
+            </details>
+          {%- else -%}
+            <div class="collection-filters__item">
+              <a class="curtain__summary collection-filters__row" href="{{ category.url }}{{ sort_query }}">
+                <span class="collection-filters__icon">{%- render 'menu-icon', collection: category -%}</span>
+                <span class="collection-filters__title">{{ category.title }}</span>
+                {%- render 'icon', name: 'caret-down', class: 'curtain__caret collection-filters__caret' -%}
+              </a>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </collection-filters>
+    </aside>
+  {%- endif -%}
+
+  <div class="collection__main">
+    <div class="collection__toolbar">
+      <div class="collection__sort">
+        <span class="collection__toolbar-label" id="CollectionSortLabel-{{ section.id }}">
+          {{- 'collections.sort_by' | t -}}
+        </span>
+
+        <collection-sort class="collection-sort">
+          <details class="collection-sort__details">
+            <summary class="collection-sort__summary" aria-describedby="CollectionSortLabel-{{ section.id }}">
+              <span>{{ current_sort | prepend: 'collections.sort.' | replace: '-', '_' | t }}</span>
+              {%- render 'icon', name: 'caret-down', class: 'collection-sort__caret' -%}
+            </summary>
+
+            <ul class="collection-sort__list" role="list">
+              {%- for option in sort_options -%}
+                <li>
+                  <a
+                    class="collection-sort__option"
+                    href="{{ collection.url }}?sort_by={{ option }}{{ filter_params }}"
+                    {% if option == current_sort %}
+                      aria-current="true"
+                    {% endif %}
+                  >
+                    {{- option | prepend: 'collections.sort.' | replace: '-', '_' | t -}}
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </details>
+        </collection-sort>
+
+        {%- if filter_params != blank or collection.handle != 'all' -%}
+          <a class="collection__clear" href="{{ routes.all_products_collection_url }}{{ sort_query }}">
+            {%- render 'icon', name: 'close', class: 'collection__clear-icon' -%}
+            {{ 'collections.clear_filters' | t }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      <collection-per-page
+        class="collection-per-page"
+        role="group"
+        aria-labelledby="CollectionPerPageLabel-{{ section.id }}"
+        data-url="{{ routes.cart_update_url }}"
+      >
+        <span class="collection__toolbar-label" id="CollectionPerPageLabel-{{ section.id }}">
+          {{- 'collections.show' | t -}}
+        </span>
+        {%- for option in per_page_options -%}
+          <button
+            type="button"
+            class="collection__control"
+            data-per-page="{{ option }}"
+            aria-pressed="{% if option == per_page %}true{% else %}false{% endif %}"
+          >
+            {{ option }}
+          </button>
+        {%- endfor -%}
+      </collection-per-page>
     </div>
 
-    <collection-per-page
-      class="collection-per-page"
-      role="group"
-      aria-labelledby="CollectionPerPageLabel-{{ section.id }}"
-      data-url="{{ routes.cart_update_url }}"
-    >
-      <span class="collection__toolbar-label" id="CollectionPerPageLabel-{{ section.id }}">
-        {{- 'collections.show' | t -}}
-      </span>
-      {%- for option in per_page_options -%}
-        <button
-          type="button"
-          class="collection__control"
-          data-per-page="{{ option }}"
-          aria-pressed="{% if option == per_page %}true{% else %}false{% endif %}"
-        >
-          {{ option }}
-        </button>
-      {%- endfor -%}
-    </collection-per-page>
-  </div>
+    <h1 class="collection__title">
+      {%- if collection.handle == 'all' -%}
+        {{- 'collections.catalog' | t -}}
+      {%- else -%}
+        {{- collection.title -}}
+      {%- endif -%}
+    </h1>
 
-  <h1 class="collection__title">
-    {%- if collection.handle == 'all' -%}
-      {{- 'collections.catalog' | t -}}
-    {%- else -%}
-      {{- collection.title -}}
-    {%- endif -%}
-  </h1>
-
-  {%- paginate collection.products by page_size -%}
-    {%- if collection.products.size > 0 -%}
-      <ul class="collection__grid" role="list">
-        {%- for product in collection.products -%}
-          <li class="collection__item">
-            {%- render 'product-card', product: product -%}
-          </li>
-        {%- endfor -%}
-      </ul>
-    {%- else -%}
-      <p class="collection__empty">{{ 'collections.empty' | t }}</p>
-    {%- endif -%}
-
-    {%- if paginate.pages > 1 -%}
-      {%- liquid
-        assign page_start = paginate.current_page | plus: 2 | at_most: paginate.pages | minus: 4 | at_least: 1
-        assign page_end = page_start | plus: 4 | at_most: paginate.pages
-        assign pages_after = paginate.pages | minus: page_end
-
-        assign sort_param = ''
-        if collection.sort_by != blank
-          assign sort_param = collection.sort_by | prepend: '&sort_by='
-        endif
-      -%}
-      <nav class="collection__pagination" aria-label="{{ 'accessibility.pagination' | t }}">
-        <ul class="collection__pagination-list" role="list">
-          {%- if page_start > 1 -%}
-            <li>
-              <a class="collection__control" href="{{ collection.url }}?page=1{{ sort_param }}">1</a>
-            </li>
-            {%- if page_start > 2 -%}
-              <li class="collection__pagination-gap" aria-hidden="true">…</li>
-            {%- endif -%}
-          {%- endif -%}
-
-          {%- for page in (page_start..page_end) -%}
-            <li>
-              {%- if page == paginate.current_page -%}
-                <span class="collection__control" aria-current="page">{{ page }}</span>
-              {%- else -%}
-                <a class="collection__control" href="{{ collection.url }}?page={{ page }}{{ sort_param }}">
-                  {{- page -}}
-                </a>
-              {%- endif -%}
+    {%- paginate collection.products by page_size -%}
+      {%- if collection.products.size > 0 -%}
+        <ul class="collection__grid" role="list">
+          {%- for product in collection.products -%}
+            <li class="collection__item">
+              {%- render 'product-card', product: product -%}
             </li>
           {%- endfor -%}
-
-          {%- if pages_after > 0 -%}
-            {%- if pages_after > 1 -%}
-              <li class="collection__pagination-gap" aria-hidden="true">…</li>
-            {%- endif -%}
-            <li>
-              <a class="collection__control" href="{{ collection.url }}?page={{ paginate.pages }}{{ sort_param }}">
-                {{- paginate.pages -}}
-              </a>
-            </li>
-          {%- endif -%}
         </ul>
-      </nav>
-    {%- endif -%}
-  {%- endpaginate -%}
+      {%- else -%}
+        <p class="collection__empty">{{ 'collections.empty' | t }}</p>
+      {%- endif -%}
+
+      {%- if paginate.pages > 1 -%}
+        {%- liquid
+          assign page_start = paginate.current_page | plus: 2 | at_most: paginate.pages | minus: 4 | at_least: 1
+          assign page_end = page_start | plus: 4 | at_most: paginate.pages
+          assign pages_after = paginate.pages | minus: page_end
+          assign page_params = sort_param | append: filter_params
+        -%}
+        <nav class="collection__pagination" aria-label="{{ 'accessibility.pagination' | t }}">
+          <ul class="collection__pagination-list" role="list">
+            {%- if page_start > 1 -%}
+              <li>
+                <a class="collection__control" href="{{ collection.url }}?page=1{{ page_params }}">1</a>
+              </li>
+              {%- if page_start > 2 -%}
+                <li class="collection__pagination-gap" aria-hidden="true">…</li>
+              {%- endif -%}
+            {%- endif -%}
+
+            {%- for page in (page_start..page_end) -%}
+              <li>
+                {%- if page == paginate.current_page -%}
+                  <span class="collection__control" aria-current="page">{{ page }}</span>
+                {%- else -%}
+                  <a class="collection__control" href="{{ collection.url }}?page={{ page }}{{ page_params }}">
+                    {{- page -}}
+                  </a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+
+            {%- if pages_after > 0 -%}
+              {%- if pages_after > 1 -%}
+                <li class="collection__pagination-gap" aria-hidden="true">…</li>
+              {%- endif -%}
+              <li>
+                <a class="collection__control" href="{{ collection.url }}?page={{ paginate.pages }}{{ page_params }}">
+                  {{- paginate.pages -}}
+                </a>
+              </li>
+            {%- endif -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
 </div>
 
 {% stylesheet %}
   .collection {
     --control-height: 3.625rem;
     --control-shadow: 0 2px 16px rgb(27 14 24 / 0.06);
+    --filters-icon-size: 2rem;
 
+    display: grid;
+    gap: var(--space-xl);
     padding-block: var(--space-lg) var(--space-2xl);
+
+    @media screen and (min-width: 990px) {
+      &:has(.collection__sidebar) {
+        grid-template-columns: 17.5rem minmax(0, 1fr);
+        align-items: start;
+      }
+    }
+  }
+
+  .collection__main {
+    min-width: 0;
+  }
+
+  .collection-filters__heading {
+    display: flex;
+    align-items: center;
+    min-height: var(--control-height);
+    margin-block-end: var(--space-3xs);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-heading-weight-bold);
+    color: var(--color-primary-text);
+  }
+
+  .collection-filters {
+    display: block;
+    background-color: var(--color-background);
+    box-shadow: 0 4px 40px rgb(27 14 24 / 0.06);
+  }
+
+  .collection-filters__item {
+    border-block-end: var(--border-width) solid var(--color-border-light);
+
+    &:last-child {
+      border-block-end: 0;
+    }
+  }
+
+  .collection-filters__item--active {
+    box-shadow: inset 3px 0 0 var(--color-primary);
+  }
+
+  .collection-filters__row {
+    justify-content: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      background-color var(--duration-fast) ease-in-out,
+      color var(--duration-fast) ease-in-out;
+
+    &:hover {
+      background-color: var(--color-background-soft);
+    }
+
+    .collection-filters__item--active > & {
+      font-weight: var(--font-body-weight-semibold);
+      color: var(--color-primary-text);
+      background-color: var(--color-background-mint);
+    }
+  }
+
+  .collection-filters__icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: var(--filters-icon-size);
+    height: var(--filters-icon-size);
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .collection-filters__title {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .collection-filters__caret {
+    --icon-size: 1.125rem;
+
+    color: var(--color-primary-text);
+  }
+
+  .collection-filters__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: var(--space-xs) var(--space-md) var(--space-md);
+    padding-inline-start: calc(var(--space-md) + var(--filters-icon-size) + var(--space-sm));
+    font-size: var(--font-size-sm);
+  }
+
+  .collection-filters__group {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .collection-filters__legend {
+    margin-block-end: var(--space-2xs);
+    padding: 0;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-body-weight-semibold);
+    color: var(--color-foreground-secondary);
+  }
+
+  .collection-filters__values {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .collection-filters__option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    cursor: pointer;
+
+    &:has(:disabled) {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    &:hover:not(:has(:disabled)) .collection-filters__label {
+      color: var(--color-primary-text);
+    }
+  }
+
+  .collection-filters__checkbox {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin: 0;
+    accent-color: var(--color-primary);
+    cursor: inherit;
+  }
+
+  .collection-filters__label {
+    min-width: 0;
+    transition: color var(--duration-fast) ease-in-out;
+  }
+
+  .collection-filters__count {
+    font-size: var(--font-size-sm);
+    color: var(--color-foreground-muted);
+  }
+
+  .collection-filters__price {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .collection-filters__price-field {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .collection-filters__price-input {
+    width: 100%;
+    padding: var(--space-2xs) var(--space-xs);
+    border: var(--border-width) solid var(--color-border-light);
+    background-color: var(--color-background-soft);
+  }
+
+  collection-filters:defined .collection-filters__apply {
+    display: none;
   }
 
   .collection__toolbar {
@@ -235,6 +546,33 @@
     }
   }
 
+  .collection__clear {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: var(--control-height);
+    padding-inline: var(--space-md);
+    color: var(--color-foreground);
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: var(--color-background);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--control-shadow);
+    transition:
+      color var(--duration-fast) ease-in-out,
+      opacity var(--duration-fast) ease-in-out;
+
+    &:hover {
+      color: var(--color-primary-text);
+    }
+  }
+
+  .collection__clear-icon {
+    --icon-size: 1rem;
+
+    color: var(--color-primary-text);
+  }
+
   .collection-per-page {
     &[aria-busy='true'] {
       opacity: 0.5;
@@ -289,8 +627,11 @@
     }
 
     @media screen and (min-width: 990px) {
+      row-gap: var(--space-2xl);
+    }
+
+    @media screen and (min-width: 1200px) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: var(--space-2xl) var(--space-md);
     }
   }
 
@@ -317,6 +658,7 @@
   @media screen and (max-width: 749px) {
     .collection__sort {
       flex: 1 1 100%;
+      flex-wrap: wrap;
     }
 
     .collection-sort {
@@ -334,6 +676,33 @@
 {% endstylesheet %}
 
 {% javascript %}
+  class CollectionFilters extends HTMLElement {
+    connectedCallback() {
+      this.addEventListener('change', this.#onChange);
+      this.addEventListener('submit', this.#onSubmit);
+    }
+
+    disconnectedCallback() {
+      this.removeEventListener('change', this.#onChange);
+      this.removeEventListener('submit', this.#onSubmit);
+    }
+
+    #onChange = (event) => {
+      if (event.target.form) this.#apply(event.target.form);
+    };
+
+    #onSubmit = (event) => {
+      event.preventDefault();
+      this.#apply(event.target);
+    };
+
+    #apply(form) {
+      const params = new URLSearchParams([...new FormData(form)].filter(([, value]) => value !== ''));
+      const query = params.toString();
+      window.location.assign(query ? `${form.action}?${query}` : form.action);
+    }
+  }
+
   class CollectionSort extends HTMLElement {
     #controller;
 
@@ -396,6 +765,10 @@
     };
   }
 
+  if (!customElements.get('collection-filters')) {
+    customElements.define('collection-filters', CollectionFilters);
+  }
+
   if (!customElements.get('collection-sort')) {
     customElements.define('collection-sort', CollectionSort);
   }
@@ -408,6 +781,14 @@
 {% schema %}
 {
   "name": "t:general.collection",
-  "settings": []
+  "settings": [
+    {
+      "type": "collection_list",
+      "id": "categories",
+      "label": "t:labels.collections",
+      "info": "t:info.collection_filters_categories",
+      "limit": 25
+    }
+  ]
 }
 {% endschema %}
