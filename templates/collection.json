@@ -11,7 +11,19 @@
   "sections": {
     "main": {
       "type": "collection",
-      "settings": {}
+      "settings": {
+        "categories": [
+          "kafija",
+          "tejas",
+          "piena-maisijumi",
+          "bernu-piederumi",
+          "mazulu-kosmetika",
+          "attistosas-rotallietas",
+          "atri-pagatavojamie-edieni",
+          "sieviesu-higiena",
+          "citi-produkti"
+        ]
+      }
     }
   },
   "order": [
