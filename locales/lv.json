@@ -4565,10 +4565,10 @@
     "sort_by": "Kārtot pēc:",
     "show": "Rādīt:",
     "categories": "Kategorijas",
+    "filters": "Filtri",
     "clear_filters": "Noņemt filtrus",
-    "apply_filters": "Lietot filtrus",
-    "price_from": "No",
-    "price_to": "Līdz",
+    "tags": "Tagi",
+    "vendor": "Zīmols",
     "sort": {
       "created_descending": "Noklusējuma",
       "title_ascending": "Alfabēta secībā A-Z",

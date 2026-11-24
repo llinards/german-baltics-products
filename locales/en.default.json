@@ -43,10 +43,10 @@
     "sort_by": "Sort by:",
     "show": "Show:",
     "categories": "Categories",
+    "filters": "Filters",
     "clear_filters": "Clear filters",
-    "apply_filters": "Apply filters",
-    "price_from": "From",
-    "price_to": "To",
+    "tags": "Tags",
+    "vendor": "Brand",
     "sort": {
       "created_descending": "Default",
       "title_ascending": "Alphabetically, A-Z",

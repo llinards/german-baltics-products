@@ -17,6 +17,59 @@
     assign per_page = per_page_options.first
   endunless
   assign page_size = per_page | plus: 0
+
+  assign separator = '|~|'
+  assign all_types = collections.all.all_types
+  assign category_types = ''
+  for category in section.settings.categories
+    assign category_type = category.metafields.custom.filter_type.value
+    if category_type == blank
+      if all_types contains category.title
+        assign category_type = category.title
+      else
+        for type in all_types
+          assign type_handle = type | handleize
+          if type_handle == category.handle
+            assign category_type = type
+            break
+          endif
+        endfor
+      endif
+    endif
+    assign category_types = category_types | append: category_type | append: separator
+  endfor
+  assign category_types = category_types | split: separator
+
+  assign active_types = ''
+  assign active_tags = ''
+  assign active_vendors = ''
+  for filter in collection.filters
+    case filter.param_name
+      when 'filter.p.product_type'
+        assign active_types = filter.active_values | map: 'value' | join: separator
+      when 'filter.p.tag'
+        assign tag_filter_label = filter.label
+        assign active_tags = filter.active_values | map: 'value' | join: separator
+      when 'filter.p.vendor'
+        assign vendor_filter_label = filter.label
+        assign active_vendors = filter.active_values | map: 'value' | join: separator
+    endcase
+  endfor
+  assign active_tag_list = active_tags | split: separator
+  assign active_vendor_list = active_vendors | split: separator
+  for category in section.settings.categories
+    assign category_type = category_types[forloop.index0]
+    if category.handle == collection.handle and category_type != blank
+      if active_types == blank
+        assign active_types = category_type
+      else
+        assign active_types = active_types | append: separator | append: category_type
+      endif
+    endif
+  endfor
+  assign active_type_list = active_types | split: separator | uniq
+  assign active_count = 0
+  assign filter_count = active_type_list.size | plus: active_tag_list.size | plus: active_vendor_list.size
 -%}
 
 {%- capture filter_params -%}
@@ -36,108 +89,155 @@
   {%- endfor -%}
 {%- endcapture -%}
 
-<div class="collection">
+<collection-view class="collection" data-section-id="{{ section.id }}">
   {%- if section.settings.categories != empty -%}
     <aside class="collection__sidebar">
-      <h2 class="collection-filters__heading">{{ 'collections.categories' | t }}</h2>
+      <button
+        type="button"
+        class="collection-filters__toggle"
+        aria-expanded="false"
+        aria-controls="CollectionFilters-{{ section.id }}"
+        data-filters-toggle
+      >
+        <span class="collection-filters__toggle-label">{{ 'collections.filters' | t }}</span>
+        {%- if filter_count > 0 -%}
+          <span class="collection-filters__badge">{{ filter_count }}</span>
+        {%- endif -%}
+        {%- render 'icon', name: 'caret-down', class: 'collection-filters__toggle-caret' -%}
+      </button>
 
-      <collection-filters class="collection-filters">
-        {%- for category in section.settings.categories -%}
-          {%- if category.handle == collection.handle -%}
-            <details class="curtain collection-filters__item collection-filters__item--active" open>
-              <summary class="curtain__summary collection-filters__row" aria-current="true">
-                <span class="collection-filters__icon">{%- render 'menu-icon', collection: category -%}</span>
-                <span class="collection-filters__title">{{ category.title }}</span>
-                {%- render 'icon', name: 'caret-down', class: 'curtain__caret collection-filters__caret' -%}
-              </summary>
+      <div class="collection-filters__panel" id="CollectionFilters-{{ section.id }}">
+        <div class="collection-filters__panel-inner">
+          <h2 class="collection-filters__heading">{{ 'collections.categories' | t }}</h2>
 
-              {%- if collection.filters != empty -%}
-                <form class="curtain__content collection-filters__form" action="{{ collection.url }}" method="get">
-                  {%- if collection.sort_by != blank -%}
-                    <input type="hidden" name="sort_by" value="{{ collection.sort_by }}">
-                  {%- endif -%}
+          <ul class="collection-filters" role="list">
+            {%- for category in section.settings.categories -%}
+              {%- liquid
+                assign category_type = category_types[forloop.index0]
+                assign is_active = false
+                if category.handle == collection.handle
+                  assign is_active = true
+                elsif category_type != blank and active_type_list contains category_type
+                  assign is_active = true
+                endif
 
-                  {%- for filter in collection.filters -%}
-                    <fieldset class="collection-filters__group">
-                      <legend class="collection-filters__legend">{{ filter.label }}</legend>
+                if is_active
+                  assign active_count = active_count | plus: 1
+                  assign active_title = category.title
+                endif
 
-                      {%- if filter.type == 'price_range' -%}
-                        <div class="collection-filters__price">
-                          <label class="collection-filters__price-field">
-                            <span class="visually-hidden">{{ 'collections.price_from' | t }}</span>
-                            <input
-                              class="collection-filters__price-input"
-                              type="number"
-                              inputmode="decimal"
-                              min="0"
-                              step="0.01"
-                              name="{{ filter.min_value.param_name }}"
-                              placeholder="{{ 'collections.price_from' | t }}"
-                              {% if filter.min_value.value != nil %}
-                                value="{{ filter.min_value.value | divided_by: 100.0 }}"
-                              {% endif %}
-                            >
-                          </label>
-                          <span aria-hidden="true">–</span>
-                          <label class="collection-filters__price-field">
-                            <span class="visually-hidden">{{ 'collections.price_to' | t }}</span>
-                            <input
-                              class="collection-filters__price-input"
-                              type="number"
-                              inputmode="decimal"
-                              min="0"
-                              step="0.01"
-                              name="{{ filter.max_value.param_name }}"
-                              placeholder="{{ filter.range_max | divided_by: 100.0 | ceil }}"
-                              {% if filter.max_value.value != nil %}
-                                value="{{ filter.max_value.value | divided_by: 100.0 }}"
-                              {% endif %}
-                            >
-                          </label>
-                        </div>
-                      {%- else -%}
-                        <ul class="collection-filters__values" role="list">
-                          {%- for value in filter.values -%}
-                            <li>
-                              <label class="collection-filters__option">
-                                <input
-                                  class="collection-filters__checkbox"
-                                  type="checkbox"
-                                  name="{{ value.param_name }}"
-                                  value="{{ value.value | escape }}"
-                                  {% if value.active %}
-                                    checked
-                                  {% elsif value.count == 0 %}
-                                    disabled
-                                  {% endif %}
-                                >
-                                <span class="collection-filters__label">{{ value.label }}</span>
-                                <span class="collection-filters__count">({{ value.count }})</span>
-                              </label>
-                            </li>
-                          {%- endfor -%}
-                        </ul>
-                      {%- endif -%}
-                    </fieldset>
-                  {%- endfor -%}
+                capture category_query
+                  echo sort_param
+                  unless is_active
+                    echo category_type | url_encode | prepend: '&filter.p.product_type='
+                  endunless
+                  for type in active_type_list
+                    unless type == category_type
+                      echo type | url_encode | prepend: '&filter.p.product_type='
+                    endunless
+                  endfor
+                endcapture
+              -%}
+              <li
+                class="collection-filters__item{% if is_active %} is-open{% endif %}"
+                data-category-key="{{ category.handle }}"
+                data-product-type="{{ category_type | escape }}"
+              >
+                <a
+                  class="curtain__summary collection-filters__row"
+                  href="
+                    {%- if category_type == blank -%}
+                      {{- category.url }}{{ sort_query -}}
+                    {%- else -%}
+                      {{- routes.all_products_collection_url }}{{ category_query | replace_first: '&', '?' -}}
+                    {%- endif -%}
+                  "
+                  data-collection-link
+                  data-collection-focus="category-{{ category.handle }}"
+                  data-focus-key="category-{{ category.handle }}"
+                  {% if is_active %}
+                    aria-current="true"
+                  {% endif %}
+                >
+                  <span class="collection-filters__icon">{%- render 'menu-icon', collection: category -%}</span>
+                  <span class="collection-filters__title">{{ category.title }}</span>
+                  {%- render 'icon', name: 'caret-down', class: 'curtain__caret collection-filters__caret' -%}
+                </a>
 
-                  <button type="submit" class="button button--secondary collection-filters__apply">
-                    {{ 'collections.apply_filters' | t }}
-                  </button>
-                </form>
-              {%- endif -%}
-            </details>
-          {%- else -%}
-            <div class="collection-filters__item">
-              <a class="curtain__summary collection-filters__row" href="{{ category.url }}{{ sort_query }}">
-                <span class="collection-filters__icon">{%- render 'menu-icon', collection: category -%}</span>
-                <span class="collection-filters__title">{{ category.title }}</span>
-                {%- render 'icon', name: 'caret-down', class: 'curtain__caret collection-filters__caret' -%}
-              </a>
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </collection-filters>
+                {%- if category.all_tags != empty or category.all_vendors != empty -%}
+                  <div class="collection-filters__collapse">
+                    <div class="collection-filters__collapse-inner">
+                      <div class="collection-filters__groups">
+                        {%- if category.all_vendors != empty -%}
+                          <fieldset class="collection-filters__group">
+                            <legend class="collection-filters__legend">
+                              {%- if vendor_filter_label != blank -%}
+                                {{- vendor_filter_label -}}
+                              {%- else -%}
+                                {{- 'collections.vendor' | t -}}
+                              {%- endif -%}
+                            </legend>
+                            <ul class="collection-filters__values" role="list">
+                              {%- for vendor in category.all_vendors -%}
+                                <li>
+                                  <label class="collection-filters__option">
+                                    <input
+                                      class="collection-filters__checkbox"
+                                      type="checkbox"
+                                      name="filter.p.vendor"
+                                      value="{{ vendor | escape }}"
+                                      data-focus-key="vendor-{{ category.handle }}-{{ vendor | handleize }}"
+                                      {% if active_vendor_list contains vendor %}
+                                        checked
+                                      {% endif %}
+                                    >
+                                    <span>{{ vendor }}</span>
+                                  </label>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          </fieldset>
+                        {%- endif -%}
+
+                        {%- if category.all_tags != empty -%}
+                          <fieldset class="collection-filters__group">
+                            <legend class="collection-filters__legend">
+                              {%- if tag_filter_label != blank -%}
+                                {{- tag_filter_label -}}
+                              {%- else -%}
+                                {{- 'collections.tags' | t -}}
+                              {%- endif -%}
+                            </legend>
+                            <ul class="collection-filters__values" role="list">
+                              {%- for tag in category.all_tags -%}
+                                <li>
+                                  <label class="collection-filters__option">
+                                    <input
+                                      class="collection-filters__checkbox"
+                                      type="checkbox"
+                                      name="filter.p.tag"
+                                      value="{{ tag | escape }}"
+                                      data-focus-key="tag-{{ category.handle }}-{{ tag | handleize }}"
+                                      {% if active_tag_list contains tag %}
+                                        checked
+                                      {% endif %}
+                                    >
+                                    <span>{{ tag }}</span>
+                                  </label>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          </fieldset>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
     </aside>
   {%- endif -%}
 
@@ -150,7 +250,11 @@
 
         <collection-sort class="collection-sort">
           <details class="collection-sort__details">
-            <summary class="collection-sort__summary" aria-describedby="CollectionSortLabel-{{ section.id }}">
+            <summary
+              class="collection-sort__summary"
+              aria-describedby="CollectionSortLabel-{{ section.id }}"
+              data-focus-key="sort"
+            >
               <span>{{ current_sort | prepend: 'collections.sort.' | replace: '-', '_' | t }}</span>
               {%- render 'icon', name: 'caret-down', class: 'collection-sort__caret' -%}
             </summary>
@@ -161,6 +265,8 @@
                   <a
                     class="collection-sort__option"
                     href="{{ collection.url }}?sort_by={{ option }}{{ filter_params }}"
+                    data-collection-link
+                    data-collection-focus="sort"
                     {% if option == current_sort %}
                       aria-current="true"
                     {% endif %}
@@ -174,7 +280,12 @@
         </collection-sort>
 
         {%- if filter_params != blank or collection.handle != 'all' -%}
-          <a class="collection__clear" href="{{ routes.all_products_collection_url }}{{ sort_query }}">
+          <a
+            class="collection__clear"
+            href="{{ routes.all_products_collection_url }}{{ sort_query }}"
+            data-collection-link
+            data-collection-focus="sort"
+          >
             {%- render 'icon', name: 'close', class: 'collection__clear-icon' -%}
             {{ 'collections.clear_filters' | t }}
           </a>
@@ -203,89 +314,200 @@
       </collection-per-page>
     </div>
 
-    <h1 class="collection__title">
-      {%- if collection.handle == 'all' -%}
-        {{- 'collections.catalog' | t -}}
-      {%- else -%}
+    <h1 class="collection__title" tabindex="-1" data-focus-key="title">
+      {%- if active_count == 1 -%}
+        {{- active_title -}}
+      {%- elsif active_count == 0 and collection.handle != 'all' -%}
         {{- collection.title -}}
+      {%- else -%}
+        {{- 'collections.catalog' | t -}}
       {%- endif -%}
     </h1>
 
-    {%- paginate collection.products by page_size -%}
-      {%- if collection.products.size > 0 -%}
-        <ul class="collection__grid" role="list">
-          {%- for product in collection.products -%}
-            <li class="collection__item">
-              {%- render 'product-card', product: product -%}
-            </li>
-          {%- endfor -%}
-        </ul>
-      {%- else -%}
-        <p class="collection__empty">{{ 'collections.empty' | t }}</p>
-      {%- endif -%}
-
-      {%- if paginate.pages > 1 -%}
-        {%- liquid
-          assign page_start = paginate.current_page | plus: 2 | at_most: paginate.pages | minus: 4 | at_least: 1
-          assign page_end = page_start | plus: 4 | at_most: paginate.pages
-          assign pages_after = paginate.pages | minus: page_end
-          assign page_params = sort_param | append: filter_params
-        -%}
-        <nav class="collection__pagination" aria-label="{{ 'accessibility.pagination' | t }}">
-          <ul class="collection__pagination-list" role="list">
-            {%- if page_start > 1 -%}
-              <li>
-                <a class="collection__control" href="{{ collection.url }}?page=1{{ page_params }}">1</a>
-              </li>
-              {%- if page_start > 2 -%}
-                <li class="collection__pagination-gap" aria-hidden="true">…</li>
-              {%- endif -%}
-            {%- endif -%}
-
-            {%- for page in (page_start..page_end) -%}
-              <li>
-                {%- if page == paginate.current_page -%}
-                  <span class="collection__control" aria-current="page">{{ page }}</span>
-                {%- else -%}
-                  <a class="collection__control" href="{{ collection.url }}?page={{ page }}{{ page_params }}">
-                    {{- page -}}
-                  </a>
-                {%- endif -%}
+    <div class="collection__results">
+      {%- paginate collection.products by page_size -%}
+        {%- if collection.products.size > 0 -%}
+          <ul class="collection__grid" role="list">
+            {%- for product in collection.products -%}
+              <li class="collection__item" data-product-type="{{ product.type | escape }}">
+                {%- render 'product-card', product: product -%}
               </li>
             {%- endfor -%}
-
-            {%- if pages_after > 0 -%}
-              {%- if pages_after > 1 -%}
-                <li class="collection__pagination-gap" aria-hidden="true">…</li>
-              {%- endif -%}
-              <li>
-                <a class="collection__control" href="{{ collection.url }}?page={{ paginate.pages }}{{ page_params }}">
-                  {{- paginate.pages -}}
-                </a>
-              </li>
-            {%- endif -%}
           </ul>
-        </nav>
-      {%- endif -%}
-    {%- endpaginate -%}
+        {%- else -%}
+          <p class="collection__empty">{{ 'collections.empty' | t }}</p>
+        {%- endif -%}
+
+        {%- if paginate.pages > 1 -%}
+          {%- liquid
+            assign page_start = paginate.current_page | plus: 2 | at_most: paginate.pages | minus: 4 | at_least: 1
+            assign page_end = page_start | plus: 4 | at_most: paginate.pages
+            assign pages_after = paginate.pages | minus: page_end
+            assign page_params = sort_param | append: filter_params
+          -%}
+          <nav class="collection__pagination" aria-label="{{ 'accessibility.pagination' | t }}">
+            <ul class="collection__pagination-list" role="list">
+              {%- if page_start > 1 -%}
+                <li>
+                  <a
+                    class="collection__control"
+                    href="{{ collection.url }}?page=1{{ page_params }}"
+                    data-collection-link
+                    data-collection-focus="title"
+                  >
+                    1
+                  </a>
+                </li>
+                {%- if page_start > 2 -%}
+                  <li class="collection__pagination-gap" aria-hidden="true">…</li>
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- for page in (page_start..page_end) -%}
+                <li>
+                  {%- if page == paginate.current_page -%}
+                    <span class="collection__control" aria-current="page">{{ page }}</span>
+                  {%- else -%}
+                    <a
+                      class="collection__control"
+                      href="{{ collection.url }}?page={{ page }}{{ page_params }}"
+                      data-collection-link
+                      data-collection-focus="title"
+                    >
+                      {{- page -}}
+                    </a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+
+              {%- if pages_after > 0 -%}
+                {%- if pages_after > 1 -%}
+                  <li class="collection__pagination-gap" aria-hidden="true">…</li>
+                {%- endif -%}
+                <li>
+                  <a
+                    class="collection__control"
+                    href="{{ collection.url }}?page={{ paginate.pages }}{{ page_params }}"
+                    data-collection-link
+                    data-collection-focus="title"
+                  >
+                    {{- paginate.pages -}}
+                  </a>
+                </li>
+              {%- endif -%}
+            </ul>
+          </nav>
+        {%- endif -%}
+      {%- endpaginate -%}
+
+      <div class="collection__loader" aria-hidden="true">
+        <span class="collection__spinner"></span>
+      </div>
+    </div>
   </div>
-</div>
+</collection-view>
 
 {% stylesheet %}
   .collection {
-    --control-height: 3.625rem;
+    --control-height: 3rem;
     --control-shadow: 0 2px 16px rgb(27 14 24 / 0.06);
     --filters-icon-size: 2rem;
 
     display: grid;
-    gap: var(--space-xl);
+    gap: var(--space-md);
     padding-block: var(--space-lg) var(--space-2xl);
 
     @media screen and (min-width: 990px) {
       &:has(.collection__sidebar) {
         grid-template-columns: 17.5rem minmax(0, 1fr);
         align-items: start;
+        gap: var(--space-xl);
       }
+    }
+  }
+
+  .collection-filters__toggle {
+    display: none;
+    align-items: center;
+    gap: var(--space-2xs);
+    font-size: var(--font-size-sm);
+    width: 100%;
+    min-height: var(--control-height);
+    padding-inline: var(--space-md);
+    border: 0;
+    color: var(--color-foreground);
+    text-align: start;
+    background-color: var(--color-background);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--control-shadow);
+    cursor: pointer;
+  }
+
+  .collection-filters__toggle-label {
+    font-weight: var(--font-body-weight-semibold);
+  }
+
+  .collection-filters__badge {
+    display: grid;
+    place-items: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding-inline: var(--space-3xs);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-body-weight-semibold);
+    line-height: 1;
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+    border-radius: var(--radius-pill);
+  }
+
+  .collection-filters__toggle-caret {
+    --icon-size: 1.25rem;
+
+    margin-inline-start: auto;
+    color: var(--color-primary-text);
+    transition: rotate var(--duration-fast) ease-in-out;
+
+    [aria-expanded='true'] > & {
+      rotate: 180deg;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .collection-filters__toggle {
+      display: flex;
+    }
+
+    collection-view:defined .collection-filters__panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows var(--duration-fast) ease-in-out;
+    }
+
+    collection-view:defined .collection-filters__panel-inner {
+      min-height: 0;
+      overflow: hidden;
+      visibility: hidden;
+      transition: visibility 0s var(--duration-fast);
+    }
+
+    collection-view:defined .collection-filters__toggle[aria-expanded='true'] + .collection-filters__panel {
+      grid-template-rows: 1fr;
+
+      & > .collection-filters__panel-inner {
+        visibility: visible;
+        transition-delay: 0s;
+      }
+    }
+
+    .collection-filters__heading {
+      min-height: 0;
+      margin-block: var(--space-sm) var(--space-xs);
+    }
+
+    .collection-filters {
+      border: var(--border-width) solid var(--color-border-light);
+      box-shadow: none;
     }
   }
 
@@ -304,7 +526,9 @@
   }
 
   .collection-filters {
-    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
     background-color: var(--color-background);
     box-shadow: 0 4px 40px rgb(27 14 24 / 0.06);
   }
@@ -315,10 +539,6 @@
     &:last-child {
       border-block-end: 0;
     }
-  }
-
-  .collection-filters__item--active {
-    box-shadow: inset 3px 0 0 var(--color-primary);
   }
 
   .collection-filters__row {
@@ -336,10 +556,11 @@
       background-color: var(--color-background-soft);
     }
 
-    .collection-filters__item--active > & {
+    &[aria-current='true'] {
       font-weight: var(--font-body-weight-semibold);
       color: var(--color-primary-text);
       background-color: var(--color-background-mint);
+      box-shadow: inset 3px 0 0 var(--color-primary);
     }
   }
 
@@ -366,14 +587,40 @@
     --icon-size: 1.125rem;
 
     color: var(--color-primary-text);
+    transition: rotate var(--duration-fast) ease-in-out;
+
+    .is-open > .collection-filters__row & {
+      rotate: 180deg;
+    }
   }
 
-  .collection-filters__form {
+  .collection-filters__collapse {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--duration-fast) ease-in-out;
+
+    .is-open > & {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  .collection-filters__collapse-inner {
+    min-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    transition: visibility 0s var(--duration-fast);
+
+    .is-open > .collection-filters__collapse > & {
+      visibility: visible;
+      transition-delay: 0s;
+    }
+  }
+
+  .collection-filters__groups {
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
-    padding: var(--space-xs) var(--space-md) var(--space-md);
-    padding-inline-start: calc(var(--space-md) + var(--filters-icon-size) + var(--space-sm));
+    padding: var(--space-sm) var(--space-md) var(--space-md);
     font-size: var(--font-size-sm);
   }
 
@@ -387,7 +634,6 @@
   .collection-filters__legend {
     margin-block-end: var(--space-2xs);
     padding: 0;
-    font-size: var(--font-size-sm);
     font-weight: var(--font-body-weight-semibold);
     color: var(--color-foreground-secondary);
   }
@@ -406,62 +652,27 @@
     align-items: center;
     gap: var(--space-2xs);
     cursor: pointer;
+    transition: color var(--duration-fast) ease-in-out;
 
-    &:has(:disabled) {
-      opacity: 0.5;
-      cursor: default;
-    }
-
-    &:hover:not(:has(:disabled)) .collection-filters__label {
+    &:hover {
       color: var(--color-primary-text);
     }
   }
 
   .collection-filters__checkbox {
     flex: none;
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 1rem;
+    height: 1rem;
     margin: 0;
     accent-color: var(--color-primary);
     cursor: inherit;
-  }
-
-  .collection-filters__label {
-    min-width: 0;
-    transition: color var(--duration-fast) ease-in-out;
-  }
-
-  .collection-filters__count {
-    font-size: var(--font-size-sm);
-    color: var(--color-foreground-muted);
-  }
-
-  .collection-filters__price {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2xs);
-  }
-
-  .collection-filters__price-field {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .collection-filters__price-input {
-    width: 100%;
-    padding: var(--space-2xs) var(--space-xs);
-    border: var(--border-width) solid var(--color-border-light);
-    background-color: var(--color-background-soft);
-  }
-
-  collection-filters:defined .collection-filters__apply {
-    display: none;
   }
 
   .collection__toolbar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    font-size: var(--font-size-sm);
     justify-content: space-between;
     gap: var(--space-md);
     margin-block-end: var(--space-xl);
@@ -518,7 +729,7 @@
     position: absolute;
     inset-block-start: calc(100% + var(--space-2xs));
     inset-inline-start: 0;
-    z-index: 2;
+    z-index: 4;
     min-width: 100%;
     margin: 0;
     padding: var(--space-2xs);
@@ -558,9 +769,7 @@
     background-color: var(--color-background);
     border-radius: var(--radius-sm);
     box-shadow: var(--control-shadow);
-    transition:
-      color var(--duration-fast) ease-in-out,
-      opacity var(--duration-fast) ease-in-out;
+    transition: color var(--duration-fast) ease-in-out;
 
     &:hover {
       color: var(--color-primary-text);
@@ -583,6 +792,7 @@
   .collection__control {
     display: grid;
     place-items: center;
+    font-size: var(--font-size-sm);
     width: var(--control-height);
     height: var(--control-height);
     padding: 0;
@@ -612,6 +822,46 @@
     margin-block-end: var(--space-lg);
     font-size: var(--font-size-3xl);
     line-height: var(--line-height-snug);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .collection__results {
+    position: relative;
+  }
+
+  .collection__loader {
+    position: absolute;
+    inset: calc(var(--space-sm) * -1);
+    z-index: 3;
+    display: none;
+    justify-content: center;
+    background-color: color-mix(in srgb, var(--color-background) 65%, transparent);
+
+    .collection__results[aria-busy='true'] > & {
+      display: flex;
+    }
+  }
+
+  .collection__spinner {
+    position: sticky;
+    inset-block-start: 40vh;
+    align-self: flex-start;
+    width: 3rem;
+    height: 3rem;
+    margin-block: var(--space-2xl);
+    border: 3px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    border-block-start-color: var(--color-primary);
+    border-radius: 50%;
+    animation: collection-spin 0.8s linear infinite;
+  }
+
+  @keyframes collection-spin {
+    to {
+      rotate: 360deg;
+    }
   }
 
   .collection__grid {
@@ -676,30 +926,190 @@
 {% endstylesheet %}
 
 {% javascript %}
-  class CollectionFilters extends HTMLElement {
+  class CollectionView extends HTMLElement {
+    #controller;
+    #typeParam = 'filter.p.product_type';
+    #subfilterParams = ['filter.p.tag', 'filter.p.vendor'];
+
     connectedCallback() {
+      this.addEventListener('click', this.#onClick);
       this.addEventListener('change', this.#onChange);
-      this.addEventListener('submit', this.#onSubmit);
+      this.addEventListener('collection:refresh', this.#onRefresh);
+      window.addEventListener('popstate', this.#onPopState);
+      this.#prioritize();
+      this.#syncChecks();
     }
 
     disconnectedCallback() {
+      this.removeEventListener('click', this.#onClick);
       this.removeEventListener('change', this.#onChange);
-      this.removeEventListener('submit', this.#onSubmit);
+      this.removeEventListener('collection:refresh', this.#onRefresh);
+      window.removeEventListener('popstate', this.#onPopState);
+      this.#controller?.abort();
     }
 
-    #onChange = (event) => {
-      if (event.target.form) this.#apply(event.target.form);
-    };
+    #onClick = (event) => {
+      const toggle = event.target.closest('[data-filters-toggle]');
+      if (toggle) {
+        toggle.setAttribute('aria-expanded', String(toggle.getAttribute('aria-expanded') !== 'true'));
+        return;
+      }
 
-    #onSubmit = (event) => {
+      const link = event.target.closest('a[data-collection-link]');
+      if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
       event.preventDefault();
-      this.#apply(event.target);
+
+      const item = link.closest('.collection-filters__item');
+      if (!item) {
+        this.#render(this.#orderTypes(link.href), { focusKey: link.dataset.collectionFocus });
+        return;
+      }
+
+      const opening = !item.classList.contains('is-open');
+      item.classList.toggle('is-open', opening);
+      if (opening) {
+        link.setAttribute('aria-current', 'true');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+
+      this.#render(this.#withSubfilters(this.#orderTypes(link.href)), { focusKey: link.dataset.collectionFocus });
     };
 
-    #apply(form) {
-      const params = new URLSearchParams([...new FormData(form)].filter(([, value]) => value !== ''));
-      const query = params.toString();
-      window.location.assign(query ? `${form.action}?${query}` : form.action);
+    #onChange = (event) => {
+      const input = event.target.closest('.collection-filters__checkbox');
+      if (!input) return;
+
+      const url = new URL(window.location.href);
+      const values = url.searchParams.getAll(input.name).filter((value) => value !== input.value);
+      if (input.checked) values.push(input.value);
+
+      url.searchParams.delete(input.name);
+      values.forEach((value) => url.searchParams.append(input.name, value));
+      url.searchParams.delete('page');
+      this.#render(url.href, { focusKey: input.dataset.focusKey });
+    };
+
+    #withSubfilters(href) {
+      const url = new URL(href, window.location.origin);
+      const current = new URL(window.location.href).searchParams;
+      const types = url.searchParams.getAll(this.#typeParam);
+      const offered = new Set();
+
+      this.querySelectorAll('.collection-filters__item').forEach((item) => {
+        if (!types.includes(item.dataset.productType)) return;
+        item.querySelectorAll('.collection-filters__checkbox').forEach((input) => {
+          offered.add(`${input.name}=${input.value}`);
+        });
+      });
+
+      this.#subfilterParams.forEach((name) => {
+        url.searchParams.delete(name);
+        current
+          .getAll(name)
+          .filter((value) => offered.has(`${name}=${value}`))
+          .forEach((value) => url.searchParams.append(name, value));
+      });
+
+      url.searchParams.delete('page');
+      return url.href;
+    }
+
+    #syncSidebar(fresh) {
+      const toggle = this.querySelector('[data-filters-toggle]');
+      const freshToggle = fresh.querySelector('[data-filters-toggle]');
+      if (toggle && freshToggle) toggle.innerHTML = freshToggle.innerHTML;
+
+      fresh.querySelectorAll('.collection-filters__item').forEach((freshItem) => {
+        const key = CSS.escape(freshItem.dataset.categoryKey);
+        const item = this.querySelector(`.collection-filters__item[data-category-key="${key}"]`);
+        if (!item) return;
+
+        item.className = freshItem.className;
+
+        const row = item.querySelector('.collection-filters__row');
+        const freshRow = freshItem.querySelector('.collection-filters__row');
+        row.setAttribute('href', freshRow.getAttribute('href'));
+        if (freshRow.hasAttribute('aria-current')) {
+          row.setAttribute('aria-current', 'true');
+        } else {
+          row.removeAttribute('aria-current');
+        }
+
+        const groups = item.querySelector('.collection-filters__groups');
+        const freshGroups = freshItem.querySelector('.collection-filters__groups');
+        if (groups && freshGroups) groups.innerHTML = freshGroups.innerHTML;
+      });
+    }
+
+    #orderTypes(href) {
+      const url = new URL(href, window.location.origin);
+      const types = url.searchParams.getAll(this.#typeParam);
+      const current = new URL(window.location.href).searchParams.getAll(this.#typeParam);
+      const added = types.filter((type) => !current.includes(type));
+      const kept = current.filter((type) => types.includes(type));
+
+      url.searchParams.delete(this.#typeParam);
+      [...added, ...kept].forEach((type) => url.searchParams.append(this.#typeParam, type));
+      return url.href;
+    }
+
+    #syncChecks() {
+      const params = new URL(window.location.href).searchParams;
+      this.querySelectorAll('.collection-filters__checkbox').forEach((input) => {
+        input.checked = params.getAll(input.name).includes(input.value);
+      });
+    }
+
+    #prioritize() {
+      const grid = this.querySelector('.collection__grid');
+      const types = new URL(window.location.href).searchParams.getAll(this.#typeParam);
+      if (!grid || types.length < 2) return;
+
+      const rank = (item) => {
+        const index = types.indexOf(item.dataset.productType);
+        return index === -1 ? types.length : index;
+      };
+
+      grid.append(...[...grid.children].sort((a, b) => rank(a) - rank(b)));
+    }
+
+    #onRefresh = (event) => this.#render(event.detail.url);
+
+    #onPopState = () => this.#render(window.location.href, { push: false });
+
+    #render(href, { push = true, focusKey } = {}) {
+      this.#controller?.abort();
+      this.#controller = new AbortController();
+
+      const url = new URL(href, window.location.origin);
+      url.searchParams.set('section_id', this.dataset.sectionId);
+      this.querySelector('.collection__results')?.setAttribute('aria-busy', 'true');
+
+      fetch(url, { signal: this.#controller.signal })
+        .then((response) => {
+          if (!response.ok) throw new Error(response.statusText);
+          return response.text();
+        })
+        .then((text) => {
+          const fresh = new DOMParser().parseFromString(text, 'text/html').querySelector('collection-view');
+          if (!fresh) throw new Error('Collection section not found');
+
+          const main = this.querySelector('.collection__main');
+          const freshMain = fresh.querySelector('.collection__main');
+          if (!main || !freshMain) throw new Error('Collection content not found');
+
+          main.innerHTML = freshMain.innerHTML;
+          this.#syncSidebar(fresh);
+          if (push) window.history.pushState({}, '', href);
+          this.#prioritize();
+          this.#syncChecks();
+          if (focusKey) this.querySelector(`[data-focus-key="${CSS.escape(focusKey)}"]`)?.focus();
+        })
+        .catch((error) => {
+          if (error.name !== 'AbortError') window.location.assign(href);
+        });
     }
   }
 
@@ -716,7 +1126,7 @@
         (event) => {
           if (details.open && !this.contains(event.target)) details.open = false;
         },
-        { signal }
+        { signal },
       );
 
       this.addEventListener(
@@ -726,7 +1136,7 @@
           details.open = false;
           details.querySelector('summary').focus();
         },
-        { signal }
+        { signal },
       );
     }
 
@@ -757,16 +1167,22 @@
       })
         .then((response) => {
           if (!response.ok) throw new Error(response.statusText);
+
           const url = new URL(window.location.href);
           url.searchParams.delete('page');
-          window.location.assign(url);
+
+          if (this.closest('collection-view')) {
+            this.dispatchEvent(new CustomEvent('collection:refresh', { bubbles: true, detail: { url: url.href } }));
+          } else {
+            window.location.assign(url);
+          }
         })
         .catch(() => this.removeAttribute('aria-busy'));
     };
   }
 
-  if (!customElements.get('collection-filters')) {
-    customElements.define('collection-filters', CollectionFilters);
+  if (!customElements.get('collection-view')) {
+    customElements.define('collection-view', CollectionView);
   }
 
   if (!customElements.get('collection-sort')) {

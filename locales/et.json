@@ -43,10 +43,10 @@
     "sort_by": "Sorteeri:",
     "show": "Näita:",
     "categories": "Kategooriad",
+    "filters": "Filtrid",
     "clear_filters": "Eemalda filtrid",
-    "apply_filters": "Rakenda filtrid",
-    "price_from": "Alates",
-    "price_to": "Kuni",
+    "tags": "Sildid",
+    "vendor": "Bränd",
     "sort": {
       "created_descending": "Vaikimisi",
       "title_ascending": "Tähestikuliselt A-Z",
