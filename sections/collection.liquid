@@ -18,58 +18,19 @@
   endunless
   assign page_size = per_page | plus: 0
 
-  assign separator = '|~|'
-  assign all_types = collections.all.all_types
-  assign category_types = ''
-  for category in section.settings.categories
-    assign category_type = category.metafields.custom.filter_type.value
-    if category_type == blank
-      if all_types contains category.title
-        assign category_type = category.title
-      else
-        for type in all_types
-          assign type_handle = type | handleize
-          if type_handle == category.handle
-            assign category_type = type
-            break
-          endif
-        endfor
-      endif
-    endif
-    assign category_types = category_types | append: category_type | append: separator
-  endfor
-  assign category_types = category_types | split: separator
-
-  assign active_types = ''
-  assign active_tags = ''
-  assign active_vendors = ''
+  assign filter_count = 0
+  if collection.handle != 'all'
+    assign filter_count = 1
+  endif
   for filter in collection.filters
-    case filter.param_name
-      when 'filter.p.product_type'
-        assign active_types = filter.active_values | map: 'value' | join: separator
-      when 'filter.p.tag'
-        assign tag_filter_label = filter.label
-        assign active_tags = filter.active_values | map: 'value' | join: separator
-      when 'filter.p.vendor'
-        assign vendor_filter_label = filter.label
-        assign active_vendors = filter.active_values | map: 'value' | join: separator
-    endcase
-  endfor
-  assign active_tag_list = active_tags | split: separator
-  assign active_vendor_list = active_vendors | split: separator
-  for category in section.settings.categories
-    assign category_type = category_types[forloop.index0]
-    if category.handle == collection.handle and category_type != blank
-      if active_types == blank
-        assign active_types = category_type
-      else
-        assign active_types = active_types | append: separator | append: category_type
+    if filter.type == 'price_range'
+      if filter.min_value.value != null or filter.max_value.value != null
+        assign filter_count = filter_count | plus: 1
       endif
+    else
+      assign filter_count = filter_count | plus: filter.active_values.size
     endif
   endfor
-  assign active_type_list = active_types | split: separator | uniq
-  assign active_count = 0
-  assign filter_count = active_type_list.size | plus: active_tag_list.size | plus: active_vendor_list.size
 -%}
 
 {%- capture filter_params -%}
@@ -89,7 +50,11 @@
   {%- endfor -%}
 {%- endcapture -%}
 
-<collection-view class="collection" data-section-id="{{ section.id }}">
+<collection-view
+  class="collection"
+  data-section-id="{{ section.id }}"
+  data-all-url="{{ routes.all_products_collection_url }}"
+>
   {%- if section.settings.categories != empty -%}
     <aside class="collection__sidebar">
       <button
@@ -113,48 +78,22 @@
           <ul class="collection-filters" role="list">
             {%- for category in section.settings.categories -%}
               {%- liquid
-                assign category_type = category_types[forloop.index0]
                 assign is_active = false
                 if category.handle == collection.handle
                   assign is_active = true
-                elsif category_type != blank and active_type_list contains category_type
-                  assign is_active = true
                 endif
-
-                if is_active
-                  assign active_count = active_count | plus: 1
-                  assign active_title = category.title
-                endif
-
-                capture category_query
-                  echo sort_param
-                  unless is_active
-                    echo category_type | url_encode | prepend: '&filter.p.product_type='
-                  endunless
-                  for type in active_type_list
-                    unless type == category_type
-                      echo type | url_encode | prepend: '&filter.p.product_type='
-                    endunless
-                  endfor
-                endcapture
               -%}
               <li
-                class="collection-filters__item{% if is_active %} is-open{% endif %}"
+                class="collection-filters__item{% if is_active %} is-open is-active{% endif %}"
                 data-category-key="{{ category.handle }}"
-                data-product-type="{{ category_type | escape }}"
+                data-category-url="{{ category.url }}"
               >
-                <a
+                <button
+                  type="button"
                   class="curtain__summary collection-filters__row"
-                  href="
-                    {%- if category_type == blank -%}
-                      {{- category.url }}{{ sort_query -}}
-                    {%- else -%}
-                      {{- routes.all_products_collection_url }}{{ category_query | replace_first: '&', '?' -}}
-                    {%- endif -%}
-                  "
-                  data-collection-link
-                  data-collection-focus="category-{{ category.handle }}"
-                  data-focus-key="category-{{ category.handle }}"
+                  aria-expanded="{{ is_active }}"
+                  aria-controls="CategoryFilters-{{ section.id }}-{{ category.handle }}"
+                  data-category-toggle
                   {% if is_active %}
                     aria-current="true"
                   {% endif %}
@@ -162,77 +101,76 @@
                   <span class="collection-filters__icon">{%- render 'menu-icon', collection: category -%}</span>
                   <span class="collection-filters__title">{{ category.title }}</span>
                   {%- render 'icon', name: 'caret-down', class: 'curtain__caret collection-filters__caret' -%}
-                </a>
+                </button>
 
-                {%- if category.all_tags != empty or category.all_vendors != empty -%}
-                  <div class="collection-filters__collapse">
-                    <div class="collection-filters__collapse-inner">
-                      <div class="collection-filters__groups">
-                        {%- if category.all_vendors != empty -%}
-                          <fieldset class="collection-filters__group">
-                            <legend class="collection-filters__legend">
-                              {%- if vendor_filter_label != blank -%}
-                                {{- vendor_filter_label -}}
-                              {%- else -%}
-                                {{- 'collections.vendor' | t -}}
-                              {%- endif -%}
-                            </legend>
-                            <ul class="collection-filters__values" role="list">
-                              {%- for vendor in category.all_vendors -%}
-                                <li>
-                                  <label class="collection-filters__option">
-                                    <input
-                                      class="collection-filters__checkbox"
-                                      type="checkbox"
-                                      name="filter.p.vendor"
-                                      value="{{ vendor | escape }}"
-                                      data-focus-key="vendor-{{ category.handle }}-{{ vendor | handleize }}"
-                                      {% if active_vendor_list contains vendor %}
-                                        checked
-                                      {% endif %}
-                                    >
-                                    <span>{{ vendor }}</span>
-                                  </label>
-                                </li>
-                              {%- endfor -%}
-                            </ul>
-                          </fieldset>
+                <div class="collection-filters__collapse" id="CategoryFilters-{{ section.id }}-{{ category.handle }}">
+                  <div class="collection-filters__collapse-inner">
+                    <div
+                      class="collection-filters__groups"
+                      {% unless is_active %}
+                        data-pending
+                      {% endunless %}
+                    >
+                      <label class="collection-filters__option">
+                        <input
+                          class="collection-filters__checkbox"
+                          type="checkbox"
+                          data-view-all
+                          data-focus-key="view-all-{{ category.handle }}"
+                          {% if is_active and filter_params == blank %}
+                            checked
+                          {% endif %}
+                        >
+                        <span>{{ 'collections.view_all' | t }}</span>
+                        {%- if category.products_count > 0 -%}
+                          <span class="collection-filters__count">({{ category.products_count }})</span>
                         {%- endif -%}
+                      </label>
 
-                        {%- if category.all_tags != empty -%}
-                          <fieldset class="collection-filters__group">
-                            <legend class="collection-filters__legend">
-                              {%- if tag_filter_label != blank -%}
-                                {{- tag_filter_label -}}
-                              {%- else -%}
-                                {{- 'collections.tags' | t -}}
-                              {%- endif -%}
-                            </legend>
-                            <ul class="collection-filters__values" role="list">
-                              {%- for tag in category.all_tags -%}
-                                <li>
-                                  <label class="collection-filters__option">
-                                    <input
-                                      class="collection-filters__checkbox"
-                                      type="checkbox"
-                                      name="filter.p.tag"
-                                      value="{{ tag | escape }}"
-                                      data-focus-key="tag-{{ category.handle }}-{{ tag | handleize }}"
-                                      {% if active_tag_list contains tag %}
-                                        checked
-                                      {% endif %}
-                                    >
-                                    <span>{{ tag }}</span>
-                                  </label>
-                                </li>
-                              {%- endfor -%}
-                            </ul>
-                          </fieldset>
-                        {%- endif -%}
-                      </div>
+                      {%- if is_active -%}
+                        {%- assign shown_filters = 'filter.p.vendor,filter.p.m.custom.subcategories' | split: ',' -%}
+                        {%- for param_name in shown_filters -%}
+                          {%- for filter in collection.filters -%}
+                            {%- if filter.param_name != param_name -%}
+                              {%- continue -%}
+                            {%- endif -%}
+
+                            <fieldset class="collection-filters__group">
+                              <legend class="collection-filters__legend">{{ filter.label }}</legend>
+                              <ul class="collection-filters__values" role="list">
+                                {%- for value in filter.values -%}
+                                  <li>
+                                    <label class="collection-filters__option">
+                                      <input
+                                        class="collection-filters__checkbox"
+                                        type="checkbox"
+                                        name="{{ value.param_name }}"
+                                        value="{{ value.value | escape }}"
+                                        data-filter-input
+                                        data-focus-key="{{ category.handle }}-{{ value.param_name }}-{{ value.value | handleize }}"
+                                        {% if value.active %}
+                                          checked
+                                        {% elsif value.count == 0 %}
+                                          disabled
+                                        {% endif %}
+                                      >
+                                      <span>{{ value.label }}</span>
+                                      {%- if value.count > 0 -%}
+                                        <span class="collection-filters__count">({{ value.count }})</span>
+                                      {%- endif -%}
+                                    </label>
+                                  </li>
+                                {%- endfor -%}
+                              </ul>
+                            </fieldset>
+                          {%- endfor -%}
+                        {%- endfor -%}
+                      {%- else -%}
+                        <span class="collection-filters__loading" aria-hidden="true"></span>
+                      {%- endif -%}
                     </div>
                   </div>
-                {%- endif -%}
+                </div>
               </li>
             {%- endfor -%}
           </ul>
@@ -315,12 +253,10 @@
     </div>
 
     <h1 class="collection__title" tabindex="-1" data-focus-key="title">
-      {%- if active_count == 1 -%}
-        {{- active_title -}}
-      {%- elsif active_count == 0 and collection.handle != 'all' -%}
-        {{- collection.title -}}
-      {%- else -%}
+      {%- if collection.handle == 'all' -%}
         {{- 'collections.catalog' | t -}}
+      {%- else -%}
+        {{- collection.title -}}
       {%- endif -%}
     </h1>
 
@@ -329,7 +265,7 @@
         {%- if collection.products.size > 0 -%}
           <ul class="collection__grid" role="list">
             {%- for product in collection.products -%}
-              <li class="collection__item" data-product-type="{{ product.type | escape }}">
+              <li class="collection__item">
                 {%- render 'product-card', product: product -%}
               </li>
             {%- endfor -%}
@@ -544,10 +480,14 @@
   .collection-filters__row {
     justify-content: flex-start;
     gap: var(--space-sm);
+    width: 100%;
     padding: var(--space-xs) var(--space-md);
+    border: 0;
     font-size: var(--font-size-sm);
     color: inherit;
+    text-align: start;
     text-decoration: none;
+    background-color: transparent;
     transition:
       background-color var(--duration-fast) ease-in-out,
       color var(--duration-fast) ease-in-out;
@@ -654,8 +594,13 @@
     cursor: pointer;
     transition: color var(--duration-fast) ease-in-out;
 
-    &:hover {
+    &:hover:not(:has(:disabled)) {
       color: var(--color-primary-text);
+    }
+
+    &:has(:disabled) {
+      opacity: 0.5;
+      cursor: default;
     }
   }
 
@@ -666,6 +611,20 @@
     margin: 0;
     accent-color: var(--color-primary);
     cursor: inherit;
+  }
+
+  .collection-filters__count {
+    color: var(--color-foreground-muted);
+  }
+
+  .collection-filters__loading {
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    border-block-start-color: var(--color-primary);
+    border-radius: 50%;
+    animation: collection-spin 0.8s linear infinite;
   }
 
   .collection__toolbar {
@@ -928,16 +887,12 @@
 {% javascript %}
   class CollectionView extends HTMLElement {
     #controller;
-    #typeParam = 'filter.p.product_type';
-    #subfilterParams = ['filter.p.tag', 'filter.p.vendor'];
 
     connectedCallback() {
       this.addEventListener('click', this.#onClick);
       this.addEventListener('change', this.#onChange);
       this.addEventListener('collection:refresh', this.#onRefresh);
       window.addEventListener('popstate', this.#onPopState);
-      this.#prioritize();
-      this.#syncChecks();
     }
 
     disconnectedCallback() {
@@ -955,65 +910,88 @@
         return;
       }
 
+      const categoryToggle = event.target.closest('[data-category-toggle]');
+      if (categoryToggle) {
+        this.#toggleCategory(categoryToggle.closest('.collection-filters__item'));
+        return;
+      }
+
       const link = event.target.closest('a[data-collection-link]');
       if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
       event.preventDefault();
-
-      const item = link.closest('.collection-filters__item');
-      if (!item) {
-        this.#render(this.#orderTypes(link.href), { focusKey: link.dataset.collectionFocus });
-        return;
-      }
-
-      const opening = !item.classList.contains('is-open');
-      item.classList.toggle('is-open', opening);
-      if (opening) {
-        link.setAttribute('aria-current', 'true');
-      } else {
-        link.removeAttribute('aria-current');
-      }
-
-      this.#render(this.#withSubfilters(this.#orderTypes(link.href)), { focusKey: link.dataset.collectionFocus });
+      this.#render(link.href, { focusKey: link.dataset.collectionFocus });
     };
 
     #onChange = (event) => {
-      const input = event.target.closest('.collection-filters__checkbox');
-      if (!input) return;
+      const input = event.target.closest('[data-view-all], [data-filter-input]');
+      const item = input?.closest('.collection-filters__item');
+      if (!item) return;
 
-      const url = new URL(window.location.href);
+      const sort = new URL(window.location.href).searchParams.get('sort_by');
+
+      if (input.hasAttribute('data-view-all')) {
+        const url = new URL(input.checked ? item.dataset.categoryUrl : this.dataset.allUrl, window.location.origin);
+        if (sort) url.searchParams.set('sort_by', sort);
+        this.#render(url.href, { focusKey: input.dataset.focusKey });
+        return;
+      }
+
+      const active = item.classList.contains('is-active');
+      const url = active ? new URL(window.location.href) : new URL(item.dataset.categoryUrl, window.location.origin);
+      if (!active && sort) url.searchParams.set('sort_by', sort);
+
       const values = url.searchParams.getAll(input.name).filter((value) => value !== input.value);
       if (input.checked) values.push(input.value);
-
       url.searchParams.delete(input.name);
       values.forEach((value) => url.searchParams.append(input.name, value));
       url.searchParams.delete('page');
+
+      const viewAll = item.querySelector('[data-view-all]');
+      if (viewAll) viewAll.checked = false;
+
       this.#render(url.href, { focusKey: input.dataset.focusKey });
     };
 
-    #withSubfilters(href) {
-      const url = new URL(href, window.location.origin);
-      const current = new URL(window.location.href).searchParams;
-      const types = url.searchParams.getAll(this.#typeParam);
-      const offered = new Set();
+    #toggleCategory(item) {
+      const open = !item.classList.contains('is-open');
+      item.classList.toggle('is-open', open);
+      item.querySelector('[data-category-toggle]').setAttribute('aria-expanded', String(open));
+      if (open) this.#loadGroups(item);
+    }
 
-      this.querySelectorAll('.collection-filters__item').forEach((item) => {
-        if (!types.includes(item.dataset.productType)) return;
-        item.querySelectorAll('.collection-filters__checkbox').forEach((input) => {
-          offered.add(`${input.name}=${input.value}`);
-        });
+    #loadGroups(item) {
+      const groups = item.querySelector('.collection-filters__groups');
+      if (!groups?.hasAttribute('data-pending') || groups.hasAttribute('data-loading')) return;
+
+      groups.setAttribute('data-loading', '');
+      const url = new URL(item.dataset.categoryUrl, window.location.origin);
+      url.searchParams.set('section_id', this.dataset.sectionId);
+
+      fetch(url)
+        .then((response) => {
+          if (!response.ok) throw new Error(response.statusText);
+          return response.text();
+        })
+        .then((text) => {
+          const key = CSS.escape(item.dataset.categoryKey);
+          const fresh = new DOMParser()
+            .parseFromString(text, 'text/html')
+            .querySelector(`.collection-filters__item[data-category-key="${key}"] .collection-filters__groups`);
+          if (!fresh || !groups.hasAttribute('data-pending')) return;
+
+          groups.innerHTML = fresh.innerHTML;
+          groups.removeAttribute('data-pending');
+          this.#clearInputs(groups);
+        })
+        .catch(() => {})
+        .finally(() => groups.removeAttribute('data-loading'));
+    }
+
+    #clearInputs(container) {
+      container.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+        input.checked = false;
       });
-
-      this.#subfilterParams.forEach((name) => {
-        url.searchParams.delete(name);
-        current
-          .getAll(name)
-          .filter((value) => offered.has(`${name}=${value}`))
-          .forEach((value) => url.searchParams.append(name, value));
-      });
-
-      url.searchParams.delete('page');
-      return url.href;
     }
 
     #syncSidebar(fresh) {
@@ -1026,12 +1004,14 @@
         const item = this.querySelector(`.collection-filters__item[data-category-key="${key}"]`);
         if (!item) return;
 
+        const wasActive = item.classList.contains('is-active');
+        const keepOpen = item.classList.contains('is-open') && !wasActive;
         item.className = freshItem.className;
+        if (keepOpen) item.classList.add('is-open');
 
-        const row = item.querySelector('.collection-filters__row');
-        const freshRow = freshItem.querySelector('.collection-filters__row');
-        row.setAttribute('href', freshRow.getAttribute('href'));
-        if (freshRow.hasAttribute('aria-current')) {
+        const row = item.querySelector('[data-category-toggle]');
+        row.setAttribute('aria-expanded', String(item.classList.contains('is-open')));
+        if (freshItem.querySelector('[data-category-toggle]').hasAttribute('aria-current')) {
           row.setAttribute('aria-current', 'true');
         } else {
           row.removeAttribute('aria-current');
@@ -1039,40 +1019,16 @@
 
         const groups = item.querySelector('.collection-filters__groups');
         const freshGroups = freshItem.querySelector('.collection-filters__groups');
-        if (groups && freshGroups) groups.innerHTML = freshGroups.innerHTML;
+        if (!freshGroups.hasAttribute('data-pending')) {
+          groups.innerHTML = freshGroups.innerHTML;
+          groups.removeAttribute('data-pending');
+        } else if (wasActive) {
+          groups.setAttribute('data-pending', '');
+          this.#clearInputs(groups);
+        }
+
+        if (item.classList.contains('is-open')) this.#loadGroups(item);
       });
-    }
-
-    #orderTypes(href) {
-      const url = new URL(href, window.location.origin);
-      const types = url.searchParams.getAll(this.#typeParam);
-      const current = new URL(window.location.href).searchParams.getAll(this.#typeParam);
-      const added = types.filter((type) => !current.includes(type));
-      const kept = current.filter((type) => types.includes(type));
-
-      url.searchParams.delete(this.#typeParam);
-      [...added, ...kept].forEach((type) => url.searchParams.append(this.#typeParam, type));
-      return url.href;
-    }
-
-    #syncChecks() {
-      const params = new URL(window.location.href).searchParams;
-      this.querySelectorAll('.collection-filters__checkbox').forEach((input) => {
-        input.checked = params.getAll(input.name).includes(input.value);
-      });
-    }
-
-    #prioritize() {
-      const grid = this.querySelector('.collection__grid');
-      const types = new URL(window.location.href).searchParams.getAll(this.#typeParam);
-      if (!grid || types.length < 2) return;
-
-      const rank = (item) => {
-        const index = types.indexOf(item.dataset.productType);
-        return index === -1 ? types.length : index;
-      };
-
-      grid.append(...[...grid.children].sort((a, b) => rank(a) - rank(b)));
     }
 
     #onRefresh = (event) => this.#render(event.detail.url);
@@ -1103,8 +1059,6 @@
           main.innerHTML = freshMain.innerHTML;
           this.#syncSidebar(fresh);
           if (push) window.history.pushState({}, '', href);
-          this.#prioritize();
-          this.#syncChecks();
           if (focusKey) this.querySelector(`[data-focus-key="${CSS.escape(focusKey)}"]`)?.focus();
         })
         .catch((error) => {

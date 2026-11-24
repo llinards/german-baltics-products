@@ -45,8 +45,7 @@
     "categories": "Categories",
     "filters": "Filters",
     "clear_filters": "Clear filters",
-    "tags": "Tags",
-    "vendor": "Brand",
+    "view_all": "View all",
     "sort": {
       "created_descending": "Default",
       "title_ascending": "Alphabetically, A-Z",

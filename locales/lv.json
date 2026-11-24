@@ -4567,8 +4567,7 @@
     "categories": "Kategorijas",
     "filters": "Filtri",
     "clear_filters": "Noņemt filtrus",
-    "tags": "Tagi",
-    "vendor": "Zīmols",
+    "view_all": "Skatīt visus",
     "sort": {
       "created_descending": "Noklusējuma",
       "title_ascending": "Alfabēta secībā A-Z",

@@ -67,8 +67,7 @@
     "categories": "Kategorijos",
     "filters": "Filtrai",
     "clear_filters": "Pašalinti filtrus",
-    "tags": "Žymos",
-    "vendor": "Prekės ženklas",
+    "view_all": "Žiūrėti visus",
     "sort": {
       "created_descending": "Numatytasis",
       "title_ascending": "Abėcėlės tvarka A-Z",

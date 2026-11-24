@@ -45,8 +45,7 @@
     "categories": "Kategooriad",
     "filters": "Filtrid",
     "clear_filters": "Eemalda filtrid",
-    "tags": "Sildid",
-    "vendor": "Bränd",
+    "view_all": "Vaata kõiki",
     "sort": {
       "created_descending": "Vaikimisi",
       "title_ascending": "Tähestikuliselt A-Z",
