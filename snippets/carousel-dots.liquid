@@ -4,7 +4,8 @@
   data-carousel-track. Set --per-view (columns visible, may be fractional) and
   --rows (items stacked per column, default 1) on the <scroll-carousel>; one dot
   pages by the fully visible columns. Items that aren't fully visible get the
-  is-clipped class.
+  is-clipped class. Optional buttons marked with data-carousel-prev and
+  data-carousel-next page back and forward and are disabled at either end.
 
   @example
   <scroll-carousel class="brand-strip">
@@ -55,7 +56,7 @@
   .carousel-dots {
     display: flex;
     justify-content: center;
-    margin-block-start: var(--space-sm);
+    margin-block-start: var(--space-md);
 
     &[hidden] {
       display: none;
@@ -122,6 +123,11 @@
       this.track.addEventListener('pointercancel', this.#onPointerUp, { signal });
       this.track.addEventListener('click', this.#onClick, { capture: true, signal });
       this.track.addEventListener('dragstart', this.#onDragStart, { signal });
+
+      this.prevButton = this.querySelector('[data-carousel-prev]');
+      this.nextButton = this.querySelector('[data-carousel-next]');
+      this.prevButton?.addEventListener('click', () => this.goTo(this.#page - 1), { signal });
+      this.nextButton?.addEventListener('click', () => this.goTo(this.#page + 1), { signal });
 
       this.#resize = new ResizeObserver(this.#onResize);
       this.#resize.observe(this.track);
@@ -199,6 +205,9 @@
         : Math.min(Math.round(this.track.scrollLeft / (this.#columnStride * this.#columns)), last);
 
       this.dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === this.#page)));
+
+      if (this.prevButton) this.prevButton.disabled = this.#page === 0;
+      if (this.nextButton) this.nextButton.disabled = this.#page >= last;
     }
 
     #onScroll = () => {

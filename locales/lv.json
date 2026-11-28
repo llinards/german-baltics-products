@@ -4548,7 +4548,15 @@
     "checkout": "Apmaksa",
     "title": "Grozs",
     "update": "Atjaunināt",
-    "remove": "Noņemt"
+    "remove": "Noņemt",
+    "drawer": {
+      "title": "Produkti grozā",
+      "free_shipping_remaining_html": "Pievienojiet vēl {{ amount }}, lai saņemtu <strong>bezmaksas piegādi visā Baltijā.</strong>",
+      "free_shipping_reached_html": "Jums pienākas <strong>bezmaksas piegāde visā Baltijā</strong>",
+      "subtotal": "Kopsumma",
+      "go_to_cart": "Doties uz grozu",
+      "empty": "Jūsu grozs ir tukšs"
+    }
   },
   "customers": {
     "login": {
@@ -4559,7 +4567,23 @@
     }
   },
   "collections": {
-    "title": "Kolekcijas"
+    "title": "Kolekcijas",
+    "catalog": "Katalogs",
+    "empty": "Šajā kolekcijā nav produktu.",
+    "sort_by": "Kārtot pēc:",
+    "show": "Rādīt:",
+    "categories": "Kategorijas",
+    "filters": "Filtri",
+    "clear_filters": "Noņemt filtrus",
+    "view_all": "Skatīt visus",
+    "view_products": "Skatīt produktus",
+    "sort": {
+      "created_descending": "Noklusējuma",
+      "title_ascending": "Alfabēta secībā A-Z",
+      "title_descending": "Alfabēta secībā Z-A",
+      "price_descending": "Cena dilstošā secībā",
+      "price_ascending": "Cena augošā secībā"
+    }
   },
   "general": {
     "learn_more": "Uzzināt vairāk"
@@ -4597,6 +4621,8 @@
     }
   },
   "accessibility": {
+    "previous_slide": "Iepriekšējais slaids",
+    "next_slide": "Nākamais slaids",
     "account": "Konts",
     "pause_announcements": "Apturēt ritināšanu",
     "main_menu": "Galvenā izvēlne",
@@ -4617,7 +4643,31 @@
     "slide_label": "{{ index }}. slaids no {{ count }}",
     "choose_slide": "Izvēlēties slaidu",
     "pause_slideshow": "Apturēt slaidrādi",
-    "language": "Valoda"
+    "language": "Valoda",
+    "previous_image": "Iepriekšējais attēls",
+    "next_image": "Nākamais attēls",
+    "product_images": "Produkta attēli",
+    "pagination": "Lapošana",
+    "quantity": "Daudzums",
+    "increase_quantity": "Palielināt daudzumu",
+    "decrease_quantity": "Samazināt daudzumu",
+    "remove_from_cart": "Izņemt no groza",
+    "close_cart": "Aizvērt grozu"
+  },
+  "product": {
+    "related_products": "Citi līdzīgi produkti",
+    "price_without_vat": "Bez PVN:",
+    "in_stock": "Ir noliktavā",
+    "low_stock": "<5 noliktavā",
+    "out_of_stock": "Nav noliktavā",
+    "add_to_cart": "Pievienot grozam",
+    "about": "Par produktu",
+    "description": "Produkta apraksts",
+    "size": "Izmērs",
+    "weight": "Svars",
+    "sku": "SKU",
+    "country_of_origin": "Izcelsmes valsts",
+    "ingredients": "Sastāvs"
   },
   "header": {
     "categories": "Kategorijas",

@@ -1,0 +1,209 @@
+{%- liquid
+  assign ingredients = product.metafields.custom.ingredients.value
+
+  assign tabs = ''
+  if product.description != blank
+    assign tabs = tabs | append: 'description,'
+  endif
+  if ingredients != blank
+    assign tabs = tabs | append: 'ingredients,'
+  endif
+  assign tabs = tabs | split: ','
+-%}
+
+<div class="product-details">
+  {%- if tabs.size > 0 -%}
+    <product-tabs class="product-details__tabs">
+      <div class="product-details__tablist" role="tablist">
+        {%- for tab in tabs -%}
+          <button
+            type="button"
+            role="tab"
+            id="ProductTab-{{ tab }}-{{ section.id }}"
+            class="product-details__tab"
+            aria-controls="ProductPanel-{{ tab }}-{{ section.id }}"
+            aria-selected="{{ forloop.first }}"
+            {% unless forloop.first %}
+              tabindex="-1"
+            {% endunless %}
+          >
+            {%- if tab == 'description' -%}
+              {{- 'product.description' | t -}}
+            {%- else -%}
+              {{- 'product.ingredients' | t -}}
+            {%- endif -%}
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {%- for tab in tabs -%}
+        <div
+          role="tabpanel"
+          id="ProductPanel-{{ tab }}-{{ section.id }}"
+          class="product-details__panel product-details__content"
+          aria-labelledby="ProductTab-{{ tab }}-{{ section.id }}"
+          tabindex="0"
+          {% unless forloop.first %}
+            hidden
+          {% endunless %}
+        >
+          {%- if tab == 'description' -%}
+            {{ product.description }}
+          {%- else -%}
+            <p>{{ ingredients | newline_to_br }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </product-tabs>
+  {%- endif -%}
+
+  {%- if product.description != blank -%}
+    <details class="curtain product-details__curtain">
+      <summary class="curtain__summary">
+        <h2 class="curtain__heading">{{ 'product.description' | t }}</h2>
+        {%- render 'icon', name: 'caret-down', class: 'curtain__caret' -%}
+      </summary>
+      <div class="curtain__content product-details__content">
+        {{ product.description }}
+      </div>
+    </details>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .product-details {
+    padding-block-end: var(--space-xl);
+  }
+
+  .product-details__tabs {
+    display: none;
+  }
+
+  .product-details__tablist {
+    display: flex;
+    gap: var(--space-lg);
+  }
+
+  .product-details__tab {
+    margin-block-end: calc(var(--border-width) * -1);
+    padding: 0;
+    border: 0;
+    border-block-end: 2px solid transparent;
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-heading-weight-bold);
+    line-height: var(--line-height-snug);
+    color: var(--color-foreground-muted);
+    background: none;
+    cursor: pointer;
+    transition:
+      color var(--duration-fast) ease-in-out,
+      border-color var(--duration-fast) ease-in-out;
+
+    &:hover {
+      color: var(--color-foreground);
+    }
+
+    &[aria-selected='true'] {
+      color: var(--color-foreground);
+      border-block-end-color: var(--color-primary);
+    }
+  }
+
+  .product-details__panel {
+    padding-block-start: var(--space-md);
+    padding-block-end: var(--space-md);
+    border-block-end: var(--border-width) solid var(--color-divider);
+  }
+
+  .product-details__content {
+    color: var(--color-foreground-secondary);
+
+    & :where(p, ul, ol, h1, h2, h3, h4, h5, h6, table) + :where(p, ul, ol, h1, h2, h3, h4, h5, h6, table) {
+      margin-block-start: var(--space-sm);
+    }
+
+    & :where(h1, h2, h3, h4, h5, h6) {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-heading-weight-bold);
+      line-height: var(--line-height-snug);
+      color: var(--color-foreground);
+    }
+
+    & :where(ul, ol) {
+      padding-inline-start: 1.25em;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .product-details__tabs {
+      display: block;
+    }
+
+    .product-details__curtain {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class ProductTabs extends HTMLElement {
+    #controller;
+
+    connectedCallback() {
+      this.tabs = [...this.querySelectorAll('[role="tab"]')];
+      if (!this.tabs.length) return;
+
+      this.#controller = new AbortController();
+      const { signal } = this.#controller;
+
+      this.addEventListener('click', this.#onClick, { signal });
+      this.addEventListener('keydown', this.#onKeydown, { signal });
+    }
+
+    disconnectedCallback() {
+      this.#controller?.abort();
+    }
+
+    select(tab) {
+      this.tabs.forEach((item) => {
+        const selected = item === tab;
+        item.setAttribute('aria-selected', String(selected));
+        item.tabIndex = selected ? 0 : -1;
+        document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
+      });
+    }
+
+    #onClick = (event) => {
+      const tab = event.target.closest('[role="tab"]');
+      if (tab) this.select(tab);
+    };
+
+    #onKeydown = (event) => {
+      const index = this.tabs.indexOf(event.target);
+      if (index === -1) return;
+
+      const targets = { ArrowRight: index + 1, ArrowLeft: index - 1, Home: 0, End: this.tabs.length - 1 };
+      if (!(event.key in targets)) return;
+
+      event.preventDefault();
+      const tab = this.tabs[(targets[event.key] + this.tabs.length) % this.tabs.length];
+      this.select(tab);
+      tab.focus();
+    };
+  }
+
+  if (!customElements.get('product-tabs')) {
+    customElements.define('product-tabs', ProductTabs);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.product_details",
+  "settings": [],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

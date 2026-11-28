@@ -150,20 +150,18 @@
         {%- render 'icon', name: 'search' -%}
       </button>
 
-      <a class="header__action" href="{{ routes.cart_url }}">
-        {%- render 'icon', name: 'bag' -%}
-        <span class="visually-hidden">
-          {{- 'cart.title' | t -}}
-          {%- if cart.item_count > 0 -%}
-            , {{ 'accessibility.cart_count' | t: count: cart.item_count }}
-          {%- endif -%}
-        </span>
-        {%- if cart.item_count > 0 -%}
-          <span class="header__cart-count" aria-hidden="true">
-            {%- if cart.item_count < 100 %}{{ cart.item_count }}{% else %}99+{% endif -%}
+      <cart-count class="header__cart" data-section-id="{{ section.id }}">
+        <a class="header__action" href="{{ routes.cart_url }}" data-cart-drawer-open>
+          {%- render 'icon', name: 'cart' -%}
+          <span class="visually-hidden">
+            {{- 'cart.title' | t -}}
+            {%- if cart.item_count > 0 -%}
+              , {{ 'accessibility.cart_count' | t: count: cart.item_count }}
+            {%- endif -%}
           </span>
-        {%- endif -%}
-      </a>
+          {%- render 'cart-badge' -%}
+        </a>
+      </cart-count>
 
       <a class="header__action header__action--desktop" href="{{ section.settings.wishlist_url | default: '#' }}">
         {%- render 'icon', name: 'heart' -%}
@@ -590,21 +588,8 @@
     }
   }
 
-  .header__cart-count {
-    position: absolute;
-    inset-block-start: 0.125rem;
-    inset-inline-end: 0;
-    display: grid;
-    place-items: center;
-    min-width: 1.125rem;
-    height: 1.125rem;
-    padding-inline: 0.25rem;
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-body-weight-semibold);
-    line-height: 1;
-    color: var(--color-on-primary);
-    background-color: var(--color-primary);
-    border-radius: var(--radius-pill);
+  .header__cart {
+    display: contents;
   }
 {% endstylesheet %}
 
@@ -743,7 +728,7 @@
       "type": "checkbox",
       "id": "sticky",
       "label": "t:labels.sticky_header",
-      "default": true
+      "default": false
     },
     {
       "type": "color_scheme",

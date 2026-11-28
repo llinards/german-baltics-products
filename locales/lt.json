@@ -48,7 +48,15 @@
     "checkout": "Apmokėti",
     "title": "Krepšelis",
     "update": "Atnaujinti",
-    "remove": "Pašalinti"
+    "remove": "Pašalinti",
+    "drawer": {
+      "title": "Prekės krepšelyje",
+      "free_shipping_remaining_html": "Pridėkite dar {{ amount }}, kad gautumėte <strong>nemokamą pristatymą visose Baltijos šalyse.</strong>",
+      "free_shipping_reached_html": "Jums priklauso <strong>nemokamas pristatymas visose Baltijos šalyse</strong>",
+      "subtotal": "Iš viso",
+      "go_to_cart": "Eiti į krepšelį",
+      "empty": "Jūsų krepšelis tuščias"
+    }
   },
   "customers": {
     "login": {
@@ -59,7 +67,23 @@
     }
   },
   "collections": {
-    "title": "Kolekcijos"
+    "title": "Kolekcijos",
+    "catalog": "Katalogas",
+    "empty": "Šioje kolekcijoje produktų nėra.",
+    "sort_by": "Rūšiuoti pagal:",
+    "show": "Rodyti:",
+    "categories": "Kategorijos",
+    "filters": "Filtrai",
+    "clear_filters": "Pašalinti filtrus",
+    "view_all": "Žiūrėti visus",
+    "view_products": "Žiūrėti produktus",
+    "sort": {
+      "created_descending": "Numatytasis",
+      "title_ascending": "Abėcėlės tvarka A-Z",
+      "title_descending": "Abėcėlės tvarka Z-A",
+      "price_descending": "Kaina mažėjančia tvarka",
+      "price_ascending": "Kaina didėjančia tvarka"
+    }
   },
   "general": {
     "learn_more": "Sužinoti daugiau"
@@ -98,6 +122,8 @@
     }
   },
   "accessibility": {
+    "previous_slide": "Ankstesnė skaidrė",
+    "next_slide": "Kita skaidrė",
     "account": "Paskyra",
     "pause_announcements": "Sustabdyti slinkimą",
     "main_menu": "Pagrindinis meniu",
@@ -119,7 +145,31 @@
     "slide_label": "{{ index }} skaidrė iš {{ count }}",
     "choose_slide": "Pasirinkti skaidrę",
     "pause_slideshow": "Pristabdyti skaidrių peržiūrą",
-    "language": "Kalba"
+    "language": "Kalba",
+    "previous_image": "Ankstesnis vaizdas",
+    "next_image": "Kitas vaizdas",
+    "product_images": "Produkto nuotraukos",
+    "pagination": "Puslapiavimas",
+    "quantity": "Kiekis",
+    "increase_quantity": "Padidinti kiekį",
+    "decrease_quantity": "Sumažinti kiekį",
+    "remove_from_cart": "Pašalinti iš krepšelio",
+    "close_cart": "Uždaryti krepšelį"
+  },
+  "product": {
+    "related_products": "Kiti panašūs produktai",
+    "price_without_vat": "Be PVM:",
+    "in_stock": "Yra sandėlyje",
+    "low_stock": "<5 sandėlyje",
+    "out_of_stock": "Nėra sandėlyje",
+    "add_to_cart": "Į krepšelį",
+    "about": "Apie produktą",
+    "description": "Produkto aprašymas",
+    "size": "Dydis",
+    "weight": "Svoris",
+    "sku": "SKU",
+    "country_of_origin": "Kilmės šalis",
+    "ingredients": "ingredientai"
   },
   "header": {
     "categories": "Kategorijos",

@@ -1,0 +1,92 @@
+{%- doc -%}
+  Renders the cart item count badge, hidden while the cart is empty.
+  Place it inside a <cart-count data-section-id="…"> element: on `cart:change`
+  that element re-renders from its section and the badge bumps when the count changes.
+  Size and position come from --cart-badge-size, --cart-badge-font-size,
+  --cart-badge-top and --cart-badge-end on any parent.
+
+  @example
+  {% render 'cart-badge' %}
+{%- enddoc -%}
+
+{%- if cart.item_count > 0 -%}
+  <span class="cart-badge" aria-hidden="true">
+    {%- if cart.item_count < 100 %}{{ cart.item_count }}{% else %}99+{% endif -%}
+  </span>
+{%- endif -%}
+
+{% stylesheet %}
+  .cart-badge {
+    position: absolute;
+    inset-block-start: var(--cart-badge-top, 0.125rem);
+    inset-inline-end: var(--cart-badge-end, 0);
+    display: grid;
+    place-items: center;
+    min-width: var(--cart-badge-size, 1.125rem);
+    height: var(--cart-badge-size, 1.125rem);
+    padding-inline: 0.25rem;
+    font-size: var(--cart-badge-font-size, var(--font-size-xs));
+    font-weight: var(--font-body-weight-semibold);
+    line-height: 1;
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+    border-radius: var(--radius-pill);
+  }
+
+  .cart-badge--bump {
+    animation: cart-badge-bump 0.5s var(--ease-out);
+  }
+
+  @keyframes cart-badge-bump {
+    0% {
+      scale: 1;
+    }
+
+    30% {
+      scale: 1.45;
+    }
+
+    60% {
+      scale: 0.9;
+    }
+
+    100% {
+      scale: 1;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class CartCount extends HTMLElement {
+    #controller;
+
+    connectedCallback() {
+      this.#controller = new AbortController();
+      document.addEventListener('cart:change', this.#refresh, { signal: this.#controller.signal });
+    }
+
+    disconnectedCallback() {
+      this.#controller?.abort();
+    }
+
+    #refresh = () => {
+      fetch(`${window.Shopify.routes.root}?section_id=${this.dataset.sectionId}`)
+        .then((response) => response.text())
+        .then((text) => {
+          const fresh = new DOMParser().parseFromString(text, 'text/html').querySelector('cart-count');
+          if (!fresh) return;
+
+          const previous = this.querySelector('.cart-badge')?.textContent;
+          this.innerHTML = fresh.innerHTML;
+
+          const badge = this.querySelector('.cart-badge');
+          if (badge && badge.textContent !== previous) badge.classList.add('cart-badge--bump');
+        })
+        .catch(() => {});
+    };
+  }
+
+  if (!customElements.get('cart-count')) {
+    customElements.define('cart-count', CartCount);
+  }
+{% endjavascript %}

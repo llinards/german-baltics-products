@@ -1,0 +1,201 @@
+<product-recommendations
+  class="related-products color-{{ section.settings.color_scheme }}"
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.products_to_show }}&intent=related"
+>
+  <scroll-carousel class="related-products__carousel">
+    <div class="related-products__header">
+      <h2 class="related-products__heading">
+        {%- if section.settings.heading != blank -%}
+          {{- section.settings.heading -}}
+        {%- else -%}
+          {{- 'product.related_products' | t -}}
+        {%- endif -%}
+      </h2>
+
+      <div class="related-products__nav">
+        <button type="button" class="related-products__arrow" data-carousel-prev disabled>
+          {%- render 'icon', name: 'caret-left' -%}
+          <span class="visually-hidden">{{ 'accessibility.previous_slide' | t }}</span>
+        </button>
+        <button type="button" class="related-products__arrow" data-carousel-next>
+          {%- render 'icon', name: 'caret-right' -%}
+          <span class="visually-hidden">{{ 'accessibility.next_slide' | t }}</span>
+        </button>
+      </div>
+    </div>
+
+    <ul class="related-products__track" data-carousel-track role="list">
+      {%- for item in recommendations.products -%}
+        <li class="related-products__item">
+          {%- render 'product-card', product: item -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {% render 'carousel-dots' %}
+  </scroll-carousel>
+
+  {%- unless recommendations.performed -%}
+    <template>{%- render 'product-card', product: product -%}</template>
+  {%- endunless -%}
+</product-recommendations>
+
+{% stylesheet %}
+  product-recommendations {
+    display: block;
+
+    &:not(:has(.related-products__item)) {
+      display: none;
+    }
+  }
+
+  .related-products__carousel {
+    --per-view: 1.25;
+    --gap: var(--space-sm);
+
+    padding-block-end: var(--space-xl);
+
+    @media screen and (min-width: 750px) {
+      --per-view: 2.5;
+    }
+
+    @media screen and (min-width: 990px) {
+      --per-view: 5;
+      --gap: var(--space-md);
+    }
+  }
+
+  .related-products__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-block-end: var(--space-lg);
+  }
+
+  .related-products__nav {
+    display: none;
+    flex: none;
+    gap: var(--space-xs);
+  }
+
+  .related-products__arrow {
+    --icon-size: 1.25rem;
+
+    display: grid;
+    place-items: center;
+    width: var(--icon-button-size);
+    height: var(--icon-button-size);
+    padding: 0;
+    border: 0;
+    color: var(--color-foreground);
+    background-color: var(--color-neutral);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast) ease-in-out,
+      opacity var(--duration-fast) ease-in-out;
+
+    &:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--color-neutral) 60%, white);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  .related-products__track {
+    display: flex;
+    gap: var(--gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .related-products__item {
+    flex: 0 0 calc((100% + var(--gap)) / var(--per-view) - var(--gap));
+    transition: opacity var(--duration-fast) ease-in-out;
+
+    &.is-clipped {
+      opacity: 0.5;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .related-products__nav {
+      display: flex;
+    }
+
+    .related-products__carousel .carousel-dots {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class ProductRecommendations extends HTMLElement {
+    #controller;
+
+    connectedCallback() {
+      if (this.querySelector('.related-products__item') || !this.dataset.url) return;
+
+      this.#controller = new AbortController();
+
+      fetch(this.dataset.url, { signal: this.#controller.signal })
+        .then((response) => response.text())
+        .then((text) => {
+          const fetched = new DOMParser().parseFromString(text, 'text/html').querySelector('product-recommendations');
+          if (fetched?.querySelector('.related-products__item')) this.innerHTML = fetched.innerHTML;
+        })
+        .catch(() => {});
+    }
+
+    disconnectedCallback() {
+      this.#controller?.abort();
+    }
+  }
+
+  if (!customElements.get('product-recommendations')) {
+    customElements.define('product-recommendations', ProductRecommendations);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.related_products",
+  "class": "related-products-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.title",
+      "info": "t:info.related_products_heading"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "t:labels.products_to_show",
+      "min": 5,
+      "max": 10,
+      "step": 1,
+      "default": 7
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "presets": [
+    {
+      "name": "t:general.related_products"
+    }
+  ]
+}
+{% endschema %}

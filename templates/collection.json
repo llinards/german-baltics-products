@@ -9,12 +9,93 @@
  */
 {
   "sections": {
+    "collection_cards_W3cUfR": {
+      "type": "collection-cards",
+      "blocks": {
+        "collection_AU6GgC": {
+          "type": "collection",
+          "settings": {
+            "collection": "atklajiet-jaunus-favoritus",
+            "image_position_x": 50,
+            "image_position_y": 26,
+            "image_scale": 100,
+            "badge": "Jaunumi",
+            "link_label": "Uzzināt vairāk",
+            "gradient": true,
+            "gradient_color": "#0a1824",
+            "gradient_direction": "to top",
+            "gradient_start": 0,
+            "gradient_reach": 75
+          }
+        },
+        "collection_j7DMcx": {
+          "type": "collection",
+          "settings": {
+            "collection": "iecieniti-produkti-par-izdevigam-cenam",
+            "image_position_x": 50,
+            "image_position_y": 26,
+            "image_scale": 100,
+            "badge": "Akcijas",
+            "link_label": "Uzzināt vairāk",
+            "gradient": true,
+            "gradient_color": "#0a1824",
+            "gradient_direction": "to top",
+            "gradient_start": 10,
+            "gradient_reach": 100
+          }
+        },
+        "collection_4YEnir": {
+          "type": "collection",
+          "settings": {
+            "collection": "rupes-par-pasiem-mazakajiem",
+            "image_position_x": 50,
+            "image_position_y": 50,
+            "image_scale": 100,
+            "badge": "Mazuļa ikdiena",
+            "link_label": "Uzzināt vairāk",
+            "gradient": true,
+            "gradient_color": "#0a1824",
+            "gradient_direction": "to top",
+            "gradient_start": 10,
+            "gradient_reach": 100
+          }
+        }
+      },
+      "block_order": [
+        "collection_AU6GgC",
+        "collection_j7DMcx",
+        "collection_4YEnir"
+      ],
+      "name": "t:general.collection_cards",
+      "settings": {
+        "color_scheme": "",
+        "layout": "large-left",
+        "large_card": "1",
+        "large_content_position": "center",
+        "large_content_width": 70,
+        "heading": "",
+        "text": ""
+      }
+    },
     "main": {
       "type": "collection",
-      "settings": {}
+      "settings": {
+        "categories": [
+          "kafija",
+          "tejas",
+          "piena-maisijumi",
+          "bernu-piederumi",
+          "mazulu-kosmetika",
+          "attistosas-rotallietas",
+          "atri-pagatavojamie-edieni",
+          "sieviesu-higiena",
+          "citi-produkti"
+        ]
+      }
     }
   },
   "order": [
+    "collection_cards_W3cUfR",
     "main"
   ]
 }

@@ -1,4 +1,17 @@
-<scroll-carousel class="collection-cards color-{{ section.settings.color_scheme }}">
+{%- liquid
+  assign large_index = 0
+  if section.settings.layout != 'equal'
+    assign large_index = section.settings.large_card | plus: 0
+  endif
+-%}
+
+<scroll-carousel
+  class="collection-cards collection-cards--{{ section.settings.layout }} color-{{ section.settings.color_scheme }}"
+  style="
+    --large-content-width: {{ section.settings.large_content_width }}%;
+    --large-content-position: {{ section.settings.large_content_position }};
+  "
+>
   {%- if section.settings.heading != blank or section.settings.text != blank -%}
     <div class="collection-cards__header">
       {%- if section.settings.heading != blank -%}
@@ -15,12 +28,19 @@
       {%- liquid
         assign collection = block.settings.collection
         assign image = block.settings.image | default: collection.featured_image
+        assign image_sizes = '(min-width: 990px) 440px, (min-width: 750px) 40vw, 75vw'
+        if forloop.index == large_index
+          assign image_sizes = '(min-width: 990px) 66vw, (min-width: 750px) 40vw, 75vw'
+        endif
       -%}
       {%- unless collection != blank or request.design_mode -%}
         {%- continue -%}
       {%- endunless -%}
 
-      <li class="collection-cards__item" {{ block.shopify_attributes }}>
+      <li
+        class="collection-cards__item{% if forloop.index == large_index %} collection-cards__item--large{% endif %}"
+        {{ block.shopify_attributes }}
+      >
         <a
           class="collection-cards__card"
           href="{{ collection.url }}"
@@ -28,15 +48,18 @@
             --card-x: {{ image.presentation.focal_point.x | default: block.settings.image_position_x }}%;
             --card-y: {{ image.presentation.focal_point.y | default: block.settings.image_position_y }}%;
             --card-scale: {{ block.settings.image_scale }}%;
+            {% if block.settings.gradient %}
+              --card-gradient: linear-gradient({{ block.settings.gradient_direction }}, {{ block.settings.gradient_color }} {{ block.settings.gradient_start }}%, transparent {{ block.settings.gradient_reach }}%);
+            {% endif %}
           "
         >
           {%- if image != blank -%}
             {{
               image
-              | image_url: width: 880
+              | image_url: width: 1760
               | image_tag:
-                widths: '300, 440, 660, 880',
-                sizes: '(min-width: 990px) 440px, (min-width: 750px) 40vw, 75vw',
+                widths: '300, 440, 660, 880, 1320, 1760',
+                sizes: image_sizes,
                 loading: 'lazy',
                 alt: collection.title,
                 class: 'collection-cards__image'
@@ -79,6 +102,7 @@
     --gap: var(--space-sm);
     --card-padding: clamp(var(--space-sm), 0.28rem + 4.44cqi, var(--space-md));
 
+    container-type: inline-size;
     padding-block-end: var(--space-xl);
 
     @media screen and (min-width: 750px) {
@@ -119,11 +143,66 @@
     }
   }
 
+  @media screen and (min-width: 990px) {
+    .collection-cards--large-left,
+    .collection-cards--large-right {
+      .collection-cards__track {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: repeat(2, minmax(0, 1fr));
+        block-size: calc(min((100cqi - 2 * var(--gap)) / 3, 27.5rem) * 540 / 440);
+      }
+
+      .collection-cards__item {
+        max-inline-size: none;
+      }
+
+      .collection-cards__item--large {
+        --card-padding: var(--space-xl);
+
+        grid-row: 1 / -1;
+        grid-column: 1;
+      }
+
+      .collection-cards__card {
+        block-size: 100%;
+        aspect-ratio: auto;
+      }
+
+      .collection-cards__item:not(.collection-cards__item--large) {
+        .collection-cards__title {
+          font-size: var(--font-size-2xl);
+        }
+
+        .collection-cards__description {
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+        }
+      }
+
+      .collection-cards__item--large .collection-cards__content {
+        align-self: var(--large-content-position);
+        max-inline-size: var(--large-content-width);
+      }
+    }
+
+    .collection-cards--large-right {
+      .collection-cards__track {
+        grid-template-columns: 1fr 2fr;
+      }
+
+      .collection-cards__item--large {
+        grid-column: 2;
+      }
+    }
+  }
+
   .collection-cards__card {
     position: relative;
     isolation: isolate;
     container-type: inline-size;
     display: grid;
+    grid-template-rows: auto 1fr;
     aspect-ratio: 440 / 540;
     overflow: hidden;
     color: var(--color-on-overlay);
@@ -135,7 +214,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, var(--color-overlay), transparent 50%);
+      background: var(--card-gradient, none);
       pointer-events: none;
     }
   }
@@ -164,10 +243,11 @@
   }
 
   .collection-cards__badge {
-    position: absolute;
-    inset-block-start: var(--card-padding);
-    inset-inline-start: var(--card-padding);
+    grid-row: 1;
+    justify-self: start;
+    align-self: start;
     z-index: 1;
+    margin: var(--card-padding) var(--card-padding) 0;
     padding: var(--space-3xs) var(--space-sm);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-body);
@@ -178,6 +258,7 @@
   }
 
   .collection-cards__content {
+    grid-row: 2;
     z-index: 1;
     align-self: end;
     display: grid;
@@ -231,6 +312,54 @@
       "id": "color_scheme",
       "label": "t:labels.color_scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:labels.layout",
+      "info": "t:info.collection_cards_layout",
+      "options": [
+        { "value": "equal", "label": "t:options.collection_cards_layout.equal" },
+        { "value": "large-left", "label": "t:options.collection_cards_layout.large_left" },
+        { "value": "large-right", "label": "t:options.collection_cards_layout.large_right" }
+      ],
+      "default": "equal"
+    },
+    {
+      "type": "select",
+      "id": "large_card",
+      "label": "t:labels.large_card",
+      "info": "t:info.collection_cards_large_card",
+      "options": [
+        { "value": "1", "label": "t:options.card_position.first" },
+        { "value": "2", "label": "t:options.card_position.second" },
+        { "value": "3", "label": "t:options.card_position.third" }
+      ],
+      "default": "1",
+      "visible_if": "{{ section.settings.layout != 'equal' }}"
+    },
+    {
+      "type": "select",
+      "id": "large_content_position",
+      "label": "t:labels.large_content_position",
+      "options": [
+        { "value": "start", "label": "t:options.vertical.top" },
+        { "value": "center", "label": "t:options.vertical.center" },
+        { "value": "end", "label": "t:options.vertical.bottom" }
+      ],
+      "default": "end",
+      "visible_if": "{{ section.settings.layout != 'equal' }}"
+    },
+    {
+      "type": "range",
+      "id": "large_content_width",
+      "label": "t:labels.large_content_width",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ section.settings.layout != 'equal' }}"
     },
     {
       "type": "text",
@@ -305,6 +434,61 @@
           "label": "t:labels.link_label",
           "info": "t:info.collection_cards_link_label",
           "default": "Uzzināt vairāk"
+        },
+        {
+          "type": "header",
+          "content": "t:general.gradient",
+          "info": "t:info.hero_gradient"
+        },
+        {
+          "type": "checkbox",
+          "id": "gradient",
+          "label": "t:labels.gradient",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "gradient_color",
+          "label": "t:labels.gradient_color",
+          "default": "#0a1824",
+          "visible_if": "{{ block.settings.gradient }}"
+        },
+        {
+          "type": "select",
+          "id": "gradient_direction",
+          "label": "t:labels.gradient_direction",
+          "options": [
+            { "value": "to right", "label": "t:options.gradient_direction.to_right" },
+            { "value": "to left", "label": "t:options.gradient_direction.to_left" },
+            { "value": "to bottom", "label": "t:options.gradient_direction.to_bottom" },
+            { "value": "to top", "label": "t:options.gradient_direction.to_top" }
+          ],
+          "default": "to top",
+          "visible_if": "{{ block.settings.gradient }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_start",
+          "label": "t:labels.gradient_start",
+          "info": "t:info.gradient_start",
+          "min": 0,
+          "max": 90,
+          "step": 5,
+          "unit": "%",
+          "default": 0,
+          "visible_if": "{{ block.settings.gradient }}"
+        },
+        {
+          "type": "range",
+          "id": "gradient_reach",
+          "label": "t:labels.gradient_reach",
+          "info": "t:info.gradient_reach",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 50,
+          "visible_if": "{{ block.settings.gradient }}"
         }
       ]
     }

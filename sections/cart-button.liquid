@@ -1,0 +1,72 @@
+<cart-count class="cart-button" data-section-id="{{ section.id }}">
+  <a class="cart-button__link" href="{{ routes.cart_url }}" data-cart-drawer-open>
+    {%- render 'icon', name: 'cart' -%}
+    <span class="visually-hidden">
+      {{- 'cart.title' | t -}}
+      {%- if cart.item_count > 0 -%}
+        , {{ 'accessibility.cart_count' | t: count: cart.item_count }}
+      {%- endif -%}
+    </span>
+    {%- render 'cart-badge' -%}
+  </a>
+</cart-count>
+
+{% stylesheet %}
+  .shopify-section:has(> .cart-button) {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 9;
+    height: 0;
+  }
+
+  .cart-button {
+    display: block;
+    justify-self: end;
+    padding-block-start: var(--space-sm);
+
+    @media screen and (min-width: 990px) {
+      position: fixed;
+      inset-block-start: 50%;
+      inset-inline-end: var(--space-lg);
+      padding: 0;
+      translate: 0 -50%;
+    }
+  }
+
+  .cart-button__link {
+    --icon-size: 2rem;
+    --cart-badge-size: 1.5rem;
+    --cart-badge-font-size: var(--font-size-sm);
+    --cart-badge-top: -0.125rem;
+    --cart-badge-end: -0.125rem;
+
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    color: var(--color-on-overlay);
+    background-color: var(--color-overlay);
+    border-radius: 50%;
+    box-shadow: var(--shadow-popover);
+    transition: scale var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      scale: 1.05;
+    }
+
+    @media screen and (min-width: 990px) {
+      --icon-size: 2.25rem;
+
+      width: 4.5rem;
+      height: 4.5rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.cart_button",
+  "settings": []
+}
+{% endschema %}

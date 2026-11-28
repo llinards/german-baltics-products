@@ -26,7 +26,15 @@
     "checkout": "Vormista tellimus",
     "title": "Ostukorv",
     "update": "Uuenda",
-    "remove": "Eemalda"
+    "remove": "Eemalda",
+    "drawer": {
+      "title": "Tooted ostukorvis",
+      "free_shipping_remaining_html": "Lisage veel {{ amount }}, et saada <strong>tasuta tarne kõikjal Baltikumis.</strong>",
+      "free_shipping_reached_html": "Teile kehtib <strong>tasuta tarne kõikjal Baltikumis</strong>",
+      "subtotal": "Kokku",
+      "go_to_cart": "Mine ostukorvi",
+      "empty": "Teie ostukorv on tühi"
+    }
   },
   "customers": {
     "login": {
@@ -37,7 +45,23 @@
     }
   },
   "collections": {
-    "title": "Kollektsioonid"
+    "title": "Kollektsioonid",
+    "catalog": "Kataloog",
+    "empty": "Selles kollektsioonis pole tooteid.",
+    "sort_by": "Sorteeri:",
+    "show": "Näita:",
+    "categories": "Kategooriad",
+    "filters": "Filtrid",
+    "clear_filters": "Eemalda filtrid",
+    "view_all": "Vaata kõiki",
+    "view_products": "Vaata tooteid",
+    "sort": {
+      "created_descending": "Vaikimisi",
+      "title_ascending": "Tähestikuliselt A-Z",
+      "title_descending": "Tähestikuliselt Z-A",
+      "price_descending": "Hind kahanevalt",
+      "price_ascending": "Hind kasvavalt"
+    }
   },
   "general": {
     "learn_more": "Loe lähemalt"
@@ -75,6 +99,8 @@
     }
   },
   "accessibility": {
+    "previous_slide": "Eelmine slaid",
+    "next_slide": "Järgmine slaid",
     "account": "Konto",
     "pause_announcements": "Peata kerimine",
     "main_menu": "Peamenüü",
@@ -94,7 +120,31 @@
     "slide_label": "Slaid {{ index }}/{{ count }}",
     "choose_slide": "Vali slaid",
     "pause_slideshow": "Peata slaidiseanss",
-    "language": "Keel"
+    "language": "Keel",
+    "previous_image": "Eelmine pilt",
+    "next_image": "Järgmine pilt",
+    "product_images": "Toote pildid",
+    "pagination": "Lehekülgede navigeerimine",
+    "quantity": "Kogus",
+    "increase_quantity": "Suurenda kogust",
+    "decrease_quantity": "Vähenda kogust",
+    "remove_from_cart": "Eemalda ostukorvist",
+    "close_cart": "Sulge ostukorv"
+  },
+  "product": {
+    "related_products": "Teised sarnased tooted",
+    "price_without_vat": "Ilma KM-ta:",
+    "in_stock": "Laos",
+    "low_stock": "<5 laos",
+    "out_of_stock": "Otsas",
+    "add_to_cart": "Lisa ostukorvi",
+    "about": "Toote kohta",
+    "description": "Tootekirjeldus",
+    "size": "Suurus",
+    "weight": "Kaal",
+    "sku": "SKU",
+    "country_of_origin": "Päritoluriik",
+    "ingredients": "Koostisosad"
   },
   "header": {
     "categories": "Kategooriad",

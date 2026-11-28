@@ -1,0 +1,243 @@
+{%- liquid
+  if section.settings.brands != blank
+    assign brand_handles = section.settings.brands | map: 'handle'
+  else
+    capture vendor_handles
+      for vendor in shop.vendors
+        echo vendor | handleize | append: ','
+      endfor
+    endcapture
+    assign brand_handles = vendor_handles | split: ','
+  endif
+-%}
+
+<div class="brand-collections color-{{ section.settings.color_scheme }}">
+  {%- if section.settings.eyebrow != blank or section.settings.title != blank -%}
+    <div class="brand-collections__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="brand-collections__eyebrow text-primary">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h1 class="brand-collections__title">{{ section.settings.title }}</h1>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <ul class="brand-collections__grid" role="list">
+    {%- for handle in brand_handles -%}
+      {%- liquid
+        assign brand = collections[handle]
+        if brand == blank
+          continue
+        endif
+        assign brand_image = brand.metafields.custom.brand_image.value
+        assign loading = 'eager'
+        if forloop.index > 4
+          assign loading = 'lazy'
+        endif
+      -%}
+      <li class="brand-collections__card">
+        <div class="brand-collections__media">
+          {%- if brand_image != blank -%}
+            {{
+              brand_image
+              | image_url: width: 1200
+              | image_tag:
+                widths: '300, 400, 600, 800, 1200',
+                sizes: '(min-width: 1240px) 340px, (min-width: 990px) 33vw, (min-width: 600px) 50vw, 100vw',
+                loading: loading,
+                alt: brand.title,
+                class: 'brand-collections__image'
+            }}
+          {%- elsif brand.image != blank -%}
+            {{
+              brand.image
+              | image_url: width: 600
+              | image_tag:
+                widths: '300, 400, 600',
+                sizes: '(min-width: 990px) 240px, 60vw',
+                loading: loading,
+                alt: brand.title,
+                class: 'brand-collections__image brand-collections__image--logo'
+            }}
+          {%- endif -%}
+        </div>
+
+        <div class="brand-collections__content">
+          {%- if brand.metafields.custom.brand_short_text != blank -%}
+            <p class="brand-collections__text">{{ brand.metafields.custom.brand_short_text.value }}</p>
+          {%- endif -%}
+
+          <a class="brand-collections__link" href="{{ brand.url }}">
+            {{- 'collections.view_products' | t -}}
+            <span class="visually-hidden">: {{ brand.title }}</span>
+            {%- render 'icon', name: 'arrow-right', class: 'icon--small' -%}
+          </a>
+        </div>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>
+
+{% stylesheet %}
+  .brand-collections {
+    padding-block: var(--space-xl);
+  }
+
+  .brand-collections__header {
+    margin-block-end: var(--space-lg);
+  }
+
+  .brand-collections__eyebrow {
+    margin-block-end: var(--space-sm);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-snug);
+    text-transform: uppercase;
+  }
+
+  .brand-collections__title {
+    font-size: var(--font-size-3xl);
+    line-height: var(--line-height-snug);
+  }
+
+  .brand-collections__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media screen and (min-width: 600px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+
+    @media screen and (min-width: 1240px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .brand-collections__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--color-background);
+    border: var(--border-width) solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    transition: box-shadow var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      box-shadow: var(--shadow-popover);
+    }
+
+    &:has(.brand-collections__link:focus-visible) {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  .brand-collections__media {
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
+    background-color: var(--color-surface);
+  }
+
+  .brand-collections__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-fast) var(--ease-out);
+
+    @media (prefers-reduced-motion: no-preference) {
+      .brand-collections__card:hover & {
+        transform: scale(1.03);
+      }
+    }
+  }
+
+  .brand-collections__image--logo {
+    padding: var(--space-md);
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+
+  .brand-collections__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+  }
+
+  .brand-collections__text {
+    color: var(--color-foreground-secondary);
+    line-height: var(--line-height-body);
+  }
+
+  .brand-collections__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    margin-block-start: auto;
+    font-family: var(--font-heading-family);
+    font-weight: var(--font-heading-weight);
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.brand_collections",
+  "class": "brand-collections-section",
+  "disabled_on": {
+    "groups": ["*"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:labels.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Zīmoli"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title",
+      "default": "Iepazīsties ar mūsu zīmoliem"
+    },
+    {
+      "type": "collection_list",
+      "id": "brands",
+      "label": "t:labels.brands",
+      "info": "t:info.brand_collections_brands",
+      "limit": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.brand_collections"
+    }
+  ]
+}
+{% endschema %}

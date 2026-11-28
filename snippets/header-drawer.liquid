@@ -80,18 +80,7 @@
                     </summary>
 
                     <div class="menu-drawer__submenu">
-                      {%- if same_url_links.size == 0 -%}
-                        <a
-                          class="menu-drawer__link menu-drawer__link--all"
-                          href="{{ link.url }}"
-                          {% if link.current %}
-                            aria-current="page"
-                          {% endif %}
-                        >
-                          {{- 'header.view_all' | t -}}
-                        </a>
-                      {%- endif -%}
-
+            
                       {%- if is_mega -%}
                         <p class="menu-drawer__heading" id="MenuDrawerCategories-{{ link_index }}">
                           {{- 'header.categories' | t -}}
@@ -148,6 +137,18 @@
                             </li>
                           {%- endfor -%}
                         </ul>
+                      {%- endif -%}
+
+                       {%- if same_url_links.size == 0 -%}
+                        <a
+                          class="menu-drawer__link menu-drawer__link--all"
+                          href="{{ link.url }}"
+                          {% if link.current %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          {{- 'header.view_all' | t -}}
+                        </a>
                       {%- endif -%}
                     </div>
                   </details>

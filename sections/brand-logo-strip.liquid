@@ -1,25 +1,42 @@
-{%- assign brands = section.settings.brands | default: metaobjects.brand_logos.values -%}
+{%- liquid
+  if section.settings.brands != blank
+    assign brand_handles = section.settings.brands | map: 'handle'
+  else
+    capture vendor_handles
+      for vendor in shop.vendors
+        echo vendor | handleize | append: ','
+      endfor
+    endcapture
+    assign brand_handles = vendor_handles | split: ','
+  endif
+-%}
 
-{%- if brands.size > 0 -%}
+{%- capture brand_items -%}
+  {%- for handle in brand_handles -%}
+    {%- assign brand = collections[handle] -%}
+    {%- if brand.image != blank -%}
+      <li class="brand-strip__item">
+        <a class="brand-strip__logo" href="{{ brand.url }}">
+          {{-
+            brand.image
+            | image_url: width: 400
+            | image_tag:
+              widths: '160, 240, 320, 400',
+              sizes: '(min-width: 990px) 160px, 40vw',
+              loading: 'lazy',
+              alt: brand.title,
+              class: 'brand-strip__image'
+          -}}
+        </a>
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if brand_items != blank -%}
   <scroll-carousel class="brand-strip color-{{ section.settings.color_scheme }}">
     <ul class="brand-strip__track" data-carousel-track role="list" aria-label="{{ 'header.brands' | t }}">
-      {%- for brand in brands -%}
-        {%- if brand.logo.value != blank -%}
-          {%- liquid
-            assign collection_url = brand.brand_collection.value.url
-            capture logo_image
-              echo brand.logo.value | image_url: width: 400 | image_tag: widths: '160, 240, 320, 400', sizes: '(min-width: 990px) 160px, 40vw', loading: 'lazy', alt: brand.brand.value, class: 'brand-strip__image'
-            endcapture
-          -%}
-          <li class="brand-strip__item">
-            {%- if collection_url != blank -%}
-              <a class="brand-strip__logo" href="{{ collection_url }}">{{ logo_image }}</a>
-            {%- else -%}
-              <div class="brand-strip__logo">{{ logo_image }}</div>
-            {%- endif -%}
-          </li>
-        {%- endif -%}
-      {%- endfor -%}
+      {{- brand_items -}}
     </ul>
 
     {% render 'carousel-dots' %}
@@ -28,15 +45,11 @@
 
 {% stylesheet %}
   .brand-strip {
-    --per-view: 2.5;
+    --per-view: 4;
     --gap: var(--space-sm);
     --logo-height: 6.25rem;
 
     padding-block-end: var(--space-xl);
-
-    @media screen and (min-width: 480px) {
-      --per-view: 3.5;
-    }
 
     @media screen and (min-width: 600px) {
       --per-view: 4.5;
@@ -86,7 +99,7 @@
     transition: opacity var(--duration-fast) var(--ease-out);
   }
 
-  a.brand-strip__logo:hover {
+  .brand-strip__logo:hover {
     opacity: 0.7;
   }
 
@@ -110,11 +123,10 @@
       "default": "scheme-1"
     },
     {
-      "type": "metaobject_list",
+      "type": "collection_list",
       "id": "brands",
       "label": "t:labels.brands",
       "info": "t:info.brand_logo_strip_brands",
-      "metaobject_type": "brand_logos",
       "limit": 50
     }
   ],

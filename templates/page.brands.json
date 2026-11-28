@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "brand-collections",
+      "settings": {
+        "eyebrow": "Zīmoli",
+        "title": "Iepazīsties ar mūsu zīmoliem"
+      }
+    }
+  },
+  "order": ["main"]
+}

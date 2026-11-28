@@ -117,6 +117,45 @@
     ]
   },
   {
+    "name": "t:general.pricing",
+    "settings": [
+      {
+        "type": "range",
+        "id": "vat_rate",
+        "label": "t:labels.vat_rate",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "unit": "%",
+        "default": 21
+      }
+    ]
+  },
+  {
+    "name": "t:general.cart",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "t:labels.free_shipping_threshold",
+        "info": "t:info.free_shipping_threshold",
+        "default": 50
+      },
+      {
+        "type": "inline_richtext",
+        "id": "free_shipping_remaining_message",
+        "label": "t:labels.free_shipping_remaining_message",
+        "info": "t:info.free_shipping_remaining_message"
+      },
+      {
+        "type": "inline_richtext",
+        "id": "free_shipping_reached_message",
+        "label": "t:labels.free_shipping_reached_message",
+        "info": "t:info.free_shipping_reached_message"
+      }
+    ]
+  },
+  {
     "name": "t:general.social_media",
     "settings": [
       {
