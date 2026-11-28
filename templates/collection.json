@@ -25,7 +25,7 @@
             "gradient_color": "#0a1824",
             "gradient_direction": "to top",
             "gradient_start": 0,
-            "gradient_reach": 50
+            "gradient_reach": 75
           }
         },
         "collection_j7DMcx": {
@@ -71,8 +71,8 @@
         "color_scheme": "",
         "layout": "large-left",
         "large_card": "1",
-        "large_content_position": "end",
-        "large_content_width": 100,
+        "large_content_position": "center",
+        "large_content_width": 70,
         "heading": "",
         "text": ""
       }
