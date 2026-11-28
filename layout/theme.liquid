@@ -16,6 +16,10 @@
   <body>
     {% sections 'header-group' %}
 
+    {%- unless request.page_type == 'cart' -%}
+      {% section 'cart-button' %}
+    {%- endunless -%}
+
     {% render 'predictive-search', id: 'SearchOverlay', overlay: true %}
 
     {{ content_for_layout }}
