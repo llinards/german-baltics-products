@@ -182,7 +182,7 @@ body {
 
 :is(h1, .h1) {
   font-size: var(--font-size-4xl);
-  font-weight: var(--font-heading-weight-medium);
+  font-weight: var(--font-heading-weight-bold);
   line-height: var(--line-height-tight);
 }
 

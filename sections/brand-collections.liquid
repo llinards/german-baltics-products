@@ -187,6 +187,21 @@
     margin-block-start: auto;
     font-family: var(--font-heading-family);
     font-weight: var(--font-heading-weight);
+    transition: color var(--duration-fast) var(--ease-out);
+
+    .icon {
+      transition: translate var(--duration-fast) var(--ease-out);
+    }
+
+    .brand-collections__card:is(:hover, :has(.brand-collections__link:focus-visible)) & {
+      color: var(--color-primary);
+
+      @media (prefers-reduced-motion: no-preference) {
+        .icon {
+          translate: var(--space-3xs) 0;
+        }
+      }
+    }
 
     &::after {
       content: '';
