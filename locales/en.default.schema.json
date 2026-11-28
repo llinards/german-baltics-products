@@ -206,7 +206,7 @@
   },
   "info": {
     "background_gradient": "Optional. Replaces the solid background when set.",
-    "brand_logo_strip_brands": "Choose which brands to show and in what order. Shows every brand when empty.",
+    "brand_logo_strip_brands": "Choose which vendor collections to show and in what order. The collection image is used as the logo. When empty, shows the collection whose handle matches each product vendor (e.g. \"Dr. Oetker\" → dr-oetker). Collections without an image are skipped.",
     "collection_cards_badge": "Small label in the top-left corner. Hidden when empty.",
     "collection_cards_collection": "Uses the collection's image, title and description.",
     "collection_cards_image": "Optional. Replaces the collection image on this card. To choose which part of the image stays visible when it's cropped, select the image, click Edit and set a focal point.",
