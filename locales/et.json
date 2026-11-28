@@ -26,7 +26,15 @@
     "checkout": "Vormista tellimus",
     "title": "Ostukorv",
     "update": "Uuenda",
-    "remove": "Eemalda"
+    "remove": "Eemalda",
+    "drawer": {
+      "title": "Tooted ostukorvis",
+      "free_shipping_remaining_html": "Lisage veel {{ amount }}, et saada <strong>tasuta tarne kõikjal Baltikumis.</strong>",
+      "free_shipping_reached_html": "Teile kehtib <strong>tasuta tarne kõikjal Baltikumis</strong>",
+      "subtotal": "Kokku",
+      "go_to_cart": "Mine ostukorvi",
+      "empty": "Teie ostukorv on tühi"
+    }
   },
   "customers": {
     "login": {
@@ -119,7 +127,8 @@
     "quantity": "Kogus",
     "increase_quantity": "Suurenda kogust",
     "decrease_quantity": "Vähenda kogust",
-    "remove_from_cart": "Eemalda ostukorvist"
+    "remove_from_cart": "Eemalda ostukorvist",
+    "close_cart": "Sulge ostukorv"
   },
   "product": {
     "related_products": "Teised sarnased tooted",

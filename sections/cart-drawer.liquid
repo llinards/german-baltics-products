@@ -1,0 +1,611 @@
+<cart-drawer data-section-id="{{ section.id }}">
+  <dialog id="CartDrawer" class="cart-drawer" scroll-lock aria-labelledby="CartDrawerTitle">
+    <div class="cart-drawer__inner">
+      <div class="cart-drawer__header">
+        <h2 id="CartDrawerTitle" class="cart-drawer__title">{{ 'cart.drawer.title' | t }}</h2>
+        <button
+          type="button"
+          class="cart-drawer__close"
+          data-cart-drawer-close
+          aria-label="{{ 'accessibility.close_cart' | t }}"
+        >
+          {%- render 'icon', name: 'close' -%}
+        </button>
+      </div>
+
+      <div class="cart-drawer__content">
+        {%- if cart.item_count > 0 -%}
+          {%- if settings.free_shipping_threshold > 0 -%}
+            {%- assign remaining = settings.free_shipping_threshold | times: 100 | round | minus: cart.total_price -%}
+            <p class="cart-drawer__shipping">
+              {%- render 'icon', name: 'truck', class: 'cart-drawer__shipping-icon' -%}
+              <span>
+                {%- if remaining > 0 -%}
+                  {%- assign amount = remaining | money -%}
+                  {%- if settings.free_shipping_remaining_message != blank -%}
+                    {{- settings.free_shipping_remaining_message | replace: '[amount]', amount -}}
+                  {%- else -%}
+                    {{- 'cart.drawer.free_shipping_remaining_html' | t: amount: amount -}}
+                  {%- endif -%}
+                {%- elsif settings.free_shipping_reached_message != blank -%}
+                  {{- settings.free_shipping_reached_message -}}
+                {%- else -%}
+                  {{- 'cart.drawer.free_shipping_reached_html' | t -}}
+                {%- endif -%}
+              </span>
+            </p>
+          {%- endif -%}
+
+          <ul class="cart-drawer__items" role="list">
+            {%- for item in cart.items -%}
+              <li class="cart-drawer__item" data-line-key="{{ item.key }}">
+                <a class="cart-drawer__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+                  {%- if item.image != blank -%}
+                    {{
+                      item.image
+                      | image_url: width: 192
+                      | image_tag:
+                        widths: '96, 192',
+                        sizes: '96px',
+                        loading: 'lazy',
+                        alt: item.product.title,
+                        class: 'cart-drawer__image'
+                    }}
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'cart-drawer__image cart-drawer__image--placeholder' }}
+                  {%- endif -%}
+                </a>
+
+                <div class="cart-drawer__info">
+                  <a class="cart-drawer__item-title" href="{{ item.url }}">{{ item.product.title }}</a>
+                  <p class="cart-drawer__price">
+                    <span class="cart-drawer__price-current">{{ item.final_price | money }}</span>
+                    {%- if item.variant.compare_at_price > item.final_price -%}
+                      <s class="cart-drawer__price-compare">{{ item.variant.compare_at_price | money }}</s>
+                    {%- endif -%}
+                  </p>
+                </div>
+
+                <div class="cart-drawer__actions">
+                  {%- render 'quantity-input', quantity: item.quantity, class: 'cart-drawer__quantity' -%}
+                  <p class="cart-drawer__line-total">{{ item.final_line_price | money }}</p>
+                </div>
+
+                <button type="button" class="cart-drawer__remove" data-cart-remove>
+                  {%- render 'icon', name: 'trash' -%}
+                  <span class="visually-hidden">{{ 'accessibility.remove_from_cart' | t }}</span>
+                </button>
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          <div class="cart-drawer__footer">
+            <p class="cart-drawer__total">
+              <span>{{ 'cart.drawer.subtotal' | t }}</span>
+              <span class="cart-drawer__total-price">{{ cart.total_price | money }}</span>
+            </p>
+            <a class="button button--full cart-drawer__button" href="{{ routes.cart_url }}">
+              <span>{{ 'cart.drawer.go_to_cart' | t }}</span>
+              {%- render 'icon', name: 'cart' -%}
+            </a>
+          </div>
+        {%- else -%}
+          <p class="cart-drawer__empty">{{ 'cart.drawer.empty' | t }}</p>
+        {%- endif -%}
+
+        <div class="cart-drawer__loader" aria-hidden="true">
+          <span class="cart-drawer__spinner"></span>
+        </div>
+      </div>
+    </div>
+  </dialog>
+</cart-drawer>
+
+{% stylesheet %}
+  cart-drawer {
+    display: contents;
+  }
+
+  .cart-drawer {
+    --cart-drawer-gutter: var(--space-lg);
+    --cart-drawer-image-size: 4.5rem;
+
+    position: fixed;
+    inset-block: 0;
+    inset-inline: auto 0;
+    width: min(100%, max(36rem, 33.333vw));
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    container-type: inline-size;
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    opacity: 0;
+    translate: 1rem 0;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      translate var(--duration-fast) var(--ease-out),
+      overlay var(--duration-fast) allow-discrete,
+      display var(--duration-fast) allow-discrete;
+
+    &[open] {
+      opacity: 1;
+      translate: 0 0;
+
+      @starting-style {
+        opacity: 0;
+        translate: 1rem 0;
+      }
+    }
+
+    &::backdrop {
+      background-color: color-mix(in srgb, var(--color-overlay) 50%, transparent);
+      opacity: 0;
+      transition:
+        opacity var(--duration-fast) var(--ease-out),
+        overlay var(--duration-fast) allow-discrete,
+        display var(--duration-fast) allow-discrete;
+    }
+
+    @media screen and (max-width: 749px) {
+      --cart-drawer-gutter: var(--page-margin);
+
+      width: 100%;
+    }
+  }
+
+  .cart-drawer[open]::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .cart-drawer[open]::backdrop {
+      opacity: 0;
+    }
+  }
+
+  .cart-drawer__inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-md) var(--cart-drawer-gutter) var(--cart-drawer-gutter);
+  }
+
+  .cart-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-block-end: var(--space-md);
+  }
+
+  .cart-drawer__title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-heading-weight-bold);
+    line-height: var(--line-height-snug);
+    color: var(--color-foreground-secondary);
+  }
+
+  .cart-drawer__close,
+  .cart-drawer__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      background-color: var(--color-surface);
+    }
+  }
+
+  .cart-drawer__close {
+    margin-inline-end: -0.5rem;
+  }
+
+  .cart-drawer__remove {
+    --icon-size: 1.25rem;
+
+    grid-area: remove;
+    color: var(--color-foreground-secondary);
+  }
+
+  .cart-drawer__content {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .cart-drawer__shipping {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--space-md);
+    margin-block-end: var(--space-sm);
+    padding: var(--space-sm) var(--space-lg);
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-heading-weight-regular);
+    line-height: var(--line-height-snug);
+    color: var(--color-overlay);
+    background-color: var(--color-background-teal);
+    border-radius: var(--radius-xl);
+
+    & strong {
+      font-weight: var(--font-heading-weight-bold);
+    }
+  }
+
+  .cart-drawer__shipping-icon {
+    --icon-size: 3rem;
+  }
+
+  .cart-drawer__items {
+    flex: 1;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    list-style: none;
+  }
+
+  .cart-drawer__item {
+    display: grid;
+    grid-template-columns: var(--cart-drawer-image-size) minmax(0, 1fr) auto;
+    grid-template-areas:
+      'media info remove'
+      '. actions actions';
+    align-items: center;
+    gap: var(--space-sm);
+    padding-block: var(--space-md);
+    border-block-end: var(--border-width) solid var(--color-border-light);
+
+    @container (min-width: 40rem) {
+      --cart-drawer-image-size: 5.5rem;
+
+      grid-template-columns: var(--cart-drawer-image-size) minmax(0, 1fr) auto auto;
+      grid-template-areas: 'media info actions remove';
+      column-gap: var(--space-md);
+    }
+  }
+
+  .cart-drawer__media {
+    grid-area: media;
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+  }
+
+  .cart-drawer__image {
+    width: 100%;
+    height: 100%;
+    padding: var(--space-2xs);
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+
+  .cart-drawer__image--placeholder {
+    fill: var(--color-foreground-subtle);
+  }
+
+  .cart-drawer__info {
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    min-width: 0;
+  }
+
+  .cart-drawer__item-title {
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-heading-weight-regular);
+    line-height: var(--line-height-snug);
+    text-decoration: none;
+    transition: color var(--duration-fast) ease-in-out;
+
+    &:hover {
+      color: var(--color-primary-text);
+    }
+  }
+
+  .cart-drawer__price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2xs);
+    font-family: var(--font-heading-family);
+  }
+
+  .cart-drawer__price-current {
+    font-weight: var(--font-heading-weight-bold);
+  }
+
+  .cart-drawer__price-compare {
+    font-size: var(--font-size-sm);
+    color: var(--color-foreground-faded);
+  }
+
+  .cart-drawer__actions {
+    grid-area: actions;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-md);
+  }
+
+  .cart-drawer__actions .quantity {
+    @media screen and (max-width: 749px) {
+      --quantity-height: 2rem;
+      --quantity-button-size: 1.5rem;
+
+      gap: var(--space-2xs);
+      padding: var(--space-3xs) var(--space-2xs);
+
+      & .quantity__button {
+        --icon-size: 0.875rem;
+      }
+
+      & .quantity__input {
+        font-size: var(--font-size-base);
+      }
+    }
+  }
+
+  .cart-drawer__line-total {
+    min-width: 5.5rem;
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-heading-weight-bold);
+    line-height: var(--line-height-snug);
+    text-align: end;
+    white-space: nowrap;
+
+    @media screen and (max-width: 749px) {
+      font-size: var(--font-size-md);
+    }
+  }
+
+  .cart-drawer__footer {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-block-start: var(--space-sm);
+    padding-block-start: var(--space-md);
+    border-block-start: var(--border-width) solid var(--color-divider);
+  }
+
+  .cart-drawer__total {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    font-family: var(--font-heading-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-heading-weight-medium);
+  }
+
+  .cart-drawer__total-price {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-heading-weight-bold);
+
+    @media screen and (max-width: 749px) {
+      font-size: var(--font-size-md);
+    }
+  }
+
+  .cart-drawer__button {
+    --icon-size: 1.75rem;
+
+    justify-content: space-between;
+    min-height: 3.5rem;
+    padding-inline: var(--space-lg) var(--space-md);
+    font-size: var(--font-size-md);
+  }
+
+  .cart-drawer__empty {
+    padding-block: var(--space-xl);
+    color: var(--color-foreground-muted);
+    text-align: center;
+  }
+
+  .cart-drawer__loader {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: none;
+    place-items: center;
+    background-color: color-mix(in srgb, var(--color-background) 65%, transparent);
+
+    .cart-drawer__content[aria-busy='true'] > & {
+      display: grid;
+    }
+  }
+
+  .cart-drawer__spinner {
+    width: 3rem;
+    height: 3rem;
+    border: 3px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    border-block-start-color: var(--color-primary);
+    border-radius: 50%;
+    animation: cart-drawer-spin 0.8s linear infinite;
+  }
+
+  @keyframes cart-drawer-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class CartDrawer extends HTMLElement {
+    #updates = {};
+    #timer;
+    #request = 0;
+
+    connectedCallback() {
+      this.dialog = this.querySelector('dialog');
+      this.content = this.querySelector('.cart-drawer__content');
+      this.sectionId = this.dataset.sectionId;
+
+      this.dialog.addEventListener('click', this.#onClick);
+      this.dialog.addEventListener('quantity:change', this.#onQuantityChange);
+      document.addEventListener('click', this.#onDocumentClick);
+      document.addEventListener('cart:change', this.#onCartChange);
+    }
+
+    disconnectedCallback() {
+      this.dialog.removeEventListener('click', this.#onClick);
+      this.dialog.removeEventListener('quantity:change', this.#onQuantityChange);
+      document.removeEventListener('click', this.#onDocumentClick);
+      document.removeEventListener('cart:change', this.#onCartChange);
+      clearTimeout(this.#timer);
+    }
+
+    open() {
+      if (!this.dialog.open) this.dialog.showModal();
+    }
+
+    close() {
+      this.dialog.close();
+    }
+
+    #onDocumentClick = (event) => {
+      const trigger = event.target.closest('[data-cart-drawer-open]');
+      if (!trigger || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      event.preventDefault();
+      this.open();
+    };
+
+    #onClick = (event) => {
+      if (event.target === this.dialog || event.target.closest('[data-cart-drawer-close]')) {
+        this.close();
+        return;
+      }
+
+      const remove = event.target.closest('[data-cart-remove]');
+      if (remove) this.#queue(remove.closest('[data-line-key]').dataset.lineKey, 0, 0);
+    };
+
+    #onQuantityChange = (event) => {
+      const row = event.target.closest('[data-line-key]');
+      if (row) this.#queue(row.dataset.lineKey, event.detail.quantity, 300);
+    };
+
+    #onCartChange = (event) => {
+      const detail = event.detail ?? {};
+      if (detail.source === this) return;
+
+      const html = detail.sections?.[this.sectionId];
+      if (html) {
+        this.#request += 1;
+        this.#render(html);
+      } else {
+        this.#refresh();
+      }
+
+      if (detail.open) this.open();
+    };
+
+    #queue(key, quantity, delay) {
+      this.#updates[key] = quantity;
+      clearTimeout(this.#timer);
+      this.#timer = setTimeout(() => this.#send(), delay);
+    }
+
+    #send() {
+      const updates = this.#updates;
+      const request = this.#start();
+      this.#updates = {};
+      this.#timer = null;
+
+      fetch(`${window.Shopify.routes.root}cart/update.js`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ updates, sections: this.sectionId }),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error(response.statusText);
+          return response.json();
+        })
+        .then((cart) => {
+          if (request !== this.#request) return;
+          this.#render(cart.sections[this.sectionId]);
+          document.dispatchEvent(new CustomEvent('cart:change', { detail: { source: this, cart } }));
+        })
+        .catch(() => {
+          if (request !== this.#request) return;
+          this.#refresh();
+          document.dispatchEvent(new CustomEvent('cart:change', { detail: { source: this } }));
+        });
+    }
+
+    #refresh() {
+      const request = this.#start();
+
+      fetch(`${window.Shopify.routes.root}?section_id=${this.sectionId}`)
+        .then((response) => {
+          if (!response.ok) throw new Error(response.statusText);
+          return response.text();
+        })
+        .then((html) => request === this.#request && this.#render(html))
+        .catch(() => request === this.#request && this.content.removeAttribute('aria-busy'));
+    }
+
+    #start() {
+      this.content.setAttribute('aria-busy', 'true');
+      this.#request += 1;
+      return this.#request;
+    }
+
+    #render(html) {
+      const fresh = new DOMParser().parseFromString(html, 'text/html').querySelector('.cart-drawer__content');
+      this.content.removeAttribute('aria-busy');
+      if (!fresh) return;
+
+      const controls = (scope) => [...scope.querySelectorAll('a[href], button, input')];
+      const active = this.content.contains(document.activeElement) ? document.activeElement : null;
+      const activeRow = active?.closest('[data-line-key]');
+      const index = activeRow ? controls(activeRow).indexOf(active) : -1;
+
+      this.content.innerHTML = fresh.innerHTML;
+      if (!active) return;
+
+      const row = activeRow && this.content.querySelector(`[data-line-key="${CSS.escape(activeRow.dataset.lineKey)}"]`);
+      const target = row ? controls(row)[index] : null;
+      const fallback = row?.querySelector('input') ?? this.dialog.querySelector('[data-cart-drawer-close]');
+      (target && !target.disabled && !target.hidden ? target : fallback).focus();
+    }
+  }
+
+  if (!customElements.get('cart-drawer')) {
+    customElements.define('cart-drawer', CartDrawer);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.cart_drawer",
+  "settings": []
+}
+{% endschema %}

@@ -26,7 +26,15 @@
     "checkout": "Checkout",
     "title": "Cart",
     "update": "Update",
-    "remove": "Remove"
+    "remove": "Remove",
+    "drawer": {
+      "title": "Products in cart",
+      "free_shipping_remaining_html": "Add {{ amount }} more to get <strong>free delivery across the Baltics.</strong>",
+      "free_shipping_reached_html": "You get <strong>free delivery across the Baltics</strong>",
+      "subtotal": "Total",
+      "go_to_cart": "Go to cart",
+      "empty": "Your cart is empty"
+    }
   },
   "customers": {
     "login": {
@@ -119,7 +127,8 @@
     "quantity": "Quantity",
     "increase_quantity": "Increase quantity",
     "decrease_quantity": "Decrease quantity",
-    "remove_from_cart": "Remove from cart"
+    "remove_from_cart": "Remove from cart",
+    "close_cart": "Close cart"
   },
   "product": {
     "related_products": "Similar products",

@@ -281,13 +281,23 @@
 
       this.form.addEventListener('submit', this.#onSubmit);
       this.addEventListener('quantity:change', this.#onChange);
+      document.addEventListener('cart:change', this.#onCartChange);
     }
 
     disconnectedCallback() {
       this.form.removeEventListener('submit', this.#onSubmit);
       this.removeEventListener('quantity:change', this.#onChange);
+      document.removeEventListener('cart:change', this.#onCartChange);
       clearTimeout(this.#timer);
     }
+
+    #onCartChange = (event) => {
+      const cart = event.detail?.cart;
+      if (!cart || this.#timer) return;
+
+      this.#request += 1;
+      this.#show(this.#quantityIn(cart));
+    };
 
     #onSubmit = (event) => {
       event.preventDefault();
@@ -329,15 +339,16 @@
         })
         .then((cart) => {
           if (request !== this.#request || this.#timer) return;
-
-          const quantity = cart.items
-            .filter((item) => item.variant_id === this.variantId)
-            .reduce((sum, item) => sum + item.quantity, 0);
-
-          this.#show(quantity);
+          this.#show(this.#quantityIn(cart));
         })
         .catch(() => {})
         .finally(() => document.dispatchEvent(new CustomEvent('cart:change')));
+    }
+
+    #quantityIn(cart) {
+      return cart.items
+        .filter((item) => item.variant_id === this.variantId)
+        .reduce((sum, item) => sum + item.quantity, 0);
     }
 
     #show(quantity) {

@@ -20,6 +20,10 @@
 
     {{ content_for_layout }}
 
+    {%- unless request.page_type == 'cart' -%}
+      {% section 'cart-drawer' %}
+    {%- endunless -%}
+
     {% sections 'footer-group' %}
   </body>
 </html>

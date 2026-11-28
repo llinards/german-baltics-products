@@ -48,7 +48,15 @@
     "checkout": "Apmokėti",
     "title": "Krepšelis",
     "update": "Atnaujinti",
-    "remove": "Pašalinti"
+    "remove": "Pašalinti",
+    "drawer": {
+      "title": "Prekės krepšelyje",
+      "free_shipping_remaining_html": "Pridėkite dar {{ amount }}, kad gautumėte <strong>nemokamą pristatymą visose Baltijos šalyse.</strong>",
+      "free_shipping_reached_html": "Jums priklauso <strong>nemokamas pristatymas visose Baltijos šalyse</strong>",
+      "subtotal": "Iš viso",
+      "go_to_cart": "Eiti į krepšelį",
+      "empty": "Jūsų krepšelis tuščias"
+    }
   },
   "customers": {
     "login": {
@@ -144,7 +152,8 @@
     "quantity": "Kiekis",
     "increase_quantity": "Padidinti kiekį",
     "decrease_quantity": "Sumažinti kiekį",
-    "remove_from_cart": "Pašalinti iš krepšelio"
+    "remove_from_cart": "Pašalinti iš krepšelio",
+    "close_cart": "Uždaryti krepšelį"
   },
   "product": {
     "related_products": "Kiti panašūs produktai",

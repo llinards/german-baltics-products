@@ -119,20 +119,22 @@
     </div>
 
     <div class="product__actions">
-      {%- form 'product', product, class: 'product__form' -%}
-        <input type="hidden" name="id" value="{{ variant.id }}">
-        {%- if variant.available -%}
-          {%- render 'quantity-input', quantity: 1, name: 'quantity', class: 'product__quantity' -%}
-          <button type="submit" name="add" class="button product__add-to-cart">
-            <span>{{ 'product.add_to_cart' | t }}</span>
-            {%- render 'icon', name: 'cart' -%}
-          </button>
-        {%- else -%}
-          <button type="button" class="button button--sold-out product__add-to-cart" disabled>
-            {{ 'product.out_of_stock' | t }}
-          </button>
-        {%- endif -%}
-      {%- endform -%}
+      <product-form class="product__form">
+        {%- form 'product', product, class: 'product__form' -%}
+          <input type="hidden" name="id" value="{{ variant.id }}">
+          {%- if variant.available -%}
+            {%- render 'quantity-input', quantity: 1, name: 'quantity', class: 'product__quantity' -%}
+            <button type="submit" name="add" class="button product__add-to-cart">
+              <span>{{ 'product.add_to_cart' | t }}</span>
+              {%- render 'icon', name: 'cart' -%}
+            </button>
+          {%- else -%}
+            <button type="button" class="button button--sold-out product__add-to-cart" disabled>
+              {{ 'product.out_of_stock' | t }}
+            </button>
+          {%- endif -%}
+        {%- endform -%}
+      </product-form>
 
       <a class="product__wishlist" href="#">
         {%- render 'icon', name: 'heart' -%}
@@ -454,6 +456,11 @@
     height: var(--action-height);
     min-height: 0;
     padding-block: 0;
+
+    &[aria-busy='true'] {
+      opacity: 0.6;
+      pointer-events: none;
+    }
   }
 
   .product__wishlist {
@@ -646,8 +653,51 @@
     };
   }
 
+  class ProductForm extends HTMLElement {
+    connectedCallback() {
+      this.form = this.querySelector('form');
+      this.form.addEventListener('submit', this.#onSubmit);
+    }
+
+    disconnectedCallback() {
+      this.form.removeEventListener('submit', this.#onSubmit);
+    }
+
+    #onSubmit = (event) => {
+      const drawer = document.querySelector('cart-drawer');
+      const button = this.form.querySelector('[type="submit"]');
+      if (!drawer || !button) return;
+
+      event.preventDefault();
+      if (button.getAttribute('aria-busy') === 'true') return;
+      button.setAttribute('aria-busy', 'true');
+
+      const body = new FormData(this.form);
+      body.append('sections', drawer.dataset.sectionId);
+
+      fetch(`${window.Shopify.routes.root}cart/add.js`, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body,
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error(response.statusText);
+          return response.json();
+        })
+        .then((item) => {
+          document.dispatchEvent(new CustomEvent('cart:change', { detail: { sections: item.sections, open: true } }));
+        })
+        .catch(() => this.form.submit())
+        .finally(() => button.removeAttribute('aria-busy'));
+    };
+  }
+
   if (!customElements.get('product-gallery')) {
     customElements.define('product-gallery', ProductGallery);
+  }
+
+  if (!customElements.get('product-form')) {
+    customElements.define('product-form', ProductForm);
   }
 {% endjavascript %}
 

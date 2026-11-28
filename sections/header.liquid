@@ -151,8 +151,8 @@
       </button>
 
       <cart-count class="header__cart" data-section-id="{{ section.id }}">
-        <a class="header__action" href="{{ routes.cart_url }}">
-          {%- render 'icon', name: 'bag' -%}
+        <a class="header__action" href="{{ routes.cart_url }}" data-cart-drawer-open>
+          {%- render 'icon', name: 'cart' -%}
           <span class="visually-hidden">
             {{- 'cart.title' | t -}}
             {%- if cart.item_count > 0 -%}

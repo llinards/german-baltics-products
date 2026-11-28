@@ -4548,7 +4548,15 @@
     "checkout": "Apmaksa",
     "title": "Grozs",
     "update": "Atjaunināt",
-    "remove": "Noņemt"
+    "remove": "Noņemt",
+    "drawer": {
+      "title": "Produkti grozā",
+      "free_shipping_remaining_html": "Pievienojiet vēl {{ amount }}, lai saņemtu <strong>bezmaksas piegādi visā Baltijā.</strong>",
+      "free_shipping_reached_html": "Jums pienākas <strong>bezmaksas piegāde visā Baltijā</strong>",
+      "subtotal": "Kopsumma",
+      "go_to_cart": "Doties uz grozu",
+      "empty": "Jūsu grozs ir tukšs"
+    }
   },
   "customers": {
     "login": {
@@ -4642,7 +4650,8 @@
     "quantity": "Daudzums",
     "increase_quantity": "Palielināt daudzumu",
     "decrease_quantity": "Samazināt daudzumu",
-    "remove_from_cart": "Izņemt no groza"
+    "remove_from_cart": "Izņemt no groza",
+    "close_cart": "Aizvērt grozu"
   },
   "product": {
     "related_products": "Citi līdzīgi produkti",
