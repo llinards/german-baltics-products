@@ -9,6 +9,57 @@
  */
 {
   "sections": {
+    "collection_cards_W3cUfR": {
+      "type": "collection-cards",
+      "blocks": {
+        "collection_AU6GgC": {
+          "type": "collection",
+          "settings": {
+            "collection": "atklajiet-jaunus-favoritus",
+            "image_position_x": 50,
+            "image_position_y": 26,
+            "image_scale": 100,
+            "badge": "Jaunumi",
+            "link_label": "Uzzināt vairāk"
+          }
+        },
+        "collection_j7DMcx": {
+          "type": "collection",
+          "settings": {
+            "collection": "iecieniti-produkti-par-izdevigam-cenam",
+            "image_position_x": 50,
+            "image_position_y": 26,
+            "image_scale": 100,
+            "badge": "Akcijas",
+            "link_label": "Uzzināt vairāk"
+          }
+        },
+        "collection_4YEnir": {
+          "type": "collection",
+          "settings": {
+            "collection": "rupes-par-pasiem-mazakajiem",
+            "image_position_x": 50,
+            "image_position_y": 50,
+            "image_scale": 100,
+            "badge": "Mazuļa ikdiena",
+            "link_label": "Uzzināt vairāk"
+          }
+        }
+      },
+      "block_order": [
+        "collection_AU6GgC",
+        "collection_j7DMcx",
+        "collection_4YEnir"
+      ],
+      "name": "t:general.collection_cards",
+      "settings": {
+        "color_scheme": "",
+        "layout": "large-left",
+        "large_card": "1",
+        "heading": "",
+        "text": ""
+      }
+    },
     "main": {
       "type": "collection",
       "settings": {
@@ -27,6 +78,7 @@
     }
   },
   "order": [
+    "collection_cards_W3cUfR",
     "main"
   ]
 }
