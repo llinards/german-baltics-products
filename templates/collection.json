@@ -20,7 +20,12 @@
             "image_position_y": 26,
             "image_scale": 100,
             "badge": "Jaunumi",
-            "link_label": "Uzzināt vairāk"
+            "link_label": "Uzzināt vairāk",
+            "gradient": true,
+            "gradient_color": "#0a1824",
+            "gradient_direction": "to top",
+            "gradient_start": 0,
+            "gradient_reach": 50
           }
         },
         "collection_j7DMcx": {
@@ -31,7 +36,12 @@
             "image_position_y": 26,
             "image_scale": 100,
             "badge": "Akcijas",
-            "link_label": "Uzzināt vairāk"
+            "link_label": "Uzzināt vairāk",
+            "gradient": true,
+            "gradient_color": "#0a1824",
+            "gradient_direction": "to top",
+            "gradient_start": 10,
+            "gradient_reach": 100
           }
         },
         "collection_4YEnir": {
@@ -42,7 +52,12 @@
             "image_position_y": 50,
             "image_scale": 100,
             "badge": "Mazuļa ikdiena",
-            "link_label": "Uzzināt vairāk"
+            "link_label": "Uzzināt vairāk",
+            "gradient": true,
+            "gradient_color": "#0a1824",
+            "gradient_direction": "to top",
+            "gradient_start": 10,
+            "gradient_reach": 100
           }
         }
       },
@@ -56,6 +71,8 @@
         "color_scheme": "",
         "layout": "large-left",
         "large_card": "1",
+        "large_content_position": "end",
+        "large_content_width": 100,
         "heading": "",
         "text": ""
       }
