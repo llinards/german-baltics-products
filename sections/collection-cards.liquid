@@ -1,4 +1,11 @@
-<scroll-carousel class="collection-cards color-{{ section.settings.color_scheme }}">
+{%- liquid
+  assign large_index = 0
+  if section.settings.layout != 'equal'
+    assign large_index = section.settings.large_card | plus: 0
+  endif
+-%}
+
+<scroll-carousel class="collection-cards collection-cards--{{ section.settings.layout }} color-{{ section.settings.color_scheme }}">
   {%- if section.settings.heading != blank or section.settings.text != blank -%}
     <div class="collection-cards__header">
       {%- if section.settings.heading != blank -%}
@@ -15,12 +22,19 @@
       {%- liquid
         assign collection = block.settings.collection
         assign image = block.settings.image | default: collection.featured_image
+        assign image_sizes = '(min-width: 990px) 440px, (min-width: 750px) 40vw, 75vw'
+        if forloop.index == large_index
+          assign image_sizes = '(min-width: 990px) 66vw, (min-width: 750px) 40vw, 75vw'
+        endif
       -%}
       {%- unless collection != blank or request.design_mode -%}
         {%- continue -%}
       {%- endunless -%}
 
-      <li class="collection-cards__item" {{ block.shopify_attributes }}>
+      <li
+        class="collection-cards__item{% if forloop.index == large_index %} collection-cards__item--large{% endif %}"
+        {{ block.shopify_attributes }}
+      >
         <a
           class="collection-cards__card"
           href="{{ collection.url }}"
@@ -33,10 +47,10 @@
           {%- if image != blank -%}
             {{
               image
-              | image_url: width: 880
+              | image_url: width: 1760
               | image_tag:
-                widths: '300, 440, 660, 880',
-                sizes: '(min-width: 990px) 440px, (min-width: 750px) 40vw, 75vw',
+                widths: '300, 440, 660, 880, 1320, 1760',
+                sizes: image_sizes,
                 loading: 'lazy',
                 alt: collection.title,
                 class: 'collection-cards__image'
@@ -79,6 +93,7 @@
     --gap: var(--space-sm);
     --card-padding: clamp(var(--space-sm), 0.28rem + 4.44cqi, var(--space-md));
 
+    container-type: inline-size;
     padding-block-end: var(--space-xl);
 
     @media screen and (min-width: 750px) {
@@ -116,6 +131,42 @@
 
     &.is-clipped {
       opacity: 0.5;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .collection-cards--large-left,
+    .collection-cards--large-right {
+      .collection-cards__track {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: repeat(2, minmax(0, 1fr));
+        block-size: calc(min((100cqi - 2 * var(--gap)) / 3, 27.5rem) * 540 / 440);
+      }
+
+      .collection-cards__item {
+        max-inline-size: none;
+      }
+
+      .collection-cards__item--large {
+        grid-row: 1 / -1;
+        grid-column: 1;
+      }
+
+      .collection-cards__card {
+        block-size: 100%;
+        aspect-ratio: auto;
+      }
+    }
+
+    .collection-cards--large-right {
+      .collection-cards__track {
+        grid-template-columns: 1fr 2fr;
+      }
+
+      .collection-cards__item--large {
+        grid-column: 2;
+      }
     }
   }
 
@@ -231,6 +282,31 @@
       "id": "color_scheme",
       "label": "t:labels.color_scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:labels.layout",
+      "info": "t:info.collection_cards_layout",
+      "options": [
+        { "value": "equal", "label": "t:options.collection_cards_layout.equal" },
+        { "value": "large-left", "label": "t:options.collection_cards_layout.large_left" },
+        { "value": "large-right", "label": "t:options.collection_cards_layout.large_right" }
+      ],
+      "default": "equal"
+    },
+    {
+      "type": "select",
+      "id": "large_card",
+      "label": "t:labels.large_card",
+      "info": "t:info.collection_cards_large_card",
+      "options": [
+        { "value": "1", "label": "t:options.card_position.first" },
+        { "value": "2", "label": "t:options.card_position.second" },
+        { "value": "3", "label": "t:options.card_position.third" }
+      ],
+      "default": "1",
+      "visible_if": "{{ section.settings.layout != 'equal' }}"
     },
     {
       "type": "text",

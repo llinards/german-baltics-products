@@ -99,6 +99,8 @@
     "image_alt": "Image alt text",
     "image_scale": "Scale",
     "instagram": "Instagram",
+    "large_card": "Large card",
+    "layout": "Layout",
     "layout_direction": "Layout direction",
     "link": "Link",
     "link_label": "Link label",
@@ -136,6 +138,16 @@
       "left": "Left",
       "center": "Center",
       "right": "Right"
+    },
+    "card_position": {
+      "first": "First card",
+      "second": "Second card",
+      "third": "Third card"
+    },
+    "collection_cards_layout": {
+      "equal": "Equal columns",
+      "large_left": "Large card on the left",
+      "large_right": "Large card on the right"
     },
     "direction": {
       "horizontal": "Horizontal",
@@ -191,6 +203,8 @@
     "collection_cards_collection": "Uses the collection's image, title and description.",
     "collection_cards_image": "Optional. Replaces the collection image on this card. To choose which part of the image stays visible when it's cropped, select the image, click Edit and set a focal point.",
     "collection_cards_image_position": "Which part of the collection image stays visible when it's cropped. 0% is the left or top edge, 100% the right or bottom edge.",
+    "collection_cards_large_card": "Cards are counted in the order they appear in the sidebar. The other cards stack in the narrow column, top to bottom in that same order.",
+    "collection_cards_layout": "Applies from 990px wide. On smaller screens the cards scroll side by side.",
     "collection_cards_link_label": "When empty, shows \"Learn more\" in the store's language.",
     "collection_strip_collections": "Collection images are used as thumbnails. On mobile the collections are shown in columns of 5.",
     "collection_filters_categories": "Categories shown next to the products, one active at a time. Each opens into a dropdown with \"View all\" and the collection's Search & Discovery Vendor and Subcategory (custom.subcategories metafield) filters (with product counts). Icons come from the Menu icon metafield. Hidden when empty.",
