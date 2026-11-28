@@ -54,6 +54,7 @@
     "filters": "Filtrid",
     "clear_filters": "Eemalda filtrid",
     "view_all": "Vaata kõiki",
+    "view_products": "Vaata tooteid",
     "sort": {
       "created_descending": "Vaikimisi",
       "title_ascending": "Tähestikuliselt A-Z",

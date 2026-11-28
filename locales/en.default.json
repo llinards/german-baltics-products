@@ -54,6 +54,7 @@
     "filters": "Filters",
     "clear_filters": "Clear filters",
     "view_all": "View all",
+    "view_products": "View products",
     "sort": {
       "created_descending": "Default",
       "title_ascending": "Alphabetically, A-Z",

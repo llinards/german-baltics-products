@@ -14,6 +14,7 @@
     "article": "Article",
     "block": "Block",
     "blog": "Blog",
+    "brand_collections": "Brand collections",
     "brand_logo_strip": "Brand logo strip",
     "cart": "Cart",
     "cart_button": "Cart button",
@@ -206,6 +207,7 @@
   },
   "info": {
     "background_gradient": "Optional. Replaces the solid background when set.",
+    "brand_collections_brands": "Choose which brand collections to show and in what order. When empty, shows the collection whose handle matches each product vendor. Cards use the collection's custom.brand_image and custom.brand_short_text metafields; without a brand image, the collection image is shown as a logo.",
     "brand_logo_strip_brands": "Choose which vendor collections to show and in what order. The collection image is used as the logo. When empty, shows the collection whose handle matches each product vendor (e.g. \"Dr. Oetker\" → dr-oetker). Collections without an image are skipped.",
     "collection_cards_badge": "Small label in the top-left corner. Hidden when empty.",
     "collection_cards_collection": "Uses the collection's image, title and description.",
